@@ -94,7 +94,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           title="Bio"
           index={0}
           onEdit={() => openEdit({ type: "bio" })}
-          onCopy={() => copySection(current.bio, "Bio")}
         >
           <p className="font-body text-card-foreground/80 leading-relaxed text-[15px]">
             "{current.bio}"
