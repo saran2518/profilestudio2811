@@ -145,10 +145,10 @@ const Index = () => {
 
         {/* Input card */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-          className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8 space-y-5"
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="rounded-2xl border border-border/60 bg-card p-5 sm:p-6 space-y-4"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
           <div className="flex items-center gap-2.5">
@@ -165,10 +165,10 @@ const Index = () => {
             placeholder="Start typing or tap a prompt above... Describe your personality, hobbies, what you're looking for, and your ideal date."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="min-h-[200px] resize-none font-body text-[15px] leading-relaxed bg-background/50 border-border/50 rounded-xl focus:ring-primary/20 focus:border-primary/30 placeholder:text-muted-foreground/40 transition-colors"
+            className="min-h-[240px] resize-none font-body text-[15px] leading-relaxed bg-background/50 border-border/50 rounded-xl focus:ring-primary/20 focus:border-primary/30 placeholder:text-muted-foreground/40 transition-colors"
           />
 
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between">
             <span className="font-body text-xs text-muted-foreground/50">
               {input.length > 0
                 ? `${input.trim().split(/\s+/).filter(Boolean).length} words`
@@ -178,11 +178,9 @@ const Index = () => {
               onClick={handleGenerate}
               disabled={!input.trim() || isGenerating}
               size="lg"
-              className="font-body font-medium rounded-xl px-8 text-[15px] transition-all duration-300"
+              className="font-body font-medium rounded-xl px-8 text-[15px]"
               style={{
-                background: input.trim()
-                  ? "var(--gradient-warm)"
-                  : undefined,
+                background: input.trim() ? "var(--gradient-warm)" : undefined,
                 boxShadow: input.trim() ? "var(--shadow-warm)" : "none",
               }}
             >
