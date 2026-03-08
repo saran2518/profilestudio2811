@@ -81,26 +81,19 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Hero header */}
-      <header className="pt-16 pb-10">
-        <div className="container max-w-2xl text-center">
+      {/* Header */}
+      <header className="pt-10 pb-6">
+        <div className="container max-w-2xl">
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.4 }}
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 font-body text-xs font-medium text-primary mb-5">
-              <Sparkles className="h-3 w-3" />
-              AI-Powered
-            </span>
-            <h1 className="font-display text-4xl sm:text-5xl font-bold text-foreground tracking-tight leading-tight">
-              Craft Your Perfect
-              <br />
-              <span className="text-primary italic">Dating Profile</span>
+            <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
+              Profile <span className="text-primary italic">Studio</span>
             </h1>
-            <p className="mt-4 font-body text-muted-foreground text-base max-w-md mx-auto leading-relaxed">
-              Describe yourself naturally and let AI transform it into a
-              compelling, authentic profile that stands out.
+            <p className="mt-2 font-body text-muted-foreground text-sm">
+              Describe yourself and let AI craft your perfect dating profile
             </p>
           </motion.div>
         </div>
