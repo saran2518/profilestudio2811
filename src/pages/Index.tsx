@@ -165,38 +165,44 @@ const Index = () => {
             placeholder="Start typing or tap a prompt above... Describe your personality, hobbies, what you're looking for, and your ideal date."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="min-h-[240px] resize-none font-body text-[15px] leading-relaxed bg-background/50 border-border/50 rounded-xl focus:ring-primary/20 focus:border-primary/30 placeholder:text-muted-foreground/40 transition-colors"
+            className="min-h-[280px] resize-none font-body text-[15px] leading-relaxed bg-background/50 border-border/50 rounded-xl focus:ring-primary/20 focus:border-primary/30 placeholder:text-muted-foreground/40 transition-colors"
           />
 
-          <div className="flex items-center justify-between">
-            <span className="font-body text-xs text-muted-foreground/50">
-              {input.length > 0
-                ? `${input.trim().split(/\s+/).filter(Boolean).length} words`
-                : "The more you share, the better your profile"}
-            </span>
-            <Button
-              onClick={handleGenerate}
-              disabled={!input.trim() || isGenerating}
-              size="lg"
-              className="font-body font-medium rounded-xl px-8 text-[15px]"
-              style={{
-                background: input.trim() ? "var(--gradient-warm)" : undefined,
-                boxShadow: input.trim() ? "var(--shadow-warm)" : "none",
-              }}
-            >
-              {isGenerating ? (
-                <span className="flex items-center gap-2">
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
-                  Crafting...
-                </span>
-              ) : (
-                <span className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" />
-                  Generate Profile
-                </span>
-              )}
-            </Button>
-          </div>
+          <span className="font-body text-xs text-muted-foreground/50 block">
+            {input.length > 0
+              ? `${input.trim().split(/\s+/).filter(Boolean).length} words`
+              : "The more you share, the better your profile"}
+          </span>
+        </motion.div>
+
+        {/* Generate button outside the card */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
+        >
+          <Button
+            onClick={handleGenerate}
+            disabled={!input.trim() || isGenerating}
+            size="lg"
+            className="w-full font-body font-medium rounded-xl text-[15px] h-12"
+            style={{
+              background: input.trim() ? "var(--gradient-warm)" : undefined,
+              boxShadow: input.trim() ? "var(--shadow-warm)" : "none",
+            }}
+          >
+            {isGenerating ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
+                Crafting...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                Generate Profile
+              </span>
+            )}
+          </Button>
         </motion.div>
 
         {/* Loading skeleton */}
