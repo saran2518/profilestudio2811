@@ -127,7 +127,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           icon={<BookOpen className="h-4.5 w-4.5 text-primary" />}
           title="Narratives"
           index={2}
-          onCopy={() => copySection(current.narratives.join("\n\n"), "Narratives")}
         >
           <div className="space-y-4">
             {current.narratives.map((narrative, idx) => (
