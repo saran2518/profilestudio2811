@@ -7,13 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-const PROMPT_SUGGESTIONS = [
-  "I'm a software engineer who loves hiking, board games, and trying new restaurants. Looking for someone witty and adventurous.",
-  "Creative writer, yoga enthusiast, and dog mom. I spend weekends at farmers markets and live music shows. Want someone who values deep connection.",
-  "Fitness lover and amateur chef who travels every chance I get. I'm fluent in sarcasm and always down for a spontaneous road trip.",
-  "Introverted bookworm by day, karaoke star by night. I love cozy coffee shops, sci-fi movies, and meaningful conversations over wine.",
-  "Outdoor adventurer — rock climbing, kayaking, camping. I also love cooking for friends and binge-watching documentaries on rainy days.",
-  "Music producer and vinyl collector. I'm into street photography, spicy food, and finding the best hole-in-the-wall spots in the city.",
+const PROMPT_STARTERS = [
+  "On weekends I love to...",
+  "My friends would describe me as...",
+  "I'm happiest when I'm...",
+  "A perfect date for me looks like...",
+  "I'm looking for someone who...",
+  "One thing I can't live without is...",
 ];
 
 const Index = () => {
@@ -73,7 +73,7 @@ const Index = () => {
           className="space-y-2"
         >
           <p className="font-body text-sm text-muted-foreground">
-            Not sure what to write? Try one of these:
+            Not sure what to write? Start with one of these:
           </p>
           <div className="relative group">
             <button
@@ -87,16 +87,16 @@ const Index = () => {
               className="flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-              {PROMPT_SUGGESTIONS.map((prompt, idx) => (
+              {PROMPT_STARTERS.map((starter, idx) => (
                 <motion.button
                   key={idx}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: idx * 0.06, duration: 0.3 }}
-                  onClick={() => setInput(prompt)}
-                  className="snap-start shrink-0 w-[240px] rounded-lg border border-border bg-card p-3 text-left font-body text-xs text-card-foreground/80 leading-relaxed hover:border-primary/40 hover:bg-primary/5 transition-colors cursor-pointer"
+                  onClick={() => setInput((prev) => prev ? prev.trimEnd() + " " + starter : starter)}
+                  className="snap-start shrink-0 rounded-full border border-border bg-card px-4 py-2 text-left font-body text-sm text-card-foreground/80 hover:border-primary/40 hover:bg-primary/5 transition-colors cursor-pointer whitespace-nowrap"
                 >
-                  <span className="line-clamp-3">{prompt}</span>
+                  {starter}
                 </motion.button>
               ))}
             </div>
