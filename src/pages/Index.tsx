@@ -7,13 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-const PROMPT_SUGGESTIONS = [
-  "I'm a software engineer who loves hiking, board games, and trying new restaurants. Looking for someone witty and adventurous.",
-  "Creative writer, yoga enthusiast, and dog mom. I spend weekends at farmers markets and live music shows. Want someone who values deep connection.",
-  "Fitness lover and amateur chef who travels every chance I get. I'm fluent in sarcasm and always down for a spontaneous road trip.",
-  "Introverted bookworm by day, karaoke star by night. I love cozy coffee shops, sci-fi movies, and meaningful conversations over wine.",
-  "Outdoor adventurer — rock climbing, kayaking, camping. I also love cooking for friends and binge-watching documentaries on rainy days.",
-  "Music producer and vinyl collector. I'm into street photography, spicy food, and finding the best hole-in-the-wall spots in the city.",
+const PROMPT_STARTERS = [
+  "On weekends I love to...",
+  "My friends would describe me as...",
+  "I'm happiest when I'm...",
+  "A perfect date for me looks like...",
+  "I'm looking for someone who...",
+  "One thing I can't live without is...",
 ];
 
 const Index = () => {
