@@ -74,7 +74,6 @@ serve(async (req) => {
                       items: { type: "string" },
                       description:
                         "3 short date ideas (4-5 words MAX each) that relate to the user's interests. Keep them punchy and concise, e.g. 'Sunset hike with coffee' or 'Late-night vinyl shopping'.",
-                        "3 specific date ideas that directly relate to the interests and personality described in the input. Each should be a vivid, specific scenario.",
                     },
                   },
                   required: ["bio", "interests", "narratives", "joinMeFor"],
