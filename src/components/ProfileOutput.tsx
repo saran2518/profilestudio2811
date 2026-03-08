@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
 import type { GeneratedProfile } from "@/lib/profileGenerator";
 
 interface ProfileOutputProps {
