@@ -122,7 +122,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 <p className="font-body text-card-foreground/80 leading-relaxed">{narrative}</p>
                 <button
                   onClick={() => openEdit({ type: "narrative", index: idx })}
-                  className="absolute right-0 top-0 p-1.5 rounded-full bg-muted/80 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted"
+                  className="absolute right-0 top-0 p-1.5 rounded-full bg-muted/80 hover:bg-muted"
                 >
                   <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
                 </button>
@@ -148,7 +148,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 <p className="font-body text-card-foreground/80">{idea}</p>
                 <button
                   onClick={() => openEdit({ type: "joinMeFor", index: idx })}
-                  className="absolute right-0 top-0 p-1.5 rounded-full bg-muted/80 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted"
+                  className="absolute right-0 top-0 p-1.5 rounded-full bg-muted/80 hover:bg-muted"
                 >
                   <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
                 </button>
@@ -270,7 +270,7 @@ function SectionCard({
             size="sm"
             variant="ghost"
             onClick={onEdit}
-            className="opacity-0 group-hover/card:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground"
           >
             <Pencil className="h-3.5 w-3.5 mr-1.5" />
             Edit
