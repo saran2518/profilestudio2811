@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check, Copy } from "lucide-react";
+import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
 import type { GeneratedProfile } from "@/lib/profileGenerator";
 
 interface ProfileOutputProps {
@@ -41,7 +40,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [draft, setDraft] = useState("");
   const [interestsDraft, setInterestsDraft] = useState<string[]>([]);
   const [newInterest, setNewInterest] = useState("");
-  const { toast } = useToast();
 
   const update = (patch: Partial<GeneratedProfile>) => {
     const next = { ...current, ...patch };
@@ -78,11 +76,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     setEditTarget(null);
   };
 
-  const copySection = async (text: string, label: string) => {
-    await navigator.clipboard.writeText(text);
-    toast({ title: `${label} copied!` });
-  };
-
   const dialogTitle = editTarget
     ? editTarget.type === "bio" ? "Edit Bio"
     : editTarget.type === "narrative" ? "Edit Narrative"
@@ -101,7 +94,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           title="Bio"
           index={0}
           onEdit={() => openEdit({ type: "bio" })}
-          onCopy={() => copySection(current.bio, "Bio")}
         >
           <p className="font-body text-card-foreground/80 leading-relaxed text-[15px]">
             "{current.bio}"
@@ -114,7 +106,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           title="Interests"
           index={1}
           onEdit={() => openEdit({ type: "interests" })}
-          onCopy={() => copySection(current.interests.join(", "), "Interests")}
         >
           <div className="flex flex-wrap gap-2">
             {current.interests.map((interest, idx) => (
@@ -136,7 +127,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           icon={<BookOpen className="h-4.5 w-4.5 text-primary" />}
           title="Narratives"
           index={2}
-          onCopy={() => copySection(current.narratives.join("\n\n"), "Narratives")}
         >
           <div className="space-y-4">
             {current.narratives.map((narrative, idx) => (
@@ -161,7 +151,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           icon={<MapPin className="h-4.5 w-4.5 text-accent" />}
           title="Join Me For"
           index={3}
-          onCopy={() => copySection(current.joinMeFor.join("\n"), "Date ideas")}
         >
           <div className="space-y-3">
             {current.joinMeFor.map((idea, idx) => (
@@ -277,14 +266,12 @@ function SectionCard({
   title,
   index,
   onEdit,
-  onCopy,
   children,
 }: {
   icon: React.ReactNode;
   title: string;
   index: number;
   onEdit?: () => void;
-  onCopy?: () => void;
   children: React.ReactNode;
 }) {
   return (
@@ -303,30 +290,17 @@ function SectionCard({
           </div>
           <h3 className="font-display text-base font-semibold text-card-foreground">{title}</h3>
         </div>
-        <div className="flex items-center gap-1">
-          {onCopy && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={onCopy}
-              className="text-muted-foreground/60 hover:text-foreground h-8 w-8 p-0"
-              aria-label={`Copy ${title}`}
-            >
-              <Copy className="h-3.5 w-3.5" />
-            </Button>
-          )}
-          {onEdit && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={onEdit}
-              className="text-muted-foreground hover:text-foreground gap-1.5 h-8 px-2.5"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              <span className="text-xs">Edit</span>
-            </Button>
-          )}
-        </div>
+        {onEdit && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={onEdit}
+            className="text-muted-foreground hover:text-foreground gap-1.5 h-8 px-2.5"
+          >
+            <Pencil className="h-3.5 w-3.5" />
+            <span className="text-xs">Edit</span>
+          </Button>
+        )}
       </div>
       {children}
     </motion.div>

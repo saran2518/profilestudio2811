@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, Copy, Check } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProfileOutput from "@/components/ProfileOutput";
 import { useToast } from "@/hooks/use-toast";
@@ -17,21 +17,6 @@ const Results = () => {
 
   const [profile, setProfile] = useState<GeneratedProfile | undefined>(initialProfile);
   const [isRegenerating, setIsRegenerating] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyAll = async () => {
-    if (!profile) return;
-    const text = [
-      `Bio: ${profile.bio}`,
-      `\nInterests: ${profile.interests.join(", ")}`,
-      `\nNarratives:\n${profile.narratives.map((n, i) => `${i + 1}. ${n}`).join("\n")}`,
-      `\nJoin Me For:\n${profile.joinMeFor.map((j, i) => `${i + 1}. ${j}`).join("\n")}`,
-    ].join("\n");
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    toast({ title: "Copied to clipboard!", description: "Paste it into your dating app." });
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   if (!profile) {
     return (
@@ -79,15 +64,6 @@ const Results = () => {
               </h1>
             </div>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleCopyAll}
-            className="font-body text-xs rounded-lg gap-1.5"
-          >
-            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-            {copied ? "Copied!" : "Copy All"}
-          </Button>
         </div>
       </header>
 
