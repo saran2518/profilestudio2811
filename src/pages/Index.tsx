@@ -81,32 +81,25 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Hero header */}
-      <header className="pt-16 pb-10">
-        <div className="container max-w-2xl text-center">
+      {/* Header */}
+      <header className="pt-10 pb-6">
+        <div className="container max-w-2xl">
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.4 }}
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 font-body text-xs font-medium text-primary mb-5">
-              <Sparkles className="h-3 w-3" />
-              AI-Powered
-            </span>
-            <h1 className="font-display text-4xl sm:text-5xl font-bold text-foreground tracking-tight leading-tight">
-              Craft Your Perfect
-              <br />
-              <span className="text-primary italic">Dating Profile</span>
+            <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
+              Profile <span className="text-primary italic">Studio</span>
             </h1>
-            <p className="mt-4 font-body text-muted-foreground text-base max-w-md mx-auto leading-relaxed">
-              Describe yourself naturally and let AI transform it into a
-              compelling, authentic profile that stands out.
+            <p className="mt-2 font-body text-muted-foreground text-sm">
+              Describe yourself and let AI craft your perfect dating profile
             </p>
           </motion.div>
         </div>
       </header>
 
-      <main className="container max-w-2xl pb-16 flex-1 space-y-10">
+      <main className="container max-w-2xl pb-16 flex-1 space-y-6">
         {/* Prompt starters */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -152,10 +145,10 @@ const Index = () => {
 
         {/* Input card */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-          className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8 space-y-5"
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="rounded-2xl border border-border/60 bg-card p-5 sm:p-6 space-y-4"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
           <div className="flex items-center gap-2.5">
@@ -172,10 +165,10 @@ const Index = () => {
             placeholder="Start typing or tap a prompt above... Describe your personality, hobbies, what you're looking for, and your ideal date."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="min-h-[200px] resize-none font-body text-[15px] leading-relaxed bg-background/50 border-border/50 rounded-xl focus:ring-primary/20 focus:border-primary/30 placeholder:text-muted-foreground/40 transition-colors"
+            className="min-h-[240px] resize-none font-body text-[15px] leading-relaxed bg-background/50 border-border/50 rounded-xl focus:ring-primary/20 focus:border-primary/30 placeholder:text-muted-foreground/40 transition-colors"
           />
 
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between">
             <span className="font-body text-xs text-muted-foreground/50">
               {input.length > 0
                 ? `${input.trim().split(/\s+/).filter(Boolean).length} words`
@@ -185,11 +178,9 @@ const Index = () => {
               onClick={handleGenerate}
               disabled={!input.trim() || isGenerating}
               size="lg"
-              className="font-body font-medium rounded-xl px-8 text-[15px] transition-all duration-300"
+              className="font-body font-medium rounded-xl px-8 text-[15px]"
               style={{
-                background: input.trim()
-                  ? "var(--gradient-warm)"
-                  : undefined,
+                background: input.trim() ? "var(--gradient-warm)" : undefined,
                 boxShadow: input.trim() ? "var(--shadow-warm)" : "none",
               }}
             >
