@@ -151,7 +151,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           icon={<MapPin className="h-4.5 w-4.5 text-accent" />}
           title="Join Me For"
           index={3}
-          onCopy={() => copySection(current.joinMeFor.join("\n"), "Date ideas")}
         >
           <div className="space-y-3">
             {current.joinMeFor.map((idea, idx) => (
