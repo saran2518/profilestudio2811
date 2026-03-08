@@ -266,14 +266,12 @@ function SectionCard({
   title,
   index,
   onEdit,
-  onCopy,
   children,
 }: {
   icon: React.ReactNode;
   title: string;
   index: number;
   onEdit?: () => void;
-  onCopy?: () => void;
   children: React.ReactNode;
 }) {
   return (
@@ -292,30 +290,17 @@ function SectionCard({
           </div>
           <h3 className="font-display text-base font-semibold text-card-foreground">{title}</h3>
         </div>
-        <div className="flex items-center gap-1">
-          {onCopy && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={onCopy}
-              className="text-muted-foreground/60 hover:text-foreground h-8 w-8 p-0"
-              aria-label={`Copy ${title}`}
-            >
-              <Copy className="h-3.5 w-3.5" />
-            </Button>
-          )}
-          {onEdit && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={onEdit}
-              className="text-muted-foreground hover:text-foreground gap-1.5 h-8 px-2.5"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              <span className="text-xs">Edit</span>
-            </Button>
-          )}
-        </div>
+        {onEdit && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={onEdit}
+            className="text-muted-foreground hover:text-foreground gap-1.5 h-8 px-2.5"
+          >
+            <Pencil className="h-3.5 w-3.5" />
+            <span className="text-xs">Edit</span>
+          </Button>
+        )}
       </div>
       {children}
     </motion.div>
