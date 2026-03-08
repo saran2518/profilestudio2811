@@ -72,25 +72,6 @@ const Results = () => {
       </header>
 
       <main className="container max-w-3xl py-10 space-y-8">
-        {/* Input at top */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="rounded-xl border border-border bg-card p-6 space-y-3"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <label className="font-display text-sm font-semibold text-card-foreground">
-            Your Description
-          </label>
-          <Textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Describe yourself..."
-            className="min-h-[100px] resize-none font-body text-sm bg-background border-border"
-          />
-        </motion.div>
-
         {/* Profile sections */}
         {isRegenerating ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
