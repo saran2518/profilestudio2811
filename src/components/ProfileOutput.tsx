@@ -106,7 +106,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           title="Interests"
           index={1}
           onEdit={() => openEdit({ type: "interests" })}
-          onCopy={() => copySection(current.interests.join(", "), "Interests")}
         >
           <div className="flex flex-wrap gap-2">
             {current.interests.map((interest, idx) => (
