@@ -99,7 +99,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container max-w-2xl pb-16 flex-1 space-y-10">
+      <main className="container max-w-2xl pb-16 flex-1 space-y-6">
         {/* Prompt starters */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
