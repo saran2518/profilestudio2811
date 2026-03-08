@@ -25,7 +25,7 @@ const Index = () => {
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
 
-      navigate("/results", { state: { profile: data.profile } });
+      navigate("/results", { state: { profile: data.profile, input: input.trim() } });
     } catch (e: any) {
       toast({
         title: "Generation failed",
