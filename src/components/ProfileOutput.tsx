@@ -76,11 +76,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     setEditTarget(null);
   };
 
-  const copySection = async (text: string, label: string) => {
-    await navigator.clipboard.writeText(text);
-    toast({ title: `${label} copied!` });
-  };
-
   const dialogTitle = editTarget
     ? editTarget.type === "bio" ? "Edit Bio"
     : editTarget.type === "narrative" ? "Edit Narrative"
