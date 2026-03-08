@@ -88,32 +88,18 @@ const Results = () => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="flex flex-wrap gap-3 pt-2"
+          className="pt-2"
         >
           <Button
-            onClick={handleRegenerate}
-            disabled={!input.trim() || isRegenerating}
+            onClick={() => navigate("/")}
             className="font-body font-medium"
             style={{
               background: "var(--gradient-warm)",
-              boxShadow: input.trim() ? "var(--shadow-warm)" : "none",
+              boxShadow: "var(--shadow-warm)",
             }}
           >
-            {isRegenerating ? (
-              <span className="flex items-center gap-2">
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
-                Regenerating...
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                <RotateCcw className="h-4 w-4" />
-                Regenerate Profile
-              </span>
-            )}
-          </Button>
-          <Button onClick={() => navigate("/")} variant="outline" className="font-body">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Start Over
+            <Sparkles className="h-4 w-4 mr-2" />
+            Create Profile
           </Button>
         </motion.div>
       </main>
