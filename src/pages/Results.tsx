@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, RotateCcw } from "lucide-react";
+import { ArrowLeft, Sparkles, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import ProfileOutput from "@/components/ProfileOutput";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,90 +15,129 @@ const Results = () => {
   const initialProfile = location.state?.profile as GeneratedProfile | undefined;
   const initialInput = (location.state?.input as string) || "";
 
-  const [input, setInput] = useState(initialInput);
   const [profile, setProfile] = useState<GeneratedProfile | undefined>(initialProfile);
   const [isRegenerating, setIsRegenerating] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const handleRegenerate = async () => {
-    if (!input.trim()) return;
-    setIsRegenerating(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("generate-profile", {
-        body: { input: input.trim() },
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-      setProfile(data.profile);
-    } catch (e: any) {
-      toast({
-        title: "Generation failed",
-        description: e.message || "Something went wrong.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsRegenerating(false);
-    }
+  const handleCopyAll = async () => {
+    if (!profile) return;
+    const text = [
+      `Bio: ${profile.bio}`,
+      `\nInterests: ${profile.interests.join(", ")}`,
+      `\nNarratives:\n${profile.narratives.map((n, i) => `${i + 1}. ${n}`).join("\n")}`,
+      `\nJoin Me For:\n${profile.joinMeFor.map((j, i) => `${i + 1}. ${j}`).join("\n")}`,
+    ].join("\n");
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast({ title: "Copied to clipboard!", description: "Paste it into your dating app." });
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (!profile) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <Sparkles className="h-12 w-12 text-muted-foreground mx-auto" />
-          <p className="font-body text-muted-foreground">No profile generated yet.</p>
-          <Button onClick={() => navigate("/")} className="font-body">Go Back</Button>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center space-y-5 p-8"
+        >
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-muted">
+            <Sparkles className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <div>
+            <p className="font-display text-xl font-semibold text-foreground">No profile yet</p>
+            <p className="mt-1 font-body text-sm text-muted-foreground">
+              Head back and describe yourself to generate one.
+            </p>
+          </div>
+          <Button onClick={() => navigate("/")} className="font-body" size="lg">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Go Back
+          </Button>
+        </motion.div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 py-6">
-        <div className="container max-w-3xl flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="shrink-0">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="font-display text-3xl font-bold text-foreground tracking-tight">
-              Your <span className="text-primary italic">Profile</span>
-            </h1>
-            <p className="mt-1 font-body text-muted-foreground text-sm">
-              Edit your input or tweak each section below
-            </p>
+      {/* Sticky header */}
+      <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-md border-b border-border/40">
+        <div className="container max-w-2xl flex items-center justify-between py-4">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/")}
+              className="shrink-0 rounded-xl h-9 w-9"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+                Your <span className="text-primary italic">Profile</span>
+              </h1>
+            </div>
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleCopyAll}
+            className="font-body text-xs rounded-lg gap-1.5"
+          >
+            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? "Copied!" : "Copy All"}
+          </Button>
         </div>
       </header>
 
-      <main className="container max-w-3xl py-10 space-y-8">
+      <main className="container max-w-2xl py-8 pb-16 space-y-8">
+        {/* Hint */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="font-body text-xs text-muted-foreground/60 text-center"
+        >
+          Tap the edit button on any section to customize it
+        </motion.p>
+
         {/* Profile sections */}
         {isRegenerating ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-28 rounded-xl bg-gradient-to-r from-muted via-muted/50 to-muted bg-[length:200%_100%] animate-shimmer" />
+              <div
+                key={i}
+                className="h-32 rounded-2xl bg-gradient-to-r from-muted via-muted/50 to-muted bg-[length:200%_100%] animate-shimmer"
+              />
             ))}
           </motion.div>
         ) : (
           <ProfileOutput profile={profile} onProfileChange={setProfile} />
         )}
 
-        {/* Buttons at bottom */}
+        {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="pt-2"
+          className="flex flex-col items-center gap-3 pt-4"
         >
+          <div className="h-px w-16 bg-border/50" />
+          <p className="font-body text-xs text-muted-foreground/50">
+            Want a fresh take?
+          </p>
           <Button
             onClick={() => navigate("/")}
-            className="font-body font-medium"
+            size="lg"
+            className="font-body font-medium rounded-xl px-8 text-[15px] h-12"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
             }}
           >
             <Sparkles className="h-4 w-4 mr-2" />
-            Create Profile
+            Create New Profile
           </Button>
         </motion.div>
       </main>
