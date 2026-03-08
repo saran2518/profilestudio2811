@@ -17,21 +17,6 @@ const Results = () => {
 
   const [profile, setProfile] = useState<GeneratedProfile | undefined>(initialProfile);
   const [isRegenerating, setIsRegenerating] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyAll = async () => {
-    if (!profile) return;
-    const text = [
-      `Bio: ${profile.bio}`,
-      `\nInterests: ${profile.interests.join(", ")}`,
-      `\nNarratives:\n${profile.narratives.map((n, i) => `${i + 1}. ${n}`).join("\n")}`,
-      `\nJoin Me For:\n${profile.joinMeFor.map((j, i) => `${i + 1}. ${j}`).join("\n")}`,
-    ].join("\n");
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    toast({ title: "Copied to clipboard!", description: "Paste it into your dating app." });
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   if (!profile) {
     return (
