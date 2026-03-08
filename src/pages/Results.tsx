@@ -1,14 +1,45 @@
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import ProfileOutput from "@/components/ProfileOutput";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import type { GeneratedProfile } from "@/lib/profileGenerator";
 
 const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const profile = location.state?.profile as GeneratedProfile | undefined;
+  const { toast } = useToast();
+  const initialProfile = location.state?.profile as GeneratedProfile | undefined;
+  const initialInput = (location.state?.input as string) || "";
+
+  const [input, setInput] = useState(initialInput);
+  const [profile, setProfile] = useState<GeneratedProfile | undefined>(initialProfile);
+  const [isRegenerating, setIsRegenerating] = useState(false);
+
+  const handleRegenerate = async () => {
+    if (!input.trim()) return;
+    setIsRegenerating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-profile", {
+        body: { input: input.trim() },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setProfile(data.profile);
+    } catch (e: any) {
+      toast({
+        title: "Generation failed",
+        description: e.message || "Something went wrong.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
 
   if (!profile) {
     return (
@@ -16,9 +47,7 @@ const Results = () => {
         <div className="text-center space-y-4">
           <Sparkles className="h-12 w-12 text-muted-foreground mx-auto" />
           <p className="font-body text-muted-foreground">No profile generated yet.</p>
-          <Button onClick={() => navigate("/")} className="font-body">
-            Go Back
-          </Button>
+          <Button onClick={() => navigate("/")} className="font-body">Go Back</Button>
         </div>
       </div>
     );
@@ -28,12 +57,7 @@ const Results = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 py-6">
         <div className="container max-w-3xl flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate("/")}
-            className="shrink-0"
-          >
+          <Button variant="ghost" size="icon" onClick={() => navigate("/")} className="shrink-0">
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
@@ -41,34 +65,74 @@ const Results = () => {
               Your <span className="text-primary italic">Profile</span>
             </h1>
             <p className="mt-1 font-body text-muted-foreground text-sm">
-              AI-crafted from your description
+              Edit your input or tweak each section below
             </p>
           </div>
         </div>
       </header>
 
-      <main className="container max-w-3xl py-10">
+      <main className="container max-w-3xl py-10 space-y-8">
+        {/* Input at top */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
+          className="rounded-xl border border-border bg-card p-6 space-y-3"
+          style={{ boxShadow: "var(--shadow-card)" }}
         >
-          <ProfileOutput profile={profile} />
+          <label className="font-display text-sm font-semibold text-card-foreground">
+            Your Description
+          </label>
+          <Textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Describe yourself..."
+            className="min-h-[100px] resize-none font-body text-sm bg-background border-border"
+          />
         </motion.div>
 
+        {/* Profile sections */}
+        {isRegenerating ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-28 rounded-xl bg-gradient-to-r from-muted via-muted/50 to-muted bg-[length:200%_100%] animate-shimmer" />
+            ))}
+          </motion.div>
+        ) : (
+          <ProfileOutput profile={profile} onProfileChange={setProfile} />
+        )}
+
+        {/* Buttons at bottom */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="mt-8 flex gap-3"
+          className="flex flex-wrap gap-3 pt-2"
         >
           <Button
-            onClick={() => navigate("/")}
-            variant="outline"
-            className="font-body"
+            onClick={handleRegenerate}
+            disabled={!input.trim() || isRegenerating}
+            className="font-body font-medium"
+            style={{
+              background: "var(--gradient-warm)",
+              boxShadow: input.trim() ? "var(--shadow-warm)" : "none",
+            }}
           >
+            {isRegenerating ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" />
+                Regenerating...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <RotateCcw className="h-4 w-4" />
+                Regenerate Profile
+              </span>
+            )}
+          </Button>
+          <Button onClick={() => navigate("/")} variant="outline" className="font-body">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Create Another
+            Start Over
           </Button>
         </motion.div>
       </main>
