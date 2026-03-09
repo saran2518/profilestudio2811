@@ -108,7 +108,7 @@ const Index = () => {
           className="space-y-3"
         >
           <p className="font-body text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
-            Tap a prompt to get started
+            Tap a prompt to get started 💫
           </p>
           <div
             ref={scrollRef}
