@@ -47,6 +47,8 @@ const PROFILE = {
     "High-altitude mountain trek",
     "Morning flower market stroll",
   ],
+  // All photos — first one is the hero, rest are interspersed between sections
+  photos: [profileImage, profilePhoto2, profilePhoto3],
 };
 
 const Discover = () => {
