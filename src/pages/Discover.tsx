@@ -34,6 +34,7 @@ import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
+import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
 
 export const PROFILE = {
   name: "R",
