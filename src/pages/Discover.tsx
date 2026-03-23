@@ -201,6 +201,7 @@ const Discover = () => {
           // Sections to render in order
           const sections = [
             <ProfilePhotoCard key="hero" src={PROFILE.photos[0]} liked={liked} setLiked={setLiked} />,
+            <RelationshipIntentSection key="intent" />,
             <AboutSection key="about" />,
             <BioSection key="bio" />,
             <InterestsSection key="interests" />,
