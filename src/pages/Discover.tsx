@@ -16,8 +16,12 @@ import {
   Sparkles,
   Users,
   MessageCircle,
+  BookOpen,
+  Pencil,
 } from "lucide-react";
 import profileImage from "@/assets/profile-placeholder.jpg";
+import profilePhoto2 from "@/assets/profile-photo-2.jpg";
+import profilePhoto3 from "@/assets/profile-photo-3.jpg";
 
 const PROFILE = {
   name: "R",
@@ -33,6 +37,16 @@ const PROFILE = {
     height: '6\'0"',
   },
   interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
+  bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
+  narratives: [
+    "I find my center when my hands are covered in clay and the rest of the world fades away.",
+    "There is nothing like the stillness of a summit after a long, challenging trek.",
+  ],
+  joinMeFor: [
+    "Quiet pottery workshop afternoon",
+    "High-altitude mountain trek",
+    "Morning flower market stroll",
+  ],
 };
 
 const Discover = () => {
