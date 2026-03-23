@@ -52,7 +52,7 @@ const PROFILE = {
     "Morning flower market stroll",
   ],
   // All photos — first one is the hero, rest are interspersed between sections
-  photos: [profileImage, profilePhoto2, profilePhoto3],
+  photos: [profileImage, profilePhoto2, profilePhoto3, profilePhoto4, profilePhoto5, profilePhoto6],
 };
 /* ── Sub-components ── */
 
