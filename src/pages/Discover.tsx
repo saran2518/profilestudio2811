@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Heart,
@@ -16,10 +17,16 @@ import {
   Sparkles,
   Users,
   MessageCircle,
+  Coffee,
+  Quote,
 } from "lucide-react";
 import profileImage from "@/assets/profile-placeholder.jpg";
+import lifestyle1 from "@/assets/lifestyle-1.jpg";
+import lifestyle2 from "@/assets/lifestyle-2.jpg";
+import lifestyle3 from "@/assets/lifestyle-3.jpg";
+import type { GeneratedProfile } from "@/lib/profileGenerator";
 
-const PROFILE = {
+const DEFAULT_PROFILE = {
   name: "R",
   age: 30,
   verified: true,
@@ -33,17 +40,34 @@ const PROFILE = {
     height: '6\'0"',
   },
   interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
+  bio: "",
+  narratives: [] as string[],
+  joinMeFor: [] as string[],
 };
 
 const Discover = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
+
+  const generatedProfile = location.state?.profile as GeneratedProfile | undefined;
+
+  const profile = {
+    ...DEFAULT_PROFILE,
+    ...(generatedProfile && {
+      interests: generatedProfile.interests,
+      bio: generatedProfile.bio,
+      narratives: generatedProfile.narratives,
+      joinMeFor: generatedProfile.joinMeFor,
+    }),
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col relative">
       {/* Top bar */}
       <header className="px-4 pt-3 pb-2">
         <div className="flex items-center justify-between rounded-full border border-border/60 bg-card px-4 py-2.5" style={{ boxShadow: "var(--shadow-card)" }}>
-          <button className="p-1">
+          <button className="p-1" onClick={() => navigate("/")}>
             <SlidersHorizontal className="h-5 w-5 text-foreground" />
           </button>
           <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5">
@@ -76,50 +100,67 @@ const Discover = () => {
             width={800}
             height={1000}
           />
-
-          {/* Heart button */}
           <button
             onClick={() => setLiked(!liked)}
             className="absolute top-4 right-4 h-11 w-11 rounded-full flex items-center justify-center transition-colors"
             style={{ backgroundColor: liked ? "hsl(var(--primary))" : "hsl(var(--foreground) / 0.4)" }}
           >
-            <Heart
-              className="h-5 w-5"
-              fill={liked ? "white" : "none"}
-              stroke="white"
-              strokeWidth={2}
-            />
+            <Heart className="h-5 w-5" fill={liked ? "white" : "none"} stroke="white" strokeWidth={2} />
           </button>
-
-          {/* Name overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-5">
             <div className="rounded-2xl bg-card/80 backdrop-blur-md px-5 py-4 border border-border/30">
               <div className="flex items-center gap-2.5">
                 <h2 className="font-display text-2xl font-bold text-foreground">
-                  {PROFILE.name}, {PROFILE.age}
+                  {profile.name}, {profile.age}
                 </h2>
-                {PROFILE.verified && (
+                {profile.verified && (
                   <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center">
                     <Shield className="h-4 w-4 text-primary" />
                   </div>
                 )}
               </div>
               <p className="font-body text-sm text-foreground/80 mt-0.5">
-                {PROFILE.profession} • {PROFILE.specialization}
+                {profile.profession} • {profile.specialization}
               </p>
               <div className="flex items-center gap-1.5 mt-1">
                 <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="font-body text-xs text-muted-foreground">{PROFILE.location}</span>
+                <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
               </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* Bio Section */}
+        {profile.bio && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
+            className="rounded-2xl border border-border/60 bg-card p-5"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-primary mb-3">
+              Bio
+            </h3>
+            <p className="font-body text-sm text-foreground/80 leading-relaxed">{profile.bio}</p>
+          </motion.div>
+        )}
+
+        {/* Photo 1 */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.4 }}
+          className="rounded-3xl overflow-hidden"
+        >
+          <img src={lifestyle1} alt="Lifestyle" className="w-full aspect-[4/3] object-cover" loading="lazy" width={800} height={600} />
         </motion.div>
 
         {/* About Section */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.4 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
           className="rounded-2xl border border-border/60 bg-card p-5"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
@@ -127,28 +168,100 @@ const Discover = () => {
             About
           </h3>
           <div className="grid grid-cols-2 gap-y-4 gap-x-6">
-            <AboutItem icon={<User className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.gender} />
-            <AboutItem icon={<MessageSquare className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.pronouns} />
-            <AboutItem icon={<GraduationCap className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.education} />
-            <AboutItem icon={<Ruler className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.height} />
+            <AboutItem icon={<User className="h-4 w-4 text-muted-foreground" />} label={profile.about.gender} />
+            <AboutItem icon={<MessageSquare className="h-4 w-4 text-muted-foreground" />} label={profile.about.pronouns} />
+            <AboutItem icon={<GraduationCap className="h-4 w-4 text-muted-foreground" />} label={profile.about.education} />
+            <AboutItem icon={<Ruler className="h-4 w-4 text-muted-foreground" />} label={profile.about.height} />
           </div>
+        </motion.div>
+
+        {/* Photo 2 */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.4 }}
+          className="rounded-3xl overflow-hidden"
+        >
+          <img src={lifestyle2} alt="Lifestyle" className="w-full aspect-[4/3] object-cover" loading="lazy" width={800} height={600} />
         </motion.div>
 
         {/* Interests Section */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
           className="rounded-2xl border border-border/60 bg-card p-5"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
           <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-primary mb-4">
             Interests
           </h3>
-          <p className="font-body text-sm text-foreground/75">
-            {PROFILE.interests.join(" • ")}
-          </p>
+          <div className="flex flex-wrap gap-2">
+            {profile.interests.map((interest, i) => (
+              <span
+                key={i}
+                className="px-3 py-1.5 rounded-full bg-primary/10 text-primary font-body text-xs font-medium"
+              >
+                {interest}
+              </span>
+            ))}
+          </div>
         </motion.div>
+
+        {/* Narratives Section */}
+        {profile.narratives.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.4 }}
+            className="rounded-2xl border border-border/60 bg-card p-5"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-primary mb-3 flex items-center gap-1.5">
+              <Quote className="h-3.5 w-3.5" /> Stories
+            </h3>
+            <div className="space-y-3">
+              {profile.narratives.map((narrative, i) => (
+                <p key={i} className="font-body text-sm text-foreground/80 leading-relaxed italic">
+                  "{narrative}"
+                </p>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Photo 3 */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
+          className="rounded-3xl overflow-hidden"
+        >
+          <img src={lifestyle3} alt="Lifestyle" className="w-full aspect-[4/3] object-cover" loading="lazy" width={800} height={600} />
+        </motion.div>
+
+        {/* Join Me For Section */}
+        {profile.joinMeFor.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.4 }}
+            className="rounded-2xl border border-border/60 bg-card p-5"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-primary mb-3 flex items-center gap-1.5">
+              <Coffee className="h-3.5 w-3.5" /> Join Me For
+            </h3>
+            <div className="space-y-2">
+              {profile.joinMeFor.map((idea, i) => (
+                <div key={i} className="flex items-start gap-2.5">
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                  <p className="font-body text-sm text-foreground/80">{idea}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </main>
 
       {/* Floating action buttons */}
