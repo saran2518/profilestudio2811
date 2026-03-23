@@ -22,6 +22,9 @@ import {
 import profileImage from "@/assets/profile-placeholder.jpg";
 import profilePhoto2 from "@/assets/profile-photo-2.jpg";
 import profilePhoto3 from "@/assets/profile-photo-3.jpg";
+import profilePhoto4 from "@/assets/profile-photo-4.jpg";
+import profilePhoto5 from "@/assets/profile-photo-5.jpg";
+import profilePhoto6 from "@/assets/profile-photo-6.jpg";
 
 const PROFILE = {
   name: "R",
@@ -49,7 +52,7 @@ const PROFILE = {
     "Morning flower market stroll",
   ],
   // All photos — first one is the hero, rest are interspersed between sections
-  photos: [profileImage, profilePhoto2, profilePhoto3],
+  photos: [profileImage, profilePhoto2, profilePhoto3, profilePhoto4, profilePhoto5, profilePhoto6],
 };
 /* ── Sub-components ── */
 
