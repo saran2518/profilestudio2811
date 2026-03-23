@@ -73,15 +73,13 @@ const Discover = () => {
       <header className="px-4 pt-3 pb-2 sticky top-0 z-30">
         <div className="flex items-center justify-between rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5" style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}>
           <MagicSearchFilter>
-            <span className="p-1 hover:scale-110 transition-transform inline-flex cursor-pointer">
+            <button className="p-1 hover:scale-110 transition-transform">
               <SlidersHorizontal className="h-5 w-5 text-foreground" />
-            </span>
+            </button>
           </MagicSearchFilter>
-          <MagicSearchFilter>
-            <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5 cursor-pointer">
-              Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
-            </span>
-          </MagicSearchFilter>
+          <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5">
+            Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
+          </span>
           <div className="flex items-center gap-2">
             <button className="p-1 hover:rotate-180 transition-transform duration-500">
               <RefreshCw className="h-5 w-5 text-foreground" />
