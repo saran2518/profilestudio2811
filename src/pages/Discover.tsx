@@ -78,209 +78,62 @@ const Discover = () => {
 
       {/* Scrollable content */}
       <main className="flex-1 overflow-y-auto px-4 pb-28 space-y-4">
-        {/* Profile Photo Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="relative rounded-3xl overflow-hidden"
-        >
-          <img
-            src={profileImage}
-            alt="Profile"
-            className="w-full aspect-[4/5] object-cover"
-            width={800}
-            height={1000}
-          />
+        {(() => {
+          // Sections to render in order
+          const sections = [
+            <ProfilePhotoCard key="hero" src={PROFILE.photos[0]} liked={liked} setLiked={setLiked} />,
+            <AboutSection key="about" />,
+            <BioSection key="bio" />,
+            <InterestsSection key="interests" />,
+            <NarrativesSection key="narratives" />,
+            <JoinMeForSection key="joinmefor" />,
+          ];
 
-          {/* Heart button */}
-          <button
-            onClick={() => setLiked(!liked)}
-            className="absolute top-4 right-4 h-11 w-11 rounded-full flex items-center justify-center transition-colors"
-            style={{ backgroundColor: liked ? "hsl(var(--primary))" : "hsl(var(--foreground) / 0.4)" }}
-          >
-            <Heart
-              className="h-5 w-5"
-              fill={liked ? "white" : "none"}
-              stroke="white"
-              strokeWidth={2}
-            />
-          </button>
+          // Extra photos (after the hero) to intersperse between sections
+          const extraPhotos = PROFILE.photos.slice(1);
 
-          {/* Name overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-5">
-            <div className="rounded-2xl bg-card/80 backdrop-blur-md px-5 py-4 border border-border/30">
-              <div className="flex items-center gap-2.5">
-                <h2 className="font-display text-2xl font-bold text-foreground">
-                  {PROFILE.name}, {PROFILE.age}
-                </h2>
-                {PROFILE.verified && (
-                  <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Shield className="h-4 w-4 text-primary" />
-                  </div>
-                )}
-              </div>
-              <p className="font-body text-sm text-foreground/80 mt-0.5">
-                {PROFILE.profession} • {PROFILE.specialization}
-              </p>
-              <div className="flex items-center gap-1.5 mt-1">
-                <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
-                <span className="font-body text-xs text-muted-foreground">{PROFILE.location}</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+          // Distribute photos evenly between content sections (after hero)
+          // Content sections are indices 1..5 (About, Bio, Interests, Narratives, JoinMeFor)
+          const contentSections = sections.slice(1);
+          const result: React.ReactNode[] = [sections[0]]; // Start with hero
 
-        {/* About Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.4 }}
-          className="rounded-2xl border border-border/60 bg-card p-5"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-primary mb-4">
-            About
-          </h3>
-          <div className="grid grid-cols-2 gap-y-4 gap-x-6">
-            <AboutItem icon={<User className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.gender} />
-            <AboutItem icon={<MessageSquare className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.pronouns} />
-            <AboutItem icon={<GraduationCap className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.education} />
-            <AboutItem icon={<Ruler className="h-4 w-4 text-muted-foreground" />} label={PROFILE.about.height} />
-          </div>
-        </motion.div>
+          if (extraPhotos.length === 0) {
+            result.push(...contentSections);
+          } else {
+            // Calculate spacing: place photos evenly among content sections
+            const gap = Math.max(1, Math.floor(contentSections.length / (extraPhotos.length + 1)));
+            let photoIdx = 0;
 
-        {/* Bio Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-          className="rounded-2xl border border-border/60 bg-card p-5"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted/60">
-              <Heart className="h-4.5 w-4.5 text-primary" />
-            </div>
-            <h3 className="font-display text-base font-semibold text-card-foreground">Bio</h3>
-          </div>
-          <p className="font-body text-card-foreground/80 leading-relaxed text-[15px]">
-            "{PROFILE.bio}"
-          </p>
-        </motion.div>
+            contentSections.forEach((section, i) => {
+              result.push(section);
+              // Insert a photo after every `gap` sections
+              if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
+                result.push(
+                  <InterspersedPhoto
+                    key={`photo-${photoIdx}`}
+                    src={extraPhotos[photoIdx]}
+                    delay={0.2 + photoIdx * 0.05}
+                  />
+                );
+                photoIdx++;
+              }
+            });
 
-        {/* Photo 2 */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.4 }}
-          className="rounded-3xl overflow-hidden"
-        >
-          <img
-            src={profilePhoto2}
-            alt="Profile photo"
-            className="w-full aspect-[4/5] object-cover"
-            loading="lazy"
-            width={800}
-            height={1000}
-          />
-        </motion.div>
+            // Append any remaining photos at the end
+            while (photoIdx < extraPhotos.length) {
+              result.push(
+                <InterspersedPhoto
+                  key={`photo-${photoIdx}`}
+                  src={extraPhotos[photoIdx]}
+                  delay={0.2 + photoIdx * 0.05}
+                />
+              );
+              photoIdx++;
+            }
+          }
 
-        {/* Interests Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          className="rounded-2xl border border-border/60 bg-card p-5"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted/60">
-              <Sparkles className="h-4.5 w-4.5 text-accent" />
-            </div>
-            <h3 className="font-display text-base font-semibold text-card-foreground">Interests</h3>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {PROFILE.interests.map((interest, idx) => (
-              <span
-                key={idx}
-                className="inline-block rounded-full border border-primary/15 bg-primary/8 px-3.5 py-1.5 font-body text-[13px] text-primary font-medium"
-              >
-                {interest}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Narratives Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.4 }}
-          className="rounded-2xl border border-border/60 bg-card p-5"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted/60">
-              <BookOpen className="h-4.5 w-4.5 text-primary" />
-            </div>
-            <h3 className="font-display text-base font-semibold text-card-foreground">Narratives</h3>
-          </div>
-          <div className="space-y-4">
-            {PROFILE.narratives.map((narrative, idx) => (
-              <div key={idx} className="pl-4 border-l-2 border-primary/20">
-                <p className="font-body text-card-foreground/75 leading-relaxed text-[15px]">
-                  {narrative}
-                </p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Photo 3 */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
-          className="rounded-3xl overflow-hidden"
-        >
-          <img
-            src={profilePhoto3}
-            alt="Profile photo"
-            className="w-full aspect-[4/5] object-cover"
-            loading="lazy"
-            width={800}
-            height={1000}
-          />
-        </motion.div>
-
-        {/* Join Me For Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.4 }}
-          className="rounded-2xl border border-border/60 bg-card p-5"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted/60">
-              <MapPin className="h-4.5 w-4.5 text-accent" />
-            </div>
-            <h3 className="font-display text-base font-semibold text-card-foreground">Join Me For</h3>
-          </div>
-          <div className="space-y-3">
-            {PROFILE.joinMeFor.map((idea, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent/10 font-display text-xs font-bold text-accent">
-                  {idx + 1}
-                </span>
-                <p className="font-body text-card-foreground/75 text-[15px] leading-relaxed pt-0.5">
-                  {idea}
-                </p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+          return result;
+        })()}
       </main>
 
       {/* Floating action buttons */}
