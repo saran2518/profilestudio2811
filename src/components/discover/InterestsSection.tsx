@@ -1,5 +1,14 @@
 import { motion } from "framer-motion";
 
+const SIZE_MAP: Record<number, string> = {
+  0: "text-[22px] font-bold",
+  1: "text-[15px] font-semibold",
+  2: "text-[19px] font-bold",
+  3: "text-[13px] font-medium",
+  4: "text-[17px] font-semibold",
+  5: "text-[14px] font-medium",
+};
+
 export default function InterestsSection({ interests }: { interests: string[] }) {
   return (
     <motion.div
@@ -10,16 +19,19 @@ export default function InterestsSection({ interests }: { interests: string[] })
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-4">Interests</h3>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
         {interests.map((interest, idx) => (
           <motion.span
             key={idx}
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.35 + idx * 0.06, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center rounded-full border border-border px-3.5 py-2 font-body text-[13px] text-foreground/80 font-medium"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35 + idx * 0.08, duration: 0.4 }}
+            className={`font-display text-foreground/85 leading-relaxed ${SIZE_MAP[idx] || "text-[15px] font-medium"}`}
           >
             {interest}
+            {idx < interests.length - 1 && (
+              <span className="ml-3 text-primary/30 font-light">·</span>
+            )}
           </motion.span>
         ))}
       </div>
