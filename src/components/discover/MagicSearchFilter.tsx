@@ -46,7 +46,9 @@ const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
 
   return (
     <>
-      <div onClick={() => setOpen(true)}>{children}</div>
+      <button type="button" onClick={() => setOpen(true)} className="contents">
+        {children}
+      </button>
 
       <AnimatePresence>
         {open && (
