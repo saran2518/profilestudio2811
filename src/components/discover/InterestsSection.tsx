@@ -10,7 +10,7 @@ export default function InterestsSection({ interests }: { interests: string[] })
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Interests</h3>
-      <p className="font-display text-[16px] leading-relaxed text-foreground/80 font-medium">
+      <p className="font-body text-[15px] leading-relaxed text-foreground/80 font-medium">
         {interests.slice(0, 6).map((interest, idx, arr) => (
           <motion.span
             key={idx}
