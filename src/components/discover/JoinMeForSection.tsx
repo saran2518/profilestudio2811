@@ -22,6 +22,7 @@ export default function JoinMeForSection({ items }: { items: string[] }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 + idx * 0.1, duration: 0.4 }}
             className="rounded-xl border border-border/50 px-4 py-3"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.06), hsl(var(--accent) / 0.10))" }}
           >
             <p className="font-body text-card-foreground/80 text-[14px] leading-snug">{idea}</p>
           </motion.div>
