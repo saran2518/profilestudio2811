@@ -37,6 +37,7 @@ const PROFILE = {
     height: '6\'0"',
   },
   interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
+  relationshipIntent: "Meaningful Connection • Shared Experiences",
   bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
   narratives: [
     "I find my center when my hands are covered in clay and the rest of the world fades away.",
