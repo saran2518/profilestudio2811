@@ -9,10 +9,10 @@ interface Props {
 
 export default function AboutSection({ profile }: Props) {
   const items = [
-    { icon: <User className="h-4 w-4" />, label: "Gender", value: profile.about.gender },
-    { icon: <MessageSquare className="h-4 w-4" />, label: "Pronouns", value: profile.about.pronouns },
-    { icon: <GraduationCap className="h-4 w-4" />, label: "Education", value: profile.about.education },
-    { icon: <Ruler className="h-4 w-4" />, label: "Height", value: profile.about.height },
+    { icon: <User className="h-5 w-5" />, label: "Gender", value: profile.about.gender },
+    { icon: <MessageSquare className="h-5 w-5" />, label: "Pronouns", value: profile.about.pronouns },
+    { icon: <GraduationCap className="h-5 w-5" />, label: "Education", value: profile.about.education },
+    { icon: <Ruler className="h-5 w-5" />, label: "Height", value: profile.about.height },
   ];
 
   return (
@@ -23,21 +23,25 @@ export default function AboutSection({ profile }: Props) {
       className="rounded-2xl border border-border/50 bg-card p-5"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-4">About</h3>
-      <div className="grid grid-cols-2 gap-3">
+      <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-5">About</h3>
+      <div className="grid grid-cols-2 gap-4">
         {items.map((item, idx) => (
           <motion.div
             key={idx}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 + idx * 0.06, duration: 0.35 }}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5"
-            style={{ background: "hsl(var(--muted) / 0.45)" }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 + idx * 0.07, duration: 0.35 }}
+            className="flex flex-col items-center text-center gap-2 py-3"
           >
-            <div className="text-primary/60">{item.icon}</div>
-            <div className="flex flex-col">
-              <span className="font-body text-[10px] text-muted-foreground leading-tight">{item.label}</span>
-              <span className="font-body text-[13px] text-foreground font-medium leading-snug">{item.value}</span>
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-full text-primary"
+              style={{ background: "hsl(var(--primary) / 0.08)" }}
+            >
+              {item.icon}
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="font-body text-[15px] text-foreground font-semibold leading-tight">{item.value}</span>
+              <span className="font-body text-[10px] text-muted-foreground uppercase tracking-wider">{item.label}</span>
             </div>
           </motion.div>
         ))}
