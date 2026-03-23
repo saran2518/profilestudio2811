@@ -11,7 +11,7 @@ export default function InterestsSection({ interests }: { interests: string[] })
     >
       <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Interests</h3>
       <p className="font-display text-[16px] leading-relaxed text-foreground/80 font-medium">
-        {interests.map((interest, idx) => (
+        {interests.slice(0, 6).map((interest, idx, arr) => (
           <motion.span
             key={idx}
             initial={{ opacity: 0 }}
@@ -19,8 +19,8 @@ export default function InterestsSection({ interests }: { interests: string[] })
             transition={{ delay: 0.35 + idx * 0.08, duration: 0.4 }}
           >
             {interest}
-            {idx < interests.length - 1 && (
-              <span className="mx-2 text-primary/30 font-light">/</span>
+            {idx < arr.length - 1 && (
+              <span className="mx-2 text-muted-foreground/40 font-light">|</span>
             )}
           </motion.span>
         ))}
