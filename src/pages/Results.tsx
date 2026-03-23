@@ -104,7 +104,7 @@ const Results = () => {
             Want a fresh take?
           </p>
           <Button
-            onClick={() => navigate("/discover", { state: { profile } })}
+            onClick={() => navigate("/")}
             size="lg"
             className="font-body font-medium rounded-xl px-8 text-[15px] h-12"
             style={{
@@ -113,15 +113,7 @@ const Results = () => {
             }}
           >
             <Sparkles className="h-4 w-4 mr-2" />
-            Preview Profile
-          </Button>
-          <Button
-            onClick={() => navigate("/")}
-            variant="ghost"
-            size="sm"
-            className="font-body text-muted-foreground"
-          >
-            Start Over
+            Create Profile
           </Button>
         </motion.div>
       </main>
