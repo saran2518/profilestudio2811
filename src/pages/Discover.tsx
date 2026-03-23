@@ -37,6 +37,7 @@ const PROFILE = {
     height: '6\'0"',
   },
   interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
+  relationshipIntent: "Meaningful Connection • Shared Experiences",
   bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
   narratives: [
     "I find my center when my hands are covered in clay and the rest of the world fades away.",
@@ -159,6 +160,14 @@ function JoinMeForSection() {
     </motion.div>
   );
 }
+function RelationshipIntentSection() {
+  return (
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.4 }} className="rounded-2xl border border-border/60 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+      <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-primary mb-3">Intent</h3>
+      <p className="font-body text-[15px] text-card-foreground/80">{PROFILE.relationshipIntent}</p>
+    </motion.div>
+  );
+}
 
 
 const Discover = () => {
@@ -192,6 +201,7 @@ const Discover = () => {
           // Sections to render in order
           const sections = [
             <ProfilePhotoCard key="hero" src={PROFILE.photos[0]} liked={liked} setLiked={setLiked} />,
+            <RelationshipIntentSection key="intent" />,
             <AboutSection key="about" />,
             <BioSection key="bio" />,
             <InterestsSection key="interests" />,
