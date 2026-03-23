@@ -160,6 +160,14 @@ function JoinMeForSection() {
     </motion.div>
   );
 }
+function RelationshipIntentSection() {
+  return (
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.4 }} className="rounded-2xl border border-border/60 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+      <h3 className="font-body text-xs font-semibold uppercase tracking-widest text-primary mb-3">Intent</h3>
+      <p className="font-body text-[15px] text-card-foreground/80">{PROFILE.relationshipIntent}</p>
+    </motion.div>
+  );
+}
 
 
 const Discover = () => {
