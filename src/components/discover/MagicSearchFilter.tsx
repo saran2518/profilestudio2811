@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
@@ -224,21 +224,18 @@ function SliderField({
   );
 }
 
-function SelectableRow({
-  label,
-  value,
-  options,
-  onChange,
-}: {
+interface SelectableRowProps {
   label: string;
   value: string;
   options: string[];
   onChange: (v: string) => void;
-}) {
+}
+
+const SelectableRow = forwardRef<HTMLDivElement, SelectableRowProps>(({ label, value, options, onChange }, ref) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="space-y-2">
+    <div ref={ref} className="space-y-2">
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between py-2"
@@ -277,6 +274,8 @@ function SelectableRow({
       </AnimatePresence>
     </div>
   );
-}
+});
+
+SelectableRow.displayName = "SelectableRow";
 
 export default MagicSearchFilter;
