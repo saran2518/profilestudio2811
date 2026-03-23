@@ -77,9 +77,11 @@ const Discover = () => {
               <SlidersHorizontal className="h-5 w-5 text-foreground" />
             </span>
           </MagicSearchFilter>
-          <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5">
-            Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
-          </span>
+          <MagicSearchFilter>
+            <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5 cursor-pointer">
+              Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
+            </span>
+          </MagicSearchFilter>
           <div className="flex items-center gap-2">
             <button className="p-1 hover:rotate-180 transition-transform duration-500">
               <RefreshCw className="h-5 w-5 text-foreground" />
