@@ -2,16 +2,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
+import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
+import AboutSection from "@/components/discover/AboutSection";
 import BioSection from "@/components/discover/BioSection";
 import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
+import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
 import type { GeneratedProfile } from "@/lib/profileGenerator";
+import { PROFILES } from "@/lib/profilesData";
 
 const Preview = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const profile = location.state?.profile as GeneratedProfile | undefined;
+
+  // Use the first example profile as a visual template for fields the generated profile doesn't have
+  const template = PROFILES[0];
 
   if (!profile) {
     return (
@@ -34,11 +42,65 @@ const Preview = () => {
     );
   }
 
+  // Build the same section order as Discover, using template for missing fields
+  const sections = [
+    <ProfilePhotoCard
+      key="hero"
+      src={template.photos[0]}
+      liked={false}
+      setLiked={() => {}}
+      profile={{
+        name: template.name,
+        age: template.age,
+        verified: template.verified,
+        profession: template.profession,
+        specialization: template.specialization,
+        location: template.location,
+      }}
+    />,
+    <AboutSection key="about" profile={{ about: template.about }} />,
+    <BioSection key="bio" bio={profile.bio} />,
+    <RelationshipIntentSection key="intent" intent={template.relationshipIntent} />,
+    <InterestsSection key="interests" interests={profile.interests} />,
+    <NarrativesSection key="narratives" narratives={profile.narratives} />,
+    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} />,
+  ];
+
+  // Intersperse extra photos between content sections
+  const extraPhotos = template.photos.slice(1);
+  const contentSections = sections.slice(1);
+  const result: React.ReactNode[] = [sections[0]];
+
+  if (extraPhotos.length === 0) {
+    result.push(...contentSections);
+  } else {
+    const gap = Math.max(1, Math.floor(contentSections.length / (extraPhotos.length + 1)));
+    let photoIdx = 0;
+
+    contentSections.forEach((section, i) => {
+      result.push(section);
+      if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
+        result.push(
+          <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+        );
+        photoIdx++;
+      }
+    });
+
+    while (photoIdx < extraPhotos.length) {
+      result.push(
+        <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+      );
+      photoIdx++;
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Back button header */}
       <header className="sticky top-0 z-30 px-4 pt-3 pb-2">
-        <div className="flex items-center gap-3 rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5"
+        <div
+          className="flex items-center gap-3 rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5"
           style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}
         >
           <Button
@@ -53,12 +115,9 @@ const Preview = () => {
         </div>
       </header>
 
-      {/* Profile card sections */}
+      {/* Profile sections — same layout as Discover */}
       <main className="flex-1 px-4 pb-8 space-y-5 mt-2">
-        <BioSection bio={profile.bio} />
-        <InterestsSection interests={profile.interests} />
-        <NarrativesSection narratives={profile.narratives} />
-        <JoinMeForSection items={profile.joinMeFor} />
+        {result}
       </main>
     </div>
   );
