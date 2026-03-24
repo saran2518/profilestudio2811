@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PhoneVerification from "./pages/PhoneVerification";
 import OTPVerification from "./pages/OTPVerification";
+import ProfileName from "./pages/ProfileName";
 import Onboarding from "./pages/Onboarding";
 import Index from "./pages/Index";
 import Results from "./pages/Results";
