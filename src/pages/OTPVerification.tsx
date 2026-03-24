@@ -32,7 +32,7 @@ const OTPVerification = () => {
   };
 
   const handleContinue = () => {
-    navigate("/onboarding");
+    navigate("/profile-name");
   };
 
   return (

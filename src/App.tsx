@@ -24,6 +24,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<PhoneVerification />} />
           <Route path="/verify-otp" element={<OTPVerification />} />
+          <Route path="/profile-name" element={<ProfileName />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
