@@ -51,7 +51,10 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const openEdit = (target: EditTarget) => {
     if (!target) return;
     if (target.type === "bio") setDraft(current.bio);
-    else if (target.type === "narrative") setDraft(current.narratives[target.index].content);
+    else if (target.type === "narrative") {
+      setTitleDraft(current.narratives[target.index].title);
+      setDraft(current.narratives[target.index].content);
+    }
     else if (target.type === "joinMeFor") setDraft(current.joinMeFor[target.index]);
     else if (target.type === "interests") {
       setInterestsDraft([...current.interests]);
