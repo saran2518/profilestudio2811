@@ -20,7 +20,7 @@ const ProfileName = () => {
   const isValid = firstName.trim().length >= 2;
 
   const handleContinue = () => {
-    navigate("/onboarding");
+    navigate("/email");
   };
 
   return (
