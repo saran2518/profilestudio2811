@@ -21,7 +21,7 @@ const EmailEntry = () => {
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleContinue = () => {
-    navigate("/onboarding");
+    navigate("/verify-email", { state: { email } });
   };
 
   const handleSkip = () => {
