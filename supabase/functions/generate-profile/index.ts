@@ -77,8 +77,8 @@ serve(async (req) => {
                       items: {
                         type: "object",
                         properties: {
-                          title: { type: "string", description: "A short evocative heading (2-4 words) that captures the essence of this narrative snippet." },
-                          content: { type: "string", description: "A 1-2 sentence personal narrative that reveals a personality trait mentioned in the input." },
+                          title: { type: "string", description: "A short evocative heading (2-4 words max) that captures the essence of this narrative." },
+                          content: { type: "string", description: "A 1-2 sentence personal narrative (15-25 words max) that reveals a personality trait from the input." },
                         },
                         required: ["title", "content"],
                       },
