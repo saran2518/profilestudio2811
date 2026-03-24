@@ -149,7 +149,7 @@ const Results = () => {
             }}
           >
             <Sparkles className="h-4 w-4 mr-2" />
-            Create my Profile
+            Complete my Profile
           </Button>
         </motion.div>
       </main>
