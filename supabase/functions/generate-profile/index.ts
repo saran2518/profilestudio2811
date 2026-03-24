@@ -32,7 +32,7 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const systemPrompt = `You are a dating profile writer. Given a user's self-description, generate a compelling dating profile. You MUST respond using the generate_profile tool. Analyze the input carefully and generate content that is directly derived from what the user said — reflect their personality, hobbies, and vibe. Do NOT invent unrelated interests. Interests must be strictly 1-2 words each.`;
+    const systemPrompt = `You are a dating profile writer. Given a user's self-description, generate a compelling dating profile. You MUST respond using the generate_profile tool. Analyze the input carefully and generate content that is directly derived from what the user said — reflect their personality, hobbies, and vibe. Do NOT invent unrelated interests. STRICT LIMITS: Bio must be 30-40 words. Interests must be 1-2 words each. Narrative titles must be 2-4 words. Narrative content must be 15-25 words.`;
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
