@@ -38,6 +38,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [current, setCurrent] = useState<GeneratedProfile>(profile);
   const [editTarget, setEditTarget] = useState<EditTarget>(null);
   const [draft, setDraft] = useState("");
+  const [titleDraft, setTitleDraft] = useState("");
   const [interestsDraft, setInterestsDraft] = useState<string[]>([]);
   const [newInterest, setNewInterest] = useState("");
 
@@ -50,7 +51,10 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const openEdit = (target: EditTarget) => {
     if (!target) return;
     if (target.type === "bio") setDraft(current.bio);
-    else if (target.type === "narrative") setDraft(current.narratives[target.index].content);
+    else if (target.type === "narrative") {
+      setTitleDraft(current.narratives[target.index].title);
+      setDraft(current.narratives[target.index].content);
+    }
     else if (target.type === "joinMeFor") setDraft(current.joinMeFor[target.index]);
     else if (target.type === "interests") {
       setInterestsDraft([...current.interests]);
@@ -64,7 +68,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     if (editTarget.type === "bio") update({ bio: draft });
     else if (editTarget.type === "narrative") {
       const next = [...current.narratives];
-      next[editTarget.index] = { ...next[editTarget.index], content: draft };
+      next[editTarget.index] = { title: titleDraft, content: draft };
       update({ narratives: next });
     } else if (editTarget.type === "joinMeFor") {
       const next = [...current.joinMeFor];
@@ -83,7 +87,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     : "Edit Interests"
     : "";
 
-  const isTextEdit = editTarget && editTarget.type !== "interests";
+  const isTextEdit = editTarget && editTarget.type !== "interests" && editTarget.type !== "narrative";
+  const isNarrativeEdit = editTarget?.type === "narrative";
 
   return (
     <>
@@ -189,6 +194,29 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           <DialogHeader>
             <DialogTitle className="font-display">{dialogTitle}</DialogTitle>
           </DialogHeader>
+
+          {isNarrativeEdit && (
+            <div className="space-y-3">
+              <div>
+                <label className="font-body text-xs font-medium text-muted-foreground mb-1.5 block">Title</label>
+                <Input
+                  value={titleDraft}
+                  onChange={(e) => setTitleDraft(e.target.value)}
+                  className="font-body text-sm rounded-xl"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="font-body text-xs font-medium text-muted-foreground mb-1.5 block">Content</label>
+                <Textarea
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  rows={4}
+                  className="font-body text-sm resize-none rounded-xl"
+                />
+              </div>
+            </div>
+          )}
 
           {isTextEdit && (
             <Textarea
