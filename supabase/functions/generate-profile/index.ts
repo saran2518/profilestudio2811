@@ -64,7 +64,7 @@ serve(async (req) => {
                     bio: {
                       type: "string",
                       description:
-                        "A compelling 2-3 sentence bio that captures the person's essence based on their input. Should feel authentic and warm.",
+                        "A compelling 2-3 sentence bio (30-40 words max) that captures the person's essence. Should feel authentic and warm.",
                     },
                     interests: {
                       type: "array",
