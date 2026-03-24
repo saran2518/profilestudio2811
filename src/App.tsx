@@ -7,6 +7,7 @@ import PhoneVerification from "./pages/PhoneVerification";
 import OTPVerification from "./pages/OTPVerification";
 import ProfileName from "./pages/ProfileName";
 import EmailEntry from "./pages/EmailEntry";
+import EmailOTPVerification from "./pages/EmailOTPVerification";
 import Onboarding from "./pages/Onboarding";
 import Index from "./pages/Index";
 import Results from "./pages/Results";
