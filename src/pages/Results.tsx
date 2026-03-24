@@ -87,7 +87,7 @@ const Results = () => {
             </Button>
             <div>
               <h1 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight">
-                Your <span className="text-primary italic">Profile</span>
+                Edit <span className="text-primary italic">Inputs</span>
               </h1>
             </div>
           </div>
