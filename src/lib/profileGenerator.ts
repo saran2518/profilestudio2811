@@ -61,8 +61,8 @@ export function generateProfile(input: string): GeneratedProfile {
   const interests = matchedInterests.length > 0
     ? pickRandom(matchedInterests, 6)
     : pickRandom([
-        "Spontaneous adventures", "Deep conversations", "Cozy nights in",
-        "Trying new restaurants", "Creative projects", "Morning walks",
+        "Spontaneous adventures", "Deep conversations", "Cozy nights",
+        "New restaurants", "Creative projects", "Morning walks",
       ], 6);
 
   // Generate bio
