@@ -65,9 +65,15 @@ serve(async (req) => {
                     },
                     narratives: {
                       type: "array",
-                      items: { type: "string" },
-                      description:
-                        "2 personal narrative snippets (1-2 sentences each) that reveal personality traits mentioned in the input.",
+                      items: {
+                        type: "object",
+                        properties: {
+                          title: { type: "string", description: "A short evocative heading (2-4 words) that captures the essence of this narrative snippet." },
+                          content: { type: "string", description: "A 1-2 sentence personal narrative that reveals a personality trait mentioned in the input." },
+                        },
+                        required: ["title", "content"],
+                      },
+                      description: "2 personal narrative objects each with a title and content.",
                     },
                     joinMeFor: {
                       type: "array",

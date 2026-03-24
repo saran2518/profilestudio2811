@@ -12,10 +12,21 @@ const Results = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const initialProfile = location.state?.profile as GeneratedProfile | undefined;
+  const rawProfile = location.state?.profile as any;
   const initialInput = (location.state?.input as string) || "";
 
-  const [profile, setProfile] = useState<GeneratedProfile | undefined>(initialProfile);
+  // Normalize narratives: handle both string[] (legacy) and NarrativeItem[]
+  const normalizeProfile = (p: any): GeneratedProfile | undefined => {
+    if (!p) return undefined;
+    return {
+      ...p,
+      narratives: p.narratives?.map((n: any, i: number) =>
+        typeof n === "string" ? { title: `Story ${i + 1}`, content: n } : n
+      ) ?? [],
+    };
+  };
+
+  const [profile, setProfile] = useState<GeneratedProfile | undefined>(normalizeProfile(rawProfile));
   const [isRegenerating, setIsRegenerating] = useState(false);
 
   if (!profile) {
