@@ -188,12 +188,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
         </SectionCard>
       </div>
 
-      {/* Edit Dialog */}
-      <Dialog open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
-        <DialogContent className="sm:max-w-md rounded-2xl">
-          <DialogHeader>
-            <DialogTitle className="font-display">{dialogTitle}</DialogTitle>
-          </DialogHeader>
+      {/* Edit Drawer */}
+      <Drawer open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
+        <DrawerContent className="px-5 pb-6 pt-2 max-h-[85vh]">
+          <DrawerHeader className="px-0 pb-3">
+            <DrawerTitle className="font-display text-lg">{dialogTitle}</DrawerTitle>
+          </DrawerHeader>
 
           {isNarrativeEdit && (
             <div className="space-y-3">
@@ -277,17 +277,17 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             </div>
           )}
 
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-lg">
+          <DrawerFooter className="px-0 pt-4 flex-row gap-2">
+            <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-lg flex-1">
               Cancel
             </Button>
-            <Button onClick={saveEdit} className="font-body rounded-lg">
+            <Button onClick={saveEdit} className="font-body rounded-lg flex-1">
               <Check className="h-4 w-4 mr-1" />
               Save
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };
