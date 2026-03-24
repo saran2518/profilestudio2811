@@ -283,18 +283,23 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 ))}
               </div>
               <div className="flex gap-2">
-                <Input
-                  value={newInterest}
-                  onChange={(e) => setNewInterest(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && newInterest.trim()) {
-                      setInterestsDraft([...interestsDraft, newInterest.trim()]);
-                      setNewInterest("");
-                    }
-                  }}
-                  placeholder="Type and press Enter..."
-                  className="flex-1 text-base rounded-xl h-12"
-                />
+                <div className="flex-1 relative">
+                  <Input
+                    value={newInterest}
+                    onChange={(e) => setNewInterest(enforceWordLimit(e.target.value, WORD_LIMITS.interest))}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && newInterest.trim()) {
+                        setInterestsDraft([...interestsDraft, newInterest.trim()]);
+                        setNewInterest("");
+                      }
+                    }}
+                    placeholder="Type and press Enter..."
+                    className="text-base rounded-xl h-12"
+                  />
+                  <span className={`absolute right-3 top-1/2 -translate-y-1/2 font-body text-xs ${countWords(newInterest) >= WORD_LIMITS.interest ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    {countWords(newInterest)}/{WORD_LIMITS.interest}
+                  </span>
+                </div>
                 <Button
                   size="icon"
                   variant="outline"
