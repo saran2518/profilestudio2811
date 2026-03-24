@@ -35,6 +35,10 @@ const Results = () => {
           ? { title: `Story ${i + 1}`, content: truncateWords(n, 25) }
           : { title: truncateWords(n.title || "", 4), content: truncateWords(n.content || "", 25) }
       ) ?? [],
+      joinMeFor:
+        p.joinMeFor?.map((j: any) =>
+          typeof j === "string" ? truncateWords(j, 5) : ""
+        ).filter(Boolean).slice(0, 4) ?? [],
     };
   };
 
