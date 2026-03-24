@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProfileOutput from "@/components/ProfileOutput";
 import { useToast } from "@/hooks/use-toast";
@@ -131,16 +131,25 @@ const Results = () => {
             Want a fresh take?
           </p>
           <Button
+            onClick={() => navigate("/discover", { state: { profile } })}
+            variant="outline"
+            size="lg"
+            className="font-body font-medium rounded-xl px-8 text-[15px] h-12 w-full max-w-xs"
+          >
+            <Eye className="h-4 w-4 mr-2" />
+            Preview Profile
+          </Button>
+          <Button
             onClick={() => navigate("/")}
             size="lg"
-            className="font-body font-medium rounded-xl px-8 text-[15px] h-12"
+            className="font-body font-medium rounded-xl px-8 text-[15px] h-12 w-full max-w-xs"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
             }}
           >
             <Sparkles className="h-4 w-4 mr-2" />
-            Create Profile
+            Create my Profile
           </Button>
         </motion.div>
       </main>
