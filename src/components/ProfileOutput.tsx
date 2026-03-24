@@ -38,6 +38,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [current, setCurrent] = useState<GeneratedProfile>(profile);
   const [editTarget, setEditTarget] = useState<EditTarget>(null);
   const [draft, setDraft] = useState("");
+  const [titleDraft, setTitleDraft] = useState("");
   const [interestsDraft, setInterestsDraft] = useState<string[]>([]);
   const [newInterest, setNewInterest] = useState("");
 
