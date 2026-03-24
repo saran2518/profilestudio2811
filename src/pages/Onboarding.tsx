@@ -120,11 +120,11 @@ const Onboarding = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + i * 0.1, ease: "easeOut" }}
               whileHover={{ scale: 1.02, y: -1 }}
-              className="flex items-center gap-4 rounded-2xl border border-border/40 bg-card/80 backdrop-blur-sm p-4 cursor-default"
+              className="flex items-start gap-4 rounded-2xl border border-border/40 bg-card/80 backdrop-blur-sm p-4 cursor-default"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
               <div
-                className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0"
+                className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
                 style={{
                   background:
                     i === 0
@@ -144,11 +144,11 @@ const Onboarding = () => {
                   }`}
                 />
               </div>
-              <div>
-                <p className="font-display text-[14px] font-semibold text-foreground">
+              <div className="flex-1 min-w-0">
+                <p className="font-display text-[14px] font-semibold text-foreground leading-snug">
                   {step.title}
                 </p>
-                <p className="font-body text-[11px] text-muted-foreground/70 mt-0.5">
+                <p className="font-body text-[11px] text-muted-foreground/70 mt-1 leading-relaxed">
                   {step.subtitle}
                 </p>
               </div>
