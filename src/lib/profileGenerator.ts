@@ -1,10 +1,15 @@
 // Simulated profile expansion logic
 // In a real app, this would call an AI API
 
+export interface NarrativeItem {
+  title: string;
+  content: string;
+}
+
 export interface GeneratedProfile {
   bio: string;
   interests: string[];
-  narratives: string[];
+  narratives: NarrativeItem[];
   joinMeFor: string[];
 }
 
