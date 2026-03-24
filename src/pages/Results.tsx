@@ -15,11 +15,22 @@ const Results = () => {
   const rawProfile = location.state?.profile as any;
   const initialInput = (location.state?.input as string) || "";
 
-  // Normalize narratives: handle both string[] (legacy) and NarrativeItem[]
+  // Normalize profile shape and enforce compact interests (max 2 words)
+  const toTwoWords = (value: string): string =>
+    value
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .join(" ");
+
   const normalizeProfile = (p: any): GeneratedProfile | undefined => {
     if (!p) return undefined;
     return {
       ...p,
+      interests:
+        p.interests?.map((interest: any) =>
+          typeof interest === "string" ? toTwoWords(interest) : ""
+        ).filter(Boolean) ?? [],
       narratives: p.narratives?.map((n: any, i: number) =>
         typeof n === "string" ? { title: `Story ${i + 1}`, content: n } : n
       ) ?? [],
