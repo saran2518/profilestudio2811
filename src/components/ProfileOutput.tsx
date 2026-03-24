@@ -190,29 +190,29 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
       {/* Edit Drawer */}
       <Drawer open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
-        <DrawerContent className="px-5 pb-6 pt-2 max-h-[85vh]">
-          <DrawerHeader className="px-0 pb-3">
-            <DrawerTitle className="font-display text-lg">{dialogTitle}</DrawerTitle>
+        <DrawerContent className="px-6 pb-8 pt-3 min-h-[50vh] max-h-[85vh]">
+          <DrawerHeader className="px-0 pb-5">
+            <DrawerTitle className="font-display text-xl">{dialogTitle}</DrawerTitle>
           </DrawerHeader>
 
           {isNarrativeEdit && (
-            <div className="space-y-3">
+            <div className="space-y-5">
               <div>
-                <label className="font-body text-xs font-medium text-muted-foreground mb-1.5 block">Title</label>
+                <label className="font-body text-sm font-medium text-muted-foreground mb-2 block">Title</label>
                 <Input
                   value={titleDraft}
                   onChange={(e) => setTitleDraft(e.target.value)}
-                  className="font-body text-sm rounded-xl"
+                  className="font-body text-base rounded-xl h-12"
                   autoFocus
                 />
               </div>
               <div>
-                <label className="font-body text-xs font-medium text-muted-foreground mb-1.5 block">Content</label>
+                <label className="font-body text-sm font-medium text-muted-foreground mb-2 block">Content</label>
                 <Textarea
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
-                  rows={4}
-                  className="font-body text-sm resize-none rounded-xl"
+                  rows={5}
+                  className="font-body text-base resize-none rounded-xl"
                 />
               </div>
             </div>
@@ -222,26 +222,26 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             <Textarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              rows={5}
-              className="font-body text-sm resize-none rounded-xl"
+              rows={6}
+              className="font-body text-base resize-none rounded-xl"
               autoFocus
             />
           )}
 
           {editTarget?.type === "interests" && (
-            <div className="space-y-4">
-              <div className="flex flex-wrap gap-2 min-h-[40px]">
+            <div className="space-y-5">
+              <div className="flex flex-wrap gap-2.5 min-h-[48px]">
                 {interestsDraft.map((interest, idx) => (
                   <span
                     key={interest + idx}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 font-body text-sm text-primary font-medium"
+                    className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 font-body text-base text-primary font-medium"
                   >
                     {interest}
                     <button
                       onClick={() => setInterestsDraft(interestsDraft.filter((_, i) => i !== idx))}
                       className="hover:text-destructive transition-colors"
                     >
-                      <X className="h-3 w-3" />
+                      <X className="h-3.5 w-3.5" />
                     </button>
                   </span>
                 ))}
@@ -257,10 +257,10 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                     }
                   }}
                   placeholder="Type and press Enter..."
-                  className="flex-1 text-sm rounded-lg"
+                  className="flex-1 text-base rounded-xl h-12"
                 />
                 <Button
-                  size="sm"
+                  size="icon"
                   variant="outline"
                   disabled={!newInterest.trim()}
                   onClick={() => {
@@ -269,20 +269,20 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                       setNewInterest("");
                     }
                   }}
-                  className="rounded-lg"
+                  className="rounded-xl h-12 w-12"
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-5 w-5" />
                 </Button>
               </div>
             </div>
           )}
 
-          <DrawerFooter className="px-0 pt-4 flex-row gap-2">
-            <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-lg flex-1">
+          <DrawerFooter className="px-0 pt-6 flex-row gap-3">
+            <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
               Cancel
             </Button>
-            <Button onClick={saveEdit} className="font-body rounded-lg flex-1">
-              <Check className="h-4 w-4 mr-1" />
+            <Button onClick={saveEdit} className="font-body rounded-xl flex-1 h-12 text-base">
+              <Check className="h-5 w-5 mr-1.5" />
               Save
             </Button>
           </DrawerFooter>
