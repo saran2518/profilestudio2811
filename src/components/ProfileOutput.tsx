@@ -34,6 +34,22 @@ type EditTarget =
   | { type: "interests" }
   | null;
 
+const WORD_LIMITS = {
+  bio: 40,
+  narrativeTitle: 4,
+  narrativeContent: 25,
+  joinMeFor: 5,
+  interest: 2,
+};
+
+const countWords = (text: string) => text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+
+const enforceWordLimit = (text: string, max: number) => {
+  const words = text.trim().split(/\s+/);
+  if (words.length <= max) return text;
+  return words.slice(0, max).join(" ");
+};
+
 const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [current, setCurrent] = useState<GeneratedProfile>(profile);
   const [editTarget, setEditTarget] = useState<EditTarget>(null);
@@ -198,19 +214,29 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           {isNarrativeEdit && (
             <div className="space-y-5">
               <div>
-                <label className="font-body text-sm font-medium text-muted-foreground mb-2 block">Title</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="font-body text-sm font-medium text-muted-foreground">Title</label>
+                  <span className={`font-body text-xs ${countWords(titleDraft) >= WORD_LIMITS.narrativeTitle ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    {countWords(titleDraft)}/{WORD_LIMITS.narrativeTitle} words
+                  </span>
+                </div>
                 <Input
                   value={titleDraft}
-                  onChange={(e) => setTitleDraft(e.target.value)}
+                  onChange={(e) => setTitleDraft(enforceWordLimit(e.target.value, WORD_LIMITS.narrativeTitle))}
                   className="font-body text-base rounded-xl h-12"
                   autoFocus
                 />
               </div>
               <div>
-                <label className="font-body text-sm font-medium text-muted-foreground mb-2 block">Content</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="font-body text-sm font-medium text-muted-foreground">Content</label>
+                  <span className={`font-body text-xs ${countWords(draft) >= WORD_LIMITS.narrativeContent ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    {countWords(draft)}/{WORD_LIMITS.narrativeContent} words
+                  </span>
+                </div>
                 <Textarea
                   value={draft}
-                  onChange={(e) => setDraft(e.target.value)}
+                  onChange={(e) => setDraft(enforceWordLimit(e.target.value, WORD_LIMITS.narrativeContent))}
                   rows={5}
                   className="font-body text-base resize-none rounded-xl"
                 />
@@ -219,13 +245,23 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           )}
 
           {isTextEdit && (
-            <Textarea
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              rows={6}
-              className="font-body text-base resize-none rounded-xl"
-              autoFocus
-            />
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="font-body text-sm font-medium text-muted-foreground">
+                  {editTarget?.type === "bio" ? "Bio" : "Date Idea"}
+                </label>
+                <span className={`font-body text-xs ${countWords(draft) >= (editTarget?.type === "bio" ? WORD_LIMITS.bio : WORD_LIMITS.joinMeFor) ? 'text-destructive' : 'text-muted-foreground'}`}>
+                  {countWords(draft)}/{editTarget?.type === "bio" ? WORD_LIMITS.bio : WORD_LIMITS.joinMeFor} words
+                </span>
+              </div>
+              <Textarea
+                value={draft}
+                onChange={(e) => setDraft(enforceWordLimit(e.target.value, editTarget?.type === "bio" ? WORD_LIMITS.bio : WORD_LIMITS.joinMeFor))}
+                rows={6}
+                className="font-body text-base resize-none rounded-xl"
+                autoFocus
+              />
+            </div>
           )}
 
           {editTarget?.type === "interests" && (
@@ -247,18 +283,23 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 ))}
               </div>
               <div className="flex gap-2">
-                <Input
-                  value={newInterest}
-                  onChange={(e) => setNewInterest(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && newInterest.trim()) {
-                      setInterestsDraft([...interestsDraft, newInterest.trim()]);
-                      setNewInterest("");
-                    }
-                  }}
-                  placeholder="Type and press Enter..."
-                  className="flex-1 text-base rounded-xl h-12"
-                />
+                <div className="flex-1 relative">
+                  <Input
+                    value={newInterest}
+                    onChange={(e) => setNewInterest(enforceWordLimit(e.target.value, WORD_LIMITS.interest))}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && newInterest.trim()) {
+                        setInterestsDraft([...interestsDraft, newInterest.trim()]);
+                        setNewInterest("");
+                      }
+                    }}
+                    placeholder="Type and press Enter..."
+                    className="text-base rounded-xl h-12"
+                  />
+                  <span className={`absolute right-3 top-1/2 -translate-y-1/2 font-body text-xs ${countWords(newInterest) >= WORD_LIMITS.interest ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    {countWords(newInterest)}/{WORD_LIMITS.interest}
+                  </span>
+                </div>
                 <Button
                   size="icon"
                   variant="outline"
