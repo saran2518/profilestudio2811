@@ -195,6 +195,29 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             <DialogTitle className="font-display">{dialogTitle}</DialogTitle>
           </DialogHeader>
 
+          {isNarrativeEdit && (
+            <div className="space-y-3">
+              <div>
+                <label className="font-body text-xs font-medium text-muted-foreground mb-1.5 block">Title</label>
+                <Input
+                  value={titleDraft}
+                  onChange={(e) => setTitleDraft(e.target.value)}
+                  className="font-body text-sm rounded-xl"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="font-body text-xs font-medium text-muted-foreground mb-1.5 block">Content</label>
+                <Textarea
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  rows={4}
+                  className="font-body text-sm resize-none rounded-xl"
+                />
+              </div>
+            </div>
+          )}
+
           {isTextEdit && (
             <Textarea
               value={draft}
@@ -202,6 +225,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
               rows={5}
               className="font-body text-sm resize-none rounded-xl"
               autoFocus
+            />
             />
           )}
 
