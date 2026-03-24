@@ -34,6 +34,22 @@ type EditTarget =
   | { type: "interests" }
   | null;
 
+const WORD_LIMITS = {
+  bio: 40,
+  narrativeTitle: 4,
+  narrativeContent: 25,
+  joinMeFor: 5,
+  interest: 2,
+};
+
+const countWords = (text: string) => text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+
+const enforceWordLimit = (text: string, max: number) => {
+  const words = text.trim().split(/\s+/);
+  if (words.length <= max) return text;
+  return words.slice(0, max).join(" ");
+};
+
 const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [current, setCurrent] = useState<GeneratedProfile>(profile);
   const [editTarget, setEditTarget] = useState<EditTarget>(null);
