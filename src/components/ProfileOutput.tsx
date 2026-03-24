@@ -64,7 +64,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     if (editTarget.type === "bio") update({ bio: draft });
     else if (editTarget.type === "narrative") {
       const next = [...current.narratives];
-      next[editTarget.index] = draft;
+      next[editTarget.index] = { ...next[editTarget.index], content: draft };
       update({ narratives: next });
     } else if (editTarget.type === "joinMeFor") {
       const next = [...current.joinMeFor];
