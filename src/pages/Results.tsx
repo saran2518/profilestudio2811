@@ -127,9 +127,6 @@ const Results = () => {
           className="flex flex-col items-center gap-3 pt-4"
         >
           <div className="h-px w-16 bg-border/50" />
-          <p className="font-body text-xs text-muted-foreground/50">
-            Want a fresh take?
-          </p>
           <Button
             onClick={() => navigate("/preview", { state: { profile } })}
             variant="outline"
