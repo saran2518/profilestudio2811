@@ -15,15 +15,15 @@ export interface GeneratedProfile {
 
 const interestKeywords: Record<string, string[]> = {
   music: ["Live concerts", "Vinyl collecting", "Songwriting"],
-  travel: ["Weekend road trips", "Hidden gem cafés", "Sunset chasing"],
-  food: ["Farmers market Sundays", "Pasta from scratch", "Wine & cheese nights"],
-  art: ["Gallery hopping", "Sketching in parks", "Photography walks"],
-  fitness: ["Morning runs", "Yoga at sunrise", "Hiking new trails"],
-  reading: ["Bookstore dates", "Poetry nights", "Cozy library corners"],
-  film: ["Indie cinema", "Movie marathon nights", "Film festival hopping"],
-  tech: ["Hackathon weekends", "Podcast deep dives", "Gadget hunting"],
-  nature: ["Botanical gardens", "Stargazing", "Beach bonfires"],
-  coffee: ["Third-wave coffee spots", "Latte art", "Café crawling"],
+  travel: ["Road trips", "Hidden cafés", "Sunset chasing"],
+  food: ["Farmers markets", "Homemade pasta", "Wine nights"],
+  art: ["Gallery hopping", "Park sketching", "Photography walks"],
+  fitness: ["Morning runs", "Sunrise yoga", "Trail hiking"],
+  reading: ["Bookstore dates", "Poetry nights", "Library corners"],
+  film: ["Indie cinema", "Movie marathons", "Film festivals"],
+  tech: ["Hackathon weekends", "Podcast dives", "Gadget hunting"],
+  nature: ["Botanical gardens", "Stargazing nights", "Beach bonfires"],
+  coffee: ["Coffee spots", "Latte art", "Café crawling"],
 };
 
 const dateSpots = [
