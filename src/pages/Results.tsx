@@ -131,7 +131,7 @@ const Results = () => {
             Want a fresh take?
           </p>
           <Button
-            onClick={() => navigate("/discover", { state: { profile } })}
+            onClick={() => navigate("/preview", { state: { profile } })}
             variant="outline"
             size="lg"
             className="font-body font-medium rounded-xl px-8 text-[15px] h-12 w-full max-w-xs"
