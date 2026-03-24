@@ -87,7 +87,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     : "Edit Interests"
     : "";
 
-  const isTextEdit = editTarget && editTarget.type !== "interests";
+  const isTextEdit = editTarget && editTarget.type !== "interests" && editTarget.type !== "narrative";
+  const isNarrativeEdit = editTarget?.type === "narrative";
 
   return (
     <>
