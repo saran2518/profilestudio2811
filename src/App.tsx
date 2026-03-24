@@ -22,6 +22,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PhoneVerification />} />
+          <Route path="/verify-otp" element={<OTPVerification />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
