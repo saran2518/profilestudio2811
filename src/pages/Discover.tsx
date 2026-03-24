@@ -102,7 +102,7 @@ const Discover = () => {
             </button>
           </MagicSearchFilter>
           <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5">
-            {currentIndex + 1} / {PROFILES.length} <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
+            Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
           </span>
           <div className="flex items-center gap-2">
             <button className="p-1 hover:rotate-180 transition-transform duration-500" onClick={() => { setDirection(1); setCurrentIndex(0); setLiked(false); }}>
