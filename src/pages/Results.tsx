@@ -80,7 +80,7 @@ const Results = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/", { state: { input: initialInput } })}
               className="shrink-0 rounded-xl h-9 w-9"
             >
               <ArrowLeft className="h-4 w-4" />
