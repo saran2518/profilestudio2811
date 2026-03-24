@@ -6,14 +6,11 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const truncateWords = (value: string, max: number): string =>
+  value.trim().split(/\s+/).slice(0, max).join(" ");
+
 const toTwoWords = (value: string): string =>
-  value
-    .replace(/[^\p{L}\p{N}\s'-]/gu, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(" ")
-    .slice(0, 2)
-    .join(" ");
+  truncateWords(value.replace(/[^\p{L}\p{N}\s'-]/gu, " ").replace(/\s+/g, " "), 2);
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
