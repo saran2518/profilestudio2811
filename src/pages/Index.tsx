@@ -21,7 +21,9 @@ const PROMPT_STARTERS = [
 ];
 
 const Index = () => {
-  const [input, setInput] = useState("");
+  const location = useLocation();
+  const restoredInput = (location.state as any)?.input || "";
+  const [input, setInput] = useState(restoredInput);
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
