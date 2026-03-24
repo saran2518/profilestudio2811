@@ -6,6 +6,15 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const toTwoWords = (value: string): string =>
+  value
+    .replace(/[^\p{L}\p{N}\s'-]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .slice(0, 2)
+    .join(" ");
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -23,7 +32,7 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const systemPrompt = `You are a dating profile writer. Given a user's self-description, generate a compelling dating profile. You MUST respond using the generate_profile tool. Analyze the input carefully and generate content that is directly derived from what the user said — reflect their personality, hobbies, and vibe. Do NOT invent unrelated interests.`;
+    const systemPrompt = `You are a dating profile writer. Given a user's self-description, generate a compelling dating profile. You MUST respond using the generate_profile tool. Analyze the input carefully and generate content that is directly derived from what the user said — reflect their personality, hobbies, and vibe. Do NOT invent unrelated interests. Interests must be strictly 1-2 words each.`;
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -61,7 +70,7 @@ serve(async (req) => {
                       type: "array",
                       items: { type: "string" },
                       description:
-                        "6 specific interests/activities derived directly from the user's description. Each should be 2-4 words.",
+                        "6 specific interests/activities derived directly from the user's description. Each must be 1-2 words only.",
                     },
                     narratives: {
                       type: "array",
@@ -121,8 +130,19 @@ serve(async (req) => {
     }
 
     const profile = JSON.parse(toolCall.function.arguments);
+    const normalizedProfile = {
+      ...profile,
+      interests: Array.isArray(profile.interests)
+        ? profile.interests
+            .map((interest: unknown) =>
+              typeof interest === "string" ? toTwoWords(interest) : ""
+            )
+            .filter(Boolean)
+            .slice(0, 6)
+        : [],
+    };
 
-    return new Response(JSON.stringify({ profile }), {
+    return new Response(JSON.stringify({ profile: normalizedProfile }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
