@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PhoneVerification from "./pages/PhoneVerification";
+import OTPVerification from "./pages/OTPVerification";
 import Onboarding from "./pages/Onboarding";
 import Index from "./pages/Index";
 import Results from "./pages/Results";
@@ -21,6 +22,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PhoneVerification />} />
+          <Route path="/verify-otp" element={<OTPVerification />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />

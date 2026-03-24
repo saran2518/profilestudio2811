@@ -30,8 +30,7 @@ const PhoneVerification = () => {
   const currentStep = 0;
 
   const handleContinue = () => {
-    // UI only - navigate to next step
-    navigate("/onboarding");
+    navigate("/verify-otp", { state: { phoneNumber: `${selectedCountry.code} ${phoneNumber}` } });
   };
 
   return (
