@@ -129,13 +129,18 @@ serve(async (req) => {
     const profile = JSON.parse(toolCall.function.arguments);
     const normalizedProfile = {
       ...profile,
+      bio: typeof profile.bio === "string" ? truncateWords(profile.bio, 40) : "",
       interests: Array.isArray(profile.interests)
         ? profile.interests
-            .map((interest: unknown) =>
-              typeof interest === "string" ? toTwoWords(interest) : ""
-            )
+            .map((i: unknown) => typeof i === "string" ? toTwoWords(i) : "")
             .filter(Boolean)
             .slice(0, 6)
+        : [],
+      narratives: Array.isArray(profile.narratives)
+        ? profile.narratives.map((n: any) => ({
+            title: typeof n.title === "string" ? truncateWords(n.title, 4) : "",
+            content: typeof n.content === "string" ? truncateWords(n.content, 25) : "",
+          }))
         : [],
     };
 
