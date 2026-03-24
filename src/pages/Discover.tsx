@@ -1,31 +1,18 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Heart,
-  MapPin,
   SlidersHorizontal,
   RefreshCw,
   X,
   Plus,
-  User,
-  MessageSquare,
-  Shield,
-  GraduationCap,
-  Ruler,
-  Compass,
+  Heart,
   Sparkles,
   Users,
+  Compass,
   MessageCircle,
-  BookOpen,
-  Quote,
 } from "lucide-react";
-import profileImage from "@/assets/profile-placeholder.jpg";
-import profilePhoto2 from "@/assets/profile-photo-2.jpg";
-import profilePhoto3 from "@/assets/profile-photo-3.jpg";
-import profilePhoto4 from "@/assets/profile-photo-4.jpg";
-import profilePhoto5 from "@/assets/profile-photo-5.jpg";
-import profilePhoto6 from "@/assets/profile-photo-6.jpg";
 
+import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import AboutSection from "@/components/discover/AboutSection";
@@ -36,36 +23,73 @@ import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
 import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
 
-export const PROFILE = {
-  name: "R",
-  age: 30,
-  verified: true,
-  profession: "Architect",
-  specialization: "Sustainable Design",
-  location: "Bangalore",
-  about: {
-    gender: "Man",
-    pronouns: "He / Him",
-    education: "Masters",
-    height: '6\'0"',
-  },
-  interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
-  relationshipIntent: "Meaningful Connection • Shared Experiences",
-  bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
-  narratives: [
-    { title: "Finding My Center", content: "I find my center when my hands are covered in clay and the rest of the world fades away." },
-    { title: "The Summit Within", content: "There is nothing like the stillness of a summit after a long, challenging trek." },
-  ],
-  joinMeFor: [
-    "Quiet pottery workshop afternoon",
-    "High-altitude mountain trek",
-    "Morning flower market stroll",
-  ],
-  photos: [profileImage, profilePhoto2, profilePhoto3, profilePhoto4, profilePhoto5, profilePhoto6],
-};
-
 const Discover = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [liked, setLiked] = useState(false);
+  const [direction, setDirection] = useState(0);
+
+  const profile = PROFILES[currentIndex];
+
+  const goNext = useCallback(() => {
+    if (currentIndex < PROFILES.length - 1) {
+      setDirection(1);
+      setCurrentIndex((i) => i + 1);
+      setLiked(false);
+    }
+  }, [currentIndex]);
+
+  const goPrev = useCallback(() => {
+    if (currentIndex > 0) {
+      setDirection(-1);
+      setCurrentIndex((i) => i - 1);
+      setLiked(false);
+    }
+  }, [currentIndex]);
+
+  const handlePass = () => goNext();
+  const handleConnect = () => goNext();
+
+  const buildSections = () => {
+    const sections = [
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={liked} setLiked={setLiked} profile={profile} />,
+      <AboutSection key="about" profile={profile} />,
+      <BioSection key="bio" bio={profile.bio} />,
+      <RelationshipIntentSection key="intent" intent={profile.relationshipIntent} />,
+      <InterestsSection key="interests" interests={profile.interests} />,
+      <NarrativesSection key="narratives" narratives={profile.narratives} />,
+      <JoinMeForSection key="joinmefor" items={profile.joinMeFor} />,
+    ];
+
+    const extraPhotos = profile.photos.slice(1);
+    const contentSections = sections.slice(1);
+    const result: React.ReactNode[] = [sections[0]];
+
+    if (extraPhotos.length === 0) {
+      result.push(...contentSections);
+    } else {
+      const gap = Math.max(1, Math.floor(contentSections.length / (extraPhotos.length + 1)));
+      let photoIdx = 0;
+
+      contentSections.forEach((section, i) => {
+        result.push(section);
+        if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
+          result.push(
+            <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+          );
+          photoIdx++;
+        }
+      });
+
+      while (photoIdx < extraPhotos.length) {
+        result.push(
+          <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+        );
+        photoIdx++;
+      }
+    }
+
+    return result;
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col relative">
@@ -78,10 +102,10 @@ const Discover = () => {
             </button>
           </MagicSearchFilter>
           <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5">
-            Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
+            {currentIndex + 1} / {PROFILES.length} <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
           </span>
           <div className="flex items-center gap-2">
-            <button className="p-1 hover:rotate-180 transition-transform duration-500">
+            <button className="p-1 hover:rotate-180 transition-transform duration-500" onClick={() => { setDirection(1); setCurrentIndex(0); setLiked(false); }}>
               <RefreshCw className="h-5 w-5 text-foreground" />
             </button>
           </div>
@@ -89,63 +113,26 @@ const Discover = () => {
       </header>
 
       {/* Scrollable content */}
-      <main className="flex-1 overflow-y-auto px-4 pb-28 space-y-5">
-        {(() => {
-          const sections = [
-            <ProfilePhotoCard key="hero" src={PROFILE.photos[0]} liked={liked} setLiked={setLiked} profile={PROFILE} />,
-            <AboutSection key="about" profile={PROFILE} />,
-            <BioSection key="bio" bio={PROFILE.bio} />,
-            <RelationshipIntentSection key="intent" intent={PROFILE.relationshipIntent} />,
-            <InterestsSection key="interests" interests={PROFILE.interests} />,
-            <NarrativesSection key="narratives" narratives={PROFILE.narratives} />,
-            <JoinMeForSection key="joinmefor" items={PROFILE.joinMeFor} />,
-          ];
-
-          const extraPhotos = PROFILE.photos.slice(1);
-          const contentSections = sections.slice(1);
-          const result: React.ReactNode[] = [sections[0]];
-
-          if (extraPhotos.length === 0) {
-            result.push(...contentSections);
-          } else {
-            const gap = Math.max(1, Math.floor(contentSections.length / (extraPhotos.length + 1)));
-            let photoIdx = 0;
-
-            contentSections.forEach((section, i) => {
-              result.push(section);
-              if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
-                result.push(
-                  <InterspersedPhoto
-                    key={`photo-${photoIdx}`}
-                    src={extraPhotos[photoIdx]}
-                    delay={0.2 + photoIdx * 0.05}
-                  />
-                );
-                photoIdx++;
-              }
-            });
-
-            while (photoIdx < extraPhotos.length) {
-              result.push(
-                <InterspersedPhoto
-                  key={`photo-${photoIdx}`}
-                  src={extraPhotos[photoIdx]}
-                  delay={0.2 + photoIdx * 0.05}
-                />
-              );
-              photoIdx++;
-            }
-          }
-
-          return result;
-        })()}
-      </main>
+      <AnimatePresence mode="wait" custom={direction}>
+        <motion.main
+          key={currentIndex}
+          custom={direction}
+          initial={{ opacity: 0, x: direction * 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: direction * -60 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="flex-1 overflow-y-auto px-4 pb-28 space-y-5"
+        >
+          {buildSections()}
+        </motion.main>
+      </AnimatePresence>
 
       {/* Floating action buttons */}
       <div className="fixed bottom-20 left-4 right-4 flex items-center justify-between pointer-events-none z-20">
         <motion.button
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.08 }}
+          onClick={handlePass}
           className="pointer-events-auto h-14 w-14 rounded-full border border-border/60 bg-card/90 backdrop-blur-sm flex items-center justify-center"
           style={{ boxShadow: "0 8px 32px -6px hsl(var(--foreground) / 0.12)" }}
         >
@@ -154,6 +141,7 @@ const Discover = () => {
         <motion.button
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.08 }}
+          onClick={handleConnect}
           className="pointer-events-auto h-14 w-14 rounded-full flex items-center justify-center"
           style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
         >
