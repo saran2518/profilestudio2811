@@ -142,6 +142,12 @@ serve(async (req) => {
             content: typeof n.content === "string" ? truncateWords(n.content, 25) : "",
           }))
         : [],
+      joinMeFor: Array.isArray(profile.joinMeFor)
+        ? profile.joinMeFor
+            .map((j: unknown) => typeof j === "string" ? truncateWords(j, 5) : "")
+            .filter(Boolean)
+            .slice(0, 4)
+        : [],
     };
 
     return new Response(JSON.stringify({ profile: normalizedProfile }), {
