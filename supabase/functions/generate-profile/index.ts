@@ -85,7 +85,7 @@ serve(async (req) => {
                       type: "array",
                       items: { type: "string" },
                       description:
-                        "3 short date ideas (4-5 words MAX each) that relate to the user's interests. Keep them punchy and concise, e.g. 'Sunset hike with coffee' or 'Late-night vinyl shopping'.",
+                        "4 short date ideas (5 words MAX each) that relate to the user's interests. Keep them punchy and concise, e.g. 'Sunset hike with hot coffee' or 'Late-night vinyl record shopping'.",
                     },
                   },
                   required: ["bio", "interests", "narratives", "joinMeFor"],
@@ -141,6 +141,12 @@ serve(async (req) => {
             title: typeof n.title === "string" ? truncateWords(n.title, 4) : "",
             content: typeof n.content === "string" ? truncateWords(n.content, 25) : "",
           }))
+        : [],
+      joinMeFor: Array.isArray(profile.joinMeFor)
+        ? profile.joinMeFor
+            .map((j: unknown) => typeof j === "string" ? truncateWords(j, 5) : "")
+            .filter(Boolean)
+            .slice(0, 4)
         : [],
     };
 
