@@ -53,8 +53,8 @@ export const PROFILE = {
   relationshipIntent: "Meaningful Connection • Shared Experiences",
   bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
   narratives: [
-    "I find my center when my hands are covered in clay and the rest of the world fades away.",
-    "There is nothing like the stillness of a summit after a long, challenging trek.",
+    { title: "Finding My Center", content: "I find my center when my hands are covered in clay and the rest of the world fades away." },
+    { title: "The Summit Within", content: "There is nothing like the stillness of a summit after a long, challenging trek." },
   ],
   joinMeFor: [
     "Quiet pottery workshop afternoon",
