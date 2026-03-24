@@ -15,24 +15,25 @@ const Results = () => {
   const rawProfile = location.state?.profile as any;
   const initialInput = (location.state?.input as string) || "";
 
-  // Normalize profile shape and enforce compact interests (max 2 words)
-  const toTwoWords = (value: string): string =>
-    value
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .join(" ");
+  // Truncation helpers for display
+  const truncateWords = (value: string, max: number): string =>
+    value.trim().split(/\s+/).slice(0, max).join(" ");
+
+  const toTwoWords = (value: string): string => truncateWords(value, 2);
 
   const normalizeProfile = (p: any): GeneratedProfile | undefined => {
     if (!p) return undefined;
     return {
       ...p,
+      bio: typeof p.bio === "string" ? truncateWords(p.bio, 40) : "",
       interests:
         p.interests?.map((interest: any) =>
           typeof interest === "string" ? toTwoWords(interest) : ""
         ).filter(Boolean) ?? [],
       narratives: p.narratives?.map((n: any, i: number) =>
-        typeof n === "string" ? { title: `Story ${i + 1}`, content: n } : n
+        typeof n === "string"
+          ? { title: `Story ${i + 1}`, content: truncateWords(n, 25) }
+          : { title: truncateWords(n.title || "", 4), content: truncateWords(n.content || "", 25) }
       ) ?? [],
     };
   };

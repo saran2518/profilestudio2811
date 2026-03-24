@@ -6,14 +6,11 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const truncateWords = (value: string, max: number): string =>
+  value.trim().split(/\s+/).slice(0, max).join(" ");
+
 const toTwoWords = (value: string): string =>
-  value
-    .replace(/[^\p{L}\p{N}\s'-]/gu, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(" ")
-    .slice(0, 2)
-    .join(" ");
+  truncateWords(value.replace(/[^\p{L}\p{N}\s'-]/gu, " ").replace(/\s+/g, " "), 2);
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -32,7 +29,7 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const systemPrompt = `You are a dating profile writer. Given a user's self-description, generate a compelling dating profile. You MUST respond using the generate_profile tool. Analyze the input carefully and generate content that is directly derived from what the user said — reflect their personality, hobbies, and vibe. Do NOT invent unrelated interests. Interests must be strictly 1-2 words each.`;
+    const systemPrompt = `You are a dating profile writer. Given a user's self-description, generate a compelling dating profile. You MUST respond using the generate_profile tool. Analyze the input carefully and generate content that is directly derived from what the user said — reflect their personality, hobbies, and vibe. Do NOT invent unrelated interests. STRICT LIMITS: Bio must be 30-40 words. Interests must be 1-2 words each. Narrative titles must be 2-4 words. Narrative content must be 15-25 words.`;
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -64,7 +61,7 @@ serve(async (req) => {
                     bio: {
                       type: "string",
                       description:
-                        "A compelling 2-3 sentence bio that captures the person's essence based on their input. Should feel authentic and warm.",
+                        "A compelling 2-3 sentence bio (30-40 words max) that captures the person's essence. Should feel authentic and warm.",
                     },
                     interests: {
                       type: "array",
@@ -77,8 +74,8 @@ serve(async (req) => {
                       items: {
                         type: "object",
                         properties: {
-                          title: { type: "string", description: "A short evocative heading (2-4 words) that captures the essence of this narrative snippet." },
-                          content: { type: "string", description: "A 1-2 sentence personal narrative that reveals a personality trait mentioned in the input." },
+                          title: { type: "string", description: "A short evocative heading (2-4 words max) that captures the essence of this narrative." },
+                          content: { type: "string", description: "A 1-2 sentence personal narrative (15-25 words max) that reveals a personality trait from the input." },
                         },
                         required: ["title", "content"],
                       },
@@ -132,13 +129,18 @@ serve(async (req) => {
     const profile = JSON.parse(toolCall.function.arguments);
     const normalizedProfile = {
       ...profile,
+      bio: typeof profile.bio === "string" ? truncateWords(profile.bio, 40) : "",
       interests: Array.isArray(profile.interests)
         ? profile.interests
-            .map((interest: unknown) =>
-              typeof interest === "string" ? toTwoWords(interest) : ""
-            )
+            .map((i: unknown) => typeof i === "string" ? toTwoWords(i) : "")
             .filter(Boolean)
             .slice(0, 6)
+        : [],
+      narratives: Array.isArray(profile.narratives)
+        ? profile.narratives.map((n: any) => ({
+            title: typeof n.title === "string" ? truncateWords(n.title, 4) : "",
+            content: typeof n.content === "string" ? truncateWords(n.content, 25) : "",
+          }))
         : [],
     };
 
