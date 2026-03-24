@@ -93,7 +93,7 @@ const Index = () => {
               Profile <span className="text-primary italic">Studio</span>
             </h1>
             <p className="mt-2 font-body text-muted-foreground text-sm">
-              Describe yourself and let AI craft your perfect dating profile
+              Lets craft a perfect dating profile
             </p>
           </motion.div>
         </div>
