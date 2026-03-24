@@ -131,8 +131,11 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           <div className="space-y-4">
             {current.narratives.map((narrative, idx) => (
               <div key={idx} className="group relative pl-4 border-l-2 border-primary/20 pr-10">
+                <h4 className="font-display text-[13px] font-semibold text-foreground/70 mb-1">
+                  {narrative.title}
+                </h4>
                 <p className="font-body text-card-foreground/75 leading-relaxed text-[15px]">
-                  {narrative}
+                  {narrative.content}
                 </p>
                 <button
                   onClick={() => openEdit({ type: "narrative", index: idx })}
