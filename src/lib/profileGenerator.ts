@@ -1,10 +1,15 @@
 // Simulated profile expansion logic
 // In a real app, this would call an AI API
 
+export interface NarrativeItem {
+  title: string;
+  content: string;
+}
+
 export interface GeneratedProfile {
   bio: string;
   interests: string[];
-  narratives: string[];
+  narratives: NarrativeItem[];
   joinMeFor: string[];
 }
 
@@ -69,11 +74,11 @@ export function generateProfile(input: string): GeneratedProfile {
   const bio = bioTemplates[Math.floor(Math.random() * bioTemplates.length)];
 
   // Generate narratives
-  const narrativeTemplates = [
-    `The most spontaneous thing I've done? Probably following my curiosity wherever it leads — which is exactly how I ended up here.`,
-    `I'm the kind of person who remembers the small details: your favorite song, how you take your coffee, the story behind your laugh.`,
-    `My friends would describe me as the one who always has a plan B (and C), but secretly loves when things go completely off-script.`,
-    `I believe every great relationship starts with two people who aren't afraid to be completely, unapologetically themselves.`,
+  const narrativeTemplates: NarrativeItem[] = [
+    { title: "Following Curiosity", content: "The most spontaneous thing I've done? Probably following my curiosity wherever it leads — which is exactly how I ended up here." },
+    { title: "The Little Things", content: "I'm the kind of person who remembers the small details: your favorite song, how you take your coffee, the story behind your laugh." },
+    { title: "Beautifully Off-Script", content: "My friends would describe me as the one who always has a plan B (and C), but secretly loves when things go completely off-script." },
+    { title: "Unapologetically Us", content: "I believe every great relationship starts with two people who aren't afraid to be completely, unapologetically themselves." },
   ];
   const narratives = pickRandom(narrativeTemplates, 2);
 

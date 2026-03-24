@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
+import type { NarrativeItem } from "@/lib/profileGenerator";
 
-const NARRATIVE_TITLES = ["Finding My Center", "The Summit Within"];
-
-export default function NarrativesSection({ narratives }: { narratives: string[] }) {
+export default function NarrativesSection({ narratives }: { narratives: NarrativeItem[] }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -28,10 +27,10 @@ export default function NarrativesSection({ narratives }: { narratives: string[]
               >
                 {idx > 0 && <div className="my-4 h-px bg-border/60" />}
                 <h4 className="font-display text-[13px] font-semibold text-foreground/70 mb-1.5">
-                  {NARRATIVE_TITLES[idx] || `Story ${idx + 1}`}
+                  {narrative.title}
                 </h4>
                 <p className="font-body text-card-foreground/80 leading-relaxed text-[15px] italic">
-                  {narrative}
+                  {narrative.content}
                 </p>
               </motion.div>
             ))}

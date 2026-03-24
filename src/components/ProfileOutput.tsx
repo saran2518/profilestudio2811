@@ -50,7 +50,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const openEdit = (target: EditTarget) => {
     if (!target) return;
     if (target.type === "bio") setDraft(current.bio);
-    else if (target.type === "narrative") setDraft(current.narratives[target.index]);
+    else if (target.type === "narrative") setDraft(current.narratives[target.index].content);
     else if (target.type === "joinMeFor") setDraft(current.joinMeFor[target.index]);
     else if (target.type === "interests") {
       setInterestsDraft([...current.interests]);
@@ -64,7 +64,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     if (editTarget.type === "bio") update({ bio: draft });
     else if (editTarget.type === "narrative") {
       const next = [...current.narratives];
-      next[editTarget.index] = draft;
+      next[editTarget.index] = { ...next[editTarget.index], content: draft };
       update({ narratives: next });
     } else if (editTarget.type === "joinMeFor") {
       const next = [...current.joinMeFor];
@@ -131,8 +131,11 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           <div className="space-y-4">
             {current.narratives.map((narrative, idx) => (
               <div key={idx} className="group relative pl-4 border-l-2 border-primary/20 pr-10">
+                <h4 className="font-display text-[13px] font-semibold text-foreground/70 mb-1">
+                  {narrative.title}
+                </h4>
                 <p className="font-body text-card-foreground/75 leading-relaxed text-[15px]">
-                  {narrative}
+                  {narrative.content}
                 </p>
                 <button
                   onClick={() => openEdit({ type: "narrative", index: idx })}
