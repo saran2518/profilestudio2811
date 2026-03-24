@@ -226,7 +226,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
               className="font-body text-sm resize-none rounded-xl"
               autoFocus
             />
-            />
           )}
 
           {editTarget?.type === "interests" && (
