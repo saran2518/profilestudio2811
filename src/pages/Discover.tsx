@@ -11,7 +11,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 
-import { PROFILES } from "@/lib/profilesData";
+import { PROFILES, ProfileData } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import AboutSection from "@/components/discover/AboutSection";
