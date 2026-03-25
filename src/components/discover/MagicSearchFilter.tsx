@@ -194,7 +194,10 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             Reset
           </button>
           <button
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              onApply?.(searchTags);
+              setOpen(false);
+            }}
             className="rounded-full px-8 py-3 font-body text-sm font-semibold text-primary-foreground"
             style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
           >
