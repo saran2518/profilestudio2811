@@ -104,8 +104,8 @@ const Discover = () => {
             Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
           </span>
           <div className="flex items-center gap-2">
-            <button className="p-1 hover:rotate-180 transition-transform duration-500" onClick={() => { setDirection(1); setCurrentIndex(0); setLiked(false); }}>
-              <RefreshCw className="h-5 w-5 text-foreground" />
+            <button className="p-1 hover:-translate-x-0.5 transition-transform duration-300" onClick={goPrev}>
+              <Undo2 className="h-5 w-5 text-foreground" />
             </button>
           </div>
         </div>
