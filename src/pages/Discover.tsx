@@ -12,7 +12,7 @@ import {
   Search,
 } from "lucide-react";
 
-import { PROFILES, ProfileData } from "@/lib/profilesData";
+import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import AboutSection from "@/components/discover/AboutSection";
@@ -23,25 +23,27 @@ import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
 import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
 import InviteDialog from "@/components/discover/InviteDialog";
+import VibeDialog from "@/components/discover/VibeDialog";
+
+type VibeSection = "Photo" | "Bio" | "Interests" | "Narratives" | "Join Me For" | string;
 
 const Discover = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [liked, setLiked] = useState(false);
   const [direction, setDirection] = useState(0);
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [inviteOpen, setInviteOpen] = useState(false);
+
+  // Vibe state
+  const [vibedSections, setVibedSections] = useState<Set<string>>(new Set());
+  const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
+  const [vibeDialogSection, setVibeDialogSection] = useState<VibeSection>("");
 
   const filteredProfiles = filterTags.length === 0
     ? PROFILES
     : PROFILES.filter((p) => {
         const searchable = [
-          p.bio,
-          p.profession,
-          p.specialization,
-          p.relationshipIntent,
-          ...p.interests,
-          ...p.narratives.map((n) => n.content),
-          ...p.joinMeFor,
+          p.bio, p.profession, p.specialization, p.relationshipIntent,
+          ...p.interests, ...p.narratives.map((n) => n.content), ...p.joinMeFor,
         ].join(" ").toLowerCase();
         return filterTags.some((tag) => searchable.includes(tag.toLowerCase()));
       });
@@ -52,7 +54,7 @@ const Discover = () => {
     if (currentIndex < filteredProfiles.length - 1) {
       setDirection(1);
       setCurrentIndex((i) => i + 1);
-      setLiked(false);
+      setVibedSections(new Set());
     }
   }, [currentIndex, filteredProfiles.length]);
 
@@ -60,22 +62,39 @@ const Discover = () => {
     if (currentIndex > 0) {
       setDirection(-1);
       setCurrentIndex((i) => i - 1);
-      setLiked(false);
+      setVibedSections(new Set());
     }
   }, [currentIndex]);
+
+  const openVibeDialog = (section: VibeSection) => {
+    setVibeDialogSection(section);
+    setVibeDialogOpen(true);
+  };
+
+  const handleSendVibe = () => {
+    setVibedSections((prev) => new Set(prev).add(vibeDialogSection));
+    setVibeDialogOpen(false);
+  };
+
+  const handleVibeToInvite = () => {
+    setVibeDialogOpen(false);
+    setInviteOpen(true);
+  };
 
   const handlePass = () => goNext();
   const handleConnect = () => setInviteOpen(true);
 
+  const isVibed = (section: string) => vibedSections.has(section);
+
   const buildSections = () => {
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={liked} setLiked={setLiked} profile={profile} />,
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Photo")} onVibe={() => openVibeDialog("Photo")} profile={profile} />,
       <AboutSection key="about" profile={profile} />,
-      <BioSection key="bio" bio={profile.bio} />,
+      <BioSection key="bio" bio={profile.bio} vibed={isVibed("Bio")} onVibe={() => openVibeDialog("Bio")} />,
       <RelationshipIntentSection key="intent" intent={profile.relationshipIntent} />,
-      <InterestsSection key="interests" interests={profile.interests} />,
-      <NarrativesSection key="narratives" narratives={profile.narratives} />,
-      <JoinMeForSection key="joinmefor" items={profile.joinMeFor} />,
+      <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
+      <NarrativesSection key="narratives" narratives={profile.narratives} vibed={isVibed("Narratives")} onVibe={() => openVibeDialog("Narratives")} />,
+      <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={isVibed("Join Me For")} onVibe={() => openVibeDialog("Join Me For")} />,
     ];
 
     const extraPhotos = profile.photos.slice(1);
@@ -91,16 +110,20 @@ const Discover = () => {
       contentSections.forEach((section, i) => {
         result.push(section);
         if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
+          const pIdx = photoIdx;
+          const sectionKey = `Photo ${pIdx + 2}`;
           result.push(
-            <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+            <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog(sectionKey)} />
           );
           photoIdx++;
         }
       });
 
       while (photoIdx < extraPhotos.length) {
+        const pIdx = photoIdx;
+        const sectionKey = `Photo ${pIdx + 2}`;
         result.push(
-          <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog(sectionKey)} />
         );
         photoIdx++;
       }
@@ -114,7 +137,7 @@ const Discover = () => {
       {/* Frosted top bar */}
       <header className="px-4 pt-3 pb-2 sticky top-0 z-30">
         <div className="flex items-center justify-between rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5" style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}>
-          <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setLiked(false); }}>
+          <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
             <button className="p-1 hover:scale-110 transition-transform">
               <SlidersHorizontal className="h-5 w-5 text-foreground" />
             </button>
@@ -174,6 +197,15 @@ const Discover = () => {
           <Plus className="h-6 w-6 text-primary-foreground" />
         </motion.button>
       </div>
+
+      {/* Vibe Dialog */}
+      <VibeDialog
+        open={vibeDialogOpen}
+        sectionName={vibeDialogSection}
+        onSendVibe={handleSendVibe}
+        onCancel={() => setVibeDialogOpen(false)}
+        onSendInvite={handleVibeToInvite}
+      />
 
       {/* Invite Dialog */}
       <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} profileName={profile?.name} />

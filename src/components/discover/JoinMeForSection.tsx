@@ -1,10 +1,13 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, HeartPulse } from "lucide-react";
 
-export default function JoinMeForSection({ items }: { items: string[] }) {
-  const [vibed, setVibed] = useState(false);
+interface Props {
+  items: string[];
+  vibed: boolean;
+  onVibe: () => void;
+}
 
+export default function JoinMeForSection({ items, vibed, onVibe }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -13,10 +16,9 @@ export default function JoinMeForSection({ items }: { items: string[] }) {
       className="rounded-2xl border border-border/50 bg-card p-5 relative"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      {/* Vibe button */}
       <motion.button
         whileTap={{ scale: 0.85 }}
-        onClick={() => setVibed(!vibed)}
+        onClick={onVibe}
         className="absolute top-4 right-4 h-9 w-9 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors z-10"
         style={{ backgroundColor: vibed ? "hsl(var(--primary))" : "hsl(var(--muted))" }}
       >

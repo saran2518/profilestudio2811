@@ -1,11 +1,14 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Quote, HeartPulse } from "lucide-react";
 import type { NarrativeItem } from "@/lib/profileGenerator";
 
-export default function NarrativesSection({ narratives }: { narratives: NarrativeItem[] }) {
-  const [vibed, setVibed] = useState(false);
+interface Props {
+  narratives: NarrativeItem[];
+  vibed: boolean;
+  onVibe: () => void;
+}
 
+export default function NarrativesSection({ narratives, vibed, onVibe }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -16,10 +19,9 @@ export default function NarrativesSection({ narratives }: { narratives: Narrativ
     >
       <div className="absolute top-0 left-0 w-1 h-full rounded-r-full" style={{ background: "var(--gradient-warm)" }} />
 
-      {/* Vibe button */}
       <motion.button
         whileTap={{ scale: 0.85 }}
-        onClick={() => setVibed(!vibed)}
+        onClick={onVibe}
         className="absolute top-4 right-4 h-9 w-9 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors z-10"
         style={{ backgroundColor: vibed ? "hsl(var(--primary))" : "hsl(var(--muted))" }}
       >

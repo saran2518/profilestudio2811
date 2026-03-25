@@ -13,12 +13,12 @@ import RelationshipIntentSection from "@/components/discover/RelationshipIntentS
 import type { GeneratedProfile } from "@/lib/profileGenerator";
 import { PROFILES } from "@/lib/profilesData";
 
+const noop = () => {};
+
 const Preview = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const profile = location.state?.profile as GeneratedProfile | undefined;
-
-  // Use the first example profile as a visual template for fields the generated profile doesn't have
   const template = PROFILES[0];
 
   if (!profile) {
@@ -42,13 +42,12 @@ const Preview = () => {
     );
   }
 
-  // Build the same section order as Discover, using template for missing fields
   const sections = [
     <ProfilePhotoCard
       key="hero"
       src={template.photos[0]}
       liked={false}
-      setLiked={() => {}}
+      onVibe={noop}
       profile={{
         name: template.name,
         age: template.age,
@@ -59,14 +58,13 @@ const Preview = () => {
       }}
     />,
     <AboutSection key="about" profile={{ about: template.about }} />,
-    <BioSection key="bio" bio={profile.bio} />,
+    <BioSection key="bio" bio={profile.bio} vibed={false} onVibe={noop} />,
     <RelationshipIntentSection key="intent" intent={template.relationshipIntent} />,
-    <InterestsSection key="interests" interests={profile.interests} />,
-    <NarrativesSection key="narratives" narratives={profile.narratives} />,
-    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} />,
+    <InterestsSection key="interests" interests={profile.interests} vibed={false} onVibe={noop} />,
+    <NarrativesSection key="narratives" narratives={profile.narratives} vibed={false} onVibe={noop} />,
+    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={false} onVibe={noop} />,
   ];
 
-  // Intersperse extra photos between content sections
   const extraPhotos = template.photos.slice(1);
   const contentSections = sections.slice(1);
   const result: React.ReactNode[] = [sections[0]];
@@ -81,7 +79,7 @@ const Preview = () => {
       result.push(section);
       if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
         result.push(
-          <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+          <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} vibed={false} onVibe={noop} />
         );
         photoIdx++;
       }
@@ -89,7 +87,7 @@ const Preview = () => {
 
     while (photoIdx < extraPhotos.length) {
       result.push(
-        <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} />
+        <InterspersedPhoto key={`photo-${photoIdx}`} src={extraPhotos[photoIdx]} delay={0.2 + photoIdx * 0.05} vibed={false} onVibe={noop} />
       );
       photoIdx++;
     }
@@ -97,25 +95,18 @@ const Preview = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Back button header */}
       <header className="sticky top-0 z-30 px-4 pt-3 pb-2">
         <div
           className="flex items-center gap-3 rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5"
           style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}
         >
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate(-1)}
-            className="shrink-0 rounded-full h-9 w-9"
-          >
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="shrink-0 rounded-full h-9 w-9">
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <span className="font-display text-base font-semibold text-foreground">Profile Preview</span>
         </div>
       </header>
 
-      {/* Profile sections — same layout as Discover */}
       <main className="flex-1 px-4 pb-8 space-y-5 mt-2">
         {result}
       </main>
