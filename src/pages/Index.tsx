@@ -8,16 +8,12 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 const PROMPT_STARTERS = [
-  "I'm someone who loves...",
-  "People notice that I...",
-  "My passions include...",
-  "I geek out over...",
-  "My friends would say I'm...",
-  "The most spontaneous thing I've done is...",
-  "A perfect date for me is...",
-  "On weekends you'll find me...",
-  "I value most in a partner...",
-  "I can't stop talking about...",
+  "My work is about… and I approach life with…",
+  "A weekend that feels right to me includes…",
+  "One quality people notice about me is…",
+  "I value connections that are…",
+  "When I truly switch off, you will find me…",
+  "Right now, I am focused on…",
 ];
 
 const Index = () => {
