@@ -19,6 +19,7 @@ const SUGGESTED_TAGS = ["Creative Thinker", "Fitness Enthusiast", "Startup Found
 
 interface MagicSearchFilterProps {
   children: React.ReactNode;
+  onApply?: (tags: string[]) => void;
 }
 
 const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
