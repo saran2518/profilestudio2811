@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   SlidersHorizontal,
-  RefreshCw,
+  Undo2,
   X,
   Plus,
   Heart,
