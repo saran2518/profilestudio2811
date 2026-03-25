@@ -91,6 +91,17 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 onKeyDown={handleAddTag}
                 className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
               />
+              <button
+                onClick={() => {
+                  if (searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
+                    setSearchTags([...searchTags, searchQuery.trim()]);
+                    setSearchQuery("");
+                  }
+                }}
+                className="h-6 w-6 rounded-full bg-primary flex items-center justify-center shrink-0 hover:opacity-80 transition-opacity"
+              >
+                <span className="text-primary-foreground text-sm font-bold leading-none">+</span>
+              </button>
             </div>
             <p className="text-xs font-body text-muted-foreground px-1">
               Search by mindset, interests, hobbies, or work habits
