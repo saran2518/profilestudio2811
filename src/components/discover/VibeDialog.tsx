@@ -23,73 +23,61 @@ export default function VibeDialog({ open, sectionName, onSendVibe, onCancel, on
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-4 right-4 z-50 rounded-3xl border border-border/30 bg-card/95 backdrop-blur-xl overflow-hidden"
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 60 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-4 bottom-24 z-50 rounded-[28px] border border-border/20 bg-card/95 backdrop-blur-2xl overflow-hidden"
             style={{
-              top: "50%",
-              transform: "translateY(-50%)",
-              boxShadow: "0 20px 60px -12px hsl(var(--primary) / 0.2), 0 0 0 1px hsl(var(--primary) / 0.05)",
+              boxShadow: "0 -8px 50px -10px hsl(var(--primary) / 0.18), 0 0 0 1px hsl(var(--primary) / 0.04)",
             }}
           >
-            {/* Top gradient */}
-            <div className="h-1 w-full" style={{ background: "var(--gradient-warm)" }} />
+            {/* Warm gradient top accent */}
+            <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
 
-            <div className="p-5 pt-4">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="h-9 w-9 rounded-full flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2))" }}
-                  >
-                    <HeartPulse className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-base font-semibold text-card-foreground">Send a Vibe</h3>
-                    <p className="text-xs text-muted-foreground font-body">on their <span className="text-foreground font-medium">{sectionName}</span></p>
-                  </div>
-                </div>
-                <motion.button
-                  whileTap={{ scale: 0.85 }}
-                  onClick={onCancel}
-                  className="h-8 w-8 rounded-full bg-muted/60 flex items-center justify-center hover:bg-muted transition-colors"
-                >
-                  <X className="h-3.5 w-3.5 text-muted-foreground" />
-                </motion.button>
-              </div>
+            <div className="px-6 pt-5 pb-6 flex flex-col items-center text-center">
+              {/* Close */}
+              <motion.button
+                whileTap={{ scale: 0.85 }}
+                onClick={onCancel}
+                className="absolute top-4 right-4 h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center hover:bg-muted transition-colors"
+              >
+                <X className="h-3.5 w-3.5 text-muted-foreground" />
+              </motion.button>
 
-              {/* Vibe preview */}
+              {/* Animated icon */}
               <div
-                className="rounded-2xl p-4 mb-4 text-center"
-                style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.08), hsl(var(--accent) / 0.12))" }}
+                className="h-16 w-16 rounded-full flex items-center justify-center mb-4"
+                style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--accent) / 0.18))" }}
               >
                 <motion.div
-                  animate={{ scale: [1, 1.15, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <HeartPulse className="h-10 w-10 text-primary mx-auto mb-2" />
+                  <HeartPulse className="h-8 w-8 text-primary" />
                 </motion.div>
-                <p className="font-body text-sm text-foreground/70">
-                  Let them know you vibe with their <span className="font-medium text-foreground">{sectionName}</span>
-                </p>
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-3 mb-3">
+              {/* Title & subtitle */}
+              <h3 className="font-display text-lg font-bold text-card-foreground mb-1">Send a Vibe</h3>
+              <p className="font-body text-sm text-muted-foreground mb-5">
+                Let them know you vibe with their{" "}
+                <span className="text-foreground font-semibold">{sectionName}</span>
+              </p>
+
+              {/* Primary actions */}
+              <div className="flex gap-3 w-full mb-3">
                 <motion.button
                   whileTap={{ scale: 0.96 }}
                   onClick={onCancel}
-                  className="flex-1 py-3 rounded-2xl border border-border/50 bg-muted/30 text-sm font-medium text-muted-foreground hover:bg-muted transition-colors font-body"
+                  className="flex-1 py-3.5 rounded-2xl border border-border/50 bg-muted/30 text-sm font-medium text-muted-foreground hover:bg-muted transition-colors font-body"
                 >
                   Cancel
                 </motion.button>
                 <motion.button
                   whileTap={{ scale: 0.96 }}
                   onClick={onSendVibe}
-                  className="flex-1 py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 font-body"
+                  className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 font-body"
                   style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
                 >
                   <HeartPulse className="h-4 w-4" />
@@ -97,17 +85,24 @@ export default function VibeDialog({ open, sectionName, onSendVibe, onCancel, on
                 </motion.button>
               </div>
 
+              {/* Divider */}
+              <div className="flex items-center gap-3 w-full mb-3">
+                <div className="flex-1 h-px bg-border/40" />
+                <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60 font-body">or</span>
+                <div className="flex-1 h-px bg-border/40" />
+              </div>
+
               {/* Invite upsell */}
               <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={onSendInvite}
-                className="w-full py-3 rounded-2xl border border-primary/20 text-sm font-medium flex items-center justify-center gap-2 transition-all hover:border-primary/40 font-body"
-                style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.06), hsl(var(--accent) / 0.08))" }}
+                className="w-full py-3.5 rounded-2xl border border-primary/15 text-sm font-medium flex items-center justify-center gap-2 transition-all hover:border-primary/30 font-body"
+                style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.05), hsl(var(--accent) / 0.07))" }}
               >
                 <Send className="h-3.5 w-3.5 text-primary" />
-                <span className="text-foreground/80">Send an Invite instead</span>
-                <span className="text-[10px] text-primary flex items-center gap-0.5 ml-1">
-                  <Sparkles className="h-3 w-3" /> More chances to stand out!
+                <span className="text-foreground/80">Send an Invite</span>
+                <span className="text-[10px] text-primary flex items-center gap-0.5 font-semibold">
+                  <Sparkles className="h-3 w-3" /> Stand out more!
                 </span>
               </motion.button>
             </div>
