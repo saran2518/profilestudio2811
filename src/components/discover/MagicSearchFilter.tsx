@@ -28,9 +28,9 @@ const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
   const [ageRange, setAgeRange] = useState([25, 35]);
   const [distance, setDistance] = useState([45]);
   const [heightRange, setHeightRange] = useState([160, 185]);
-  const [relationship, setRelationship] = useState("Long-term");
-  const [education, setEducation] = useState("Masters");
-  const [gender, setGender] = useState("Women");
+  const [relationship, setRelationship] = useState<string[]>(["Long-term"]);
+  const [education, setEducation] = useState<string[]>(["Masters"]);
+  const [gender, setGender] = useState<string[]>(["Women"]);
 
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
