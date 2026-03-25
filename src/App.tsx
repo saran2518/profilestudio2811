@@ -21,6 +21,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<OnboardingModule1 />} />
+          <Route path="/onboarding-module-1" element={<OnboardingModule1 />} />
           <Route path="/profile-studio-intro" element={<ProfileStudioIntro />} />
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
