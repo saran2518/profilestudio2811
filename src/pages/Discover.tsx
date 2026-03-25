@@ -22,12 +22,14 @@ import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
 import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
+import InviteDialog from "@/components/discover/InviteDialog";
 
 const Discover = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const [direction, setDirection] = useState(0);
   const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [inviteOpen, setInviteOpen] = useState(false);
 
   const filteredProfiles = filterTags.length === 0
     ? PROFILES
