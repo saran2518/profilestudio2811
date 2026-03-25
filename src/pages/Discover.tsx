@@ -111,7 +111,7 @@ const Discover = () => {
       {/* Frosted top bar */}
       <header className="px-4 pt-3 pb-2 sticky top-0 z-30">
         <div className="flex items-center justify-between rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5" style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}>
-          <MagicSearchFilter>
+          <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setLiked(false); }}>
             <button className="p-1 hover:scale-110 transition-transform">
               <SlidersHorizontal className="h-5 w-5 text-foreground" />
             </button>
