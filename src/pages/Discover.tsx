@@ -163,29 +163,29 @@ const Discover = () => {
   );
 };
 
-function NavItem({ icon, active }: { icon: React.ReactNode; active?: boolean }) {
+function NavItem({ icon, label, active }: { icon: React.ReactNode; label: string; active?: boolean }) {
   return (
     <button
-      className={`relative p-2.5 rounded-xl transition-all duration-200 ${
+      className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
         active ? "text-primary scale-110" : "text-muted-foreground hover:text-foreground"
       }`}
     >
       {icon}
+      <span className="text-[10px] font-medium leading-none">{label}</span>
       {active && (
         <motion.div
           layoutId="nav-indicator"
-          className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary"
+          className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary"
         />
       )}
     </button>
   );
 }
 
-function LinkIcon() {
+function InfinityIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M15 7h2a5 5 0 0 1 0 10h-2m-6 0H7A5 5 0 0 1 7 7h2" />
-      <line x1="8" y1="12" x2="16" y2="12" />
+      <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z" />
     </svg>
   );
 }
