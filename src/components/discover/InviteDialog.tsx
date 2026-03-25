@@ -15,6 +15,7 @@ const INVITE_TYPES = [
 interface InviteDialogProps {
   open: boolean;
   onClose: () => void;
+  onSent?: () => void;
   profileName?: string;
 }
 
