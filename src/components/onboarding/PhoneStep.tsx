@@ -1,16 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Phone, User, Mail, CheckCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-const ONBOARDING_STEPS = [
-  { label: "Phone", icon: Phone },
-  { label: "Profile", icon: User },
-  { label: "Email", icon: Mail },
-  { label: "Done", icon: CheckCircle },
-];
 
 const COUNTRY_CODES = [
   { code: "+91", flag: "🇮🇳", name: "India" },
@@ -22,20 +14,18 @@ const COUNTRY_CODES = [
   { code: "+81", flag: "🇯🇵", name: "Japan" },
 ];
 
-const PhoneVerification = () => {
-  const navigate = useNavigate();
+interface PhoneStepProps {
+  onNext: (phoneNumber: string) => void;
+}
+
+const PhoneStep = ({ onNext }: PhoneStepProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0]);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
-  const currentStep = 0;
-
-  const handleContinue = () => {
-    navigate("/verify-otp", { state: { phoneNumber: `${selectedCountry.code} ${phoneNumber}` } });
-  };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col px-6 py-10">
-      {/* Top section with branding */}
+    <>
+      {/* Branding */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -45,72 +35,6 @@ const PhoneVerification = () => {
         <p className="font-body text-[10px] font-semibold uppercase tracking-[0.35em] text-primary/70">
           Profile Studio
         </p>
-      </motion.div>
-
-      {/* Stepper */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="w-full max-w-xs mx-auto mb-14"
-      >
-        <div className="flex items-start justify-between relative">
-          {/* Background line */}
-          <div className="absolute top-[18px] left-[12%] right-[12%] h-[2px] bg-border/50 rounded-full" />
-          {/* Active progress line */}
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: "0%" }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="absolute top-[18px] left-[12%] h-[2px] rounded-full"
-            style={{ background: "var(--gradient-warm)" }}
-          />
-
-          {ONBOARDING_STEPS.map((step, i) => {
-            const Icon = step.icon;
-            const isActive = i === currentStep;
-            const isCompleted = i < currentStep;
-
-            return (
-              <motion.div
-                key={step.label}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.15 + i * 0.08 }}
-                className="flex flex-col items-center z-10 gap-2"
-              >
-                <div
-                  className={`h-9 w-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    isActive
-                      ? "text-primary-foreground shadow-md"
-                      : isCompleted
-                      ? "text-primary-foreground shadow-sm"
-                      : "bg-secondary text-muted-foreground"
-                  }`}
-                  style={
-                    isActive || isCompleted
-                      ? {
-                          background: "var(--gradient-warm)",
-                          boxShadow: "0 4px 14px -3px hsl(12 76% 61% / 0.35)",
-                        }
-                      : undefined
-                  }
-                >
-                  <Icon className="h-4 w-4" />
-                </div>
-                <span
-                  className={`font-body text-[10px] text-center leading-tight ${
-                    isActive
-                      ? "text-foreground font-semibold"
-                      : "text-muted-foreground/70"
-                  }`}
-                >
-                  {step.label}
-                </span>
-              </motion.div>
-            );
-          })}
-        </div>
       </motion.div>
 
       {/* Main content */}
@@ -131,7 +55,6 @@ const PhoneVerification = () => {
           </p>
         </motion.div>
 
-        {/* Phone input */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -143,7 +66,6 @@ const PhoneVerification = () => {
               className="flex items-center rounded-2xl border border-border/60 bg-card/80 backdrop-blur-sm overflow-hidden"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
-              {/* Country code selector */}
               <button
                 type="button"
                 onClick={() => setShowCountryPicker(!showCountryPicker)}
@@ -155,8 +77,6 @@ const PhoneVerification = () => {
                 </span>
                 <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
               </button>
-
-              {/* Phone number input */}
               <Input
                 type="tel"
                 placeholder="Enter phone number"
@@ -166,7 +86,6 @@ const PhoneVerification = () => {
               />
             </div>
 
-            {/* Country picker dropdown */}
             {showCountryPicker && (
               <motion.div
                 initial={{ opacity: 0, y: -4 }}
@@ -208,7 +127,7 @@ const PhoneVerification = () => {
       >
         <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}>
           <Button
-            onClick={handleContinue}
+            onClick={() => onNext(`${selectedCountry.code} ${phoneNumber}`)}
             disabled={phoneNumber.length < 6}
             size="lg"
             className="w-full font-body font-semibold rounded-2xl text-[15px] h-[52px] border-0 disabled:opacity-40"
@@ -226,15 +145,14 @@ const PhoneVerification = () => {
             </span>
           </Button>
         </motion.div>
-
         <p className="font-body text-[11px] text-muted-foreground/40 text-center leading-relaxed px-4">
           By continuing, you agree to our{" "}
           <span className="text-primary/60 cursor-pointer">Terms of Service</span> and{" "}
           <span className="text-primary/60 cursor-pointer">Privacy Policy</span>
         </p>
       </motion.div>
-    </div>
+    </>
   );
 };
 
-export default PhoneVerification;
+export default PhoneStep;
