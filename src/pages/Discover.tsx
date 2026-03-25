@@ -8,7 +8,6 @@ import {
   Heart,
   Sparkles,
   Users,
-  Compass,
   MessageCircle,
 } from "lucide-react";
 
