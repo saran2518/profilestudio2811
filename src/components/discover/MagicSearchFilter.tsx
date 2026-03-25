@@ -49,9 +49,9 @@ const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
     setAgeRange([18, 50]);
     setDistance([50]);
     setHeightRange([150, 200]);
-    setRelationship("Long-term");
-    setEducation("Masters");
-    setGender("Women");
+    setRelationship(["Long-term"]);
+    setEducation(["Masters"]);
+    setGender(["Women"]);
   };
 
   return (
