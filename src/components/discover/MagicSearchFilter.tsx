@@ -91,6 +91,17 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 onKeyDown={handleAddTag}
                 className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
               />
+              <button
+                onClick={() => {
+                  if (searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
+                    setSearchTags([...searchTags, searchQuery.trim()]);
+                    setSearchQuery("");
+                  }
+                }}
+                className="h-6 w-6 rounded-full bg-primary flex items-center justify-center shrink-0 hover:opacity-80 transition-opacity"
+              >
+                <span className="text-primary-foreground text-sm font-bold leading-none">+</span>
+              </button>
             </div>
             <p className="text-xs font-body text-muted-foreground px-1">
               Search by mindset, interests, hobbies, or work habits
@@ -119,6 +130,16 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
           {/* Tags */}
           {searchTags.length > 0 && (
+            <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-body font-medium text-muted-foreground">{searchTags.length} keyword{searchTags.length !== 1 ? "s" : ""}</span>
+              <button
+                onClick={() => setSearchTags([])}
+                className="text-xs font-body font-medium text-destructive hover:underline transition-colors"
+              >
+                Clear all
+              </button>
+            </div>
             <div className="flex flex-wrap gap-2">
               {searchTags.map((tag) => (
                 <span
@@ -131,6 +152,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   </button>
                 </span>
               ))}
+            </div>
             </div>
           )}
 
