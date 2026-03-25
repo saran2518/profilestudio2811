@@ -65,7 +65,7 @@ const Discover = () => {
   }, [currentIndex]);
 
   const handlePass = () => goNext();
-  const handleConnect = () => goNext();
+  const handleConnect = () => setInviteOpen(true);
 
   const buildSections = () => {
     const sections = [
