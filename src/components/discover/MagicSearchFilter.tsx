@@ -130,6 +130,16 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
           {/* Tags */}
           {searchTags.length > 0 && (
+            <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-body font-medium text-muted-foreground">{searchTags.length} keyword{searchTags.length !== 1 ? "s" : ""}</span>
+              <button
+                onClick={() => setSearchTags([])}
+                className="text-xs font-body font-medium text-destructive hover:underline transition-colors"
+              >
+                Clear all
+              </button>
+            </div>
             <div className="flex flex-wrap gap-2">
               {searchTags.map((tag) => (
                 <span
