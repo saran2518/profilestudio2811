@@ -46,12 +46,12 @@ const Discover = () => {
   const profile = filteredProfiles[currentIndex] || filteredProfiles[0];
 
   const goNext = useCallback(() => {
-    if (currentIndex < PROFILES.length - 1) {
+    if (currentIndex < filteredProfiles.length - 1) {
       setDirection(1);
       setCurrentIndex((i) => i + 1);
       setLiked(false);
     }
-  }, [currentIndex]);
+  }, [currentIndex, filteredProfiles.length]);
 
   const goPrev = useCallback(() => {
     if (currentIndex > 0) {
