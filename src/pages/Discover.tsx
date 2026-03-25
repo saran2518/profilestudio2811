@@ -9,9 +9,10 @@ import {
   Sparkles,
   Users,
   MessageCircle,
+  Search,
 } from "lucide-react";
 
-import { PROFILES } from "@/lib/profilesData";
+import { PROFILES, ProfileData } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import AboutSection from "@/components/discover/AboutSection";
@@ -26,16 +27,32 @@ const Discover = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const [direction, setDirection] = useState(0);
+  const [filterTags, setFilterTags] = useState<string[]>([]);
 
-  const profile = PROFILES[currentIndex];
+  const filteredProfiles = filterTags.length === 0
+    ? PROFILES
+    : PROFILES.filter((p) => {
+        const searchable = [
+          p.bio,
+          p.profession,
+          p.specialization,
+          p.relationshipIntent,
+          ...p.interests,
+          ...p.narratives.map((n) => n.content),
+          ...p.joinMeFor,
+        ].join(" ").toLowerCase();
+        return filterTags.some((tag) => searchable.includes(tag.toLowerCase()));
+      });
+
+  const profile = filteredProfiles[currentIndex] || filteredProfiles[0];
 
   const goNext = useCallback(() => {
-    if (currentIndex < PROFILES.length - 1) {
+    if (currentIndex < filteredProfiles.length - 1) {
       setDirection(1);
       setCurrentIndex((i) => i + 1);
       setLiked(false);
     }
-  }, [currentIndex]);
+  }, [currentIndex, filteredProfiles.length]);
 
   const goPrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -95,7 +112,7 @@ const Discover = () => {
       {/* Frosted top bar */}
       <header className="px-4 pt-3 pb-2 sticky top-0 z-30">
         <div className="flex items-center justify-between rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5" style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}>
-          <MagicSearchFilter>
+          <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setLiked(false); }}>
             <button className="p-1 hover:scale-110 transition-transform">
               <SlidersHorizontal className="h-5 w-5 text-foreground" />
             </button>
@@ -112,19 +129,27 @@ const Discover = () => {
       </header>
 
       {/* Scrollable content */}
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.main
-          key={currentIndex}
-          custom={direction}
-          initial={{ opacity: 0, x: direction * 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: direction * -60 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="flex-1 overflow-y-auto px-4 pb-28 space-y-5"
-        >
-          {buildSections()}
-        </motion.main>
-      </AnimatePresence>
+      {filteredProfiles.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-3">
+          <Search className="h-10 w-10 text-muted-foreground/50" />
+          <p className="font-body text-lg font-semibold text-foreground">No profiles found</p>
+          <p className="font-body text-sm text-muted-foreground">Try different keywords or reset your filters</p>
+        </div>
+      ) : (
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.main
+            key={currentIndex}
+            custom={direction}
+            initial={{ opacity: 0, x: direction * 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: direction * -60 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 overflow-y-auto px-4 pb-28 space-y-5"
+          >
+            {buildSections()}
+          </motion.main>
+        </AnimatePresence>
+      )}
 
       {/* Floating action buttons */}
       <div className="fixed bottom-20 left-4 right-4 flex items-center justify-between pointer-events-none z-20">

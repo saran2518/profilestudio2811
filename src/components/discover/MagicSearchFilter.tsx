@@ -19,9 +19,10 @@ const SUGGESTED_TAGS = ["Creative Thinker", "Fitness Enthusiast", "Startup Found
 
 interface MagicSearchFilterProps {
   children: React.ReactNode;
+  onApply?: (tags: string[]) => void;
 }
 
-const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
+const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchTags, setSearchTags] = useState<string[]>(["Photography", "Architecture"]);
@@ -193,7 +194,10 @@ const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
             Reset
           </button>
           <button
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              onApply?.(searchTags);
+              setOpen(false);
+            }}
             className="rounded-full px-8 py-3 font-body text-sm font-semibold text-primary-foreground"
             style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
           >
