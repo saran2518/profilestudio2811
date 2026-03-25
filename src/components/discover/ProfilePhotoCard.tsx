@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, MapPin, Shield } from "lucide-react";
+import { HeartPulse, MapPin, Shield } from "lucide-react";
 
 interface Props {
   src: string;
@@ -35,7 +35,7 @@ export default function ProfilePhotoCard({ src, liked, setLiked, profile }: Prop
         style={{ backgroundColor: liked ? "hsl(var(--primary))" : "hsl(var(--foreground) / 0.25)" }}
       >
         <motion.div animate={liked ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
-          <Heart className="h-5 w-5" fill={liked ? "white" : "none"} stroke="white" strokeWidth={2} />
+          <HeartPulse className="h-5 w-5" fill={liked ? "white" : "none"} stroke="white" strokeWidth={2} />
         </motion.div>
       </motion.button>
 
