@@ -144,9 +144,12 @@ const Discover = () => {
               <SlidersHorizontal className="h-5 w-5 text-foreground" />
             </button>
           </MagicSearchFilter>
-          <span className="font-body text-sm text-muted-foreground flex items-center gap-1.5">
-            Powered by AI <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
-          </span>
+          <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
+            <button className="font-body text-sm text-muted-foreground flex items-center gap-1.5 hover:text-foreground transition-colors">
+              <Wand2 className="h-3.5 w-3.5 text-primary" />
+              Magic Search
+            </button>
+          </MagicSearchFilter>
           <div className="flex items-center gap-2">
             <button className="p-1 hover:-translate-x-0.5 transition-transform duration-300" onClick={goPrev}>
               <Undo2 className="h-5 w-5 text-foreground" />
