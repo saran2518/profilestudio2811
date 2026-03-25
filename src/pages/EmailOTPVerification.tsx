@@ -41,7 +41,7 @@ const EmailOTPVerification = () => {
   };
 
   const handleContinue = () => {
-    navigate("/onboarding");
+    navigate("/profile-studio-intro");
   };
 
   return (
