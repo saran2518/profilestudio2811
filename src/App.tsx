@@ -8,7 +8,7 @@ import OTPVerification from "./pages/OTPVerification";
 import ProfileName from "./pages/ProfileName";
 import EmailEntry from "./pages/EmailEntry";
 import EmailOTPVerification from "./pages/EmailOTPVerification";
-import Onboarding from "./pages/Onboarding";
+import ProfileStudioIntro from "./pages/ProfileStudioIntro";
 import Index from "./pages/Index";
 import Results from "./pages/Results";
 import Discover from "./pages/Discover";
@@ -29,7 +29,7 @@ const App = () => (
           <Route path="/profile-name" element={<ProfileName />} />
           <Route path="/email" element={<EmailEntry />} />
           <Route path="/verify-email" element={<EmailOTPVerification />} />
-          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/profile-studio-intro" element={<ProfileStudioIntro />} />
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
           <Route path="/discover" element={<Discover />} />

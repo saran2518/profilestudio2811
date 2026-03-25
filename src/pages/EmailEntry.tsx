@@ -25,7 +25,7 @@ const EmailEntry = () => {
   };
 
   const handleSkip = () => {
-    navigate("/onboarding");
+    navigate("/profile-studio-intro");
   };
 
   return (
