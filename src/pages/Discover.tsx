@@ -26,8 +26,24 @@ const Discover = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const [direction, setDirection] = useState(0);
+  const [filterTags, setFilterTags] = useState<string[]>([]);
 
-  const profile = PROFILES[currentIndex];
+  const filteredProfiles = filterTags.length === 0
+    ? PROFILES
+    : PROFILES.filter((p) => {
+        const searchable = [
+          p.bio,
+          p.profession,
+          p.specialization,
+          p.relationshipIntent,
+          ...p.interests,
+          ...p.narratives.map((n) => n.content),
+          ...p.joinMeFor,
+        ].join(" ").toLowerCase();
+        return filterTags.some((tag) => searchable.includes(tag.toLowerCase()));
+      });
+
+  const profile = filteredProfiles[currentIndex] || filteredProfiles[0];
 
   const goNext = useCallback(() => {
     if (currentIndex < PROFILES.length - 1) {
