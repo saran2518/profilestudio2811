@@ -29,7 +29,7 @@ const App = () => (
           <Route path="/profile-name" element={<ProfileName />} />
           <Route path="/email" element={<EmailEntry />} />
           <Route path="/verify-email" element={<EmailOTPVerification />} />
-          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/profile-studio-intro" element={<ProfileStudioIntro />} />
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
           <Route path="/discover" element={<Discover />} />
