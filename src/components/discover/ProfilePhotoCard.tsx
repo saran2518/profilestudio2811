@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, MapPin, Shield } from "lucide-react";
+import { HeartPulse, MapPin, Shield } from "lucide-react";
 
 interface Props {
   src: string;
