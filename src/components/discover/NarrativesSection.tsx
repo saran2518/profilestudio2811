@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
+import { Quote, HeartPulse } from "lucide-react";
 import type { NarrativeItem } from "@/lib/profileGenerator";
 
 export default function NarrativesSection({ narratives }: { narratives: NarrativeItem[] }) {
+  const [vibed, setVibed] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -13,7 +16,19 @@ export default function NarrativesSection({ narratives }: { narratives: Narrativ
     >
       <div className="absolute top-0 left-0 w-1 h-full rounded-r-full" style={{ background: "var(--gradient-warm)" }} />
 
-      <div className="flex items-start gap-3 ml-2">
+      {/* Vibe button */}
+      <motion.button
+        whileTap={{ scale: 0.85 }}
+        onClick={() => setVibed(!vibed)}
+        className="absolute top-4 right-4 h-9 w-9 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors z-10"
+        style={{ backgroundColor: vibed ? "hsl(var(--primary))" : "hsl(var(--muted))" }}
+      >
+        <motion.div animate={vibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
+          <HeartPulse className={`h-4 w-4 ${vibed ? "text-primary-foreground" : "text-muted-foreground"}`} strokeWidth={2} />
+        </motion.div>
+      </motion.button>
+
+      <div className="flex items-start gap-3 ml-2 pr-10">
         <Quote className="h-5 w-5 text-primary/40 mt-0.5 shrink-0 rotate-180" />
         <div className="flex-1">
           <h3 className="font-display text-base font-semibold text-card-foreground mb-3">Narratives</h3>
