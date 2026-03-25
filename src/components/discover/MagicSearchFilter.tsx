@@ -153,6 +153,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 </span>
               ))}
             </div>
+            </div>
           )}
 
           {/* REFINE section */}
