@@ -22,12 +22,14 @@ import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
 import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
+import InviteDialog from "@/components/discover/InviteDialog";
 
 const Discover = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const [direction, setDirection] = useState(0);
   const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [inviteOpen, setInviteOpen] = useState(false);
 
   const filteredProfiles = filterTags.length === 0
     ? PROFILES
@@ -63,7 +65,7 @@ const Discover = () => {
   }, [currentIndex]);
 
   const handlePass = () => goNext();
-  const handleConnect = () => goNext();
+  const handleConnect = () => setInviteOpen(true);
 
   const buildSections = () => {
     const sections = [
@@ -172,6 +174,9 @@ const Discover = () => {
           <Plus className="h-6 w-6 text-primary-foreground" />
         </motion.button>
       </div>
+
+      {/* Invite Dialog */}
+      <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} profileName={profile?.name} />
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
