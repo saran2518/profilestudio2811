@@ -74,6 +74,7 @@ const Discover = () => {
   const handleSendVibe = () => {
     setVibedSections((prev) => new Set(prev).add(vibeDialogSection));
     setVibeDialogOpen(false);
+    goNext();
   };
 
   const handleVibeToInvite = () => {
