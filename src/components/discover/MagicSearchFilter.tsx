@@ -22,7 +22,7 @@ interface MagicSearchFilterProps {
   onApply?: (tags: string[]) => void;
 }
 
-const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
+const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchTags, setSearchTags] = useState<string[]>(["Photography", "Architecture"]);
