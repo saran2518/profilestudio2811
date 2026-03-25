@@ -78,17 +78,42 @@ const MagicSearchFilter = ({ children }: MagicSearchFilterProps) => {
         {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto px-6 pb-4 space-y-6">
           {/* Search input */}
-          <div className="rounded-2xl border border-border/60 bg-card px-4 py-3 flex items-center gap-3">
-            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-            <input
-              type="text"
-              placeholder="Interests, professions, hobbies"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleAddTag}
-              className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
-            />
+          <div className="space-y-2">
+            <div className="rounded-2xl border border-border/60 bg-card px-4 py-3 flex items-center gap-3">
+              <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+              <input
+                type="text"
+                placeholder="e.g. loves hiking, startup founder, bookworm…"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleAddTag}
+                className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
+              />
+            </div>
+            <p className="text-xs font-body text-muted-foreground px-1">
+              Search by mindset, interests, hobbies, or work habits
+            </p>
           </div>
+
+          {/* Quick suggestions */}
+          {searchTags.length === 0 && (
+            <div className="space-y-2">
+              <span className="text-[11px] font-body font-semibold tracking-widest text-muted-foreground uppercase">
+                Suggested
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {SUGGESTED_TAGS.map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={() => setSearchTags((prev) => prev.includes(tag) ? prev : [...prev, tag])}
+                    className="rounded-full border border-border/60 px-3.5 py-1.5 text-sm font-body font-medium text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Tags */}
           {searchTags.length > 0 && (
