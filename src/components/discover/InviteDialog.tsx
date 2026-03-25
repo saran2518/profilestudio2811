@@ -15,17 +15,18 @@ const INVITE_TYPES = [
 interface InviteDialogProps {
   open: boolean;
   onClose: () => void;
+  onSent?: () => void;
   profileName?: string;
 }
 
-export default function InviteDialog({ open, onClose, profileName }: InviteDialogProps) {
+export default function InviteDialog({ open, onClose, onSent, profileName }: InviteDialogProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState("");
 
   const handleInvite = () => {
     setSelected(null);
     setMessage("");
-    onClose();
+    onSent ? onSent() : onClose();
   };
 
   const handleCancel = () => {
