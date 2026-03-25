@@ -128,19 +128,27 @@ const Discover = () => {
       </header>
 
       {/* Scrollable content */}
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.main
-          key={currentIndex}
-          custom={direction}
-          initial={{ opacity: 0, x: direction * 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: direction * -60 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="flex-1 overflow-y-auto px-4 pb-28 space-y-5"
-        >
-          {buildSections()}
-        </motion.main>
-      </AnimatePresence>
+      {filteredProfiles.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-3">
+          <Search className="h-10 w-10 text-muted-foreground/50" />
+          <p className="font-body text-lg font-semibold text-foreground">No profiles found</p>
+          <p className="font-body text-sm text-muted-foreground">Try different keywords or reset your filters</p>
+        </div>
+      ) : (
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.main
+            key={currentIndex}
+            custom={direction}
+            initial={{ opacity: 0, x: direction * 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: direction * -60 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 overflow-y-auto px-4 pb-28 space-y-5"
+          >
+            {buildSections()}
+          </motion.main>
+        </AnimatePresence>
+      )}
 
       {/* Floating action buttons */}
       <div className="fixed bottom-20 left-4 right-4 flex items-center justify-between pointer-events-none z-20">
