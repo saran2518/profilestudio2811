@@ -1,10 +1,14 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { HeartPulse } from "lucide-react";
 
-export default function InterspersedPhoto({ src, delay = 0.2 }: { src: string; delay?: number }) {
-  const [vibed, setVibed] = useState(false);
+interface Props {
+  src: string;
+  delay?: number;
+  vibed: boolean;
+  onVibe: () => void;
+}
 
+export default function InterspersedPhoto({ src, delay = 0.2, vibed, onVibe }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
@@ -17,7 +21,7 @@ export default function InterspersedPhoto({ src, delay = 0.2 }: { src: string; d
 
       <motion.button
         whileTap={{ scale: 0.85 }}
-        onClick={() => setVibed(!vibed)}
+        onClick={onVibe}
         className="absolute top-4 right-4 h-10 w-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
         style={{ backgroundColor: vibed ? "hsl(var(--primary))" : "hsl(var(--foreground) / 0.25)" }}
       >

@@ -4,7 +4,7 @@ import { HeartPulse, MapPin, Shield } from "lucide-react";
 interface Props {
   src: string;
   liked: boolean;
-  setLiked: (v: boolean) => void;
+  onVibe: () => void;
   profile: {
     name: string;
     age: number;
@@ -15,7 +15,7 @@ interface Props {
   };
 }
 
-export default function ProfilePhotoCard({ src, liked, setLiked, profile }: Props) {
+export default function ProfilePhotoCard({ src, liked, onVibe, profile }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -25,12 +25,11 @@ export default function ProfilePhotoCard({ src, liked, setLiked, profile }: Prop
       style={{ boxShadow: "0 12px 40px -12px hsl(var(--foreground) / 0.15)" }}
     >
       <img src={src} alt="Profile" className="w-full aspect-[4/5] object-cover" width={800} height={1000} />
-      {/* Gradient overlay for readability */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
       <motion.button
         whileTap={{ scale: 0.85 }}
-        onClick={() => setLiked(!liked)}
+        onClick={onVibe}
         className="absolute top-4 right-4 h-11 w-11 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
         style={{ backgroundColor: liked ? "hsl(var(--primary))" : "hsl(var(--foreground) / 0.25)" }}
       >

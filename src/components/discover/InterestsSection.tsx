@@ -1,10 +1,13 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { HeartPulse } from "lucide-react";
 
-export default function InterestsSection({ interests }: { interests: string[] }) {
-  const [vibed, setVibed] = useState(false);
+interface Props {
+  interests: string[];
+  vibed: boolean;
+  onVibe: () => void;
+}
 
+export default function InterestsSection({ interests, vibed, onVibe }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -15,7 +18,7 @@ export default function InterestsSection({ interests }: { interests: string[] })
     >
       <motion.button
         whileTap={{ scale: 0.85 }}
-        onClick={() => setVibed(!vibed)}
+        onClick={onVibe}
         className="absolute top-4 right-4 h-9 w-9 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors z-10"
         style={{ backgroundColor: vibed ? "hsl(var(--primary))" : "hsl(var(--muted))" }}
       >
