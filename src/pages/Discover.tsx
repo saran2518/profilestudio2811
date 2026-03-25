@@ -9,6 +9,7 @@ import {
   Sparkles,
   Users,
   MessageCircle,
+  Search,
 } from "lucide-react";
 
 import { PROFILES, ProfileData } from "@/lib/profilesData";
