@@ -387,6 +387,15 @@ export default function Interests() {
   const vibeCount = MOCK_VIBES.length;
   const inviteCount = newInvites.length;
 
+  const handleVibeBack = (vibe: VibeItem) => {
+    createThread(vibe.name, vibe.photo, "vibe");
+    toast({
+      title: "Vibe Sent! 💬",
+      description: `Chat created with ${vibe.name}`,
+    });
+    navigate("/chat");
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
