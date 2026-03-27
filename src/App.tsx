@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Results from "./pages/Results";
 import Discover from "./pages/Discover";
 import Interests from "./pages/Interests";
+import Chat from "./pages/Chat";
 import Preview from "./pages/Preview";
 import NotFound from "./pages/NotFound";
 
