@@ -295,6 +295,14 @@ export default function Chat() {
               </div>
             )}
 
+            {/* Conversations Section */}
+            {threads.length > 0 && (
+              <div className="px-5 pb-3">
+                <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
+                  Conversations
+                </h2>
+              </div>
+            )}
             <ChatList
               threads={threads}
               onOpenThread={(id) => setActiveThreadId(id)}
