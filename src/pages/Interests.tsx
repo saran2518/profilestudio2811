@@ -416,8 +416,18 @@ export default function Interests() {
   };
 
   const handleAcceptInvite = (invite: InviteItem) => {
+    setSelectedInvitePreview(null);
     createThread(invite.name, invite.photo, "invite");
     setAcceptedInviteProfile(invite);
+  };
+
+  const handleDeclineInvite = () => {
+    const name = selectedInvitePreview?.name;
+    setSelectedInvitePreview(null);
+    toast({
+      title: "Declined",
+      description: `You declined ${name}'s invite`,
+    });
   };
 
   const handleInviteChatNow = () => {
