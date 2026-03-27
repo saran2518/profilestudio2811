@@ -136,6 +136,17 @@ function ChatDetail({
         <p className="font-display text-base font-bold text-foreground">
           {thread.name}
         </p>
+        <span
+          className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider text-primary-foreground"
+          style={{ background: "var(--gradient-warm)" }}
+        >
+          {thread.source === "vibe" ? (
+            <HeartPulse className="h-2.5 w-2.5" />
+          ) : (
+            <Coffee className="h-2.5 w-2.5" />
+          )}
+          {thread.source}
+        </span>
       </div>
 
       {/* Messages */}
