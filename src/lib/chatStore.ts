@@ -49,6 +49,7 @@ export function createThread(name: string, photo: string, source: "vibe" | "invi
     lastMessage: greeting,
     time: "Just now",
     unread: true,
+    source,
     messages: [
       { id: "system-1", sender: "them", text: greeting, time: "Just now" },
     ],
