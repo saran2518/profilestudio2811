@@ -75,17 +75,6 @@ const MOCK_VIBES: VibeItem[] = [
       '"Sometimes the quietest moments speak the loudest volumes. Finding peace in the chaos..."',
     profileIndex: 2,
   },
-  {
-    id: "v3",
-    name: "Ravi",
-    photo: PROFILES[3]?.photos[0] || "",
-    time: "1 hr ago",
-    section: "resonance post",
-    sectionEmoji: "🌿",
-    previewImage: PROFILES[3]?.photos[1] || PROFILES[3]?.photos[0] || "",
-    isMutual: true,
-    profileIndex: 3,
-  },
 ];
 
 const MOCK_INVITES: InviteItem[] = [
