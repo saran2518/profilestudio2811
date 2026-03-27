@@ -263,7 +263,7 @@ function VibeCard({ vibe, index, onClick }: { vibe: VibeItem; index: number; onC
   );
 }
 
-function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: number; onAccept: (invite: InviteItem) => void }) {
+function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: number; onClick: (invite: InviteItem) => void }) {
   const catIcon = CATEGORY_ICONS[invite.category];
   const [expanded, setExpanded] = useState(false);
   const isLong = invite.message.length > 100;
@@ -273,8 +273,9 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
-      className="rounded-2xl border border-border/40 bg-card overflow-hidden"
+      className="rounded-2xl border border-border/40 bg-card overflow-hidden cursor-pointer active:scale-[0.98] transition-transform"
       style={{ boxShadow: "var(--shadow-card)" }}
+      onClick={() => onClick(invite)}
     >
       {/* Category pill — compact, inline */}
       <div className="p-4 pb-0 flex items-center justify-between">
@@ -317,7 +318,7 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
             </p>
             {isLong && (
               <button
-                onClick={() => setExpanded(!expanded)}
+                onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}
                 className="mt-1.5 flex items-center gap-1 text-[11px] font-medium text-primary/70 hover:text-primary transition-colors"
               >
                 {expanded ? "Show less" : "Read more"}
@@ -332,7 +333,7 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
         </div>
       )}
 
-      {/* Actions */}
+      {/* Accepted indicator */}
       {invite.accepted ? (
         <div className="px-4 pb-4 pt-1">
           <div
@@ -351,26 +352,10 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
           </div>
         </div>
       ) : (
-        <div className="px-4 pb-4 pt-1 flex gap-2.5">
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body transition-all"
-            style={{
-              background: "var(--gradient-warm)",
-              boxShadow: "var(--shadow-warm)",
-            }}
-            onClick={() => onAccept(invite)}
-          >
-            Accept
-          </motion.button>
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            className="flex-1 py-2.5 rounded-xl border border-border/50 text-[13px] font-medium text-muted-foreground bg-card hover:bg-muted/40 transition-all font-body"
-          >
-            Decline
-          </motion.button>
+        <div className="px-4 pb-4 flex items-center justify-center">
+          <p className="font-body text-[11px] text-muted-foreground/50">
+            Tap to view profile & respond
+          </p>
         </div>
       )}
     </motion.div>
