@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   SlidersHorizontal,
@@ -29,6 +30,7 @@ import VibeDialog from "@/components/discover/VibeDialog";
 type VibeSection = "Photo" | "Bio" | "Interests" | "Narratives" | "Join Me For" | string;
 
 const Discover = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [filterTags, setFilterTags] = useState<string[]>([]);
@@ -221,7 +223,7 @@ const Discover = () => {
           <NavItem icon={<Users className="h-5 w-5" />} label="Profile" />
           <NavItem icon={<Sparkles className="h-5 w-5" />} label="Expressions" />
           <NavItem icon={<InfinityIcon />} label="Discover" active />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" />
+          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
           <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" />
         </div>
       </nav>
@@ -229,9 +231,10 @@ const Discover = () => {
   );
 };
 
-function NavItem({ icon, label, active }: { icon: React.ReactNode; label: string; active?: boolean }) {
+function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
     <button
+      onClick={onClick}
       className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
         active ? "text-primary scale-110" : "text-muted-foreground hover:text-foreground"
       }`}

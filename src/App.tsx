@@ -8,6 +8,7 @@ import ProfileStudioIntro from "./pages/ProfileStudioIntro";
 import Index from "./pages/Index";
 import Results from "./pages/Results";
 import Discover from "./pages/Discover";
+import Interests from "./pages/Interests";
 import Preview from "./pages/Preview";
 import NotFound from "./pages/NotFound";
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/create" element={<Index />} />
           <Route path="/results" element={<Results />} />
           <Route path="/discover" element={<Discover />} />
+          <Route path="/interests" element={<Interests />} />
           <Route path="/preview" element={<Preview />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
