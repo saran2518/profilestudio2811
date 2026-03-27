@@ -69,9 +69,22 @@ function ChatList({
           </div>
           <div className="flex-1 min-w-0 text-left">
             <div className="flex items-center justify-between">
-              <p className="font-display text-[15px] font-bold text-card-foreground truncate">
-                {thread.name}
-              </p>
+              <div className="flex items-center gap-2 min-w-0">
+                <p className="font-display text-[15px] font-bold text-card-foreground truncate">
+                  {thread.name}
+                </p>
+                <span
+                  className="shrink-0 flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider text-primary-foreground"
+                  style={{ background: "var(--gradient-warm)" }}
+                >
+                  {thread.source === "vibe" ? (
+                    <HeartPulse className="h-2.5 w-2.5" />
+                  ) : (
+                    <Coffee className="h-2.5 w-2.5" />
+                  )}
+                  {thread.source}
+                </span>
+              </div>
               <span className="font-body text-[11px] text-muted-foreground shrink-0 ml-2">
                 {thread.time}
               </span>
