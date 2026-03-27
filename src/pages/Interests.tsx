@@ -397,6 +397,15 @@ export default function Interests() {
     navigate("/chat");
   };
 
+  const handleAcceptInvite = (invite: InviteItem) => {
+    createThread(invite.name, invite.photo, "invite");
+    toast({
+      title: "Invite Accepted! 💬",
+      description: `Chat created with ${invite.name}`,
+    });
+    navigate("/chat");
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
