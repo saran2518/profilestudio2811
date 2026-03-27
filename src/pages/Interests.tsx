@@ -98,6 +98,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "🍽️",
     message:
       "It's been a while — dinner this weekend? There's a new spot downtown I've been dying to try.",
+    profileIndex: 1,
   },
   {
     id: "i2",
@@ -108,6 +109,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "✈️",
     message:
       "Let's plan a short trip on Saturday. I was thinking we could drive up to the coast, grab some seafood, and maybe do a sunset walk.",
+    profileIndex: 2,
   },
   {
     id: "i3",
@@ -118,6 +120,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "🎬",
     message:
       "Movie night over call tomorrow? I have a subscription we can share.",
+    profileIndex: 3,
   },
   {
     id: "i4",
@@ -128,6 +131,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "💻",
     message: "",
     accepted: true,
+    profileIndex: 4,
   },
 ];
 
