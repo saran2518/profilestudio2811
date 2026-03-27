@@ -528,6 +528,102 @@ export default function Interests() {
         </TabsContent>
       </Tabs>
 
+      {/* Mutual Vibe Dialog */}
+      <AnimatePresence>
+        {mutualVibeProfile && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+              onClick={handleLater}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: 40 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-x-6 top-1/2 -translate-y-1/2 z-50 rounded-[28px] border border-border/20 bg-card/95 backdrop-blur-2xl overflow-hidden"
+              style={{
+                boxShadow: "0 20px 60px -15px hsl(var(--primary) / 0.25), 0 0 0 1px hsl(var(--primary) / 0.06)",
+              }}
+            >
+              <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
+
+              <div className="px-6 pt-8 pb-7 flex flex-col items-center text-center">
+                {/* Animated hearts */}
+                <div className="relative mb-5">
+                  <motion.div
+                    animate={{ scale: [1, 1.15, 1] }}
+                    transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                    className="h-20 w-20 rounded-full flex items-center justify-center"
+                    style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2))" }}
+                  >
+                    <HeartPulse className="h-10 w-10 text-primary" />
+                  </motion.div>
+                  {/* Profile photo overlay */}
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute -bottom-1 -right-1 h-10 w-10 rounded-full border-[3px] border-card overflow-hidden"
+                  >
+                    <img src={mutualVibeProfile.photo} alt="" className="h-full w-full object-cover" />
+                  </motion.div>
+                </div>
+
+                {/* Title */}
+                <motion.h3
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="font-display text-xl font-bold text-card-foreground mb-1.5"
+                >
+                  Mutual Vibe! 💜
+                </motion.h3>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="font-body text-sm text-muted-foreground mb-6 leading-relaxed"
+                >
+                  You and <span className="text-foreground font-semibold">{mutualVibeProfile.name}</span> are now connected!
+                  <br />
+                  <span className="text-xs text-muted-foreground/70">Start a conversation or come back later</span>
+                </motion.p>
+
+                {/* CTAs */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="flex gap-3 w-full"
+                >
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
+                    onClick={handleLater}
+                    className="flex-1 py-3.5 rounded-2xl border border-border/50 bg-muted/30 text-sm font-medium text-muted-foreground hover:bg-muted transition-colors font-body"
+                  >
+                    Later
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
+                    onClick={handleChatNow}
+                    className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 font-body"
+                    style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    Chat Now
+                  </motion.button>
+                </motion.div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
         <div className="flex items-center justify-around py-3 px-2">
