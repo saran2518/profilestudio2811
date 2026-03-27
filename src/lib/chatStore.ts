@@ -5,6 +5,7 @@ export interface ChatThread {
   lastMessage: string;
   time: string;
   unread?: boolean;
+  source: "vibe" | "invite";
   messages: ChatMessage[];
 }
 
@@ -48,6 +49,7 @@ export function createThread(name: string, photo: string, source: "vibe" | "invi
     lastMessage: greeting,
     time: "Just now",
     unread: true,
+    source,
     messages: [
       { id: "system-1", sender: "them", text: greeting, time: "Just now" },
     ],
