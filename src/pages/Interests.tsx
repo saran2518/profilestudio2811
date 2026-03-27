@@ -50,6 +50,7 @@ interface InviteItem {
   categoryIcon: string;
   message: string;
   accepted?: boolean;
+  profileIndex: number;
 }
 
 const MOCK_VIBES: VibeItem[] = [
@@ -97,6 +98,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "🍽️",
     message:
       "It's been a while — dinner this weekend? There's a new spot downtown I've been dying to try.",
+    profileIndex: 1,
   },
   {
     id: "i2",
@@ -107,6 +109,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "✈️",
     message:
       "Let's plan a short trip on Saturday. I was thinking we could drive up to the coast, grab some seafood, and maybe do a sunset walk.",
+    profileIndex: 2,
   },
   {
     id: "i3",
@@ -117,6 +120,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "🎬",
     message:
       "Movie night over call tomorrow? I have a subscription we can share.",
+    profileIndex: 3,
   },
   {
     id: "i4",
@@ -127,6 +131,7 @@ const MOCK_INVITES: InviteItem[] = [
     categoryIcon: "💻",
     message: "",
     accepted: true,
+    profileIndex: 4,
   },
 ];
 
@@ -258,7 +263,7 @@ function VibeCard({ vibe, index, onClick }: { vibe: VibeItem; index: number; onC
   );
 }
 
-function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: number; onAccept: (invite: InviteItem) => void }) {
+function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: number; onClick: (invite: InviteItem) => void }) {
   const catIcon = CATEGORY_ICONS[invite.category];
   const [expanded, setExpanded] = useState(false);
   const isLong = invite.message.length > 100;
@@ -268,8 +273,9 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
-      className="rounded-2xl border border-border/40 bg-card overflow-hidden"
+      className="rounded-2xl border border-border/40 bg-card overflow-hidden cursor-pointer active:scale-[0.98] transition-transform"
       style={{ boxShadow: "var(--shadow-card)" }}
+      onClick={() => onClick(invite)}
     >
       {/* Category pill — compact, inline */}
       <div className="p-4 pb-0 flex items-center justify-between">
@@ -312,7 +318,7 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
             </p>
             {isLong && (
               <button
-                onClick={() => setExpanded(!expanded)}
+                onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}
                 className="mt-1.5 flex items-center gap-1 text-[11px] font-medium text-primary/70 hover:text-primary transition-colors"
               >
                 {expanded ? "Show less" : "Read more"}
@@ -327,7 +333,7 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
         </div>
       )}
 
-      {/* Actions */}
+      {/* Accepted indicator */}
       {invite.accepted ? (
         <div className="px-4 pb-4 pt-1">
           <div
@@ -346,26 +352,10 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
           </div>
         </div>
       ) : (
-        <div className="px-4 pb-4 pt-1 flex gap-2.5">
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body transition-all"
-            style={{
-              background: "var(--gradient-warm)",
-              boxShadow: "var(--shadow-warm)",
-            }}
-            onClick={() => onAccept(invite)}
-          >
-            Accept
-          </motion.button>
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            className="flex-1 py-2.5 rounded-xl border border-border/50 text-[13px] font-medium text-muted-foreground bg-card hover:bg-muted/40 transition-all font-body"
-          >
-            Decline
-          </motion.button>
+        <div className="px-4 pb-4 flex items-center justify-center">
+          <p className="font-body text-[11px] text-muted-foreground/50">
+            Tap to view profile & respond
+          </p>
         </div>
       )}
     </motion.div>
@@ -381,6 +371,7 @@ export default function Interests() {
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const sentInvites = useSentInvites();
+  const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
 
   const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
   const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
@@ -425,8 +416,18 @@ export default function Interests() {
   };
 
   const handleAcceptInvite = (invite: InviteItem) => {
+    setSelectedInvitePreview(null);
     createThread(invite.name, invite.photo, "invite");
     setAcceptedInviteProfile(invite);
+  };
+
+  const handleDeclineInvite = () => {
+    const name = selectedInvitePreview?.name;
+    setSelectedInvitePreview(null);
+    toast({
+      title: "Declined",
+      description: `You declined ${name}'s invite`,
+    });
   };
 
   const handleInviteChatNow = () => {
@@ -528,7 +529,9 @@ export default function Interests() {
                   </div>
                   <div className="space-y-3.5 mb-6">
                     {newInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i} onAccept={handleAcceptInvite} />
+                      <InviteCard key={invite.id} invite={invite} index={i} onClick={(inv) => {
+                        if (inv.accepted) { navigate("/chat"); } else { setSelectedInvitePreview(inv); }
+                      }} />
                     ))}
                   </div>
                 </>
@@ -544,7 +547,7 @@ export default function Interests() {
                   </div>
                   <div className="space-y-3.5">
                     {acceptedInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onAccept={handleAcceptInvite} />
+                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onClick={(inv) => navigate("/chat")} />
                     ))}
                   </div>
                 </>
@@ -743,6 +746,176 @@ export default function Interests() {
                     >
                       <HeartPulse className="h-4 w-4" />
                       Vibe Back
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          );
+        })()}
+      </AnimatePresence>
+
+      {/* Invite Profile Preview Overlay */}
+      <AnimatePresence>
+        {selectedInvitePreview && (() => {
+          const profile = PROFILES[selectedInvitePreview.profileIndex];
+          if (!profile) return null;
+          return (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+                onClick={() => setSelectedInvitePreview(null)}
+              />
+              <motion.div
+                initial={{ opacity: 0, y: "100%" }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: "100%" }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="fixed inset-0 z-50 bg-background overflow-y-auto"
+              >
+                {/* Sticky header */}
+                <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-xl border-b border-border/30 px-4 py-3 flex items-center gap-3">
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setSelectedInvitePreview(null)}
+                    className="h-9 w-9 rounded-full bg-muted/50 flex items-center justify-center"
+                  >
+                    <ArrowLeft className="h-4 w-4 text-foreground" />
+                  </motion.button>
+                  <div className="flex-1">
+                    <p className="font-display text-[15px] font-bold text-foreground">{profile.name}'s Profile</p>
+                    <p className="font-body text-[11px] text-muted-foreground">
+                      Invited you for {selectedInvitePreview.category} {selectedInvitePreview.categoryIcon}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Invite message banner */}
+                {selectedInvitePreview.message && (
+                  <div className="mx-4 mt-4 rounded-2xl border border-border/40 bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-primary-foreground text-[10px] font-bold uppercase tracking-wider"
+                        style={{ background: "var(--gradient-warm)" }}
+                      >
+                        {selectedInvitePreview.categoryIcon} {selectedInvitePreview.category}
+                      </div>
+                    </div>
+                    <p className="font-body text-[13px] text-foreground/75 leading-relaxed italic">
+                      "{selectedInvitePreview.message}"
+                    </p>
+                  </div>
+                )}
+
+                {/* Profile content */}
+                <div className="px-4 pt-4 pb-32 space-y-4">
+                  {/* Hero photo */}
+                  <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: "0 12px 40px -12px hsl(var(--foreground) / 0.15)" }}>
+                    <img src={profile.photos[0]} alt={profile.name} className="w-full aspect-[4/5] object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <div className="rounded-2xl bg-card/75 backdrop-blur-lg px-5 py-4 border border-border/20">
+                        <div className="flex items-center gap-2.5">
+                          <h2 className="font-display text-2xl font-bold text-foreground">{profile.name}, {profile.age}</h2>
+                          {profile.verified && (
+                            <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center">
+                              <Shield className="h-4 w-4 text-primary" />
+                            </div>
+                          )}
+                        </div>
+                        <p className="font-body text-sm text-foreground/80 mt-0.5">{profile.profession} • {profile.specialization}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                          <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bio */}
+                  <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+                    <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Bio</h3>
+                    <p className="font-body text-[15px] leading-relaxed text-foreground/80">{profile.bio}</p>
+                  </div>
+
+                  {/* Interests */}
+                  <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+                    <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Interests</h3>
+                    <p className="font-body text-[15px] leading-relaxed text-foreground/80 font-medium">
+                      {profile.interests.slice(0, 6).map((interest, idx, arr) => (
+                        <span key={idx}>
+                          {interest}
+                          {idx < arr.length - 1 && (
+                            <span className="mx-2 inline-block h-[5px] w-[5px] rounded-full bg-primary/50 align-middle" />
+                          )}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+
+                  {/* Narratives */}
+                  {profile.narratives.length > 0 && (
+                    <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+                      <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Narratives</h3>
+                      {profile.narratives.map((n, idx) => (
+                        <div key={idx} className={idx > 0 ? "mt-4 pt-4 border-t border-border/30" : ""}>
+                          <p className="font-display text-[15px] font-bold text-foreground mb-1">{n.title}</p>
+                          <p className="font-body text-[14px] leading-relaxed text-foreground/70">{n.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Join Me For */}
+                  {profile.joinMeFor && profile.joinMeFor.length > 0 && (
+                    <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+                      <div className="flex items-center gap-2.5 mb-4">
+                        <MapPin className="h-5 w-5 text-primary/60 shrink-0" />
+                        <h3 className="font-display text-base font-semibold text-card-foreground">Join Me For</h3>
+                      </div>
+                      <div className="space-y-2.5">
+                        {profile.joinMeFor.map((idea, idx) => (
+                          <div
+                            key={idx}
+                            className="rounded-xl border border-border/50 px-4 py-3"
+                            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.06), hsl(var(--accent) / 0.10))" }}
+                          >
+                            <p className="font-body text-card-foreground/80 text-[14px] leading-snug">{idea}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Second photo if available */}
+                  {profile.photos[1] && (
+                    <div className="rounded-2xl overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+                      <img src={profile.photos[1]} alt="" className="w-full aspect-[3/2] object-cover" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Fixed bottom CTAs */}
+                <div className="fixed bottom-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-xl border-t border-border/30 px-5 py-4 pb-8">
+                  <div className="flex gap-3">
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={handleDeclineInvite}
+                      className="flex-1 py-3.5 rounded-2xl border border-border/50 bg-muted/30 text-sm font-medium text-muted-foreground hover:bg-muted transition-colors font-body"
+                    >
+                      Decline
+                    </motion.button>
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => handleAcceptInvite(selectedInvitePreview)}
+                      className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 font-body"
+                      style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                    >
+                      <Coffee className="h-4 w-4" />
+                      Accept
                     </motion.button>
                   </div>
                 </div>
