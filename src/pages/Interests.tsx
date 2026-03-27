@@ -530,51 +530,6 @@ export default function Interests() {
                   </div>
                 </>
               )}
-              {sentInvites.length > 0 && (
-                <>
-                  <div className="flex items-center gap-2 mb-3 mt-2">
-                    <Send className="h-3 w-3 text-primary/50" />
-                    <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                      Sent by you
-                    </p>
-                  </div>
-                  <div className="space-y-3.5">
-                    {sentInvites.map((invite, i) => (
-                      <motion.div
-                        key={invite.id}
-                        initial={{ opacity: 0, y: 24 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.08, duration: 0.4 }}
-                        className="rounded-2xl border border-border/40 bg-card overflow-hidden"
-                        style={{ boxShadow: "var(--shadow-card)" }}
-                      >
-                        <div className="p-4 flex items-center gap-3">
-                          <div className="relative">
-                            <img src={invite.photo} alt={invite.name} className="h-11 w-11 rounded-full object-cover ring-2 ring-primary/10 ring-offset-2 ring-offset-card" />
-                            <div className="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full flex items-center justify-center border-2 border-card" style={{ background: "var(--gradient-warm)" }}>
-                              <Send className="h-2 w-2 text-primary-foreground" />
-                            </div>
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-display text-[15px] font-bold text-card-foreground leading-tight">{invite.name}</p>
-                            <p className="font-body text-[11px] text-muted-foreground mt-0.5">{invite.time}</p>
-                          </div>
-                          <span className="text-lg">{invite.categoryIcon}</span>
-                        </div>
-                        <div className="px-4 pb-3">
-                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold font-body" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--accent) / 0.12))", color: "hsl(var(--primary))" }}>
-                            {invite.categoryIcon} {invite.category}
-                          </div>
-                          {invite.message && (
-                            <p className="font-body text-[13px] text-foreground/70 leading-relaxed mt-2">{invite.message}</p>
-                          )}
-                          <p className="font-body text-[11px] text-muted-foreground/60 mt-2 italic">Waiting for response…</p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </>
-              )}
             </motion.div>
           </AnimatePresence>
         </TabsContent>
