@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
+import { createThread } from "@/lib/chatStore";
+import { toast } from "@/hooks/use-toast";
 
 /* ─── Mock data ──────────────────────────────────────── */
 
@@ -128,7 +130,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 /* ─── Components ─────────────────────────────────────── */
 
-function VibeCard({ vibe, index }: { vibe: VibeItem; index: number }) {
+function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; onVibeBack: (vibe: VibeItem) => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -236,6 +238,7 @@ function VibeCard({ vibe, index }: { vibe: VibeItem; index: number }) {
           <motion.button
             whileTap={{ scale: 0.96 }}
             whileHover={{ scale: 1.02 }}
+            onClick={() => onVibeBack(vibe)}
             className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body flex items-center justify-center gap-2 transition-all"
             style={{
               background: "var(--gradient-warm)",
@@ -384,6 +387,15 @@ export default function Interests() {
   const vibeCount = MOCK_VIBES.length;
   const inviteCount = newInvites.length;
 
+  const handleVibeBack = (vibe: VibeItem) => {
+    createThread(vibe.name, vibe.photo, "vibe");
+    toast({
+      title: "Vibe Sent! 💬",
+      description: `Chat created with ${vibe.name}`,
+    });
+    navigate("/chat");
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
@@ -443,7 +455,7 @@ export default function Interests() {
               className="space-y-3.5"
             >
               {MOCK_VIBES.map((vibe, i) => (
-                <VibeCard key={vibe.id} vibe={vibe} index={i} />
+                <VibeCard key={vibe.id} vibe={vibe} index={i} onVibeBack={handleVibeBack} />
               ))}
             </motion.div>
           </AnimatePresence>
@@ -507,7 +519,7 @@ export default function Interests() {
             onClick={() => navigate("/discover")}
           />
           <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" active />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" />
+          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
         </div>
       </nav>
     </div>
