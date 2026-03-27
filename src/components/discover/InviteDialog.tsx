@@ -21,7 +21,7 @@ interface InviteDialogProps {
   profilePhoto?: string;
 }
 
-export default function InviteDialog({ open, onClose, onSent, profileName }: InviteDialogProps) {
+export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto }: InviteDialogProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState("");
 
