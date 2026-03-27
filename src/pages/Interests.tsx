@@ -518,7 +518,9 @@ export default function Interests() {
                   </div>
                   <div className="space-y-3.5 mb-6">
                     {newInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i} onAccept={handleAcceptInvite} />
+                      <InviteCard key={invite.id} invite={invite} index={i} onClick={(inv) => {
+                        if (inv.accepted) { navigate("/chat"); } else { setSelectedInvitePreview(inv); }
+                      }} />
                     ))}
                   </div>
                 </>
