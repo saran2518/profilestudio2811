@@ -18,6 +18,7 @@ interface InviteDialogProps {
   onClose: () => void;
   onSent?: () => void;
   profileName?: string;
+  profilePhoto?: string;
 }
 
 export default function InviteDialog({ open, onClose, onSent, profileName }: InviteDialogProps) {
