@@ -30,6 +30,7 @@ import VibeDialog from "@/components/discover/VibeDialog";
 type VibeSection = "Photo" | "Bio" | "Interests" | "Narratives" | "Join Me For" | string;
 
 const Discover = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [filterTags, setFilterTags] = useState<string[]>([]);
