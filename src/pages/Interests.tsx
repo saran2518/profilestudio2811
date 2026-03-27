@@ -353,7 +353,7 @@ export default function Interests() {
   const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
 
   const vibeCount = MOCK_VIBES.length;
-  const inviteCount = newInvites.length + sentInvites.length;
+  const inviteCount = newInvites.length;
 
   const handleVibeCardClick = (vibe: VibeItem) => {
     if (vibe.isMutual) {
