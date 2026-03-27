@@ -14,6 +14,7 @@ export interface ChatMessage {
   sender: "me" | "them";
   text: string;
   time: string;
+  image?: string; // data URL for in-memory image attachments
 }
 
 let threads: ChatThread[] = [];
