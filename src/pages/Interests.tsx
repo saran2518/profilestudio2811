@@ -519,7 +519,7 @@ export default function Interests() {
             onClick={() => navigate("/discover")}
           />
           <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" active />
-          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" />
+          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
         </div>
       </nav>
     </div>
