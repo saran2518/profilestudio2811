@@ -50,6 +50,7 @@ interface InviteItem {
   categoryIcon: string;
   message: string;
   accepted?: boolean;
+  profileIndex: number;
 }
 
 const MOCK_VIBES: VibeItem[] = [
