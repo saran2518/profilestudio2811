@@ -508,7 +508,7 @@ export default function Interests() {
                   </div>
                   <div className="space-y-3.5">
                     {acceptedInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} />
+                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onAccept={handleAcceptInvite} />
                     ))}
                   </div>
                 </>
