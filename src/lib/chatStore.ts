@@ -1,5 +1,3 @@
-// Simple in-memory chat store (shared across pages via module singleton)
-
 export interface ChatThread {
   id: string;
   name: string;
@@ -18,29 +16,23 @@ export interface ChatMessage {
 }
 
 let threads: ChatThread[] = [];
-let listeners: Array<() => void> = [];
+const listeners = new Set<() => void>();
 
 function notify() {
   listeners.forEach((l) => l());
 }
 
 export function subscribe(listener: () => void) {
-  listeners.push(listener);
-  return () => {
-    listeners = listeners.filter((l) => l !== listener);
-  };
+  listeners.add(listener);
+  return () => { listeners.delete(listener); };
 }
 
+// Return the same reference — only mutated via createThread/addMessage which reassign `threads`
 export function getThreads(): ChatThread[] {
-  return [...threads];
-}
-
-export function getThread(id: string): ChatThread | undefined {
-  return threads.find((t) => t.id === id);
+  return threads;
 }
 
 export function createThread(name: string, photo: string, source: "vibe" | "invite"): ChatThread {
-  // Check if thread already exists for this person
   const existing = threads.find((t) => t.name === name);
   if (existing) return existing;
 
@@ -57,12 +49,7 @@ export function createThread(name: string, photo: string, source: "vibe" | "invi
     time: "Just now",
     unread: true,
     messages: [
-      {
-        id: "system-1",
-        sender: "them",
-        text: greeting,
-        time: "Just now",
-      },
+      { id: "system-1", sender: "them", text: greeting, time: "Just now" },
     ],
   };
 
