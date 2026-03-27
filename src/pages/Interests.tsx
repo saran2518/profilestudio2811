@@ -385,12 +385,13 @@ export default function Interests() {
   const [activeTab, setActiveTab] = useState("vibes");
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
+  const sentInvites = useSentInvites();
 
   const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
   const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
 
   const vibeCount = MOCK_VIBES.length;
-  const inviteCount = newInvites.length;
+  const inviteCount = newInvites.length + sentInvites.length;
 
   const handleVibeBack = (vibe: VibeItem) => {
     createThread(vibe.name, vibe.photo, "vibe");
