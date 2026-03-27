@@ -381,6 +381,7 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
 export default function Interests() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("vibes");
+  const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
 
   const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
   const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
@@ -390,11 +391,20 @@ export default function Interests() {
 
   const handleVibeBack = (vibe: VibeItem) => {
     createThread(vibe.name, vibe.photo, "vibe");
-    toast({
-      title: "Vibe Sent! 💬",
-      description: `Chat created with ${vibe.name}`,
-    });
+    setMutualVibeProfile(vibe);
+  };
+
+  const handleChatNow = () => {
+    setMutualVibeProfile(null);
     navigate("/chat");
+  };
+
+  const handleLater = () => {
+    setMutualVibeProfile(null);
+    toast({
+      title: "Connection saved! 💜",
+      description: `You can chat with ${mutualVibeProfile?.name} anytime`,
+    });
   };
 
   const handleAcceptInvite = (invite: InviteItem) => {
