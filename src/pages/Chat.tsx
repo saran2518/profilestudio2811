@@ -7,12 +7,11 @@ import {
   MessageCircle,
   Users,
   Sparkles,
-  Send,
-  ArrowLeft,
   Coffee,
 } from "lucide-react";
-import { useChatThreads, useChatThread } from "@/hooks/useChatStore";
-import { addMessage, ChatThread } from "@/lib/chatStore";
+import { useChatThreads } from "@/hooks/useChatStore";
+import { ChatThread } from "@/lib/chatStore";
+import ChatDetail from "@/components/chat/ChatDetail";
 
 /* ─── Chat List ──────────────────────────────────────── */
 
