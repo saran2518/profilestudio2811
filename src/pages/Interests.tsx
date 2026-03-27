@@ -23,8 +23,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
 import { createThread } from "@/lib/chatStore";
 import { toast } from "@/hooks/use-toast";
-import { useSentInvites, } from "@/hooks/useInviteStore";
-import { Send } from "lucide-react";
 
 /* ─── Mock data ──────────────────────────────────────── */
 
