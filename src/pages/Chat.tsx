@@ -214,6 +214,15 @@ export default function Chat() {
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const activeThread = threads.find((t) => t.id === activeThreadId);
 
+  // Connections: only system greeting, no user messages yet
+  const connections = threads.filter(
+    (t) => !t.messages.some((m) => m.sender === "me")
+  );
+  // Conversations: user has sent at least one message
+  const conversations = threads.filter(
+    (t) => t.messages.some((m) => m.sender === "me")
+  );
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <AnimatePresence mode="wait">
