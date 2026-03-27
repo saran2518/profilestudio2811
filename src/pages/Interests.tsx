@@ -382,6 +382,7 @@ export default function Interests() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("vibes");
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
+  const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
 
   const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
   const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
