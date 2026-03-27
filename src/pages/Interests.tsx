@@ -57,6 +57,7 @@ const MOCK_VIBES: VibeItem[] = [
     section: "photo",
     sectionEmoji: "📸",
     previewImage: PROFILES[0]?.photos[1] || PROFILES[0]?.photos[0] || "",
+    profileIndex: 0,
   },
   {
     id: "v2",
@@ -67,6 +68,7 @@ const MOCK_VIBES: VibeItem[] = [
     sectionEmoji: "✍️",
     previewText:
       '"Sometimes the quietest moments speak the loudest volumes. Finding peace in the chaos..."',
+    profileIndex: 2,
   },
   {
     id: "v3",
@@ -77,6 +79,7 @@ const MOCK_VIBES: VibeItem[] = [
     sectionEmoji: "🌿",
     previewImage: PROFILES[3]?.photos[1] || PROFILES[3]?.photos[0] || "",
     isMutual: true,
+    profileIndex: 3,
   },
 ];
 
