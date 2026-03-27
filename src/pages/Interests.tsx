@@ -24,7 +24,7 @@ import { PROFILES } from "@/lib/profilesData";
 import { createThread } from "@/lib/chatStore";
 import { toast } from "@/hooks/use-toast";
 
-/* ─── Mock data ──────────────────────────────────────── */
+/* ─── Mock data ───────────────────────────────────────── */
 
 interface VibeItem {
   id: string;
