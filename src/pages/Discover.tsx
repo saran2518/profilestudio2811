@@ -231,7 +231,7 @@ const Discover = () => {
   );
 };
 
-function NavItem({ icon, label, active }: { icon: React.ReactNode; label: string; active?: boolean }) {
+function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
     <button
       className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
