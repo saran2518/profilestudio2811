@@ -3,11 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   Heart,
+  HeartPulse,
   MessageCircle,
   Users,
   Sparkles,
   Send,
   ArrowLeft,
+  Coffee,
 } from "lucide-react";
 import { useChatThreads, useChatThread } from "@/hooks/useChatStore";
 import { addMessage, ChatThread } from "@/lib/chatStore";
