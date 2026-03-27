@@ -248,6 +248,53 @@ export default function Chat() {
                 Your conversations
               </p>
             </header>
+
+            {/* Connections Row */}
+            {threads.length > 0 && (
+              <div className="px-5 pb-3">
+                <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-3">
+                  Connections
+                </h2>
+                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                  {threads.map((thread, i) => (
+                    <motion.button
+                      key={thread.id}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.05, duration: 0.3 }}
+                      onClick={() => setActiveThreadId(thread.id)}
+                      className="flex flex-col items-center gap-1.5 shrink-0"
+                    >
+                      <div
+                        className="relative rounded-full p-[2px]"
+                        style={{ background: "var(--gradient-warm)" }}
+                      >
+                        <img
+                          src={thread.photo}
+                          alt={thread.name}
+                          className="h-14 w-14 rounded-full object-cover border-2 border-background"
+                        />
+                        <div
+                          className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full border-2 border-background flex items-center justify-center"
+                          style={{ background: "var(--gradient-warm)" }}
+                        >
+                          {thread.source === "vibe" ? (
+                            <HeartPulse className="h-2.5 w-2.5 text-primary-foreground" />
+                          ) : (
+                            <Coffee className="h-2.5 w-2.5 text-primary-foreground" />
+                          )}
+                        </div>
+                      </div>
+                      <span className="font-body text-[11px] text-muted-foreground max-w-[56px] truncate">
+                        {thread.name.split(" ")[0]}
+                      </span>
+                    </motion.button>
+                  ))}
+                </div>
+                <div className="h-px bg-border/30 mt-2" />
+              </div>
+            )}
+
             <ChatList
               threads={threads}
               onOpenThread={(id) => setActiveThreadId(id)}
