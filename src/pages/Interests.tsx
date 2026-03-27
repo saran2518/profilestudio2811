@@ -410,11 +410,20 @@ export default function Interests() {
 
   const handleAcceptInvite = (invite: InviteItem) => {
     createThread(invite.name, invite.photo, "invite");
-    toast({
-      title: "Invite Accepted! 💬",
-      description: `Chat created with ${invite.name}`,
-    });
+    setAcceptedInviteProfile(invite);
+  };
+
+  const handleInviteChatNow = () => {
+    setAcceptedInviteProfile(null);
     navigate("/chat");
+  };
+
+  const handleInviteLater = () => {
+    setAcceptedInviteProfile(null);
+    toast({
+      title: "Connection saved! ☕",
+      description: `You can chat with ${acceptedInviteProfile?.name} anytime`,
+    });
   };
 
   return (
