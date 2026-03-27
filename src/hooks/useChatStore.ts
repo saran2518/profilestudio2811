@@ -1,5 +1,5 @@
-import { useSyncExternalStore, useCallback } from "react";
-import { subscribe, getThreads, getThread, ChatThread } from "@/lib/chatStore";
+import { useSyncExternalStore } from "react";
+import { subscribe, getThreads, ChatThread } from "@/lib/chatStore";
 
 export function useChatThreads(): ChatThread[] {
   return useSyncExternalStore(subscribe, getThreads);
