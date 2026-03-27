@@ -14,6 +14,7 @@ export interface ChatMessage {
   sender: "me" | "them";
   text: string;
   time: string;
+  image?: string; // data URL for in-memory image attachments
 }
 
 let threads: ChatThread[] = [];
@@ -60,16 +61,17 @@ export function createThread(name: string, photo: string, source: "vibe" | "invi
   return thread;
 }
 
-export function addMessage(threadId: string, text: string, sender: "me" | "them") {
+export function addMessage(threadId: string, text: string, sender: "me" | "them", image?: string) {
+  const displayText = image ? (text || "📷 Photo") : text;
   threads = threads.map((t) =>
     t.id === threadId
       ? {
           ...t,
-          lastMessage: text,
+          lastMessage: displayText,
           time: "Just now",
           messages: [
             ...t.messages,
-            { id: `msg-${Date.now()}`, sender, text, time: "Just now" },
+            { id: `msg-${Date.now()}`, sender, text, time: "Just now", image },
           ],
         }
       : t
