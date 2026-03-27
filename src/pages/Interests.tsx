@@ -359,6 +359,7 @@ function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: nu
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
             }}
+            onClick={() => onAccept(invite)}
           >
             Accept
           </motion.button>
