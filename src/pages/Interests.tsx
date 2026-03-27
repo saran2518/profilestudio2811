@@ -238,6 +238,7 @@ function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; 
           <motion.button
             whileTap={{ scale: 0.96 }}
             whileHover={{ scale: 1.02 }}
+            onClick={() => onVibeBack(vibe)}
             className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body flex items-center justify-center gap-2 transition-all"
             style={{
               background: "var(--gradient-warm)",
