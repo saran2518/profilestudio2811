@@ -130,7 +130,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 /* ─── Components ─────────────────────────────────────── */
 
-function VibeCard({ vibe, index }: { vibe: VibeItem; index: number }) {
+function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; onVibeBack: (vibe: VibeItem) => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
