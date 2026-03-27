@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, useCallback } from "react";
 import { subscribe, getThreads, getThread, ChatThread } from "@/lib/chatStore";
 
 export function useChatThreads(): ChatThread[] {
@@ -6,5 +6,6 @@ export function useChatThreads(): ChatThread[] {
 }
 
 export function useChatThread(id: string): ChatThread | undefined {
-  return useSyncExternalStore(subscribe, () => getThread(id));
+  const threads = useChatThreads();
+  return threads.find((t) => t.id === id);
 }
