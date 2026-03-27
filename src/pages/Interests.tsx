@@ -14,6 +14,10 @@ import {
   Monitor,
   Footprints,
   Eye,
+  X,
+  MapPin,
+  Shield,
+  ArrowLeft,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
@@ -34,6 +38,7 @@ interface VibeItem {
   previewText?: string;
   previewImage?: string;
   isMutual?: boolean;
+  profileIndex: number;
 }
 
 interface InviteItem {
@@ -56,6 +61,7 @@ const MOCK_VIBES: VibeItem[] = [
     section: "photo",
     sectionEmoji: "📸",
     previewImage: PROFILES[0]?.photos[1] || PROFILES[0]?.photos[0] || "",
+    profileIndex: 0,
   },
   {
     id: "v2",
@@ -66,6 +72,7 @@ const MOCK_VIBES: VibeItem[] = [
     sectionEmoji: "✍️",
     previewText:
       '"Sometimes the quietest moments speak the loudest volumes. Finding peace in the chaos..."',
+    profileIndex: 2,
   },
   {
     id: "v3",
@@ -76,6 +83,7 @@ const MOCK_VIBES: VibeItem[] = [
     sectionEmoji: "🌿",
     previewImage: PROFILES[3]?.photos[1] || PROFILES[3]?.photos[0] || "",
     isMutual: true,
+    profileIndex: 3,
   },
 ];
 
@@ -132,14 +140,15 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 /* ─── Components ─────────────────────────────────────── */
 
-function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; onVibeBack: (vibe: VibeItem) => void }) {
+function VibeCard({ vibe, index, onClick }: { vibe: VibeItem; index: number; onClick: (vibe: VibeItem) => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
-      className="rounded-2xl border border-border/40 bg-card overflow-hidden relative group"
+      className="rounded-2xl border border-border/40 bg-card overflow-hidden relative group cursor-pointer active:scale-[0.98] transition-transform"
       style={{ boxShadow: "var(--shadow-card)" }}
+      onClick={() => onClick(vibe)}
     >
       {/* Warm left accent for mutual vibes */}
       {vibe.isMutual && (
@@ -217,8 +226,8 @@ function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; 
         </div>
       )}
 
-      {/* Actions */}
-      {vibe.isMutual ? (
+      {/* Mutual vibe indicator (no action buttons) */}
+      {vibe.isMutual && (
         <div className="px-4 pb-4">
           <div
             className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl"
@@ -235,29 +244,14 @@ function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; 
             </p>
           </div>
         </div>
-      ) : (
-        <div className="px-4 pb-4 flex gap-2.5">
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            onClick={() => onVibeBack(vibe)}
-            className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body flex items-center justify-center gap-2 transition-all"
-            style={{
-              background: "var(--gradient-warm)",
-              boxShadow: "var(--shadow-warm)",
-            }}
-          >
-            <HeartPulse className="h-3.5 w-3.5" />
-            Vibe Back
-          </motion.button>
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            className="px-4 py-2.5 rounded-xl border border-border/50 text-[13px] font-medium text-muted-foreground bg-card hover:bg-muted/40 transition-all font-body flex items-center gap-1.5"
-          >
-            <Eye className="h-3.5 w-3.5" />
-            View
-          </motion.button>
+      )}
+
+      {/* Tap hint for non-mutual */}
+      {!vibe.isMutual && (
+        <div className="px-4 pb-4 flex items-center justify-center">
+          <p className="font-body text-[11px] text-muted-foreground/50">
+            Tap to view profile
+          </p>
         </div>
       )}
     </motion.div>
@@ -385,6 +379,7 @@ export default function Interests() {
   const [activeTab, setActiveTab] = useState("vibes");
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
+  const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const sentInvites = useSentInvites();
 
   const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
@@ -393,9 +388,27 @@ export default function Interests() {
   const vibeCount = MOCK_VIBES.length;
   const inviteCount = newInvites.length + sentInvites.length;
 
+  const handleVibeCardClick = (vibe: VibeItem) => {
+    if (vibe.isMutual) {
+      navigate("/chat");
+    } else {
+      setSelectedVibePreview(vibe);
+    }
+  };
+
   const handleVibeBack = (vibe: VibeItem) => {
+    setSelectedVibePreview(null);
     createThread(vibe.name, vibe.photo, "vibe");
     setMutualVibeProfile(vibe);
+  };
+
+  const handlePass = () => {
+    const name = selectedVibePreview?.name;
+    setSelectedVibePreview(null);
+    toast({
+      title: "Passed",
+      description: `You passed on ${name}`,
+    });
   };
 
   const handleChatNow = () => {
@@ -488,7 +501,7 @@ export default function Interests() {
               className="space-y-3.5"
             >
               {MOCK_VIBES.map((vibe, i) => (
-                <VibeCard key={vibe.id} vibe={vibe} index={i} onVibeBack={handleVibeBack} />
+                <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
               ))}
             </motion.div>
           </AnimatePresence>
@@ -586,7 +599,138 @@ export default function Interests() {
         </TabsContent>
       </Tabs>
 
-      {/* Mutual Vibe Dialog */}
+      {/* Profile Preview Overlay */}
+      <AnimatePresence>
+        {selectedVibePreview && (() => {
+          const profile = PROFILES[selectedVibePreview.profileIndex];
+          if (!profile) return null;
+          return (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+                onClick={() => setSelectedVibePreview(null)}
+              />
+              <motion.div
+                initial={{ opacity: 0, y: "100%" }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: "100%" }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="fixed inset-0 z-50 bg-background overflow-y-auto"
+              >
+                {/* Sticky header */}
+                <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-xl border-b border-border/30 px-4 py-3 flex items-center gap-3">
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setSelectedVibePreview(null)}
+                    className="h-9 w-9 rounded-full bg-muted/50 flex items-center justify-center"
+                  >
+                    <ArrowLeft className="h-4 w-4 text-foreground" />
+                  </motion.button>
+                  <div className="flex-1">
+                    <p className="font-display text-[15px] font-bold text-foreground">{profile.name}'s Profile</p>
+                    <p className="font-body text-[11px] text-muted-foreground">
+                      Vibed on your {selectedVibePreview.section} {selectedVibePreview.sectionEmoji}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Profile content */}
+                <div className="px-4 pt-4 pb-32 space-y-4">
+                  {/* Hero photo */}
+                  <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: "0 12px 40px -12px hsl(var(--foreground) / 0.15)" }}>
+                    <img src={profile.photos[0]} alt={profile.name} className="w-full aspect-[4/5] object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <div className="rounded-2xl bg-card/75 backdrop-blur-lg px-5 py-4 border border-border/20">
+                        <div className="flex items-center gap-2.5">
+                          <h2 className="font-display text-2xl font-bold text-foreground">{profile.name}, {profile.age}</h2>
+                          {profile.verified && (
+                            <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center">
+                              <Shield className="h-4 w-4 text-primary" />
+                            </div>
+                          )}
+                        </div>
+                        <p className="font-body text-sm text-foreground/80 mt-0.5">{profile.profession} • {profile.specialization}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                          <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bio */}
+                  <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+                    <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Bio</h3>
+                    <p className="font-body text-[15px] leading-relaxed text-foreground/80">{profile.bio}</p>
+                  </div>
+
+                  {/* Interests */}
+                  <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+                    <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Interests</h3>
+                    <p className="font-body text-[15px] leading-relaxed text-foreground/80 font-medium">
+                      {profile.interests.slice(0, 6).map((interest, idx, arr) => (
+                        <span key={idx}>
+                          {interest}
+                          {idx < arr.length - 1 && (
+                            <span className="mx-2 inline-block h-[5px] w-[5px] rounded-full bg-primary/50 align-middle" />
+                          )}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+
+                  {/* Narratives */}
+                  {profile.narratives.length > 0 && (
+                    <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+                      <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Narratives</h3>
+                      {profile.narratives.map((n, idx) => (
+                        <div key={idx} className={idx > 0 ? "mt-4 pt-4 border-t border-border/30" : ""}>
+                          <p className="font-display text-[15px] font-bold text-foreground mb-1">{n.title}</p>
+                          <p className="font-body text-[14px] leading-relaxed text-foreground/70">{n.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Second photo if available */}
+                  {profile.photos[1] && (
+                    <div className="rounded-2xl overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+                      <img src={profile.photos[1]} alt="" className="w-full aspect-[3/2] object-cover" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Fixed bottom CTAs */}
+                <div className="fixed bottom-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-xl border-t border-border/30 px-5 py-4 pb-8">
+                  <div className="flex gap-3">
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={handlePass}
+                      className="flex-1 py-3.5 rounded-2xl border border-border/50 bg-muted/30 text-sm font-medium text-muted-foreground hover:bg-muted transition-colors font-body"
+                    >
+                      Pass
+                    </motion.button>
+                    <motion.button
+                      whileTap={{ scale: 0.96 }}
+                      onClick={() => handleVibeBack(selectedVibePreview)}
+                      className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 font-body"
+                      style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                    >
+                      <HeartPulse className="h-4 w-4" />
+                      Vibe Back
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          );
+        })()}
+      </AnimatePresence>
+
       <AnimatePresence>
         {mutualVibeProfile && (
           <>
