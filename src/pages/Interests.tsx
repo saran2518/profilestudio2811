@@ -535,6 +535,7 @@ export default function Interests() {
                     ))}
                   </div>
                 </>
+              )}
               {sentInvites.length > 0 && (
                 <>
                   <div className="flex items-center gap-2 mb-3 mt-2">
