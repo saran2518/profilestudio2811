@@ -13,6 +13,7 @@ import {
   Film,
   Monitor,
   Footprints,
+  Eye,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
@@ -127,15 +128,14 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 /* ─── Components ─────────────────────────────────────── */
 
-function VibeCard({ vibe }: { vibe: VibeItem }) {
+function VibeCard({ vibe, index }: { vibe: VibeItem; index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-border/50 bg-card overflow-hidden relative"
-      style={{
-        boxShadow: "var(--shadow-card)",
-      }}
+      transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
+      className="rounded-2xl border border-border/40 bg-card overflow-hidden relative group"
+      style={{ boxShadow: "var(--shadow-card)" }}
     >
       {/* Warm left accent for mutual vibes */}
       {vibe.isMutual && (
@@ -145,72 +145,98 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
         />
       )}
 
-      <div className="p-4 pb-3 flex items-center gap-3">
-        <img
-          src={vibe.photo}
-          alt={vibe.name}
-          className="h-10 w-10 rounded-full object-cover border-2 border-primary/20"
-        />
-        <div className="flex-1">
-          <p className="font-display text-sm font-bold text-card-foreground">
+      {/* Header row */}
+      <div className="p-4 pb-2.5 flex items-center gap-3">
+        <div className="relative">
+          <img
+            src={vibe.photo}
+            alt={vibe.name}
+            className="h-11 w-11 rounded-full object-cover ring-2 ring-primary/15 ring-offset-2 ring-offset-card"
+          />
+          <div
+            className="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full flex items-center justify-center border-2 border-card"
+            style={{ background: "var(--gradient-warm)" }}
+          >
+            <HeartPulse className="h-2 w-2 text-primary-foreground" />
+          </div>
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="font-display text-[15px] font-bold text-card-foreground leading-tight">
             {vibe.name}
           </p>
-          <p className="font-body text-[11px] text-muted-foreground">
+          <p className="font-body text-[11px] text-muted-foreground mt-0.5">
             {vibe.time}
           </p>
         </div>
-        <HeartPulse className="h-4 w-4 text-primary/60" />
+        <span className="text-lg">{vibe.sectionEmoji}</span>
       </div>
 
+      {/* Vibe description */}
       <div className="px-4 pb-3">
-        <p className="font-body text-sm text-foreground/80">
-          {vibe.name} vibed on your{" "}
-          <span className="font-semibold text-foreground">{vibe.section}</span>{" "}
-          {vibe.sectionEmoji}
+        <p className="font-body text-[13px] text-foreground/70 leading-relaxed">
+          Vibed on your{" "}
+          <span
+            className="font-semibold text-transparent bg-clip-text"
+            style={{ backgroundImage: "var(--gradient-warm)" }}
+          >
+            {vibe.section}
+          </span>
         </p>
       </div>
 
+      {/* Preview image */}
       {vibe.previewImage && (
         <div className="px-4 pb-3">
-          <img
-            src={vibe.previewImage}
-            alt="content"
-            className="w-full h-44 object-cover rounded-xl"
-          />
+          <div className="relative rounded-xl overflow-hidden">
+            <img
+              src={vibe.previewImage}
+              alt="content"
+              className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
+          </div>
         </div>
       )}
 
+      {/* Preview text */}
       {vibe.previewText && (
         <div className="px-4 pb-3">
-          <div className="rounded-xl border border-border/40 bg-muted/30 p-3 relative overflow-hidden">
+          <div className="rounded-xl bg-muted/40 p-3.5 relative overflow-hidden border border-border/30">
             <div
-              className="absolute top-0 left-0 w-0.5 h-full"
+              className="absolute top-0 left-0 w-[3px] h-full rounded-r-full"
               style={{ background: "var(--gradient-warm)" }}
             />
-            <p className="font-body text-sm text-foreground/70 italic leading-relaxed pl-2">
+            <p className="font-body text-[13px] text-foreground/65 italic leading-relaxed pl-3">
               {vibe.previewText}
             </p>
           </div>
         </div>
       )}
 
+      {/* Actions */}
       {vibe.isMutual ? (
-        <div className="px-4 pb-4 flex items-center gap-2">
+        <div className="px-4 pb-4">
           <div
-            className="h-6 w-6 rounded-full flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2))" }}
+            className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.08), hsl(var(--accent) / 0.08))" }}
           >
-            <Sparkles className="h-3 w-3 text-primary" />
+            <div
+              className="h-7 w-7 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: "var(--gradient-warm)" }}
+            >
+              <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+            </div>
+            <p className="font-body text-[13px] font-semibold text-primary">
+              Mutual Vibe — Chat Created 💬
+            </p>
           </div>
-          <p className="font-body text-sm font-semibold text-primary">
-            Mutual Vibe — Chat Created 💬
-          </p>
         </div>
       ) : (
-        <div className="px-4 pb-4 flex gap-3">
+        <div className="px-4 pb-4 flex gap-2.5">
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-2xl text-sm font-semibold text-primary-foreground font-body flex items-center gap-2"
+            whileHover={{ scale: 1.02 }}
+            className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body flex items-center justify-center gap-2 transition-all"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
@@ -221,9 +247,11 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-2xl border border-border/50 text-sm font-medium text-muted-foreground bg-muted/30 hover:bg-muted/50 transition-colors font-body"
+            whileHover={{ scale: 1.02 }}
+            className="px-4 py-2.5 rounded-xl border border-border/50 text-[13px] font-medium text-muted-foreground bg-card hover:bg-muted/40 transition-all font-body flex items-center gap-1.5"
           >
-            View Content
+            <Eye className="h-3.5 w-3.5" />
+            View
           </motion.button>
         </div>
       )}
@@ -231,84 +259,99 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
   );
 }
 
-function InviteCard({ invite }: { invite: InviteItem }) {
+function InviteCard({ invite, index }: { invite: InviteItem; index: number }) {
   const catIcon = CATEGORY_ICONS[invite.category];
   const [expanded, setExpanded] = useState(false);
-  const isLong = invite.message.length > 120;
+  const isLong = invite.message.length > 100;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-border/50 bg-card overflow-hidden"
+      transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
+      className="rounded-2xl border border-border/40 bg-card overflow-hidden"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      {/* Category header — uses warm gradient */}
-      <div
-        className="px-4 py-2 flex items-center gap-2"
-        style={{ background: "var(--gradient-warm)" }}
-      >
-        <span className="text-primary-foreground">{catIcon}</span>
-        <span className="text-[11px] font-bold uppercase tracking-wider text-primary-foreground font-body">
-          {invite.category} invite
-        </span>
-      </div>
-
-      <div className="p-4 pb-3 flex items-center gap-3">
-        <img
-          src={invite.photo}
-          alt={invite.name}
-          className="h-10 w-10 rounded-full object-cover border-2 border-primary/20"
-        />
-        <div>
-          <p className="font-display text-sm font-bold text-card-foreground">
-            {invite.name}
-          </p>
-          <p className="font-body text-[11px] text-muted-foreground">
-            {invite.time}
-          </p>
+      {/* Category pill — compact, inline */}
+      <div className="p-4 pb-0 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <img
+              src={invite.photo}
+              alt={invite.name}
+              className="h-11 w-11 rounded-full object-cover ring-2 ring-primary/15 ring-offset-2 ring-offset-card"
+            />
+          </div>
+          <div>
+            <p className="font-display text-[15px] font-bold text-card-foreground leading-tight">
+              {invite.name}
+            </p>
+            <p className="font-body text-[11px] text-muted-foreground mt-0.5">
+              {invite.time}
+            </p>
+          </div>
+        </div>
+        <div
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-primary-foreground"
+          style={{ background: "var(--gradient-warm)" }}
+        >
+          <span className="[&>svg]:h-3 [&>svg]:w-3">{catIcon}</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider font-body">
+            {invite.category}
+          </span>
         </div>
       </div>
 
+      {/* Message */}
       {invite.message && (
-        <div className="px-4 pb-3">
-          <p className="font-body text-sm text-foreground/80 leading-relaxed">
-            {isLong && !expanded
-              ? invite.message.slice(0, 120) + "..."
-              : invite.message}
-          </p>
-          {isLong && (
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="mt-1"
-            >
-              <ChevronDown
-                className={`h-4 w-4 text-muted-foreground transition-transform ${
-                  expanded ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-          )}
+        <div className="px-4 pt-3 pb-3">
+          <div className="rounded-xl bg-muted/30 p-3 border border-border/30">
+            <p className="font-body text-[13px] text-foreground/75 leading-relaxed">
+              {isLong && !expanded
+                ? invite.message.slice(0, 100) + "…"
+                : invite.message}
+            </p>
+            {isLong && (
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="mt-1.5 flex items-center gap-1 text-[11px] font-medium text-primary/70 hover:text-primary transition-colors"
+              >
+                {expanded ? "Show less" : "Read more"}
+                <ChevronDown
+                  className={`h-3 w-3 transition-transform duration-200 ${
+                    expanded ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+            )}
+          </div>
         </div>
       )}
 
+      {/* Actions */}
       {invite.accepted ? (
-        <div className="px-4 pb-4 flex items-center gap-2">
+        <div className="px-4 pb-4 pt-1">
           <div
-            className="h-6 w-6 rounded-full flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2))" }}
+            className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.08), hsl(var(--accent) / 0.08))" }}
           >
-            <Sparkles className="h-3 w-3 text-primary" />
+            <div
+              className="h-7 w-7 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: "var(--gradient-warm)" }}
+            >
+              <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+            </div>
+            <p className="font-body text-[13px] font-semibold text-primary">
+              Accepted — Chat Created 💬
+            </p>
           </div>
-          <p className="font-body text-sm font-semibold text-primary">
-            Invite Accepted — Chat Created 💬
-          </p>
         </div>
       ) : (
-        <div className="px-4 pb-4 flex gap-3">
+        <div className="px-4 pb-4 pt-1 flex gap-2.5">
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-2xl text-sm font-semibold text-primary-foreground font-body"
+            whileHover={{ scale: 1.02 }}
+            className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body transition-all"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
@@ -318,7 +361,8 @@ function InviteCard({ invite }: { invite: InviteItem }) {
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-2xl border border-border/50 text-sm font-medium text-muted-foreground bg-muted/30 hover:bg-muted/50 transition-colors font-body"
+            whileHover={{ scale: 1.02 }}
+            className="flex-1 py-2.5 rounded-xl border border-border/50 text-[13px] font-medium text-muted-foreground bg-card hover:bg-muted/40 transition-all font-body"
           >
             Decline
           </motion.button>
@@ -332,74 +376,123 @@ function InviteCard({ invite }: { invite: InviteItem }) {
 
 export default function Interests() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("vibes");
 
   const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
   const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
 
+  const vibeCount = MOCK_VIBES.length;
+  const inviteCount = newInvites.length;
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="pt-10 pb-2 text-center">
+      <header className="pt-12 pb-4 px-5">
         <h1 className="font-display text-2xl font-bold text-foreground">
           Interests
         </h1>
+        <p className="font-body text-[13px] text-muted-foreground mt-1">
+          People who connected with your profile
+        </p>
       </header>
 
       {/* Tabs */}
-      <Tabs defaultValue="vibes" className="flex-1 flex flex-col">
-        <div className="flex justify-center px-4 pb-2">
-          <TabsList className="bg-transparent gap-6 h-auto p-0">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
+        <div className="px-5 pb-1">
+          <TabsList className="bg-muted/50 w-full h-11 p-1 rounded-xl border border-border/30">
             <TabsTrigger
               value="vibes"
-              className="font-display text-base font-semibold bg-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground text-muted-foreground pb-2 px-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary"
+              className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
             >
+              <HeartPulse className="h-3.5 w-3.5" />
               Vibes
+              {vibeCount > 0 && (
+                <span
+                  className="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full text-primary-foreground leading-none"
+                  style={{ background: "var(--gradient-warm)" }}
+                >
+                  {vibeCount}
+                </span>
+              )}
             </TabsTrigger>
             <TabsTrigger
               value="invites"
-              className="font-display text-base font-semibold bg-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground text-muted-foreground pb-2 px-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary"
+              className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
             >
+              <Coffee className="h-3.5 w-3.5" />
               Invites
+              {inviteCount > 0 && (
+                <span
+                  className="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full text-primary-foreground leading-none"
+                  style={{ background: "var(--gradient-warm)" }}
+                >
+                  {inviteCount}
+                </span>
+              )}
             </TabsTrigger>
           </TabsList>
         </div>
 
         {/* Vibes */}
-        <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-24 mt-4">
-          <div className="space-y-4">
-            {MOCK_VIBES.map((vibe) => (
-              <VibeCard key={vibe.id} vibe={vibe} />
-            ))}
-          </div>
+        <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="vibes-list"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-3.5"
+            >
+              {MOCK_VIBES.map((vibe, i) => (
+                <VibeCard key={vibe.id} vibe={vibe} index={i} />
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </TabsContent>
 
         {/* Invites */}
-        <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-24 mt-4">
-          {newInvites.length > 0 && (
-            <>
-              <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-                New Invites
-              </p>
-              <div className="space-y-4 mb-6">
-                {newInvites.map((invite) => (
-                  <InviteCard key={invite.id} invite={invite} />
-                ))}
-              </div>
-            </>
-          )}
+        <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="invites-list"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {newInvites.length > 0 && (
+                <>
+                  <div className="flex items-center gap-2 mb-3">
+                    <div
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{ background: "var(--gradient-warm)" }}
+                    />
+                    <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                      New
+                    </p>
+                  </div>
+                  <div className="space-y-3.5 mb-6">
+                    {newInvites.map((invite, i) => (
+                      <InviteCard key={invite.id} invite={invite} index={i} />
+                    ))}
+                  </div>
+                </>
+              )}
 
-          {acceptedInvites.length > 0 && (
-            <>
-              <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-                Accepted Invites
-              </p>
-              <div className="space-y-4">
-                {acceptedInvites.map((invite) => (
-                  <InviteCard key={invite.id} invite={invite} />
-                ))}
-              </div>
-            </>
-          )}
+              {acceptedInvites.length > 0 && (
+                <>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="h-3 w-3 text-primary/50" />
+                    <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                      Accepted
+                    </p>
+                  </div>
+                  <div className="space-y-3.5">
+                    {acceptedInvites.map((invite, i) => (
+                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </TabsContent>
       </Tabs>
 
