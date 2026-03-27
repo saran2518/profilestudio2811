@@ -455,7 +455,7 @@ export default function Interests() {
               className="space-y-3.5"
             >
               {MOCK_VIBES.map((vibe, i) => (
-                <VibeCard key={vibe.id} vibe={vibe} index={i} />
+                <VibeCard key={vibe.id} vibe={vibe} index={i} onVibeBack={handleVibeBack} />
               ))}
             </motion.div>
           </AnimatePresence>
