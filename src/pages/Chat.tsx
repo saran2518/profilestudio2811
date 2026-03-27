@@ -259,13 +259,13 @@ export default function Chat() {
             </header>
 
             {/* Connections Row */}
-            {threads.length > 0 && (
+            {connections.length > 0 && (
               <div className="px-5 pb-3">
                 <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-3">
                   Connections
                 </h2>
                 <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                  {threads.map((thread, i) => (
+                  {connections.map((thread, i) => (
                     <motion.button
                       key={thread.id}
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -305,7 +305,7 @@ export default function Chat() {
             )}
 
             {/* Conversations Section */}
-            {threads.length > 0 && (
+            {conversations.length > 0 && (
               <div className="px-5 pb-3">
                 <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Conversations
@@ -313,7 +313,7 @@ export default function Chat() {
               </div>
             )}
             <ChatList
-              threads={threads}
+              threads={conversations}
               onOpenThread={(id) => setActiveThreadId(id)}
             />
           </motion.div>
