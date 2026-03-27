@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Coffee, UtensilsCrossed, Film, Video, Footprints, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { addInvite } from "@/lib/inviteStore";
 
 const INVITE_TYPES = [
   { label: "Coffee", icon: Coffee, emoji: "☕" },
@@ -17,13 +18,17 @@ interface InviteDialogProps {
   onClose: () => void;
   onSent?: () => void;
   profileName?: string;
+  profilePhoto?: string;
 }
 
-export default function InviteDialog({ open, onClose, onSent, profileName }: InviteDialogProps) {
+export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto }: InviteDialogProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState("");
 
   const handleInvite = () => {
+    if (selected && profileName) {
+      addInvite(profileName, profilePhoto || "", selected, message);
+    }
     setSelected(null);
     setMessage("");
     onSent ? onSent() : onClose();
