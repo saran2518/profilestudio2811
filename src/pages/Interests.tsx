@@ -34,6 +34,7 @@ interface VibeItem {
   previewText?: string;
   previewImage?: string;
   isMutual?: boolean;
+  profileIndex: number;
 }
 
 interface InviteItem {
