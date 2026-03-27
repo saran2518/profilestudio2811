@@ -111,17 +111,6 @@ const MOCK_INVITES: InviteItem[] = [
       "Movie night over call tomorrow? I have a subscription we can share.",
     profileIndex: 3,
   },
-  {
-    id: "i4",
-    name: "Priya",
-    photo: PROFILES[4]?.photos[0] || "",
-    time: "Yesterday",
-    category: "virtual date",
-    categoryIcon: "💻",
-    message: "",
-    accepted: true,
-    profileIndex: 4,
-  },
 ];
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
