@@ -223,7 +223,7 @@ const Discover = () => {
           <NavItem icon={<Users className="h-5 w-5" />} label="Profile" />
           <NavItem icon={<Sparkles className="h-5 w-5" />} label="Expressions" />
           <NavItem icon={<InfinityIcon />} label="Discover" active />
-          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" />
+          <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
           <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" />
         </div>
       </nav>
