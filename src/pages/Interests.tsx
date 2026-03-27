@@ -379,6 +379,7 @@ export default function Interests() {
   const [activeTab, setActiveTab] = useState("vibes");
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
+  const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const sentInvites = useSentInvites();
 
   const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
@@ -387,9 +388,27 @@ export default function Interests() {
   const vibeCount = MOCK_VIBES.length;
   const inviteCount = newInvites.length + sentInvites.length;
 
+  const handleVibeCardClick = (vibe: VibeItem) => {
+    if (vibe.isMutual) {
+      navigate("/chat");
+    } else {
+      setSelectedVibePreview(vibe);
+    }
+  };
+
   const handleVibeBack = (vibe: VibeItem) => {
+    setSelectedVibePreview(null);
     createThread(vibe.name, vibe.photo, "vibe");
     setMutualVibeProfile(vibe);
+  };
+
+  const handlePass = () => {
+    const name = selectedVibePreview?.name;
+    setSelectedVibePreview(null);
+    toast({
+      title: "Passed",
+      description: `You passed on ${name}`,
+    });
   };
 
   const handleChatNow = () => {
