@@ -262,7 +262,7 @@ function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; 
   );
 }
 
-function InviteCard({ invite, index }: { invite: InviteItem; index: number }) {
+function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: number; onAccept: (invite: InviteItem) => void }) {
   const catIcon = CATEGORY_ICONS[invite.category];
   const [expanded, setExpanded] = useState(false);
   const isLong = invite.message.length > 100;
@@ -359,6 +359,7 @@ function InviteCard({ invite, index }: { invite: InviteItem; index: number }) {
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
             }}
+            onClick={() => onAccept(invite)}
           >
             Accept
           </motion.button>
@@ -392,6 +393,15 @@ export default function Interests() {
     toast({
       title: "Vibe Sent! 💬",
       description: `Chat created with ${vibe.name}`,
+    });
+    navigate("/chat");
+  };
+
+  const handleAcceptInvite = (invite: InviteItem) => {
+    createThread(invite.name, invite.photo, "invite");
+    toast({
+      title: "Invite Accepted! 💬",
+      description: `Chat created with ${invite.name}`,
     });
     navigate("/chat");
   };
@@ -482,7 +492,7 @@ export default function Interests() {
                   </div>
                   <div className="space-y-3.5 mb-6">
                     {newInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i} />
+                      <InviteCard key={invite.id} invite={invite} index={i} onAccept={handleAcceptInvite} />
                     ))}
                   </div>
                 </>
@@ -498,7 +508,7 @@ export default function Interests() {
                   </div>
                   <div className="space-y-3.5">
                     {acceptedInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} />
+                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onAccept={handleAcceptInvite} />
                     ))}
                   </div>
                 </>
