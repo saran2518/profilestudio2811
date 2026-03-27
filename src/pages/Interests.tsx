@@ -136,14 +136,15 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 /* ─── Components ─────────────────────────────────────── */
 
-function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; onVibeBack: (vibe: VibeItem) => void }) {
+function VibeCard({ vibe, index, onClick }: { vibe: VibeItem; index: number; onClick: (vibe: VibeItem) => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
-      className="rounded-2xl border border-border/40 bg-card overflow-hidden relative group"
+      className="rounded-2xl border border-border/40 bg-card overflow-hidden relative group cursor-pointer active:scale-[0.98] transition-transform"
       style={{ boxShadow: "var(--shadow-card)" }}
+      onClick={() => onClick(vibe)}
     >
       {/* Warm left accent for mutual vibes */}
       {vibe.isMutual && (
@@ -221,8 +222,8 @@ function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; 
         </div>
       )}
 
-      {/* Actions */}
-      {vibe.isMutual ? (
+      {/* Mutual vibe indicator (no action buttons) */}
+      {vibe.isMutual && (
         <div className="px-4 pb-4">
           <div
             className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl"
@@ -239,29 +240,14 @@ function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; 
             </p>
           </div>
         </div>
-      ) : (
-        <div className="px-4 pb-4 flex gap-2.5">
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            onClick={() => onVibeBack(vibe)}
-            className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-primary-foreground font-body flex items-center justify-center gap-2 transition-all"
-            style={{
-              background: "var(--gradient-warm)",
-              boxShadow: "var(--shadow-warm)",
-            }}
-          >
-            <HeartPulse className="h-3.5 w-3.5" />
-            Vibe Back
-          </motion.button>
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            whileHover={{ scale: 1.02 }}
-            className="px-4 py-2.5 rounded-xl border border-border/50 text-[13px] font-medium text-muted-foreground bg-card hover:bg-muted/40 transition-all font-body flex items-center gap-1.5"
-          >
-            <Eye className="h-3.5 w-3.5" />
-            View
-          </motion.button>
+      )}
+
+      {/* Tap hint for non-mutual */}
+      {!vibe.isMutual && (
+        <div className="px-4 pb-4 flex items-center justify-center">
+          <p className="font-body text-[11px] text-muted-foreground/50">
+            Tap to view profile
+          </p>
         </div>
       )}
     </motion.div>
