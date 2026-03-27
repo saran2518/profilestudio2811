@@ -5,6 +5,7 @@ export interface ChatThread {
   lastMessage: string;
   time: string;
   unread?: boolean;
+  source: "vibe" | "invite";
   messages: ChatMessage[];
 }
 
