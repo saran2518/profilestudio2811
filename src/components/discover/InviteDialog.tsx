@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Coffee, UtensilsCrossed, Film, Video, Footprints, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { addInvite } from "@/lib/inviteStore";
 
 const INVITE_TYPES = [
   { label: "Coffee", icon: Coffee, emoji: "☕" },
