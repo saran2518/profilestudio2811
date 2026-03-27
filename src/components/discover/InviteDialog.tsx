@@ -26,6 +26,9 @@ export default function InviteDialog({ open, onClose, onSent, profileName, profi
   const [message, setMessage] = useState("");
 
   const handleInvite = () => {
+    if (selected && profileName) {
+      addInvite(profileName, profilePhoto || "", selected, message);
+    }
     setSelected(null);
     setMessage("");
     onSent ? onSent() : onClose();
