@@ -38,7 +38,6 @@ interface InviteItem {
   time: string;
   category: string;
   categoryIcon: string;
-  categoryColor: string;
   message: string;
   accepted?: boolean;
 }
@@ -75,29 +74,6 @@ const MOCK_VIBES: VibeItem[] = [
   },
 ];
 
-const CATEGORY_MAP: Record<string, { icon: React.ReactNode; color: string }> = {
-  dinner: {
-    icon: <UtensilsCrossed className="h-3.5 w-3.5" />,
-    color: "hsl(33, 90%, 55%)",
-  },
-  travel: {
-    icon: <Footprints className="h-3.5 w-3.5" />,
-    color: "hsl(145, 55%, 48%)",
-  },
-  movie: {
-    icon: <Film className="h-3.5 w-3.5" />,
-    color: "hsl(220, 70%, 55%)",
-  },
-  "virtual date": {
-    icon: <Monitor className="h-3.5 w-3.5" />,
-    color: "hsl(280, 55%, 55%)",
-  },
-  coffee: {
-    icon: <Coffee className="h-3.5 w-3.5" />,
-    color: "hsl(25, 65%, 50%)",
-  },
-};
-
 const MOCK_INVITES: InviteItem[] = [
   {
     id: "i1",
@@ -106,7 +82,6 @@ const MOCK_INVITES: InviteItem[] = [
     time: "12m ago",
     category: "dinner",
     categoryIcon: "🍽️",
-    categoryColor: "hsl(33, 90%, 55%)",
     message:
       "It's been a while — dinner this weekend? There's a new spot downtown I've been dying to try.",
   },
@@ -117,7 +92,6 @@ const MOCK_INVITES: InviteItem[] = [
     time: "2h ago",
     category: "travel",
     categoryIcon: "✈️",
-    categoryColor: "hsl(145, 55%, 48%)",
     message:
       "Let's plan a short trip on Saturday. I was thinking we could drive up to the coast, grab some seafood, and maybe do a sunset walk.",
   },
@@ -128,7 +102,6 @@ const MOCK_INVITES: InviteItem[] = [
     time: "3h ago",
     category: "movie",
     categoryIcon: "🎬",
-    categoryColor: "hsl(220, 70%, 55%)",
     message:
       "Movie night over call tomorrow? I have a subscription we can share.",
   },
@@ -139,11 +112,18 @@ const MOCK_INVITES: InviteItem[] = [
     time: "Yesterday",
     category: "virtual date",
     categoryIcon: "💻",
-    categoryColor: "hsl(280, 55%, 55%)",
     message: "",
     accepted: true,
   },
 ];
+
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  dinner: <UtensilsCrossed className="h-3.5 w-3.5" />,
+  travel: <Footprints className="h-3.5 w-3.5" />,
+  movie: <Film className="h-3.5 w-3.5" />,
+  "virtual date": <Monitor className="h-3.5 w-3.5" />,
+  coffee: <Coffee className="h-3.5 w-3.5" />,
+};
 
 /* ─── Components ─────────────────────────────────────── */
 
@@ -152,20 +132,26 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-border/50 bg-card overflow-hidden"
+      className="rounded-2xl border border-border/50 bg-card overflow-hidden relative"
       style={{
-        boxShadow: vibe.isMutual
-          ? "inset 3px 0 0 hsl(145, 55%, 48%), 0 2px 12px -4px hsl(var(--foreground) / 0.06)"
-          : "0 2px 12px -4px hsl(var(--foreground) / 0.06)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
+      {/* Warm left accent for mutual vibes */}
+      {vibe.isMutual && (
+        <div
+          className="absolute top-0 left-0 w-1 h-full rounded-r-full"
+          style={{ background: "var(--gradient-warm)" }}
+        />
+      )}
+
       <div className="p-4 pb-3 flex items-center gap-3">
         <img
           src={vibe.photo}
           alt={vibe.name}
-          className="h-10 w-10 rounded-full object-cover border-2 border-border/30"
+          className="h-10 w-10 rounded-full object-cover border-2 border-primary/20"
         />
-        <div>
+        <div className="flex-1">
           <p className="font-display text-sm font-bold text-card-foreground">
             {vibe.name}
           </p>
@@ -173,11 +159,14 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
             {vibe.time}
           </p>
         </div>
+        <HeartPulse className="h-4 w-4 text-primary/60" />
       </div>
 
       <div className="px-4 pb-3">
         <p className="font-body text-sm text-foreground/80">
-          {vibe.name} vibed on your {vibe.section} {vibe.sectionEmoji}
+          {vibe.name} vibed on your{" "}
+          <span className="font-semibold text-foreground">{vibe.section}</span>{" "}
+          {vibe.sectionEmoji}
         </p>
       </div>
 
@@ -193,8 +182,12 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
 
       {vibe.previewText && (
         <div className="px-4 pb-3">
-          <div className="rounded-xl border border-border/40 bg-muted/30 p-3">
-            <p className="font-body text-sm text-foreground/70 italic leading-relaxed">
+          <div className="rounded-xl border border-border/40 bg-muted/30 p-3 relative overflow-hidden">
+            <div
+              className="absolute top-0 left-0 w-0.5 h-full"
+              style={{ background: "var(--gradient-warm)" }}
+            />
+            <p className="font-body text-sm text-foreground/70 italic leading-relaxed pl-2">
               {vibe.previewText}
             </p>
           </div>
@@ -202,8 +195,14 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
       )}
 
       {vibe.isMutual ? (
-        <div className="px-4 pb-4">
-          <p className="font-body text-sm font-semibold" style={{ color: "hsl(145, 55%, 48%)" }}>
+        <div className="px-4 pb-4 flex items-center gap-2">
+          <div
+            className="h-6 w-6 rounded-full flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2))" }}
+          >
+            <Sparkles className="h-3 w-3 text-primary" />
+          </div>
+          <p className="font-body text-sm font-semibold text-primary">
             Mutual Vibe — Chat Created 💬
           </p>
         </div>
@@ -211,17 +210,18 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
         <div className="px-4 pb-4 flex gap-3">
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-primary-foreground font-body"
+            className="px-5 py-2.5 rounded-2xl text-sm font-semibold text-primary-foreground font-body flex items-center gap-2"
             style={{
               background: "var(--gradient-warm)",
               boxShadow: "var(--shadow-warm)",
             }}
           >
+            <HeartPulse className="h-3.5 w-3.5" />
             Vibe Back
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-xl border border-border/60 text-sm font-medium text-foreground/70 bg-card hover:bg-muted/50 transition-colors font-body"
+            className="px-5 py-2.5 rounded-2xl border border-border/50 text-sm font-medium text-muted-foreground bg-muted/30 hover:bg-muted/50 transition-colors font-body"
           >
             View Content
           </motion.button>
@@ -232,7 +232,7 @@ function VibeCard({ vibe }: { vibe: VibeItem }) {
 }
 
 function InviteCard({ invite }: { invite: InviteItem }) {
-  const cat = CATEGORY_MAP[invite.category];
+  const catIcon = CATEGORY_ICONS[invite.category];
   const [expanded, setExpanded] = useState(false);
   const isLong = invite.message.length > 120;
 
@@ -241,15 +241,15 @@ function InviteCard({ invite }: { invite: InviteItem }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="rounded-2xl border border-border/50 bg-card overflow-hidden"
-      style={{ boxShadow: "0 2px 12px -4px hsl(var(--foreground) / 0.06)" }}
+      style={{ boxShadow: "var(--shadow-card)" }}
     >
-      {/* Category header */}
+      {/* Category header — uses warm gradient */}
       <div
         className="px-4 py-2 flex items-center gap-2"
-        style={{ background: cat?.color || "hsl(var(--primary))" }}
+        style={{ background: "var(--gradient-warm)" }}
       >
-        <span className="text-white">{cat?.icon}</span>
-        <span className="text-[11px] font-bold uppercase tracking-wider text-white font-body">
+        <span className="text-primary-foreground">{catIcon}</span>
+        <span className="text-[11px] font-bold uppercase tracking-wider text-primary-foreground font-body">
           {invite.category} invite
         </span>
       </div>
@@ -258,7 +258,7 @@ function InviteCard({ invite }: { invite: InviteItem }) {
         <img
           src={invite.photo}
           alt={invite.name}
-          className="h-10 w-10 rounded-full object-cover border-2 border-border/30"
+          className="h-10 w-10 rounded-full object-cover border-2 border-primary/20"
         />
         <div>
           <p className="font-display text-sm font-bold text-card-foreground">
@@ -293,8 +293,14 @@ function InviteCard({ invite }: { invite: InviteItem }) {
       )}
 
       {invite.accepted ? (
-        <div className="px-4 pb-4">
-          <p className="font-body text-sm font-semibold" style={{ color: "hsl(145, 55%, 48%)" }}>
+        <div className="px-4 pb-4 flex items-center gap-2">
+          <div
+            className="h-6 w-6 rounded-full flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2))" }}
+          >
+            <Sparkles className="h-3 w-3 text-primary" />
+          </div>
+          <p className="font-body text-sm font-semibold text-primary">
             Invite Accepted — Chat Created 💬
           </p>
         </div>
@@ -302,17 +308,17 @@ function InviteCard({ invite }: { invite: InviteItem }) {
         <div className="px-4 pb-4 flex gap-3">
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-primary-foreground font-body"
+            className="px-5 py-2.5 rounded-2xl text-sm font-semibold text-primary-foreground font-body"
             style={{
-              background: cat?.color || "var(--gradient-warm)",
-              boxShadow: `0 4px 14px -4px ${cat?.color || "hsl(var(--primary) / 0.4)"}`,
+              background: "var(--gradient-warm)",
+              boxShadow: "var(--shadow-warm)",
             }}
           >
             Accept
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.96 }}
-            className="px-5 py-2.5 rounded-xl border border-border/60 text-sm font-medium text-foreground/70 bg-card hover:bg-muted/50 transition-colors font-body"
+            className="px-5 py-2.5 rounded-2xl border border-border/50 text-sm font-medium text-muted-foreground bg-muted/30 hover:bg-muted/50 transition-colors font-body"
           >
             Decline
           </motion.button>
@@ -345,13 +351,13 @@ export default function Interests() {
           <TabsList className="bg-transparent gap-6 h-auto p-0">
             <TabsTrigger
               value="vibes"
-              className="font-display text-base font-semibold bg-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground text-muted-foreground pb-2 px-0 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
+              className="font-display text-base font-semibold bg-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground text-muted-foreground pb-2 px-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary"
             >
               Vibes
             </TabsTrigger>
             <TabsTrigger
               value="invites"
-              className="font-display text-base font-semibold bg-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground text-muted-foreground pb-2 px-0 rounded-none border-b-2 border-transparent data-[state=active]:border-foreground"
+              className="font-display text-base font-semibold bg-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:text-foreground text-muted-foreground pb-2 px-0 rounded-none border-b-2 border-transparent data-[state=active]:border-primary"
             >
               Invites
             </TabsTrigger>
