@@ -262,7 +262,7 @@ function VibeCard({ vibe, index, onVibeBack }: { vibe: VibeItem; index: number; 
   );
 }
 
-function InviteCard({ invite, index }: { invite: InviteItem; index: number }) {
+function InviteCard({ invite, index, onAccept }: { invite: InviteItem; index: number; onAccept: (invite: InviteItem) => void }) {
   const catIcon = CATEGORY_ICONS[invite.category];
   const [expanded, setExpanded] = useState(false);
   const isLong = invite.message.length > 100;
