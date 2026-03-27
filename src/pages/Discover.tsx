@@ -234,6 +234,7 @@ const Discover = () => {
 function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active?: boolean; onClick?: () => void }) {
   return (
     <button
+      onClick={onClick}
       className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-200 ${
         active ? "text-primary scale-110" : "text-muted-foreground hover:text-foreground"
       }`}
