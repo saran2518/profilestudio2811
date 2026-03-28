@@ -365,8 +365,8 @@ export default function Interests() {
 
   const handleVibeBack = (vibe: VibeItem) => {
     setSelectedVibePreview(null);
-    createThread(vibe.name, vibe.photo, "vibe");
-    setMutualVibeProfile(vibe);
+    const thread = createThread(vibe.name, vibe.photo, "vibe");
+    setMutualVibeProfile({ ...vibe, _threadId: thread.id } as any);
   };
 
   const handlePass = () => {
@@ -379,8 +379,9 @@ export default function Interests() {
   };
 
   const handleChatNow = () => {
+    const threadId = (mutualVibeProfile as any)?._threadId;
     setMutualVibeProfile(null);
-    navigate("/chat");
+    navigate("/chat", { state: { openThreadId: threadId } });
   };
 
   const handleLater = () => {
@@ -393,8 +394,8 @@ export default function Interests() {
 
   const handleAcceptInvite = (invite: InviteItem) => {
     setSelectedInvitePreview(null);
-    createThread(invite.name, invite.photo, "invite");
-    setAcceptedInviteProfile(invite);
+    const thread = createThread(invite.name, invite.photo, "invite");
+    setAcceptedInviteProfile({ ...invite, _threadId: thread.id } as any);
   };
 
   const handleDeclineInvite = () => {
@@ -407,8 +408,9 @@ export default function Interests() {
   };
 
   const handleInviteChatNow = () => {
+    const threadId = (acceptedInviteProfile as any)?._threadId;
     setAcceptedInviteProfile(null);
-    navigate("/chat");
+    navigate("/chat", { state: { openThreadId: threadId } });
   };
 
   const handleInviteLater = () => {

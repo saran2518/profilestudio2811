@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Heart,
   HeartPulse,
@@ -102,9 +102,20 @@ function ChatList({
 
 export default function Chat() {
   const navigate = useNavigate();
+  const location = useLocation();
   const threads = useChatThreads();
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const activeThread = threads.find((t) => t.id === activeThreadId);
+
+  // Auto-open thread if navigated with state
+  useEffect(() => {
+    const openId = (location.state as any)?.openThreadId;
+    if (openId) {
+      setActiveThreadId(openId);
+      // Clear the state so it doesn't re-open on re-renders
+      navigate("/chat", { replace: true, state: {} });
+    }
+  }, [location.state]);
 
   // Connections: only system greeting, no user messages yet
   const connections = threads.filter(
