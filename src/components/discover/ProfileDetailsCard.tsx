@@ -41,59 +41,16 @@ export default function ProfileDetailsCard({ profile }: Props) {
     { icon: <Ruler className="h-4 w-4" />, label: "Height", value: profile.about.height },
   ];
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.15, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="rounded-2xl border border-border/50 bg-card overflow-hidden"
-      style={{ boxShadow: "var(--shadow-card)" }}
-    >
-      {/* Tab bar */}
-      <div className="flex border-b border-border/30">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActive(tab.key)}
-            className={`relative flex-1 flex items-center justify-center gap-1.5 py-3 font-body text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors ${
-              active === tab.key ? "text-primary" : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {tab.icon}
-            {tab.label}
-            {active === tab.key && (
-              <motion.div
-                layoutId="tab-indicator"
-                className="absolute bottom-0 left-3 right-3 h-[2px] rounded-full bg-primary"
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              />
-            )}
-          </button>
-        ))}
-      </div>
+  // Check if any of the first 3 items have multiple values (comma-separated)
+  const hasMultiValue = aboutItems.slice(0, 3).some(
+    (item) => item.value.includes(",")
+  );
 
-      {/* Tab content */}
-      <div className="p-5 min-h-[140px]">
-        <AnimatePresence mode="wait">
-          {active === "about" && (
-            <motion.div
-              key="about"
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 16 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-3 gap-x-2 gap-y-4"
-            >
-              {aboutItems.slice(0, 3).map((item, idx) => (
-                <AboutItem key={idx} item={item} delay={idx * 0.05} />
-              ))}
-              <div className="col-span-3 grid grid-cols-2 gap-x-2 max-w-[66%] mx-auto">
-                {aboutItems.slice(3).map((item, idx) => (
-                  <AboutItem key={idx + 3} item={item} delay={(idx + 3) * 0.05} />
-                ))}
-              </div>
-            </motion.div>
-          )}
+  // Dynamic layout: 2+3 if multi-value detected, otherwise 3+2
+  const topRow = hasMultiValue ? aboutItems.slice(0, 2) : aboutItems.slice(0, 3);
+  const bottomRow = hasMultiValue ? aboutItems.slice(2) : aboutItems.slice(3);
+  const topCols = hasMultiValue ? 2 : 3;
+  const bottomCols = hasMultiValue ? 3 : 2;
 
           {active === "languages" && (
             <motion.div
