@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 
 import { PROFILES } from "@/lib/profilesData";
+import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
+import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import ProfileDetailsCard from "@/components/discover/ProfileDetailsCard";
 import LanguagesSection from "@/components/discover/LanguagesSection";
 import BioSection from "@/components/discover/BioSection";
