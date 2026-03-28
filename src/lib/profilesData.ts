@@ -20,6 +20,7 @@ export interface ProfileData {
   about: {
     gender: string;
     pronouns: string;
+    orientation: string;
     education: string;
     height: string;
   };
@@ -43,6 +44,7 @@ export const PROFILES: ProfileData[] = [
     about: {
       gender: "Man",
       pronouns: "He / Him",
+      orientation: "Straight",
       education: "Masters",
       height: '6\'0"',
     },
@@ -71,6 +73,7 @@ export const PROFILES: ProfileData[] = [
     about: {
       gender: "Woman",
       pronouns: "She / Her",
+      orientation: "Straight",
       education: "Bachelors",
       height: '5\'6"',
     },
@@ -99,6 +102,7 @@ export const PROFILES: ProfileData[] = [
     about: {
       gender: "Man",
       pronouns: "He / Him",
+      orientation: "Straight",
       education: "Masters",
       height: '5\'11"',
     },
@@ -127,6 +131,7 @@ export const PROFILES: ProfileData[] = [
     about: {
       gender: "Woman",
       pronouns: "She / Her",
+      orientation: "Bisexual",
       education: "Masters",
       height: '5\'4"',
     },
@@ -155,6 +160,7 @@ export const PROFILES: ProfileData[] = [
     about: {
       gender: "Man",
       pronouns: "He / Him",
+      orientation: "Straight",
       education: "MBA",
       height: '5\'10"',
     },
@@ -183,6 +189,7 @@ export const PROFILES: ProfileData[] = [
     about: {
       gender: "Woman",
       pronouns: "She / Her",
+      orientation: "Straight",
       education: "Bachelors",
       height: '5\'5"',
     },

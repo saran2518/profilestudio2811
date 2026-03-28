@@ -1,10 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { User, MessageSquare, GraduationCap, Ruler } from "lucide-react";
+import { User, MessageSquare, GraduationCap, Ruler, Heart } from "lucide-react";
 
 interface Props {
   profile: {
-    about: { gender: string; pronouns: string; education: string; height: string };
+    about: { gender: string; pronouns: string; orientation: string; education: string; height: string };
   };
 }
 
@@ -12,9 +12,34 @@ export default function AboutSection({ profile }: Props) {
   const items = [
     { icon: <User className="h-5 w-5" />, label: "Gender", value: profile.about.gender },
     { icon: <MessageSquare className="h-5 w-5" />, label: "Pronouns", value: profile.about.pronouns },
+    { icon: <Heart className="h-5 w-5" />, label: "Orientation", value: profile.about.orientation },
     { icon: <GraduationCap className="h-5 w-5" />, label: "Education", value: profile.about.education },
     { icon: <Ruler className="h-5 w-5" />, label: "Height", value: profile.about.height },
   ];
+
+  const topRow = items.slice(0, 3);
+  const bottomRow = items.slice(3);
+
+  const renderItem = (item: (typeof items)[0], idx: number) => (
+    <motion.div
+      key={idx}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.2 + idx * 0.07, duration: 0.35 }}
+      className="flex flex-col items-center text-center gap-1.5 py-2"
+    >
+      <div
+        className="flex h-8 w-8 items-center justify-center rounded-full text-primary"
+        style={{ background: "hsl(var(--primary) / 0.08)" }}
+      >
+        {React.cloneElement(item.icon as React.ReactElement, { className: "h-4 w-4" })}
+      </div>
+      <div className="flex flex-col">
+        <span className="font-body text-[13px] text-foreground font-semibold leading-tight">{item.value}</span>
+        <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider">{item.label}</span>
+      </div>
+    </motion.div>
+  );
 
   return (
     <motion.div
@@ -25,27 +50,11 @@ export default function AboutSection({ profile }: Props) {
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">About</h3>
-      <div className="grid grid-cols-4 gap-2">
-        {items.map((item, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 + idx * 0.07, duration: 0.35 }}
-            className="flex flex-col items-center text-center gap-1.5 py-2"
-          >
-            <div
-              className="flex h-8 w-8 items-center justify-center rounded-full text-primary"
-              style={{ background: "hsl(var(--primary) / 0.08)" }}
-            >
-              {React.cloneElement(item.icon as React.ReactElement, { className: "h-4 w-4" })}
-            </div>
-            <div className="flex flex-col">
-              <span className="font-body text-[13px] text-foreground font-semibold leading-tight">{item.value}</span>
-              <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider">{item.label}</span>
-            </div>
-          </motion.div>
-        ))}
+      <div className="grid grid-cols-3 gap-2">
+        {topRow.map((item, idx) => renderItem(item, idx))}
+      </div>
+      <div className="grid grid-cols-2 gap-2 mt-1 max-w-[66%] mx-auto">
+        {bottomRow.map((item, idx) => renderItem(item, idx + 3))}
       </div>
     </motion.div>
   );
