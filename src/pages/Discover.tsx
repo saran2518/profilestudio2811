@@ -95,6 +95,7 @@ const Discover = () => {
     const sections = [
       <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Photo")} onVibe={() => openVibeDialog("Photo")} profile={profile} />,
       <AboutSection key="about" profile={profile} />,
+      <LanguagesSection key="languages" languages={profile.languages} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("Bio")} onVibe={() => openVibeDialog("Bio")} />,
       <RelationshipIntentSection key="intent" intent={profile.relationshipIntent} />,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,

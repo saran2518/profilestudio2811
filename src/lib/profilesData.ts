@@ -186,6 +186,7 @@ export const PROFILES: ProfileData[] = [
       education: "Bachelors",
       height: '5\'5"',
     },
+    languages: ["English", "Tamil", "Telugu"],
     interests: ["Dance", "Temple visits", "South Indian cuisine", "Carnatic music", "Meditation", "Travel"],
     relationshipIntent: "Soulful Connection • Rooted in Tradition",
     bio: "My life is a rhythm — between the beats of Bharatanatyam and the melodies of Carnatic music. I find divinity in art and peace in temple courtyards. Looking for someone who values depth, tradition, and the beauty of slowing down.",
