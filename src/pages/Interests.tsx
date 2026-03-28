@@ -365,8 +365,8 @@ export default function Interests() {
 
   const handleVibeBack = (vibe: VibeItem) => {
     setSelectedVibePreview(null);
-    createThread(vibe.name, vibe.photo, "vibe");
-    setMutualVibeProfile(vibe);
+    const thread = createThread(vibe.name, vibe.photo, "vibe");
+    setMutualVibeProfile({ ...vibe, _threadId: thread.id } as any);
   };
 
   const handlePass = () => {
