@@ -23,6 +23,7 @@ export interface ProfileData {
     education: string;
     height: string;
   };
+  languages: string[];
   interests: string[];
   relationshipIntent: string;
   bio: string;
@@ -45,6 +46,7 @@ export const PROFILES: ProfileData[] = [
       education: "Masters",
       height: '6\'0"',
     },
+    languages: ["English", "Hindi", "Kannada"],
     interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
     relationshipIntent: "Meaningful Connection • Shared Experiences",
     bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
@@ -72,6 +74,7 @@ export const PROFILES: ProfileData[] = [
       education: "Bachelors",
       height: '5\'6"',
     },
+    languages: ["English", "Hindi", "Marathi"],
     interests: ["Café hopping", "Sketching", "Indie films", "Jazz nights", "Cooking", "Yoga"],
     relationshipIntent: "Deep Conversations • Creative Partnership",
     bio: "A design thinker by day and a jazz enthusiast by night. I believe the best conversations happen over a perfectly brewed pour-over and that every good story deserves a beautiful frame.",
@@ -99,6 +102,7 @@ export const PROFILES: ProfileData[] = [
       education: "Masters",
       height: '5\'11"',
     },
+    languages: ["English", "Hindi", "Punjabi"],
     interests: ["Storytelling", "Street food", "Old bookstores", "Guitar", "Travel writing", "Cricket"],
     relationshipIntent: "Authentic Connection • Shared Adventures",
     bio: "I chase stories that deserve to be told — from the bylanes of Old Delhi to remote Himalayan villages. When I'm not behind the camera, you'll find me strumming my guitar on a quiet terrace or lost in a second-hand bookshop.",
@@ -126,6 +130,7 @@ export const PROFILES: ProfileData[] = [
       education: "Masters",
       height: '5\'4"',
     },
+    languages: ["English", "Hindi", "Bengali"],
     interests: ["Poetry", "Thrift shopping", "Rainy days", "Theatre", "Journaling", "Chai culture"],
     relationshipIntent: "Intellectual Spark • Emotional Depth",
     bio: "Words are my world — I edit fiction for a living and write poetry for my soul. I fall in love with rainy afternoons in old Kolkata, the smell of musty bookshops, and the magic of a perfectly written sentence.",
@@ -153,6 +158,7 @@ export const PROFILES: ProfileData[] = [
       education: "MBA",
       height: '5\'10"',
     },
+    languages: ["English", "Hindi", "Marathi"],
     interests: ["Running", "Sustainability", "Board games", "Sci-fi", "Cooking", "Wine tasting"],
     relationshipIntent: "Growth Together • Building Something Real",
     bio: "Building a climate tech startup by day, perfecting risotto by night. I believe in running — both marathons and toward the things that matter. Looking for someone who's excited about the future we're building.",
@@ -180,6 +186,7 @@ export const PROFILES: ProfileData[] = [
       education: "Bachelors",
       height: '5\'5"',
     },
+    languages: ["English", "Tamil", "Telugu"],
     interests: ["Dance", "Temple visits", "South Indian cuisine", "Carnatic music", "Meditation", "Travel"],
     relationshipIntent: "Soulful Connection • Rooted in Tradition",
     bio: "My life is a rhythm — between the beats of Bharatanatyam and the melodies of Carnatic music. I find divinity in art and peace in temple courtyards. Looking for someone who values depth, tradition, and the beauty of slowing down.",

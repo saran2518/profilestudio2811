@@ -18,6 +18,7 @@ import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import AboutSection from "@/components/discover/AboutSection";
+import LanguagesSection from "@/components/discover/LanguagesSection";
 import BioSection from "@/components/discover/BioSection";
 import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
@@ -94,6 +95,7 @@ const Discover = () => {
     const sections = [
       <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Photo")} onVibe={() => openVibeDialog("Photo")} profile={profile} />,
       <AboutSection key="about" profile={profile} />,
+      <LanguagesSection key="languages" languages={profile.languages} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("Bio")} onVibe={() => openVibeDialog("Bio")} />,
       <RelationshipIntentSection key="intent" intent={profile.relationshipIntent} />,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
