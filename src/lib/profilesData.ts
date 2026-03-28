@@ -158,6 +158,7 @@ export const PROFILES: ProfileData[] = [
       education: "MBA",
       height: '5\'10"',
     },
+    languages: ["English", "Hindi", "Marathi"],
     interests: ["Running", "Sustainability", "Board games", "Sci-fi", "Cooking", "Wine tasting"],
     relationshipIntent: "Growth Together • Building Something Real",
     bio: "Building a climate tech startup by day, perfecting risotto by night. I believe in running — both marathons and toward the things that matter. Looking for someone who's excited about the future we're building.",
