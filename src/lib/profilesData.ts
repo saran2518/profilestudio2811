@@ -79,7 +79,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Marathi"],
     interests: ["Café hopping", "Sketching", "Indie films", "Jazz nights", "Cooking", "Yoga"],
-    relationshipIntent: "Deep Conversations • Creative Partnership",
+    relationshipIntent: ["Keeping it Light", "Discovery Mode"],
     bio: "A design thinker by day and a jazz enthusiast by night. I believe the best conversations happen over a perfectly brewed pour-over and that every good story deserves a beautiful frame.",
     narratives: [
       { title: "The Art of Noticing", content: "I see stories in textures, colors in silence, and poetry in the everyday chaos of Mumbai streets." },
