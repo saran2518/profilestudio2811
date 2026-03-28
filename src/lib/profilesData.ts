@@ -46,6 +46,7 @@ export const PROFILES: ProfileData[] = [
       education: "Masters",
       height: '6\'0"',
     },
+    languages: ["English", "Hindi", "Kannada"],
     interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
     relationshipIntent: "Meaningful Connection • Shared Experiences",
     bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
