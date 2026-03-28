@@ -23,6 +23,7 @@ export interface ProfileData {
     education: string;
     height: string;
   };
+  languages: string[];
   interests: string[];
   relationshipIntent: string;
   bio: string;
