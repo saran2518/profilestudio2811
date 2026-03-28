@@ -18,6 +18,7 @@ import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 import AboutSection from "@/components/discover/AboutSection";
+import LanguagesSection from "@/components/discover/LanguagesSection";
 import BioSection from "@/components/discover/BioSection";
 import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
