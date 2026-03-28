@@ -116,11 +116,9 @@ const Results = () => {
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <div>
-              <h1 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight">
-                Edit <span className="text-primary italic">Inputs</span>
-              </h1>
-            </div>
+            <h1 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight">
+              Your Profile, <span className="text-primary italic">Refined</span>
+            </h1>
           </div>
         </div>
       </header>
