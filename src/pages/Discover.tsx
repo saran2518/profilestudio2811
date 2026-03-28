@@ -92,12 +92,19 @@ const Discover = () => {
   const isVibed = (section: string) => vibedSections.has(section);
 
   const buildSections = () => {
+    // Group About + Languages + Intent together so photos don't split them
+    const aboutGroup = (
+      <div key="about-group" className="space-y-5">
+        <AboutSection profile={profile} />
+        <LanguagesSection languages={profile.languages} />
+        <RelationshipIntentSection intent={profile.relationshipIntent} />
+      </div>
+    );
+
     const sections = [
       <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Photo")} onVibe={() => openVibeDialog("Photo")} profile={profile} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("Bio")} onVibe={() => openVibeDialog("Bio")} />,
-      <AboutSection key="about" profile={profile} />,
-      <LanguagesSection key="languages" languages={profile.languages} />,
-      <RelationshipIntentSection key="intent" intent={profile.relationshipIntent} />,
+      aboutGroup,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
       <NarrativesSection key="narratives" narratives={profile.narratives} vibed={isVibed("Narratives")} onVibe={() => openVibeDialog("Narratives")} />,
       <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={isVibed("Join Me For")} onVibe={() => openVibeDialog("Join Me For")} />,
