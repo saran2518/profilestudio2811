@@ -137,7 +137,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Bengali"],
     interests: ["Poetry", "Thrift shopping", "Rainy days", "Theatre", "Journaling", "Chai culture"],
-    relationshipIntent: "Intellectual Spark • Emotional Depth",
+    relationshipIntent: ["Meaningful Connection", "Discovery Mode"],
     bio: "Words are my world — I edit fiction for a living and write poetry for my soul. I fall in love with rainy afternoons in old Kolkata, the smell of musty bookshops, and the magic of a perfectly written sentence.",
     narratives: [
       { title: "Between the Lines", content: "The best love stories are the ones you read between the lines — in silence, in subtlety, in stolen glances." },
