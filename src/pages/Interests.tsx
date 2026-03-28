@@ -408,8 +408,9 @@ export default function Interests() {
   };
 
   const handleInviteChatNow = () => {
+    const threadId = (acceptedInviteProfile as any)?._threadId;
     setAcceptedInviteProfile(null);
-    navigate("/chat");
+    navigate("/chat", { state: { openThreadId: threadId } });
   };
 
   const handleInviteLater = () => {
