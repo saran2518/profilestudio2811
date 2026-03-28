@@ -125,7 +125,36 @@ const Results = () => {
         </div>
       </header>
 
-      <main className="container max-w-2xl py-8 pb-16 space-y-8">
+      <main className="container max-w-2xl py-6 pb-16 space-y-6">
+        {/* Tone selector */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="flex justify-center"
+        >
+          <div className="inline-flex rounded-xl border border-border/60 bg-card p-1 gap-1" style={{ boxShadow: "var(--shadow-card)" }}>
+            {([
+              { key: "natural" as Tone, label: "Natural", icon: Feather },
+              { key: "elegant" as Tone, label: "Elegant", icon: Crown },
+            ]).map(({ key, label, icon: Icon }) => (
+              <button
+                key={key}
+                onClick={() => handleToneChange(key)}
+                disabled={isRegenerating}
+                className={`flex items-center gap-1.5 rounded-lg px-5 py-2 text-[13px] font-body font-medium transition-all duration-200 ${
+                  activeTone === key
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                } disabled:opacity-50 disabled:cursor-not-allowed`}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {label}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Hint */}
         <motion.p
           initial={{ opacity: 0 }}
