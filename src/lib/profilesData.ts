@@ -108,7 +108,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Punjabi"],
     interests: ["Storytelling", "Street food", "Old bookstores", "Guitar", "Travel writing", "Cricket"],
-    relationshipIntent: "Authentic Connection • Shared Adventures",
+    relationshipIntent: ["Travel Buddy", "Shared Experiences"],
     bio: "I chase stories that deserve to be told — from the bylanes of Old Delhi to remote Himalayan villages. When I'm not behind the camera, you'll find me strumming my guitar on a quiet terrace or lost in a second-hand bookshop.",
     narratives: [
       { title: "Chasing Light", content: "The golden hour in the mountains taught me patience — some things are worth waiting for, quietly." },
