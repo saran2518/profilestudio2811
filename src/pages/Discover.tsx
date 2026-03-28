@@ -46,7 +46,7 @@ const Discover = () => {
     ? PROFILES
     : PROFILES.filter((p) => {
         const searchable = [
-          p.bio, p.profession, p.specialization, p.relationshipIntent,
+          p.bio, p.profession, p.specialization, ...p.relationshipIntent,
           ...p.interests, ...p.narratives.map((n) => n.content), ...p.joinMeFor,
         ].join(" ").toLowerCase();
         return filterTags.some((tag) => searchable.includes(tag.toLowerCase()));
