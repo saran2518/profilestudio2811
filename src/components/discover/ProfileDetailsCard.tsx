@@ -8,7 +8,7 @@ import {
 import meaningfulConnectionIcon from "@/assets/meaningful-connection.png";
 
 const intentIcons: Record<string, React.ReactNode> = {
-  "Meaningful Connection": <img src={meaningfulConnectionIcon} alt="Meaningful Connection" className="h-4 w-4" />,
+  "Meaningful Connection": <img src={meaningfulConnectionIcon} alt="Meaningful Connection" className="h-4 w-4 opacity-60" style={{ filter: "var(--icon-primary-filter, none)" }} />,
   "Keeping it Light": <Feather className="h-4 w-4" />,
   "Travel Buddy": <Plane className="h-4 w-4" />,
   "Shared Experiences": <Users className="h-4 w-4" />,
