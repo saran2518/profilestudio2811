@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  User, MessageSquare, GraduationCap, Ruler, Heart,
+  User, MessageSquare, GraduationCap, Ruler,
   Feather, Plane, Users, Compass, Sparkles, Globe,
   Info, Languages as LanguagesIcon, Crosshair,
 } from "lucide-react";
+import meaningfulConnectionIcon from "@/assets/meaningful-connection.png";
 
 const intentIcons: Record<string, React.ReactNode> = {
-  "Meaningful Connection": <Heart className="h-4 w-4" />,
+  "Meaningful Connection": <img src={meaningfulConnectionIcon} alt="Meaningful Connection" className="h-4 w-4" />,
   "Keeping it Light": <Feather className="h-4 w-4" />,
   "Travel Buddy": <Plane className="h-4 w-4" />,
   "Shared Experiences": <Users className="h-4 w-4" />,
