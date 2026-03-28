@@ -379,8 +379,9 @@ export default function Interests() {
   };
 
   const handleChatNow = () => {
+    const threadId = (mutualVibeProfile as any)?._threadId;
     setMutualVibeProfile(null);
-    navigate("/chat");
+    navigate("/chat", { state: { openThreadId: threadId } });
   };
 
   const handleLater = () => {
