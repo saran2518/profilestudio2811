@@ -52,6 +52,28 @@ export default function ProfileDetailsCard({ profile }: Props) {
   const topCols = hasMultiValue ? 2 : 3;
   const bottomCols = hasMultiValue ? 3 : 2;
 
+          {active === "about" && (
+            <motion.div
+              key="about"
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 16 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-4"
+            >
+              <div className={`grid grid-cols-${topCols} gap-x-2 gap-y-4`} style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}>
+                {topRow.map((item, idx) => (
+                  <AboutItem key={idx} item={item} delay={idx * 0.05} />
+                ))}
+              </div>
+              <div className={`grid gap-x-2`} style={{ gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`, maxWidth: bottomCols === 2 ? '66%' : '100%', margin: '0 auto' }}>
+                {bottomRow.map((item, idx) => (
+                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           {active === "languages" && (
             <motion.div
               key="languages"
