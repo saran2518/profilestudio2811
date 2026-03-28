@@ -93,12 +93,11 @@ const Discover = () => {
 
   const buildSections = () => {
     // Group About + Languages + Intent together so photos don't split them
-    const aboutGroup = (
-      <div key="about-group" className="space-y-5">
-        <AboutSection profile={profile} />
-        <LanguagesSection languages={profile.languages} />
-        <RelationshipIntentSection intent={profile.relationshipIntent} />
-      </div>
+    const detailsCard = (
+      <ProfileDetailsCard
+        key="details"
+        profile={{ about: profile.about, languages: profile.languages, relationshipIntent: profile.relationshipIntent }}
+      />
     );
 
     const sections = [
