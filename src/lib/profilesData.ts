@@ -26,7 +26,7 @@ export interface ProfileData {
   };
   languages: string[];
   interests: string[];
-  relationshipIntent: string;
+  relationshipIntent: string[];
   bio: string;
   narratives: { title: string; content: string }[];
   joinMeFor: string[];
@@ -50,7 +50,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Kannada"],
     interests: ["Mountain hikes", "Vinyl music", "Slow Sundays", "Architecture", "Travel", "Photography"],
-    relationshipIntent: "Meaningful Connection • Shared Experiences",
+    relationshipIntent: ["Meaningful Connection", "Shared Experiences"],
     bio: "I'm an introverted soul who thrives in the quiet rhythm of the pottery wheel and the vast expanse of a mountain trail. I find my peace wandering through flower markets and exploring the world one trek at a time.",
     narratives: [
       { title: "Finding My Center", content: "I find my center when my hands are covered in clay and the rest of the world fades away." },
@@ -79,7 +79,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Marathi"],
     interests: ["Café hopping", "Sketching", "Indie films", "Jazz nights", "Cooking", "Yoga"],
-    relationshipIntent: "Deep Conversations • Creative Partnership",
+    relationshipIntent: ["Keeping it Light", "Discovery Mode"],
     bio: "A design thinker by day and a jazz enthusiast by night. I believe the best conversations happen over a perfectly brewed pour-over and that every good story deserves a beautiful frame.",
     narratives: [
       { title: "The Art of Noticing", content: "I see stories in textures, colors in silence, and poetry in the everyday chaos of Mumbai streets." },
@@ -108,7 +108,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Punjabi"],
     interests: ["Storytelling", "Street food", "Old bookstores", "Guitar", "Travel writing", "Cricket"],
-    relationshipIntent: "Authentic Connection • Shared Adventures",
+    relationshipIntent: ["Travel Buddy", "Shared Experiences"],
     bio: "I chase stories that deserve to be told — from the bylanes of Old Delhi to remote Himalayan villages. When I'm not behind the camera, you'll find me strumming my guitar on a quiet terrace or lost in a second-hand bookshop.",
     narratives: [
       { title: "Chasing Light", content: "The golden hour in the mountains taught me patience — some things are worth waiting for, quietly." },
@@ -137,7 +137,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Bengali"],
     interests: ["Poetry", "Thrift shopping", "Rainy days", "Theatre", "Journaling", "Chai culture"],
-    relationshipIntent: "Intellectual Spark • Emotional Depth",
+    relationshipIntent: ["Meaningful Connection", "Discovery Mode"],
     bio: "Words are my world — I edit fiction for a living and write poetry for my soul. I fall in love with rainy afternoons in old Kolkata, the smell of musty bookshops, and the magic of a perfectly written sentence.",
     narratives: [
       { title: "Between the Lines", content: "The best love stories are the ones you read between the lines — in silence, in subtlety, in stolen glances." },
@@ -166,7 +166,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Marathi"],
     interests: ["Running", "Sustainability", "Board games", "Sci-fi", "Cooking", "Wine tasting"],
-    relationshipIntent: "Growth Together • Building Something Real",
+    relationshipIntent: ["Meaningful Connection", "Keeping it Light"],
     bio: "Building a climate tech startup by day, perfecting risotto by night. I believe in running — both marathons and toward the things that matter. Looking for someone who's excited about the future we're building.",
     narratives: [
       { title: "The Long Run", content: "Every marathon taught me the same lesson — the hardest miles are the ones where you discover who you really are." },
@@ -195,7 +195,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Tamil", "Telugu"],
     interests: ["Dance", "Temple visits", "South Indian cuisine", "Carnatic music", "Meditation", "Travel"],
-    relationshipIntent: "Soulful Connection • Rooted in Tradition",
+    relationshipIntent: ["Travel Buddy", "Meaningful Connection"],
     bio: "My life is a rhythm — between the beats of Bharatanatyam and the melodies of Carnatic music. I find divinity in art and peace in temple courtyards. Looking for someone who values depth, tradition, and the beauty of slowing down.",
     narratives: [
       { title: "The Language of Movement", content: "Dance is my first language — every mudra tells a story that words could never capture." },
