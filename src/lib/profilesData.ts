@@ -26,7 +26,7 @@ export interface ProfileData {
   };
   languages: string[];
   interests: string[];
-  relationshipIntent: string;
+  relationshipIntent: string[];
   bio: string;
   narratives: { title: string; content: string }[];
   joinMeFor: string[];
