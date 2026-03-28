@@ -102,6 +102,7 @@ export const PROFILES: ProfileData[] = [
       education: "Masters",
       height: '5\'11"',
     },
+    languages: ["English", "Hindi", "Punjabi"],
     interests: ["Storytelling", "Street food", "Old bookstores", "Guitar", "Travel writing", "Cricket"],
     relationshipIntent: "Authentic Connection • Shared Adventures",
     bio: "I chase stories that deserve to be told — from the bylanes of Old Delhi to remote Himalayan villages. When I'm not behind the camera, you'll find me strumming my guitar on a quiet terrace or lost in a second-hand bookshop.",
