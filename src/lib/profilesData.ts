@@ -74,6 +74,7 @@ export const PROFILES: ProfileData[] = [
       education: "Bachelors",
       height: '5\'6"',
     },
+    languages: ["English", "Hindi", "Marathi"],
     interests: ["Café hopping", "Sketching", "Indie films", "Jazz nights", "Cooking", "Yoga"],
     relationshipIntent: "Deep Conversations • Creative Partnership",
     bio: "A design thinker by day and a jazz enthusiast by night. I believe the best conversations happen over a perfectly brewed pour-over and that every good story deserves a beautiful frame.",
