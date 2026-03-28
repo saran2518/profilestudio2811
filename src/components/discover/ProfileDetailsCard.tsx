@@ -52,6 +52,40 @@ export default function ProfileDetailsCard({ profile }: Props) {
   const topCols = hasMultiValue ? 2 : 3;
   const bottomCols = hasMultiValue ? 3 : 2;
 
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.15, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      className="rounded-2xl border border-border/50 bg-card overflow-hidden"
+      style={{ boxShadow: "var(--shadow-card)" }}
+    >
+      {/* Tab bar */}
+      <div className="flex border-b border-border/30">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActive(tab.key)}
+            className={`relative flex-1 flex items-center justify-center gap-1.5 py-3 font-body text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors ${
+              active === tab.key ? "text-primary" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {tab.icon}
+            {tab.label}
+            {active === tab.key && (
+              <motion.div
+                layoutId="tab-indicator"
+                className="absolute bottom-0 left-3 right-3 h-[2px] rounded-full bg-primary"
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab content */}
+      <div className="p-5 min-h-[140px]">
+        <AnimatePresence mode="wait">
           {active === "about" && (
             <motion.div
               key="about"
@@ -61,12 +95,21 @@ export default function ProfileDetailsCard({ profile }: Props) {
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="space-y-4"
             >
-              <div className={`grid grid-cols-${topCols} gap-x-2 gap-y-4`} style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}>
+              <div
+                className="grid gap-x-2 gap-y-4"
+                style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}
+              >
                 {topRow.map((item, idx) => (
                   <AboutItem key={idx} item={item} delay={idx * 0.05} />
                 ))}
               </div>
-              <div className={`grid gap-x-2`} style={{ gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`, maxWidth: bottomCols === 2 ? '66%' : '100%', margin: '0 auto' }}>
+              <div
+                className="grid gap-x-2 gap-y-4 mx-auto"
+                style={{
+                  gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`,
+                  maxWidth: bottomCols === 2 ? '66%' : '100%',
+                }}
+              >
                 {bottomRow.map((item, idx) => (
                   <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} />
                 ))}
