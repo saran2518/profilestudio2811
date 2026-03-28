@@ -130,6 +130,7 @@ export const PROFILES: ProfileData[] = [
       education: "Masters",
       height: '5\'4"',
     },
+    languages: ["English", "Hindi", "Bengali"],
     interests: ["Poetry", "Thrift shopping", "Rainy days", "Theatre", "Journaling", "Chai culture"],
     relationshipIntent: "Intellectual Spark • Emotional Depth",
     bio: "Words are my world — I edit fiction for a living and write poetry for my soul. I fall in love with rainy afternoons in old Kolkata, the smell of musty bookshops, and the magic of a perfectly written sentence.",
