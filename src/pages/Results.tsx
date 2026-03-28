@@ -46,6 +46,35 @@ const Results = () => {
 
   const [profile, setProfile] = useState<GeneratedProfile | undefined>(normalizeProfile(rawProfile));
   const [isRegenerating, setIsRegenerating] = useState(false);
+  const [activeTone, setActiveTone] = useState<Tone>("elegant");
+
+  const handleToneChange = async (tone: Tone) => {
+    if (tone === activeTone || !initialInput) return;
+    setActiveTone(tone);
+    setIsRegenerating(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-profile", {
+        body: { input: initialInput, tone },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      const normalized = normalizeProfile(data.profile);
+      if (normalized) setProfile(normalized);
+    } catch (e: any) {
+      toast({
+        title: "Regeneration failed",
+        description: e.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+      // revert tone on failure
+      setActiveTone(activeTone);
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
 
   if (!profile) {
     return (
