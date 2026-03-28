@@ -166,7 +166,7 @@ export const PROFILES: ProfileData[] = [
     },
     languages: ["English", "Hindi", "Marathi"],
     interests: ["Running", "Sustainability", "Board games", "Sci-fi", "Cooking", "Wine tasting"],
-    relationshipIntent: "Growth Together • Building Something Real",
+    relationshipIntent: ["Meaningful Connection", "Keeping it Light"],
     bio: "Building a climate tech startup by day, perfecting risotto by night. I believe in running — both marathons and toward the things that matter. Looking for someone who's excited about the future we're building.",
     narratives: [
       { title: "The Long Run", content: "Every marathon taught me the same lesson — the hardest miles are the ones where you discover who you really are." },
