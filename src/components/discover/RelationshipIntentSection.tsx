@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Heart, Feather, Plane, Users, Compass, Sparkles } from "lucide-react";
+import { Feather, Plane, Users, Compass, Sparkles } from "lucide-react";
+import meaningfulConnectionIcon from "@/assets/meaningful-connection.png";
 
 const intentIcons: Record<string, React.ReactNode> = {
-  "Meaningful Connection": <Heart className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
+  "Meaningful Connection": <img src={meaningfulConnectionIcon} alt="Meaningful Connection" className="h-4 w-4 inline-block align-middle mr-1.5" />,
   "Keeping it Light": <Feather className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
   "Travel Buddy": <Plane className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
   "Shared Experiences": <Users className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
