@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Sparkles, Eye } from "lucide-react";
+import { ArrowLeft, Sparkles, Eye, Feather, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProfileOutput from "@/components/ProfileOutput";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { GeneratedProfile } from "@/lib/profileGenerator";
+
+type Tone = "elegant" | "natural";
 
 const Results = () => {
   const location = useLocation();
