@@ -160,6 +160,7 @@ export const PROFILES: ProfileData[] = [
     about: {
       gender: "Man",
       pronouns: "He / Him",
+      orientation: "Straight",
       education: "MBA",
       height: '5\'10"',
     },
