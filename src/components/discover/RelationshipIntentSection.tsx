@@ -1,5 +1,13 @@
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Heart, Feather, Plane, Users, Compass, Sparkles } from "lucide-react";
+
+const intentIcons: Record<string, React.ReactNode> = {
+  "Meaningful Connection": <Heart className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
+  "Keeping it Light": <Feather className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
+  "Travel Buddy": <Plane className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
+  "Shared Experiences": <Users className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
+  "Discovery Mode": <Compass className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />,
+};
 
 export default function RelationshipIntentSection({ intent }: { intent: string[] }) {
   return (
@@ -11,20 +19,22 @@ export default function RelationshipIntentSection({ intent }: { intent: string[]
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Intent</h3>
-      <div className="flex flex-wrap gap-2">
-        {intent.map((item, idx) => (
+      <p className="font-body text-[15px] leading-relaxed text-foreground/80 font-medium">
+        {intent.map((item, idx, arr) => (
           <motion.span
             key={idx}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.15 + idx * 0.07, duration: 0.35 }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-border/40 bg-muted/50 px-3.5 py-1.5 font-body text-[13px] font-medium text-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.15 + idx * 0.08, duration: 0.4 }}
           >
-            <Heart className="h-3.5 w-3.5 text-primary/60" />
+            {intentIcons[item] || <Sparkles className="h-4 w-4 text-primary/60 inline-block align-middle mr-1.5" />}
             {item}
+            {idx < arr.length - 1 && (
+              <span className="mx-2 inline-block h-[5px] w-[5px] rounded-full bg-primary/50 align-middle" />
+            )}
           </motion.span>
         ))}
-      </div>
+      </p>
     </motion.div>
   );
 }
