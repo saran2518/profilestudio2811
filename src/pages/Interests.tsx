@@ -394,8 +394,8 @@ export default function Interests() {
 
   const handleAcceptInvite = (invite: InviteItem) => {
     setSelectedInvitePreview(null);
-    createThread(invite.name, invite.photo, "invite");
-    setAcceptedInviteProfile(invite);
+    const thread = createThread(invite.name, invite.photo, "invite");
+    setAcceptedInviteProfile({ ...invite, _threadId: thread.id } as any);
   };
 
   const handleDeclineInvite = () => {
