@@ -17,13 +17,11 @@ import {
 import { PROFILES } from "@/lib/profilesData";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
-import AboutSection from "@/components/discover/AboutSection";
-import LanguagesSection from "@/components/discover/LanguagesSection";
+import ProfileDetailsCard from "@/components/discover/ProfileDetailsCard";
 import BioSection from "@/components/discover/BioSection";
 import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
-import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
 import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
@@ -93,18 +91,17 @@ const Discover = () => {
 
   const buildSections = () => {
     // Group About + Languages + Intent together so photos don't split them
-    const aboutGroup = (
-      <div key="about-group" className="space-y-5">
-        <AboutSection profile={profile} />
-        <LanguagesSection languages={profile.languages} />
-        <RelationshipIntentSection intent={profile.relationshipIntent} />
-      </div>
+    const detailsCard = (
+      <ProfileDetailsCard
+        key="details"
+        profile={{ about: profile.about, languages: profile.languages, relationshipIntent: profile.relationshipIntent }}
+      />
     );
 
     const sections = [
       <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Photo")} onVibe={() => openVibeDialog("Photo")} profile={profile} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("Bio")} onVibe={() => openVibeDialog("Bio")} />,
-      aboutGroup,
+      detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
       <NarrativesSection key="narratives" narratives={profile.narratives} vibed={isVibed("Narratives")} onVibe={() => openVibeDialog("Narratives")} />,
       <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={isVibed("Join Me For")} onVibe={() => openVibeDialog("Join Me For")} />,
