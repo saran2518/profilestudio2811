@@ -153,6 +153,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
 }
 
 function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: string; value: string }; delay: number }) {
+  const values = item.value.split(",").map((v) => v.trim());
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -167,8 +168,12 @@ function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: stri
         {item.icon}
       </div>
       <div className="flex flex-col">
-        <span className="font-body text-[13px] text-foreground font-semibold leading-tight">{item.value}</span>
-        <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider">{item.label}</span>
+        {values.map((v, i) => (
+          <span key={i} className="font-body text-[13px] text-foreground font-semibold leading-tight">
+            {v}
+          </span>
+        ))}
+        <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider mt-0.5">{item.label}</span>
       </div>
     </motion.div>
   );

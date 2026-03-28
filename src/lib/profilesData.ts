@@ -42,8 +42,8 @@ export const PROFILES: ProfileData[] = [
     specialization: "Sustainable Design",
     location: "Bangalore",
     about: {
-      gender: "Man · Trans Man",
-      pronouns: "He / Him · They / Them",
+      gender: "Man, Trans Man",
+      pronouns: "He / Him, They / Them",
       orientation: "Straight",
       education: "Post Graduate",
       height: '6\'0"',
