@@ -20,6 +20,7 @@ export interface ProfileData {
   about: {
     gender: string;
     pronouns: string;
+    orientation: string;
     education: string;
     height: string;
   };
