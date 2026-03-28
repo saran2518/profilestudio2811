@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  User, MessageSquare, GraduationCap, Ruler,
+  User, MessageSquare, GraduationCap, Ruler, Heart,
   Feather, Plane, Users, Compass, Sparkles, Globe,
   Info, Languages as LanguagesIcon, Crosshair,
 } from "lucide-react";
