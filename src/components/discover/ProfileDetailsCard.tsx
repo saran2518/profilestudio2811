@@ -189,12 +189,10 @@ function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: stri
       >
         {item.icon}
       </div>
-      <div className="flex flex-col">
-        {values.map((v, i) => (
-          <span key={i} className="font-body text-[13px] text-foreground font-semibold leading-tight">
-            {v}
-          </span>
-        ))}
+      <div className="flex flex-col items-center">
+        <span className="font-body text-[13px] text-foreground font-semibold leading-tight">
+          {values.join(" · ")}
+        </span>
         <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider mt-0.5">{item.label}</span>
       </div>
     </motion.div>
