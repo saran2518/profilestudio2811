@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check } from "lucide-react";
+import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check, GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -30,7 +30,7 @@ const sectionVariants = {
 type EditTarget =
   | { type: "bio" }
   | { type: "narrative"; index: number }
-  | { type: "joinMeFor"; index: number }
+  | { type: "joinMeForAll" }
   | { type: "interests" }
   | null;
 
@@ -57,6 +57,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [titleDraft, setTitleDraft] = useState("");
   const [interestsDraft, setInterestsDraft] = useState<string[]>([]);
   const [newInterest, setNewInterest] = useState("");
+  const [joinMeForDraft, setJoinMeForDraft] = useState<string[]>([]);
+  const [newMoment, setNewMoment] = useState("");
 
   const update = (patch: Partial<GeneratedProfile>) => {
     const next = { ...current, ...patch };
@@ -71,7 +73,10 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       setTitleDraft(current.narratives[target.index].title);
       setDraft(current.narratives[target.index].content);
     }
-    else if (target.type === "joinMeFor") setDraft(current.joinMeFor[target.index]);
+    else if (target.type === "joinMeForAll") {
+      setJoinMeForDraft([...current.joinMeFor]);
+      setNewMoment("");
+    }
     else if (target.type === "interests") {
       setInterestsDraft([...current.interests]);
       setNewInterest("");
@@ -86,10 +91,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       const next = [...current.narratives];
       next[editTarget.index] = { title: titleDraft, content: draft };
       update({ narratives: next });
-    } else if (editTarget.type === "joinMeFor") {
-      const next = [...current.joinMeFor];
-      next[editTarget.index] = draft;
-      update({ joinMeFor: next });
+    } else if (editTarget.type === "joinMeForAll") {
+      update({ joinMeFor: joinMeForDraft.filter(Boolean) });
     } else if (editTarget.type === "interests") {
       update({ interests: interestsDraft });
     }
@@ -99,11 +102,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const dialogTitle = editTarget
     ? editTarget.type === "bio" ? "Edit Bio"
     : editTarget.type === "narrative" ? "Edit Narrative"
-    : editTarget.type === "joinMeFor" ? "Edit Date Idea"
+    : editTarget.type === "joinMeForAll" ? "JOIN ME FOR"
     : "Edit Interests"
     : "";
 
-  const isTextEdit = editTarget && editTarget.type !== "interests" && editTarget.type !== "narrative";
+  const isTextEdit = editTarget && editTarget.type === "bio";
+  const isJoinMeForEdit = editTarget?.type === "joinMeForAll";
   const isNarrativeEdit = editTarget?.type === "narrative";
 
   return (
@@ -175,6 +179,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           icon={<MapPin className="h-4.5 w-4.5 text-accent" />}
           title="Join Me For"
           index={3}
+          onEdit={() => openEdit({ type: "joinMeForAll" })}
         >
           <div className="space-y-3">
             {current.joinMeFor.map((idea, idx) => (
@@ -183,7 +188,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + idx * 0.1 }}
-                className="group relative flex items-start gap-3 pr-10"
+                className="flex items-start gap-3"
               >
                 <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent/10 font-display text-xs font-bold text-accent">
                   {idx + 1}
@@ -191,13 +196,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 <p className="font-body text-card-foreground/75 text-[15px] leading-relaxed pt-0.5">
                   {idea}
                 </p>
-                <button
-                  onClick={() => openEdit({ type: "joinMeFor", index: idx })}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-muted/60 hover:bg-muted transition-colors"
-                  aria-label="Edit date idea"
-                >
-                  <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
-                </button>
               </motion.div>
             ))}
           </div>
@@ -208,7 +206,17 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       <Drawer open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
         <DrawerContent className="px-6 pb-8 pt-3 min-h-[50vh] max-h-[85vh]">
           <DrawerHeader className="px-0 pb-5">
-            <DrawerTitle className="font-display text-xl">{dialogTitle}</DrawerTitle>
+            <div className="flex items-center justify-between">
+              <DrawerTitle className="font-display text-xl">{dialogTitle}</DrawerTitle>
+              {isJoinMeForEdit && (
+                <button
+                  onClick={saveEdit}
+                  className="font-display text-base font-semibold text-primary"
+                >
+                  Done
+                </button>
+              )}
+            </div>
           </DrawerHeader>
 
           {isNarrativeEdit && (
@@ -247,20 +255,83 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           {isTextEdit && (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="font-body text-sm font-medium text-muted-foreground">
-                  {editTarget?.type === "bio" ? "Bio" : "Date Idea"}
-                </label>
-                <span className={`font-body text-xs ${countWords(draft) >= (editTarget?.type === "bio" ? WORD_LIMITS.bio : WORD_LIMITS.joinMeFor) ? 'text-destructive' : 'text-muted-foreground'}`}>
-                  {countWords(draft)}/{editTarget?.type === "bio" ? WORD_LIMITS.bio : WORD_LIMITS.joinMeFor} words
+                <label className="font-body text-sm font-medium text-muted-foreground">Bio</label>
+                <span className={`font-body text-xs ${countWords(draft) >= WORD_LIMITS.bio ? 'text-destructive' : 'text-muted-foreground'}`}>
+                  {countWords(draft)}/{WORD_LIMITS.bio} words
                 </span>
               </div>
               <Textarea
                 value={draft}
-                onChange={(e) => setDraft(enforceWordLimit(e.target.value, editTarget?.type === "bio" ? WORD_LIMITS.bio : WORD_LIMITS.joinMeFor))}
+                onChange={(e) => setDraft(enforceWordLimit(e.target.value, WORD_LIMITS.bio))}
                 rows={6}
                 className="font-body text-base resize-none rounded-xl"
                 autoFocus
               />
+            </div>
+          )}
+
+          {isJoinMeForEdit && (
+            <div className="space-y-5">
+              <p className="font-body text-sm text-muted-foreground">Adjust what represents you best</p>
+              <div className="space-y-3">
+                {joinMeForDraft.map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="flex items-center gap-3 rounded-xl border border-border/60 px-4 py-3.5"
+                    style={{ background: "hsl(var(--accent) / 0.08)" }}
+                  >
+                    <GripVertical className="h-4 w-4 text-muted-foreground/40 shrink-0" />
+                    <Input
+                      value={item}
+                      onChange={(e) => {
+                        const next = [...joinMeForDraft];
+                        next[idx] = enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor);
+                        setJoinMeForDraft(next);
+                      }}
+                      className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-foreground focus-visible:ring-0 shadow-none"
+                    />
+                    <button
+                      onClick={() => setJoinMeForDraft(joinMeForDraft.filter((_, i) => i !== idx))}
+                      className="text-muted-foreground/50 hover:text-destructive transition-colors shrink-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+              {joinMeForDraft.length < 4 && (
+                <div className="flex items-center gap-3 rounded-xl border border-dashed border-border/60 px-4 py-3.5">
+                  <Input
+                    value={newMoment}
+                    onChange={(e) => setNewMoment(enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor))}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && newMoment.trim()) {
+                        setJoinMeForDraft([...joinMeForDraft, newMoment.trim()]);
+                        setNewMoment("");
+                      }
+                    }}
+                    placeholder="Add a moment..."
+                    className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-muted-foreground placeholder:text-muted-foreground/50 focus-visible:ring-0 shadow-none"
+                  />
+                  <button
+                    onClick={() => {
+                      if (newMoment.trim()) {
+                        setJoinMeForDraft([...joinMeForDraft, newMoment.trim()]);
+                        setNewMoment("");
+                      }
+                    }}
+                    className="text-muted-foreground/50 hover:text-primary transition-colors shrink-0"
+                  >
+                    <Plus className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+              <p className="font-body text-xs text-muted-foreground/50 text-center pt-2">
+                Profiles with 3–4 meaningful moments resonate best.
+              </p>
             </div>
           )}
 
@@ -318,15 +389,17 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             </div>
           )}
 
-          <DrawerFooter className="px-0 pt-6 flex-row gap-3">
-            <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
-              Cancel
-            </Button>
-            <Button onClick={saveEdit} className="font-body rounded-xl flex-1 h-12 text-base">
-              <Check className="h-5 w-5 mr-1.5" />
-              Save
-            </Button>
-          </DrawerFooter>
+          {!isJoinMeForEdit && (
+            <DrawerFooter className="px-0 pt-6 flex-row gap-3">
+              <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
+                Cancel
+              </Button>
+              <Button onClick={saveEdit} className="font-body rounded-xl flex-1 h-12 text-base">
+                <Check className="h-5 w-5 mr-1.5" />
+                Save
+              </Button>
+            </DrawerFooter>
+          )}
         </DrawerContent>
       </Drawer>
     </>
