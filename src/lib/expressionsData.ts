@@ -1,4 +1,8 @@
 import { PROFILES } from "@/lib/profilesData";
+import momentCoffee from "@/assets/moment-coffee.jpg";
+import momentTypewriter from "@/assets/moment-typewriter.jpg";
+import momentPiano from "@/assets/moment-piano.jpg";
+import momentSketch from "@/assets/moment-sketch.jpg";
 
 export interface MomentData {
   id: string;
@@ -20,7 +24,6 @@ export const MOOD_TAGS = [
   "Golden hour", "Rainy day feels", "Adventure calling",
 ] as const;
 
-// Generate mock moments from existing profiles
 export const MOMENTS: MomentData[] = [
   {
     id: "m1",
@@ -30,7 +33,6 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[0].location,
     avatar: PROFILES[0].photos[0],
     text: "Finding beauty in the quiet moments. Looking for someone who appreciates early morning coffee and late-night architecture talks just as much as I do.",
-    photo: PROFILES[0].photos[1],
     moodTag: "Quiet evening",
     timestamp: "2h ago",
   },
@@ -42,7 +44,7 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[1]?.location || "Brooklyn",
     avatar: PROFILES[1]?.photos[0] || PROFILES[0].photos[0],
     text: "Lost in the words today. The right ambiance changes everything.",
-    photo: PROFILES[1]?.photos[1],
+    photo: momentTypewriter,
     moodTag: "Creative moment",
     timestamp: "4h ago",
   },
@@ -54,7 +56,7 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[2]?.location || "Seattle",
     avatar: PROFILES[2]?.photos[0] || PROFILES[0].photos[0],
     text: "There is nothing quite like the silence that fills the room just before the first note is played. A moment of pure anticipation.",
-    photo: PROFILES[2]?.photos[1],
+    photo: momentPiano,
     moodTag: "Artistic soul",
     timestamp: "6h ago",
   },
@@ -66,7 +68,7 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[3]?.location || "Mumbai",
     avatar: PROFILES[3]?.photos[0] || PROFILES[0].photos[0],
     text: "Sketched the sunrise from my balcony this morning. Some mornings just demand to be captured.",
-    photo: PROFILES[3]?.photos[2],
+    photo: momentSketch,
     moodTag: "Morning energy",
     timestamp: "8h ago",
   },
@@ -78,6 +80,7 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[4]?.location || "Delhi",
     avatar: PROFILES[4]?.photos[0] || PROFILES[0].photos[0],
     text: "Tried a new recipe today — cardamom rose latte. The kitchen smells like a garden now.",
+    photo: momentCoffee,
     moodTag: "Coffee thoughts",
     timestamp: "12h ago",
   },
