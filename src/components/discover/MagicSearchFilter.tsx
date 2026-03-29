@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
+import { ChevronRight, Search, X } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import {
   Sheet,
@@ -62,26 +62,32 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent
-        side="bottom"
-        className="rounded-t-3xl border-t border-border/40 bg-background p-0 max-h-[92vh] flex flex-col"
+        side="right"
+        className="w-full sm:max-w-md p-0 flex flex-col bg-background"
       >
         {/* Header */}
-        <SheetHeader className="px-6 pt-6 pb-2">
+        <div className="px-5 pt-5 pb-3 border-b border-border/30">
           <div className="flex items-center justify-between">
-            <SheetTitle className="font-display text-2xl font-semibold text-primary">
-              Magic Search
-            </SheetTitle>
             <button
               onClick={() => setOpen(false)}
-              className="h-8 w-8 rounded-full border border-border/60 flex items-center justify-center"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              <ChevronRight className="h-5 w-5 rotate-180" />
+            </button>
+            <h2 className="font-display text-lg font-semibold text-foreground">
+              Magic Search
+            </h2>
+            <button
+              onClick={handleReset}
+              className="text-xs font-body font-medium text-destructive hover:underline"
+            >
+              Reset
             </button>
           </div>
-        </SheetHeader>
+        </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-6 pb-4 space-y-6">
+        <div className="flex-1 overflow-y-auto px-5 pb-4 pt-4 space-y-6">
           {/* Search input */}
           <div className="space-y-2">
             <div className="rounded-2xl border border-border/60 bg-card px-4 py-3 flex items-center gap-3">
@@ -212,19 +218,13 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-border/30 flex items-center justify-between bg-background">
-          <button
-            onClick={handleReset}
-            className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Reset
-          </button>
+        <div className="px-5 py-4 border-t border-border/30 bg-background">
           <button
             onClick={() => {
               onApply?.(searchTags);
               setOpen(false);
             }}
-            className="rounded-full px-8 py-3 font-body text-sm font-semibold text-primary-foreground"
+            className="w-full rounded-full py-3 font-body text-sm font-semibold text-primary-foreground"
             style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
           >
             Apply Filters
