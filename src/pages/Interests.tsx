@@ -345,6 +345,54 @@ function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: num
   );
 }
 
+/* ─── Full profile sections builder (mirrors Discover page layout) ─── */
+
+function buildFullProfileSections(profile: (typeof PROFILES)[number]) {
+  const sections: React.ReactNode[] = [
+    <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={false} onVibe={() => {}} profile={profile} />,
+    <BioSection key="bio" bio={profile.bio} vibed={false} onVibe={() => {}} />,
+    <ProfileDetailsCard
+      key="details"
+      profile={{ about: profile.about, languages: profile.languages, relationshipIntent: profile.relationshipIntent }}
+    />,
+    <InterestsSection key="interests" interests={profile.interests} vibed={false} onVibe={() => {}} />,
+    <NarrativesSection key="narratives" narratives={profile.narratives} vibed={false} onVibe={() => {}} />,
+    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={false} onVibe={() => {}} />,
+  ];
+
+  const extraPhotos = profile.photos.slice(1);
+  const contentSections = sections.slice(1);
+  const result: React.ReactNode[] = [sections[0]];
+
+  if (extraPhotos.length === 0) {
+    result.push(...contentSections);
+  } else {
+    const gap = Math.max(1, Math.floor(contentSections.length / (extraPhotos.length + 1)));
+    let photoIdx = 0;
+
+    contentSections.forEach((section, i) => {
+      result.push(section);
+      if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
+        const pIdx = photoIdx;
+        result.push(
+          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={false} onVibe={() => {}} />
+        );
+        photoIdx++;
+      }
+    });
+
+    while (photoIdx < extraPhotos.length) {
+      const pIdx = photoIdx;
+      result.push(
+        <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={false} onVibe={() => {}} />
+      );
+      photoIdx++;
+    }
+  }
+
+  return result;
+}
+
 /* ─── Page ───────────────────────────────────────────── */
 
 export default function Interests() {
