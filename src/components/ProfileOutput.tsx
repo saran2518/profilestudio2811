@@ -73,7 +73,10 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       setTitleDraft(current.narratives[target.index].title);
       setDraft(current.narratives[target.index].content);
     }
-    else if (target.type === "joinMeFor") setDraft(current.joinMeFor[target.index]);
+    else if (target.type === "joinMeForAll") {
+      setJoinMeForDraft([...current.joinMeFor]);
+      setNewMoment("");
+    }
     else if (target.type === "interests") {
       setInterestsDraft([...current.interests]);
       setNewInterest("");
