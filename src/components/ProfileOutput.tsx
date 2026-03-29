@@ -389,15 +389,17 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             </div>
           )}
 
-          <DrawerFooter className="px-0 pt-6 flex-row gap-3">
-            <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
-              Cancel
-            </Button>
-            <Button onClick={saveEdit} className="font-body rounded-xl flex-1 h-12 text-base">
-              <Check className="h-5 w-5 mr-1.5" />
-              Save
-            </Button>
-          </DrawerFooter>
+          {!isJoinMeForEdit && (
+            <DrawerFooter className="px-0 pt-6 flex-row gap-3">
+              <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
+                Cancel
+              </Button>
+              <Button onClick={saveEdit} className="font-body rounded-xl flex-1 h-12 text-base">
+                <Check className="h-5 w-5 mr-1.5" />
+                Save
+              </Button>
+            </DrawerFooter>
+          )}
         </DrawerContent>
       </Drawer>
     </>
