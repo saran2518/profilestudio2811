@@ -344,20 +344,18 @@ function SelectableRow({
   );
 }
 
-function LanguageSearchField({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
-  const [expanded, setExpanded] = useState(false);
+function LanguageFilterRow({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [query, setQuery] = useState("");
 
   const filtered = query.trim()
     ? COMMON_LANGUAGES.filter(
         (l) => l.toLowerCase().includes(query.toLowerCase()) && !value.includes(l)
       )
-    : [];
+    : COMMON_LANGUAGES.filter((l) => !value.includes(l));
 
   const addLanguage = (lang: string) => {
-    if (!value.includes(lang)) {
-      onChange([...value, lang]);
-    }
+    if (!value.includes(lang)) onChange([...value, lang]);
     setQuery("");
   };
 
@@ -372,31 +370,41 @@ function LanguageSearchField({ value, onChange }: { value: string[]; onChange: (
   const remove = (lang: string) => onChange(value.filter((v) => v !== lang));
 
   return (
-    <div className="space-y-2">
+    <>
       <button
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => setSheetOpen(true)}
         className="w-full flex items-center justify-between py-2"
       >
         <span className="font-body font-semibold text-foreground">Languages</span>
         <span className="flex items-center gap-1 font-body text-sm font-medium text-primary">
           {value.length === 0 ? "Any" : value.length <= 2 ? value.join(", ") : `${value.length} selected`}
-          <ChevronRight className={`h-4 w-4 transition-transform ${expanded ? "rotate-90" : ""}`} />
+          <ChevronRight className="h-4 w-4" />
         </span>
       </button>
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden space-y-2"
-          >
-            {/* Search input */}
-            <div className="rounded-xl border border-border/60 bg-card px-3 py-2 flex items-center gap-2">
-              <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent side="right" className="w-full sm:max-w-md p-0 flex flex-col bg-background">
+          {/* Header */}
+          <div className="px-5 pt-5 pb-3 border-b border-border/30">
+            <div className="flex items-center justify-between mb-4">
+              <button onClick={() => setSheetOpen(false)} className="text-muted-foreground hover:text-foreground transition-colors">
+                <ChevronRight className="h-5 w-5 rotate-180" />
+              </button>
+              <h2 className="font-display text-lg font-semibold text-foreground">Languages</h2>
+              <button
+                onClick={() => { onChange([]); setQuery(""); }}
+                className="text-xs font-body font-medium text-destructive hover:underline"
+              >
+                Clear
+              </button>
+            </div>
+
+            {/* Search */}
+            <div className="rounded-xl border border-border/60 bg-card px-3 py-2.5 flex items-center gap-2">
+              <Search className="h-4 w-4 text-muted-foreground shrink-0" />
               <input
                 type="text"
-                placeholder="Search or type a language…"
+                placeholder="Search languages…"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => {
@@ -407,35 +415,16 @@ function LanguageSearchField({ value, onChange }: { value: string[]; onChange: (
                 }}
                 className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
               />
-              <button
-                onClick={() => {
-                  if (filtered.length > 0) addLanguage(filtered[0]);
-                  else addCustom();
-                }}
-                className="h-5 w-5 rounded-full bg-primary flex items-center justify-center shrink-0 hover:opacity-80 transition-opacity"
-              >
-                <span className="text-primary-foreground text-xs font-bold leading-none">+</span>
-              </button>
             </div>
+          </div>
 
-            {/* Suggestions dropdown */}
-            {filtered.length > 0 && (
-              <div className="rounded-xl border border-border/40 bg-card max-h-32 overflow-y-auto">
-                {filtered.slice(0, 6).map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => addLanguage(lang)}
-                    className="w-full text-left px-3 py-2 text-sm font-body text-foreground hover:bg-primary/5 transition-colors"
-                  >
-                    {lang}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Selected languages */}
-            {value.length > 0 && (
-              <div className="flex flex-wrap gap-2 pb-1">
+          {/* Selected languages */}
+          {value.length > 0 && (
+            <div className="px-5 pt-3 pb-2">
+              <span className="text-[11px] font-body font-semibold tracking-widest text-muted-foreground uppercase">
+                Selected ({value.length})
+              </span>
+              <div className="flex flex-wrap gap-2 mt-2">
                 {value.map((lang) => (
                   <span
                     key={lang}
@@ -448,11 +437,49 @@ function LanguageSearchField({ value, onChange }: { value: string[]; onChange: (
                   </span>
                 ))}
               </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+            </div>
+          )}
+
+          {/* Language list */}
+          <div className="flex-1 overflow-y-auto px-5 pb-4">
+            <span className="text-[11px] font-body font-semibold tracking-widest text-muted-foreground uppercase block pt-3 pb-2">
+              {query.trim() ? "Results" : "All Languages"}
+            </span>
+            <div className="space-y-0.5">
+              {filtered.map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => addLanguage(lang)}
+                  className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-body text-foreground hover:bg-primary/5 transition-colors flex items-center justify-between"
+                >
+                  {lang}
+                  <span className="text-primary text-xs font-medium">+ Add</span>
+                </button>
+              ))}
+              {query.trim() && filtered.length === 0 && (
+                <button
+                  onClick={addCustom}
+                  className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-body text-primary hover:bg-primary/5 transition-colors"
+                >
+                  + Add "{query.trim()}"
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Done button */}
+          <div className="px-5 py-4 border-t border-border/30">
+            <button
+              onClick={() => setSheetOpen(false)}
+              className="w-full rounded-full py-3 font-body text-sm font-semibold text-primary-foreground"
+              style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+            >
+              Done
+            </button>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }
 
