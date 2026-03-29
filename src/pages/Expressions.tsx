@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { MOMENTS, MOOD_TAGS, type MomentData } from "@/lib/expressionsData";
 import InviteDialog from "@/components/discover/InviteDialog";
+import VibeDialog from "@/components/discover/VibeDialog";
 
 const Expressions = () => {
   const navigate = useNavigate();
