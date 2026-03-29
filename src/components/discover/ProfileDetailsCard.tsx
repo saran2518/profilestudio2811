@@ -176,14 +176,14 @@ export default function ProfileDetailsCard({ profile }: Props) {
   );
 }
 
-function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: string; value: string }; delay: number }) {
+function AboutItem({ item, delay, showDivider }: { item: { icon: React.ReactNode; label: string; value: string }; delay: number; showDivider?: boolean }) {
   const values = item.value.split(",").map((v) => v.trim());
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.3 }}
-      className="flex flex-col items-center text-center gap-1.5"
+      className="relative flex flex-col items-center text-center gap-1.5 py-2"
     >
       <div
         className="flex h-8 w-8 items-center justify-center rounded-full text-primary"
@@ -197,6 +197,9 @@ function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: stri
         </span>
         <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider mt-0.5">{item.label}</span>
       </div>
+      {showDivider && (
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 h-8 w-px bg-border/40" />
+      )}
     </motion.div>
   );
 }
