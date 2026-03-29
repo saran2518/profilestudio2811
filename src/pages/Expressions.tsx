@@ -6,9 +6,9 @@ import {
   Sparkles,
   Plus,
   Heart,
+  HeartPulse,
   MessageCircle,
   Users,
-  Link2,
   X,
   Send,
   Image as ImageIcon,
@@ -213,26 +213,30 @@ function MomentCard({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center justify-between pt-1">
+      <div className="flex items-center gap-2 pt-1">
         <motion.button
           whileTap={{ scale: 0.85 }}
           onClick={onVibe}
-          className={`h-10 w-10 rounded-full flex items-center justify-center border transition-all duration-200 ${
+          className={`h-8 w-8 rounded-full flex items-center justify-center transition-all duration-200 ${
             isVibed
-              ? "bg-primary/10 border-primary/40 text-primary"
-              : "bg-muted/30 border-border/40 text-muted-foreground"
+              ? "text-primary-foreground"
+              : "bg-muted/50 text-muted-foreground"
           }`}
+          style={isVibed ? { background: "var(--gradient-warm)" } : undefined}
         >
-          <Link2 className="h-4.5 w-4.5" />
+          <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
+            <HeartPulse className="h-3.5 w-3.5" strokeWidth={2} />
+          </motion.div>
         </motion.button>
 
         <motion.button
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.93 }}
           onClick={onInvite}
-          className="px-6 py-2.5 rounded-full text-sm font-semibold text-primary-foreground font-body"
-          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-primary-foreground"
+          style={{ background: "var(--gradient-warm)" }}
         >
-          Invite
+          <Send className="h-3 w-3" />
+          <span className="text-[10px] font-bold uppercase tracking-wider font-body">Invite</span>
         </motion.button>
       </div>
     </motion.div>
