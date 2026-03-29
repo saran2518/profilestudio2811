@@ -85,7 +85,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
       </div>
 
       {/* Tab content */}
-      <div className="p-3 min-h-[140px]">
+      <div className="p-5 min-h-[140px]">
         <AnimatePresence mode="wait">
           {active === "about" && (
             <motion.div
@@ -94,10 +94,10 @@ export default function ProfileDetailsCard({ profile }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-2"
+              className="space-y-3"
             >
               <div
-                className="grid gap-2"
+                className="grid gap-x-2 gap-y-3"
                 style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}
               >
                 {topRow.map((item, idx) => (
@@ -105,7 +105,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
                 ))}
               </div>
               <div
-                className="grid gap-2 mx-auto"
+                className="grid gap-x-2 gap-y-3 mx-auto"
                 style={{
                   gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`,
                   maxWidth: bottomCols === 2 ? '66%' : '100%',
