@@ -40,7 +40,7 @@ const Results = () => {
       joinMeFor:
         p.joinMeFor?.map((j: any) =>
           typeof j === "string" ? truncateWords(j, 5) : ""
-        ).filter(Boolean).slice(0, 4) ?? [],
+        ).filter(Boolean).slice(0, 3) ?? [],
     };
   };
 
