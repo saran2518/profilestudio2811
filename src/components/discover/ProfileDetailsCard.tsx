@@ -85,7 +85,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
       </div>
 
       {/* Tab content */}
-      <div className="p-3 min-h-[140px]">
+      <div className="p-5 min-h-[140px]">
         <AnimatePresence mode="wait">
           {active === "about" && (
             <motion.div
@@ -94,10 +94,10 @@ export default function ProfileDetailsCard({ profile }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-2"
+              className="space-y-3"
             >
               <div
-                className="grid gap-2"
+                className="grid gap-x-2 gap-y-3"
                 style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}
               >
                 {topRow.map((item, idx) => (
@@ -105,7 +105,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
                 ))}
               </div>
               <div
-                className="grid gap-2 mx-auto"
+                className="grid gap-x-2 gap-y-3 mx-auto"
                 style={{
                   gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`,
                   maxWidth: bottomCols === 2 ? '66%' : '100%',
@@ -182,20 +182,20 @@ function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: stri
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.3 }}
-      className="flex flex-col items-center text-center gap-1.5 rounded-xl border border-border/30 px-2 py-3"
-      style={{ background: "hsl(var(--muted) / 0.35)" }}
+      className="flex flex-col items-center text-center gap-1.5 rounded-2xl px-2 py-3"
+      style={{ background: "hsl(var(--primary) / 0.04)" }}
     >
       <div
-        className="flex h-7 w-7 items-center justify-center rounded-full text-primary"
+        className="flex h-8 w-8 items-center justify-center rounded-full text-primary"
         style={{ background: "hsl(var(--primary) / 0.10)" }}
       >
-        {React.cloneElement(item.icon as React.ReactElement, { className: "h-3.5 w-3.5" })}
+        {item.icon}
       </div>
-      <div className="flex flex-col items-center gap-0.5">
-        <span className="font-body text-[11px] text-muted-foreground uppercase tracking-wider">{item.label}</span>
-        <span className="font-body text-[12px] text-foreground font-semibold leading-tight">
+      <div className="flex flex-col items-center">
+        <span className="font-body text-[13px] text-foreground font-semibold leading-tight">
           {values.join(" · ")}
         </span>
+        <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider mt-0.5">{item.label}</span>
       </div>
     </motion.div>
   );
