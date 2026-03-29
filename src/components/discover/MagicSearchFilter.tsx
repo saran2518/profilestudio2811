@@ -344,4 +344,116 @@ function SelectableRow({
   );
 }
 
+function LanguageSearchField({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
+  const [expanded, setExpanded] = useState(false);
+  const [query, setQuery] = useState("");
+
+  const filtered = query.trim()
+    ? COMMON_LANGUAGES.filter(
+        (l) => l.toLowerCase().includes(query.toLowerCase()) && !value.includes(l)
+      )
+    : [];
+
+  const addLanguage = (lang: string) => {
+    if (!value.includes(lang)) {
+      onChange([...value, lang]);
+    }
+    setQuery("");
+  };
+
+  const addCustom = () => {
+    const trimmed = query.trim();
+    if (trimmed && !value.includes(trimmed)) {
+      onChange([...value, trimmed]);
+      setQuery("");
+    }
+  };
+
+  const remove = (lang: string) => onChange(value.filter((v) => v !== lang));
+
+  return (
+    <div className="space-y-2">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center justify-between py-2"
+      >
+        <span className="font-body font-semibold text-foreground">Languages</span>
+        <span className="flex items-center gap-1 font-body text-sm font-medium text-primary">
+          {value.length === 0 ? "Any" : value.length <= 2 ? value.join(", ") : `${value.length} selected`}
+          <ChevronRight className={`h-4 w-4 transition-transform ${expanded ? "rotate-90" : ""}`} />
+        </span>
+      </button>
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden space-y-2"
+          >
+            {/* Search input */}
+            <div className="rounded-xl border border-border/60 bg-card px-3 py-2 flex items-center gap-2">
+              <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <input
+                type="text"
+                placeholder="Search or type a language…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    if (filtered.length > 0) addLanguage(filtered[0]);
+                    else addCustom();
+                  }
+                }}
+                className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
+              />
+              <button
+                onClick={() => {
+                  if (filtered.length > 0) addLanguage(filtered[0]);
+                  else addCustom();
+                }}
+                className="h-5 w-5 rounded-full bg-primary flex items-center justify-center shrink-0 hover:opacity-80 transition-opacity"
+              >
+                <span className="text-primary-foreground text-xs font-bold leading-none">+</span>
+              </button>
+            </div>
+
+            {/* Suggestions dropdown */}
+            {filtered.length > 0 && (
+              <div className="rounded-xl border border-border/40 bg-card max-h-32 overflow-y-auto">
+                {filtered.slice(0, 6).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => addLanguage(lang)}
+                    className="w-full text-left px-3 py-2 text-sm font-body text-foreground hover:bg-primary/5 transition-colors"
+                  >
+                    {lang}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Selected languages */}
+            {value.length > 0 && (
+              <div className="flex flex-wrap gap-2 pb-1">
+                {value.map((lang) => (
+                  <span
+                    key={lang}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-body font-medium text-primary"
+                  >
+                    {lang}
+                    <button onClick={() => remove(lang)} className="hover:scale-110 transition-transform">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default MagicSearchFilter;
