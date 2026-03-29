@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { MOMENTS, MOOD_TAGS, type MomentData } from "@/lib/expressionsData";
 import InviteDialog from "@/components/discover/InviteDialog";
+import VibeDialog from "@/components/discover/VibeDialog";
 
 const Expressions = () => {
   const navigate = useNavigate();
@@ -27,17 +28,43 @@ const Expressions = () => {
   const [composeMood, setComposeMood] = useState<string | null>(null);
   const [vibed, setVibed] = useState<Set<string>>(new Set());
 
+  // Vibe dialog state
+  const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
+  const [vibeTarget, setVibeTarget] = useState<MomentData | null>(null);
+
   // Invite state
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<MomentData | null>(null);
 
-  const handleVibe = (id: string) => {
-    setVibed((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const handleVibeClick = (moment: MomentData) => {
+    setVibeTarget(moment);
+    setVibeDialogOpen(true);
+  };
+
+  const handleSendVibe = () => {
+    if (vibeTarget) {
+      setVibed((prev) => {
+        const next = new Set(prev);
+        next.add(vibeTarget.id);
+        return next;
+      });
+    }
+    setVibeDialogOpen(false);
+    setVibeTarget(null);
+  };
+
+  const handleVibeCancel = () => {
+    setVibeDialogOpen(false);
+    setVibeTarget(null);
+  };
+
+  const handleVibeToInvite = () => {
+    setVibeDialogOpen(false);
+    if (vibeTarget) {
+      setInviteTarget(vibeTarget);
+      setInviteOpen(true);
+    }
+    setVibeTarget(null);
   };
 
   const handleInvite = (moment: MomentData) => {
@@ -109,7 +136,7 @@ const Expressions = () => {
             moment={moment}
             index={idx}
             isVibed={vibed.has(moment.id)}
-            onVibe={() => handleVibe(moment.id)}
+            onVibe={() => handleVibeClick(moment)}
             onInvite={() => handleInvite(moment)}
           />
         ))}
@@ -133,6 +160,15 @@ const Expressions = () => {
         onSent={() => setInviteOpen(false)}
         profileName={inviteTarget?.name}
         profilePhoto={inviteTarget?.avatar}
+      />
+
+      {/* Vibe Dialog */}
+      <VibeDialog
+        open={vibeDialogOpen}
+        sectionName={vibeTarget?.moodTag || "moment"}
+        onSendVibe={handleSendVibe}
+        onCancel={handleVibeCancel}
+        onSendInvite={handleVibeToInvite}
       />
 
       {/* Bottom Navigation */}
