@@ -148,8 +148,13 @@ const Discover = () => {
       <header className="px-4 pt-3 pb-2 sticky top-0 z-30">
         <div className="flex items-center justify-between rounded-full border border-border/40 bg-card/70 backdrop-blur-xl px-4 py-2.5" style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.06)" }}>
           <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
-            <button className="p-1 hover:scale-110 transition-transform">
+            <button className="p-1 hover:scale-110 transition-transform relative">
               <SlidersHorizontal className="h-5 w-5 text-foreground" />
+              {filterTags.length > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center">
+                  {filterTags.length}
+                </span>
+              )}
             </button>
           </MagicSearchFilter>
           <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
