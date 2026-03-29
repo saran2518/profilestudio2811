@@ -715,92 +715,9 @@ export default function Interests() {
                   </div>
                 )}
 
-                {/* Profile content */}
+                {/* Profile content — full Discover-style layout */}
                 <div className="px-4 pt-4 pb-32 space-y-4">
-                  {/* Hero photo */}
-                  <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: "0 12px 40px -12px hsl(var(--foreground) / 0.15)" }}>
-                    <img src={profile.photos[0]} alt={profile.name} className="w-full aspect-[4/5] object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <div className="rounded-2xl bg-card/75 backdrop-blur-lg px-5 py-4 border border-border/20">
-                        <div className="flex items-center gap-2.5">
-                          <h2 className="font-display text-2xl font-bold text-foreground">{profile.name}, {profile.age}</h2>
-                          {profile.verified && (
-                            <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center">
-                              <Shield className="h-4 w-4 text-primary" />
-                            </div>
-                          )}
-                        </div>
-                        <p className="font-body text-sm text-foreground/80 mt-0.5">{profile.profession} • {profile.specialization}</p>
-                        <div className="flex items-center gap-1.5 mt-1">
-                          <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
-                          <span className="font-body text-xs text-muted-foreground">{profile.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bio */}
-                  <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
-                    <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Bio</h3>
-                    <p className="font-body text-[15px] leading-relaxed text-foreground/80">{profile.bio}</p>
-                  </div>
-
-                  {/* Interests */}
-                  <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
-                    <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Interests</h3>
-                    <p className="font-body text-[15px] leading-relaxed text-foreground/80 font-medium">
-                      {profile.interests.slice(0, 6).map((interest, idx, arr) => (
-                        <span key={idx}>
-                          {interest}
-                          {idx < arr.length - 1 && (
-                            <span className="mx-2 inline-block h-[5px] w-[5px] rounded-full bg-primary/50 align-middle" />
-                          )}
-                        </span>
-                      ))}
-                    </p>
-                  </div>
-
-                  {/* Narratives */}
-                  {profile.narratives.length > 0 && (
-                    <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
-                      <h3 className="font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mb-3">Narratives</h3>
-                      {profile.narratives.map((n, idx) => (
-                        <div key={idx} className={idx > 0 ? "mt-4 pt-4 border-t border-border/30" : ""}>
-                          <p className="font-display text-[15px] font-bold text-foreground mb-1">{n.title}</p>
-                          <p className="font-body text-[14px] leading-relaxed text-foreground/70">{n.content}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Join Me For */}
-                  {profile.joinMeFor && profile.joinMeFor.length > 0 && (
-                    <div className="rounded-2xl border border-border/50 bg-card p-5" style={{ boxShadow: "var(--shadow-card)" }}>
-                      <div className="flex items-center gap-2.5 mb-4">
-                        <MapPin className="h-5 w-5 text-primary/60 shrink-0" />
-                        <h3 className="font-display text-base font-semibold text-card-foreground">Join Me For</h3>
-                      </div>
-                      <div className="space-y-2.5">
-                        {profile.joinMeFor.map((idea, idx) => (
-                          <div
-                            key={idx}
-                            className="rounded-xl border border-border/50 px-4 py-3"
-                            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.06), hsl(var(--accent) / 0.10))" }}
-                          >
-                            <p className="font-body text-card-foreground/80 text-[14px] leading-snug">{idea}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Second photo if available */}
-                  {profile.photos[1] && (
-                    <div className="rounded-2xl overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
-                      <img src={profile.photos[1]} alt="" className="w-full aspect-[3/2] object-cover" />
-                    </div>
-                  )}
+                  {buildFullProfileSections(profile)}
                 </div>
 
                 {/* Fixed bottom CTAs */}
