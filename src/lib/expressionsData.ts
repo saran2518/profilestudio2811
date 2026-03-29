@@ -30,6 +30,7 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[0].location,
     avatar: PROFILES[0].photos[0],
     text: "Finding beauty in the quiet moments. Looking for someone who appreciates early morning coffee and late-night architecture talks just as much as I do.",
+    photo: PROFILES[0].photos[1],
     moodTag: "Quiet evening",
     timestamp: "2h ago",
   },
