@@ -136,7 +136,7 @@ const Expressions = () => {
             moment={moment}
             index={idx}
             isVibed={vibed.has(moment.id)}
-            onVibe={() => handleVibe(moment.id)}
+            onVibe={() => handleVibeClick(moment)}
             onInvite={() => handleInvite(moment)}
           />
         ))}
