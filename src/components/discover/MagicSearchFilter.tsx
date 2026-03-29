@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 const RELATIONSHIP_OPTIONS = ["Long-term", "Short-term", "Casual", "Friendship"];
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
+const LANGUAGE_OPTIONS = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu"];
 const SUGGESTED_TAGS = ["Creative Thinker", "Fitness Enthusiast", "Startup Founder", "Bookworm", "Traveler", "Foodie", "Night Owl", "Morning Person"];
 
 interface MagicSearchFilterProps {
@@ -32,6 +33,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [relationship, setRelationship] = useState<string[]>(["Long-term"]);
   const [education, setEducation] = useState<string[]>(["Masters"]);
   const [gender, setGender] = useState<string[]>(["Women"]);
+  const [languages, setLanguages] = useState<string[]>([]);
 
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
@@ -53,6 +55,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
     setRelationship(["Long-term"]);
     setEducation(["Masters"]);
     setGender(["Women"]);
+    setLanguages([]);
   };
 
   return (
@@ -205,6 +208,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
           <SelectableRow label="Relationship Intent" value={relationship} options={RELATIONSHIP_OPTIONS} onChange={setRelationship} />
           <SelectableRow label="Education" value={education} options={EDUCATION_OPTIONS} onChange={setEducation} />
           <SelectableRow label="Gender" value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+          <SelectableRow label="Languages" value={languages} options={LANGUAGE_OPTIONS} onChange={setLanguages} />
         </div>
 
         {/* Footer */}
