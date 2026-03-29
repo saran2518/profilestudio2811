@@ -85,7 +85,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
       </div>
 
       {/* Tab content */}
-      <div className="p-5 min-h-[140px]">
+      <div className="p-3 min-h-[140px]">
         <AnimatePresence mode="wait">
           {active === "about" && (
             <motion.div
