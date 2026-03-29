@@ -94,7 +94,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-3"
+              className="space-y-2"
             >
               <div
                 className="grid gap-x-2 gap-y-3"
