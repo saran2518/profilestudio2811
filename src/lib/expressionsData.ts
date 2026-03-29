@@ -54,6 +54,7 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[2]?.location || "Seattle",
     avatar: PROFILES[2]?.photos[0] || PROFILES[0].photos[0],
     text: "There is nothing quite like the silence that fills the room just before the first note is played. A moment of pure anticipation.",
+    photo: PROFILES[2]?.photos[1],
     moodTag: "Artistic soul",
     timestamp: "6h ago",
   },
