@@ -179,6 +179,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
           icon={<MapPin className="h-4.5 w-4.5 text-accent" />}
           title="Join Me For"
           index={3}
+          onEdit={() => openEdit({ type: "joinMeForAll" })}
         >
           <div className="space-y-3">
             {current.joinMeFor.map((idea, idx) => (
@@ -187,7 +188,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + idx * 0.1 }}
-                className="group relative flex items-start gap-3 pr-10"
+                className="flex items-start gap-3"
               >
                 <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent/10 font-display text-xs font-bold text-accent">
                   {idx + 1}
@@ -195,13 +196,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 <p className="font-body text-card-foreground/75 text-[15px] leading-relaxed pt-0.5">
                   {idea}
                 </p>
-                <button
-                  onClick={() => openEdit({ type: "joinMeFor", index: idx })}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-muted/60 hover:bg-muted transition-colors"
-                  aria-label="Edit date idea"
-                >
-                  <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
-                </button>
               </motion.div>
             ))}
           </div>
