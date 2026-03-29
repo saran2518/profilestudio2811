@@ -57,6 +57,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const [titleDraft, setTitleDraft] = useState("");
   const [interestsDraft, setInterestsDraft] = useState<string[]>([]);
   const [newInterest, setNewInterest] = useState("");
+  const [joinMeForDraft, setJoinMeForDraft] = useState<string[]>([]);
+  const [newMoment, setNewMoment] = useState("");
 
   const update = (patch: Partial<GeneratedProfile>) => {
     const next = { ...current, ...patch };
