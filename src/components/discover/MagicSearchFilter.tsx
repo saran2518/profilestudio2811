@@ -55,6 +55,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
     setRelationship(["Long-term"]);
     setEducation(["Masters"]);
     setGender(["Women"]);
+    setLanguages([]);
   };
 
   return (
