@@ -208,6 +208,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
           <SelectableRow label="Relationship Intent" value={relationship} options={RELATIONSHIP_OPTIONS} onChange={setRelationship} />
           <SelectableRow label="Education" value={education} options={EDUCATION_OPTIONS} onChange={setEducation} />
           <SelectableRow label="Gender" value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+          <SelectableRow label="Languages" value={languages} options={LANGUAGE_OPTIONS} onChange={setLanguages} />
         </div>
 
         {/* Footer */}
