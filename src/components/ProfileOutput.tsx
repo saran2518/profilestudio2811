@@ -102,11 +102,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   const dialogTitle = editTarget
     ? editTarget.type === "bio" ? "Edit Bio"
     : editTarget.type === "narrative" ? "Edit Narrative"
-    : editTarget.type === "joinMeFor" ? "Edit Date Idea"
+    : editTarget.type === "joinMeForAll" ? "JOIN ME FOR"
     : "Edit Interests"
     : "";
 
-  const isTextEdit = editTarget && editTarget.type !== "interests" && editTarget.type !== "narrative";
+  const isTextEdit = editTarget && editTarget.type === "bio";
+  const isJoinMeForEdit = editTarget?.type === "joinMeForAll";
   const isNarrativeEdit = editTarget?.type === "narrative";
 
   return (
