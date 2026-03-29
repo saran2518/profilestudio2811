@@ -85,7 +85,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
       </div>
 
       {/* Tab content */}
-      <div className="p-5 min-h-[140px]">
+      <div className="p-3 min-h-[140px]">
         <AnimatePresence mode="wait">
           {active === "about" && (
             <motion.div
@@ -94,26 +94,25 @@ export default function ProfileDetailsCard({ profile }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-0"
+              className="space-y-2"
             >
               <div
-                className="grid"
+                className="grid gap-2"
                 style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}
               >
                 {topRow.map((item, idx) => (
-                  <AboutItem key={idx} item={item} delay={idx * 0.05} showDivider={idx < topRow.length - 1} />
+                  <AboutItem key={idx} item={item} delay={idx * 0.05} />
                 ))}
               </div>
-              <div className="my-3 mx-4 h-px bg-border/40" />
               <div
-                className="grid mx-auto"
+                className="grid gap-2 mx-auto"
                 style={{
                   gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`,
                   maxWidth: bottomCols === 2 ? '66%' : '100%',
                 }}
               >
                 {bottomRow.map((item, idx) => (
-                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} showDivider={idx < bottomRow.length - 1} />
+                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} />
                 ))}
               </div>
             </motion.div>
