@@ -23,6 +23,13 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
 import { createThread } from "@/lib/chatStore";
 import { toast } from "@/hooks/use-toast";
+import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
+import BioSection from "@/components/discover/BioSection";
+import ProfileDetailsCard from "@/components/discover/ProfileDetailsCard";
+import InterestsSection from "@/components/discover/InterestsSection";
+import NarrativesSection from "@/components/discover/NarrativesSection";
+import JoinMeForSection from "@/components/discover/JoinMeForSection";
+import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
 
 /* ─── Mock data ───────────────────────────────────────── */
 
