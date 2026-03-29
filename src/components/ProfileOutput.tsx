@@ -302,7 +302,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                   </motion.div>
                 ))}
               </div>
-              {joinMeForDraft.length < 4 && (
+              {joinMeForDraft.length < 3 && (
                 <div className="flex items-center gap-3 rounded-xl border border-dashed border-border/60 px-4 py-3.5">
                   <Input
                     value={newMoment}
