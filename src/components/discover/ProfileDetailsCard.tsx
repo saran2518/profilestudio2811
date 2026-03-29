@@ -94,25 +94,26 @@ export default function ProfileDetailsCard({ profile }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-4"
+              className="space-y-0"
             >
               <div
-                className="grid gap-x-2 gap-y-4"
+                className="grid"
                 style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}
               >
                 {topRow.map((item, idx) => (
-                  <AboutItem key={idx} item={item} delay={idx * 0.05} />
+                  <AboutItem key={idx} item={item} delay={idx * 0.05} showDivider={idx < topRow.length - 1} />
                 ))}
               </div>
+              <div className="my-3 mx-4 h-px bg-border/40" />
               <div
-                className="grid gap-x-2 gap-y-4 mx-auto"
+                className="grid mx-auto"
                 style={{
                   gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`,
                   maxWidth: bottomCols === 2 ? '66%' : '100%',
                 }}
               >
                 {bottomRow.map((item, idx) => (
-                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} />
+                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} showDivider={idx < bottomRow.length - 1} />
                 ))}
               </div>
             </motion.div>
@@ -175,14 +176,14 @@ export default function ProfileDetailsCard({ profile }: Props) {
   );
 }
 
-function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: string; value: string }; delay: number }) {
+function AboutItem({ item, delay, showDivider }: { item: { icon: React.ReactNode; label: string; value: string }; delay: number; showDivider?: boolean }) {
   const values = item.value.split(",").map((v) => v.trim());
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.3 }}
-      className="flex flex-col items-center text-center gap-1.5"
+      className="relative flex flex-col items-center text-center gap-1.5 py-2"
     >
       <div
         className="flex h-8 w-8 items-center justify-center rounded-full text-primary"
@@ -196,6 +197,9 @@ function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: stri
         </span>
         <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider mt-0.5">{item.label}</span>
       </div>
+      {showDivider && (
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 h-8 w-px bg-border/40" />
+      )}
     </motion.div>
   );
 }
