@@ -30,7 +30,7 @@ const sectionVariants = {
 type EditTarget =
   | { type: "bio" }
   | { type: "narrative"; index: number }
-  | { type: "joinMeFor"; index: number }
+  | { type: "joinMeForAll" }
   | { type: "interests" }
   | null;
 
