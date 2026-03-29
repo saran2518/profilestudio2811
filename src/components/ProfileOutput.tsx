@@ -91,10 +91,8 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       const next = [...current.narratives];
       next[editTarget.index] = { title: titleDraft, content: draft };
       update({ narratives: next });
-    } else if (editTarget.type === "joinMeFor") {
-      const next = [...current.joinMeFor];
-      next[editTarget.index] = draft;
-      update({ joinMeFor: next });
+    } else if (editTarget.type === "joinMeForAll") {
+      update({ joinMeFor: joinMeForDraft.filter(Boolean) });
     } else if (editTarget.type === "interests") {
       update({ interests: interestsDraft });
     }
