@@ -284,15 +284,20 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                     style={{ background: "hsl(var(--accent) / 0.08)" }}
                   >
                     <GripVertical className="h-4 w-4 text-muted-foreground/40 shrink-0" />
-                    <Input
-                      value={item}
-                      onChange={(e) => {
-                        const next = [...joinMeForDraft];
-                        next[idx] = enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor);
-                        setJoinMeForDraft(next);
-                      }}
-                      className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-foreground focus-visible:ring-0 shadow-none"
-                    />
+                    <div className="flex-1 relative">
+                      <Input
+                        value={item}
+                        onChange={(e) => {
+                          const next = [...joinMeForDraft];
+                          next[idx] = enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor);
+                          setJoinMeForDraft(next);
+                        }}
+                        className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-foreground focus-visible:ring-0 shadow-none pr-12"
+                      />
+                      <span className={`absolute right-0 top-1/2 -translate-y-1/2 font-body text-xs ${countWords(item) >= WORD_LIMITS.joinMeFor ? 'text-destructive' : 'text-muted-foreground/50'}`}>
+                        {countWords(item)}/{WORD_LIMITS.joinMeFor}
+                      </span>
+                    </div>
                     <button
                       onClick={() => setJoinMeForDraft(joinMeForDraft.filter((_, i) => i !== idx))}
                       className="text-muted-foreground/50 hover:text-destructive transition-colors shrink-0"
@@ -304,6 +309,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
               </div>
               {joinMeForDraft.length < 3 && (
                 <div className="flex items-center gap-3 rounded-xl border border-dashed border-border/60 px-4 py-3.5">
+                <div className="flex-1 relative">
                   <Input
                     value={newMoment}
                     onChange={(e) => setNewMoment(enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor))}
@@ -314,8 +320,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                       }
                     }}
                     placeholder="Add a moment..."
-                    className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-muted-foreground placeholder:text-muted-foreground/50 focus-visible:ring-0 shadow-none"
+                    className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-muted-foreground placeholder:text-muted-foreground/50 focus-visible:ring-0 shadow-none pr-12"
                   />
+                  <span className={`absolute right-0 top-1/2 -translate-y-1/2 font-body text-xs ${countWords(newMoment) >= WORD_LIMITS.joinMeFor ? 'text-destructive' : 'text-muted-foreground/50'}`}>
+                    {countWords(newMoment)}/{WORD_LIMITS.joinMeFor}
+                  </span>
+                </div>
                   <button
                     onClick={() => {
                       if (newMoment.trim()) {
