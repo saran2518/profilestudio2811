@@ -218,19 +218,13 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-border/30 flex items-center justify-between bg-background">
-          <button
-            onClick={handleReset}
-            className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Reset
-          </button>
+        <div className="px-5 py-4 border-t border-border/30 bg-background">
           <button
             onClick={() => {
               onApply?.(searchTags);
               setOpen(false);
             }}
-            className="rounded-full px-8 py-3 font-body text-sm font-semibold text-primary-foreground"
+            className="w-full rounded-full py-3 font-body text-sm font-semibold text-primary-foreground"
             style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
           >
             Apply Filters
