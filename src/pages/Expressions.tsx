@@ -28,17 +28,43 @@ const Expressions = () => {
   const [composeMood, setComposeMood] = useState<string | null>(null);
   const [vibed, setVibed] = useState<Set<string>>(new Set());
 
+  // Vibe dialog state
+  const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
+  const [vibeTarget, setVibeTarget] = useState<MomentData | null>(null);
+
   // Invite state
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<MomentData | null>(null);
 
-  const handleVibe = (id: string) => {
-    setVibed((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const handleVibeClick = (moment: MomentData) => {
+    setVibeTarget(moment);
+    setVibeDialogOpen(true);
+  };
+
+  const handleSendVibe = () => {
+    if (vibeTarget) {
+      setVibed((prev) => {
+        const next = new Set(prev);
+        next.add(vibeTarget.id);
+        return next;
+      });
+    }
+    setVibeDialogOpen(false);
+    setVibeTarget(null);
+  };
+
+  const handleVibeCancel = () => {
+    setVibeDialogOpen(false);
+    setVibeTarget(null);
+  };
+
+  const handleVibeToInvite = () => {
+    setVibeDialogOpen(false);
+    if (vibeTarget) {
+      setInviteTarget(vibeTarget);
+      setInviteOpen(true);
+    }
+    setVibeTarget(null);
   };
 
   const handleInvite = (moment: MomentData) => {
