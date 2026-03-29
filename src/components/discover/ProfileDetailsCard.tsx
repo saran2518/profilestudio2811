@@ -94,25 +94,26 @@ export default function ProfileDetailsCard({ profile }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 16 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-4"
+              className="space-y-0"
             >
               <div
-                className="grid gap-x-2 gap-y-4"
+                className="grid"
                 style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}
               >
                 {topRow.map((item, idx) => (
-                  <AboutItem key={idx} item={item} delay={idx * 0.05} />
+                  <AboutItem key={idx} item={item} delay={idx * 0.05} showDivider={idx < topRow.length - 1} />
                 ))}
               </div>
+              <div className="my-3 mx-4 h-px bg-border/40" />
               <div
-                className="grid gap-x-2 gap-y-4 mx-auto"
+                className="grid mx-auto"
                 style={{
                   gridTemplateColumns: `repeat(${bottomCols}, minmax(0, 1fr))`,
                   maxWidth: bottomCols === 2 ? '66%' : '100%',
                 }}
               >
                 {bottomRow.map((item, idx) => (
-                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} />
+                  <AboutItem key={idx + topRow.length} item={item} delay={(idx + topRow.length) * 0.05} showDivider={idx < bottomRow.length - 1} />
                 ))}
               </div>
             </motion.div>
