@@ -544,9 +544,16 @@ export default function Interests() {
               animate={{ opacity: 1 }}
               className="space-y-3.5"
             >
-              {MOCK_VIBES.map((vibe, i) => (
-                <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
-              ))}
+              {vibes.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <HeartPulse className="h-10 w-10 text-muted-foreground/30 mb-3" />
+                  <p className="font-body text-sm text-muted-foreground">No vibes yet</p>
+                </div>
+              ) : (
+                vibes.map((vibe, i) => (
+                  <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
+                ))
+              )}
             </motion.div>
           </AnimatePresence>
         </TabsContent>
