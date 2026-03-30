@@ -92,7 +92,7 @@ export default function ChatDetail({
             onClick={() => setMenuOpen((v) => !v)}
             className="p-2 rounded-xl hover:bg-muted/40 transition-colors"
           >
-            <MoreVertical className="h-5 w-5 text-muted-foreground" />
+            <MoreHorizontal className="h-5 w-5 text-muted-foreground" />
           </motion.button>
 
           <AnimatePresence>
