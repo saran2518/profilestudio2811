@@ -101,7 +101,7 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={!selected || (selected === "Other" && !description.trim())}
+                disabled={!selected}
                 className="flex-1 py-2.5 rounded-full bg-destructive text-destructive-foreground text-sm font-medium disabled:opacity-40 transition-colors"
               >
                 Submit Report
