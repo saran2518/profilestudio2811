@@ -110,7 +110,6 @@ export default function ChatDetail({
                     onClick={() => handleMenuAction("disconnect")}
                     className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-foreground hover:bg-muted/50 transition-colors"
                   >
-                    <Unplug className="h-4 w-4 text-muted-foreground" />
                     Close connection
                   </button>
                   <button
