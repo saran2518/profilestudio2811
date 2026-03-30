@@ -221,6 +221,6 @@ export const PROFILES: ProfileData[] = [
       "Temple trail through Mahabalipuram",
       "Authentic South Indian cooking together",
     ],
-    photos: [profileAnanya],
+    photos: [profileAnanya, profileAnanya2, profileAnanya3, profileAnanya4],
   },
 ];
