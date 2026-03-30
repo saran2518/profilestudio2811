@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Flag, X } from "lucide-react";
+import { Flag, X, ChevronRight } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 const REPORT_REASONS = [
-  "Inappropriate photos",
-  "Fake profile / Catfishing",
-  "Harassment or bullying",
-  "Spam or scam",
-  "Underage user",
-  "Other",
+  { label: "Inappropriate photos", emoji: "📸" },
+  { label: "Fake profile / Catfishing", emoji: "🎭" },
+  { label: "Harassment or bullying", emoji: "⚠️" },
+  { label: "Spam or scam", emoji: "🚫" },
+  { label: "Underage user", emoji: "🔞" },
+  { label: "Other", emoji: "💬" },
 ];
 
 interface Props {
@@ -36,78 +36,103 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
     onClose();
   };
 
-  if (!open) return null;
-
   return (
-    <div className="fixed inset-0 z-50">
-      {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={handleCancel}
-      />
+    <AnimatePresence>
+      {open && (
+        <div className="fixed inset-0 z-50">
+          {/* Overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={handleCancel}
+          />
 
-      {/* Dialog */}
-      <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 mx-auto max-w-sm max-h-[85vh] flex flex-col rounded-2xl border border-border bg-card shadow-xl animate-scale-in">
-        <div className="p-5 overflow-y-auto flex-1">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-destructive">
-              <Flag className="h-5 w-5" />
-              <h3 className="text-lg font-semibold">Report {profileName}</h3>
+          {/* Dialog */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ type: "spring", damping: 28, stiffness: 380 }}
+            className="absolute inset-x-4 top-1/2 -translate-y-1/2 mx-auto max-w-sm max-h-[85vh] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden"
+          >
+            <div className="p-5 overflow-y-auto flex-1">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center">
+                    <Flag className="h-4 w-4 text-destructive" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground">Report {profileName}</h3>
+                </div>
+                <button
+                  onClick={handleCancel}
+                  className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <p className="text-sm text-muted-foreground mb-4 ml-[42px]">
+                Select a reason below
+              </p>
+
+              {/* Reasons */}
+              <div className="flex flex-col gap-1.5 mb-4">
+                {REPORT_REASONS.map(({ label, emoji }) => (
+                  <button
+                    key={label}
+                    onClick={() => setSelected(label)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200 ${
+                      selected === label
+                        ? "border-destructive bg-destructive/8 text-destructive shadow-sm"
+                        : "border-border/60 bg-background text-foreground hover:border-destructive/30 hover:bg-destructive/3"
+                    }`}
+                  >
+                    <span className="text-base">{emoji}</span>
+                    <span className="flex-1 text-left">{label}</span>
+                    {selected === label && (
+                      <ChevronRight className="h-4 w-4 text-destructive/60" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              {/* Description */}
+              <div className="mb-5">
+                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2 block">
+                  Additional details
+                </label>
+                <Textarea
+                  placeholder="Tell us more about what happened…"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="rounded-xl border-border/60 bg-background text-sm resize-none focus:border-destructive/40"
+                  rows={3}
+                />
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCancel}
+                  className="flex-1 py-3 rounded-full border border-border text-sm font-semibold text-muted-foreground hover:bg-muted transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!selected}
+                  className="flex-1 py-3 rounded-full bg-destructive text-destructive-foreground text-sm font-semibold disabled:opacity-30 hover:bg-destructive/90 transition-all duration-200"
+                >
+                  Report
+                </button>
+              </div>
             </div>
-            <button onClick={handleCancel} className="text-muted-foreground hover:text-foreground">
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-
-          <p className="text-sm text-muted-foreground mb-4">Why are you reporting this profile?</p>
-
-          {/* Reasons */}
-          <div className="flex flex-col gap-2 mb-4">
-            {REPORT_REASONS.map((reason) => (
-              <button
-                key={reason}
-                onClick={() => setSelected(reason)}
-                className={`text-left px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
-                  selected === reason
-                    ? "border-destructive bg-destructive/10 text-destructive"
-                    : "border-border bg-background text-foreground hover:border-destructive/40"
-                }`}
-              >
-                {reason}
-              </button>
-            ))}
-          </div>
-
-          {/* Description box */}
-          <div className="mb-4">
-            <Textarea
-              placeholder="Add more details (optional)…"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="rounded-xl border-border bg-background text-sm"
-              rows={3}
-            />
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-3">
-            <button
-              onClick={handleCancel}
-              className="flex-1 py-2.5 rounded-full border border-border text-sm font-medium text-muted-foreground hover:bg-muted transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={!selected}
-              className="flex-1 py-2.5 rounded-full bg-destructive text-destructive-foreground text-sm font-medium disabled:opacity-40 transition-colors"
-            >
-              Report
-            </button>
-          </div>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 }
