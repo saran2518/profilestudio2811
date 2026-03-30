@@ -44,7 +44,7 @@ export default function ChatDetail({
     setMenuOpen(false);
     switch (action) {
       case "disconnect":
-        toast.success(`Disconnected from ${thread.name}.`);
+        toast.success(`Connection with ${thread.name} has been closed.`);
         break;
       case "block":
         toast.success(`${thread.name} has been blocked.`);
