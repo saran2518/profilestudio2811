@@ -2,6 +2,7 @@ import { Flag, ShieldBan } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 import ReportDialog from "./ReportDialog";
 
 const BLOCK_REASONS = [
