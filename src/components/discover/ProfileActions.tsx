@@ -124,6 +124,20 @@ export default function ProfileActions({ profileName }: Props) {
                   ))}
                 </div>
 
+                {/* Description */}
+                <div className="mb-5">
+                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2 block">
+                    Additional details
+                  </label>
+                  <Textarea
+                    placeholder="Tell us more about why you're blocking…"
+                    value={blockDescription}
+                    onChange={(e) => setBlockDescription(e.target.value)}
+                    className="rounded-xl border-border/60 bg-background text-sm resize-none focus:border-primary/40"
+                    rows={3}
+                  />
+                </div>
+
                 {/* Actions */}
                 <div className="flex gap-3">
                   <button
