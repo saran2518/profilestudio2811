@@ -100,7 +100,7 @@ const Expressions = () => {
             <SlidersHorizontal className="h-5 w-5 text-muted-foreground" />
           </button>
           <div className="text-center">
-            <h1 className="font-display text-lg font-semibold text-foreground">Expressions</h1>
+            <h1 className="font-display text-lg font-semibold text-foreground">Moments</h1>
             <p className="text-xs text-muted-foreground font-body mt-0.5">Moments people choose to share.</p>
           </div>
           <button className="h-9 w-9 flex items-center justify-center">
@@ -175,7 +175,7 @@ const Expressions = () => {
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
         <div className="flex items-center justify-around py-3 px-2">
           <NavItem icon={<Users className="h-5 w-5" />} label="Profile" />
-          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Expressions" active />
+          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" active />
           <NavItem icon={<InfinityIcon />} label="Discover" onClick={() => navigate("/discover")} />
           <NavItem icon={<Heart className="h-5 w-5" />} label="Interests" onClick={() => navigate("/interests")} />
           <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" onClick={() => navigate("/chat")} />
