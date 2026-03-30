@@ -5,6 +5,8 @@ import { useChatThread } from "@/hooks/useChatStore";
 import { addMessage, ChatThread } from "@/lib/chatStore";
 import EmojiPicker from "./EmojiPicker";
 import { toast } from "sonner";
+import ReportDialog from "@/components/discover/ReportDialog";
+import BlockDialog from "@/components/discover/BlockDialog";
 
 export default function ChatDetail({
   thread,
@@ -16,6 +18,8 @@ export default function ChatDetail({
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
+  const [blockOpen, setBlockOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
@@ -47,10 +51,10 @@ export default function ChatDetail({
         toast.success(`Connection with ${thread.name} has been closed.`);
         break;
       case "block":
-        toast.success(`${thread.name} has been blocked.`);
+        setBlockOpen(true);
         break;
       case "report":
-        toast.success(`${thread.name} has been reported.`);
+        setReportOpen(true);
         break;
     }
   };
@@ -236,6 +240,9 @@ export default function ChatDetail({
           </motion.button>
         </div>
       </div>
+
+      <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} profileName={thread.name} />
+      <BlockDialog open={blockOpen} onClose={() => setBlockOpen(false)} profileName={thread.name} />
     </div>
   );
 }
