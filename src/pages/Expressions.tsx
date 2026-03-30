@@ -204,7 +204,7 @@ function MomentCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
-      className="rounded-2xl border border-border/40 bg-card p-4"
+      className="relative rounded-2xl border border-border/40 bg-card p-4"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       {/* User info */}
@@ -226,7 +226,7 @@ function MomentCard({
       </div>
 
       {/* Moment text */}
-      <p className="text-sm text-foreground font-body leading-relaxed mb-3">
+      <p className="text-sm text-foreground font-body leading-relaxed mb-3 pr-10">
         {moment.text}
       </p>
 
@@ -242,29 +242,27 @@ function MomentCard({
       )}
 
       {/* Mood tag */}
-      <div className="mb-3">
+      <div className="mb-1">
         <span className="inline-block px-3 py-1 rounded-full text-xs font-medium border border-primary/30 text-primary bg-primary/5 font-body">
           {moment.moodTag}
         </span>
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center justify-end pt-1">
-        <motion.button
-          whileTap={{ scale: 0.85 }}
-          onClick={onVibe}
-          className={`h-9 w-9 rounded-full flex items-center justify-center transition-all duration-200 ${
-            isVibed
-              ? "text-primary-foreground"
-              : "bg-muted/50 text-muted-foreground"
-          }`}
-          style={isVibed ? { background: "var(--gradient-warm)" } : undefined}
-        >
-          <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
-            <HeartPulse className="h-4 w-4" strokeWidth={2} />
-          </motion.div>
-        </motion.button>
-      </div>
+      {/* HeartPulse - positioned at right side near end of content */}
+      <motion.button
+        whileTap={{ scale: 0.85 }}
+        onClick={onVibe}
+        className={`absolute right-4 bottom-4 h-9 w-9 rounded-full flex items-center justify-center transition-all duration-200 ${
+          isVibed
+            ? "text-primary-foreground"
+            : "bg-muted/50 text-muted-foreground"
+        }`}
+        style={isVibed ? { background: "var(--gradient-warm)" } : undefined}
+      >
+        <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
+          <HeartPulse className="h-4 w-4" strokeWidth={2} />
+        </motion.div>
+      </motion.button>
     </motion.div>
   );
 }
