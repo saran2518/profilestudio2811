@@ -387,9 +387,9 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 <Button
                   size="icon"
                   variant="outline"
-                  disabled={!newInterest.trim()}
+                  disabled={!newInterest.trim() || interestsDraft.length >= 6}
                   onClick={() => {
-                    if (newInterest.trim()) {
+                    if (newInterest.trim() && interestsDraft.length < 6) {
                       setInterestsDraft([...interestsDraft, newInterest.trim()]);
                       setNewInterest("");
                     }
