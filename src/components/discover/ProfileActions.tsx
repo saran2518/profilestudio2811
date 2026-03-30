@@ -32,6 +32,7 @@ export default function ProfileActions({ profileName }: Props) {
 
   const handleBlockCancel = () => {
     setBlockReason(null);
+    setBlockDescription("");
     setBlockOpen(false);
   };
 
