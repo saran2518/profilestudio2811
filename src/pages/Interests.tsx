@@ -401,13 +401,15 @@ export default function Interests() {
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
-  
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
 
-  const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
-  const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
+  const [vibes, setVibes] = useState<VibeItem[]>(MOCK_VIBES);
+  const [invites, setInvites] = useState<InviteItem[]>(MOCK_INVITES);
 
-  const vibeCount = MOCK_VIBES.length;
+  const newInvites = invites.filter((i) => !i.accepted);
+  const acceptedInvites = invites.filter((i) => i.accepted);
+
+  const vibeCount = vibes.length;
   const inviteCount = newInvites.length;
 
   const handleVibeCardClick = (vibe: VibeItem) => {
@@ -420,16 +422,20 @@ export default function Interests() {
 
   const handleVibeBack = (vibe: VibeItem) => {
     setSelectedVibePreview(null);
+    setVibes((prev) => prev.filter((v) => v.id !== vibe.id));
     const thread = createThread(vibe.name, vibe.photo, "vibe");
     setMutualVibeProfile({ ...vibe, _threadId: thread.id } as any);
   };
 
   const handlePass = () => {
-    const name = selectedVibePreview?.name;
+    const current = selectedVibePreview;
     setSelectedVibePreview(null);
+    if (current) {
+      setVibes((prev) => prev.filter((v) => v.id !== current.id));
+    }
     toast({
       title: "Passed",
-      description: `You passed on ${name}`,
+      description: `You passed on ${current?.name}`,
     });
   };
 
@@ -449,16 +455,20 @@ export default function Interests() {
 
   const handleAcceptInvite = (invite: InviteItem) => {
     setSelectedInvitePreview(null);
+    setInvites((prev) => prev.filter((i) => i.id !== invite.id));
     const thread = createThread(invite.name, invite.photo, "invite");
     setAcceptedInviteProfile({ ...invite, _threadId: thread.id } as any);
   };
 
   const handleDeclineInvite = () => {
-    const name = selectedInvitePreview?.name;
+    const current = selectedInvitePreview;
     setSelectedInvitePreview(null);
+    if (current) {
+      setInvites((prev) => prev.filter((i) => i.id !== current.id));
+    }
     toast({
       title: "Declined",
-      description: `You declined ${name}'s invite`,
+      description: `You declined ${current?.name}'s invite`,
     });
   };
 
@@ -534,9 +544,16 @@ export default function Interests() {
               animate={{ opacity: 1 }}
               className="space-y-3.5"
             >
-              {MOCK_VIBES.map((vibe, i) => (
-                <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
-              ))}
+              {vibes.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <HeartPulse className="h-10 w-10 text-muted-foreground/30 mb-3" />
+                  <p className="font-body text-sm text-muted-foreground">No vibes yet</p>
+                </div>
+              ) : (
+                vibes.map((vibe, i) => (
+                  <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
+                ))
+              )}
             </motion.div>
           </AnimatePresence>
         </TabsContent>
