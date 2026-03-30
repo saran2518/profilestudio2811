@@ -100,7 +100,7 @@ const Expressions = () => {
             <SlidersHorizontal className="h-5 w-5 text-muted-foreground" />
           </button>
           <div className="text-center">
-            <h1 className="font-display text-lg font-semibold text-foreground">Expressions</h1>
+            <h1 className="font-display text-lg font-semibold text-foreground">Moments</h1>
             <p className="text-xs text-muted-foreground font-body mt-0.5">Moments people choose to share.</p>
           </div>
           <button className="h-9 w-9 flex items-center justify-center">
