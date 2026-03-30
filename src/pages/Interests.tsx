@@ -401,13 +401,15 @@ export default function Interests() {
   const [mutualVibeProfile, setMutualVibeProfile] = useState<VibeItem | null>(null);
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
-  
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
 
-  const newInvites = MOCK_INVITES.filter((i) => !i.accepted);
-  const acceptedInvites = MOCK_INVITES.filter((i) => i.accepted);
+  const [vibes, setVibes] = useState<VibeItem[]>(MOCK_VIBES);
+  const [invites, setInvites] = useState<InviteItem[]>(MOCK_INVITES);
 
-  const vibeCount = MOCK_VIBES.length;
+  const newInvites = invites.filter((i) => !i.accepted);
+  const acceptedInvites = invites.filter((i) => i.accepted);
+
+  const vibeCount = vibes.length;
   const inviteCount = newInvites.length;
 
   const handleVibeCardClick = (vibe: VibeItem) => {
