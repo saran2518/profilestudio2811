@@ -347,6 +347,9 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
           {editTarget?.type === "interests" && (
             <div className="space-y-5">
+              <p className="font-body text-sm text-muted-foreground">
+                You can add up to 6 interests, 2 words limit per interest
+              </p>
               <div className="flex flex-wrap gap-2.5 min-h-[48px]">
                 {interestsDraft.map((interest, idx) => (
                   <span
