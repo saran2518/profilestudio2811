@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreVertical, Unplug, ShieldBan, Flag } from "lucide-react";
 import { useChatThread } from "@/hooks/useChatStore";
 import { addMessage, ChatThread } from "@/lib/chatStore";
 import EmojiPicker from "./EmojiPicker";
+import { toast } from "sonner";
 
 export default function ChatDetail({
   thread,
@@ -14,6 +15,7 @@ export default function ChatDetail({
 }) {
   const [input, setInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
@@ -36,6 +38,21 @@ export default function ChatDetail({
 
   const handleEmojiSelect = (emoji: string) => {
     setInput((prev) => prev + emoji);
+  };
+
+  const handleMenuAction = (action: "disconnect" | "block" | "report") => {
+    setMenuOpen(false);
+    switch (action) {
+      case "disconnect":
+        toast.success(`Disconnected from ${thread.name}.`);
+        break;
+      case "block":
+        toast.success(`${thread.name} has been blocked.`);
+        break;
+      case "report":
+        toast.success(`${thread.name} has been reported.`);
+        break;
+    }
   };
 
   return (
@@ -67,6 +84,54 @@ export default function ChatDetail({
           )}
           {thread.source}
         </span>
+
+        {/* 3-dot menu */}
+        <div className="ml-auto relative">
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="p-2 rounded-xl hover:bg-muted/40 transition-colors"
+          >
+            <MoreVertical className="h-5 w-5 text-muted-foreground" />
+          </motion.button>
+
+          <AnimatePresence>
+            {menuOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: -4 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 top-full mt-1 z-50 w-48 rounded-xl border border-border bg-card shadow-xl overflow-hidden"
+                >
+                  <button
+                    onClick={() => handleMenuAction("disconnect")}
+                    className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-foreground hover:bg-muted/50 transition-colors"
+                  >
+                    <Unplug className="h-4 w-4 text-muted-foreground" />
+                    Disconnect
+                  </button>
+                  <button
+                    onClick={() => handleMenuAction("block")}
+                    className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-primary hover:bg-primary/5 transition-colors"
+                  >
+                    <ShieldBan className="h-4 w-4" />
+                    Block
+                  </button>
+                  <button
+                    onClick={() => handleMenuAction("report")}
+                    className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-destructive hover:bg-destructive/5 transition-colors"
+                  >
+                    <Flag className="h-4 w-4" />
+                    Report
+                  </button>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Messages */}
