@@ -372,7 +372,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                     value={newInterest}
                     onChange={(e) => setNewInterest(enforceWordLimit(e.target.value, WORD_LIMITS.interest))}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && newInterest.trim()) {
+                      if (e.key === "Enter" && newInterest.trim() && interestsDraft.length < 6) {
                         setInterestsDraft([...interestsDraft, newInterest.trim()]);
                         setNewInterest("");
                       }
