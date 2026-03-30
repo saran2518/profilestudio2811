@@ -25,6 +25,7 @@ import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
+import ProfileActions from "@/components/discover/ProfileActions";
 
 type VibeSection = "Photo" | "Bio" | "Interests" | "Narratives" | "Join Me For" | string;
 
