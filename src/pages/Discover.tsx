@@ -140,6 +140,9 @@ const Discover = () => {
       }
     }
 
+    // Add Report & Block at the very bottom
+    result.push(<ProfileActions key="actions" profileName={profile.name} />);
+
     return result;
   };
 
