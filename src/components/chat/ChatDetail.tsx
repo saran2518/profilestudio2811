@@ -240,6 +240,9 @@ export default function ChatDetail({
           </motion.button>
         </div>
       </div>
+
+      <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} profileName={thread.name} />
+      <BlockDialog open={blockOpen} onClose={() => setBlockOpen(false)} profileName={thread.name} />
     </div>
   );
 }
