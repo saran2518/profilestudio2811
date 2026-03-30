@@ -32,7 +32,7 @@ export default function BioSection({ bio, vibed, onVibe }: Props) {
       <div className="flex items-start gap-3 ml-2 pr-10">
         <Quote className="h-5 w-5 text-primary/40 mt-0.5 shrink-0 rotate-180" />
         <div>
-          <h3 className="font-display text-base font-semibold text-card-foreground mb-2">Bio</h3>
+          <h3 className="font-display text-base font-semibold text-card-foreground mb-2">My Story</h3>
           <p className="font-body text-card-foreground/80 leading-relaxed text-[15px] italic">{bio}</p>
         </div>
       </div>
