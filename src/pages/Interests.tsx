@@ -422,16 +422,20 @@ export default function Interests() {
 
   const handleVibeBack = (vibe: VibeItem) => {
     setSelectedVibePreview(null);
+    setVibes((prev) => prev.filter((v) => v.id !== vibe.id));
     const thread = createThread(vibe.name, vibe.photo, "vibe");
     setMutualVibeProfile({ ...vibe, _threadId: thread.id } as any);
   };
 
   const handlePass = () => {
-    const name = selectedVibePreview?.name;
+    const current = selectedVibePreview;
     setSelectedVibePreview(null);
+    if (current) {
+      setVibes((prev) => prev.filter((v) => v.id !== current.id));
+    }
     toast({
       title: "Passed",
-      description: `You passed on ${name}`,
+      description: `You passed on ${current?.name}`,
     });
   };
 
