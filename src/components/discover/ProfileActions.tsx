@@ -24,14 +24,14 @@ export default function ProfileActions({ profileName }: Props) {
     >
       <button
         onClick={handleReport}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-border/50 bg-card/60 backdrop-blur-sm text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors text-sm font-medium"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-destructive/50 bg-card/60 backdrop-blur-sm text-destructive hover:bg-destructive/10 transition-colors text-sm font-medium"
       >
         <Flag className="h-4 w-4" />
         Report
       </button>
       <button
         onClick={handleBlock}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-border/50 bg-card/60 backdrop-blur-sm text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors text-sm font-medium"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-primary/50 bg-card/60 backdrop-blur-sm text-primary hover:bg-primary/10 transition-colors text-sm font-medium"
       >
         <ShieldBan className="h-4 w-4" />
         Block
