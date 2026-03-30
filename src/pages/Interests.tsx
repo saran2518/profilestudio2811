@@ -455,16 +455,20 @@ export default function Interests() {
 
   const handleAcceptInvite = (invite: InviteItem) => {
     setSelectedInvitePreview(null);
+    setInvites((prev) => prev.filter((i) => i.id !== invite.id));
     const thread = createThread(invite.name, invite.photo, "invite");
     setAcceptedInviteProfile({ ...invite, _threadId: thread.id } as any);
   };
 
   const handleDeclineInvite = () => {
-    const name = selectedInvitePreview?.name;
+    const current = selectedInvitePreview;
     setSelectedInvitePreview(null);
+    if (current) {
+      setInvites((prev) => prev.filter((i) => i.id !== current.id));
+    }
     toast({
       title: "Declined",
-      description: `You declined ${name}'s invite`,
+      description: `You declined ${current?.name}'s invite`,
     });
   };
 
