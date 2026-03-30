@@ -5,10 +5,25 @@ import profilePhoto4 from "@/assets/profile-photo-4.jpg";
 import profilePhoto5 from "@/assets/profile-photo-5.jpg";
 import profilePhoto6 from "@/assets/profile-photo-6.jpg";
 import profileMaya from "@/assets/profile-maya.jpg";
+import profileMaya2 from "@/assets/profile-maya-2.jpg";
+import profileMaya3 from "@/assets/profile-maya-3.jpg";
+import profileMaya4 from "@/assets/profile-maya-4.jpg";
 import profileArjun from "@/assets/profile-arjun.jpg";
+import profileArjun2 from "@/assets/profile-arjun-2.jpg";
+import profileArjun3 from "@/assets/profile-arjun-3.jpg";
+import profileArjun4 from "@/assets/profile-arjun-4.jpg";
 import profilePriya from "@/assets/profile-priya.jpg";
+import profilePriya2 from "@/assets/profile-priya-2.jpg";
+import profilePriya3 from "@/assets/profile-priya-3.jpg";
+import profilePriya4 from "@/assets/profile-priya-4.jpg";
 import profileKaran from "@/assets/profile-karan.jpg";
+import profileKaran2 from "@/assets/profile-karan-2.jpg";
+import profileKaran3 from "@/assets/profile-karan-3.jpg";
+import profileKaran4 from "@/assets/profile-karan-4.jpg";
 import profileAnanya from "@/assets/profile-ananya.jpg";
+import profileAnanya2 from "@/assets/profile-ananya-2.jpg";
+import profileAnanya3 from "@/assets/profile-ananya-3.jpg";
+import profileAnanya4 from "@/assets/profile-ananya-4.jpg";
 
 export interface ProfileData {
   name: string;
