@@ -64,7 +64,7 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
                   <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center">
                     <Flag className="h-4 w-4 text-destructive" />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground">Report {profileName}</h3>
+                  <h3 className="text-lg font-bold text-foreground">Report</h3>
                 </div>
                 <button
                   onClick={handleCancel}

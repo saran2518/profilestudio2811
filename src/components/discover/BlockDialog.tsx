@@ -60,7 +60,7 @@ export default function BlockDialog({ open, onClose, profileName }: Props) {
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                     <ShieldBan className="h-4 w-4 text-primary" />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground">Block {profileName}</h3>
+                  <h3 className="text-lg font-bold text-foreground">Block</h3>
                 </div>
                 <button
                   onClick={handleCancel}
