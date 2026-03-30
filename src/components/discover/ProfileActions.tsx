@@ -2,6 +2,7 @@ import { Flag, ShieldBan } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 import ReportDialog from "./ReportDialog";
 
 const BLOCK_REASONS = [
@@ -20,15 +21,18 @@ export default function ProfileActions({ profileName }: Props) {
   const [reportOpen, setReportOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
   const [blockReason, setBlockReason] = useState<string | null>(null);
+  const [blockDescription, setBlockDescription] = useState("");
 
   const handleBlock = () => {
     toast.success(`${profileName} has been blocked. You won't see their profile anymore.`);
     setBlockReason(null);
+    setBlockDescription("");
     setBlockOpen(false);
   };
 
   const handleBlockCancel = () => {
     setBlockReason(null);
+    setBlockDescription("");
     setBlockOpen(false);
   };
 
@@ -118,6 +122,20 @@ export default function ProfileActions({ profileName }: Props) {
                       <span className="flex-1 text-left">{label}</span>
                     </button>
                   ))}
+                </div>
+
+                {/* Description */}
+                <div className="mb-5">
+                  <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2 block">
+                    Additional details
+                  </label>
+                  <Textarea
+                    placeholder="Tell us more about why you're blocking…"
+                    value={blockDescription}
+                    onChange={(e) => setBlockDescription(e.target.value)}
+                    className="rounded-xl border-border/60 bg-background text-sm resize-none focus:border-primary/40"
+                    rows={3}
+                  />
                 </div>
 
                 {/* Actions */}
