@@ -100,7 +100,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
   };
 
   const dialogTitle = editTarget
-    ? editTarget.type === "bio" ? "Edit Bio"
+    ? editTarget.type === "bio" ? "Edit My Story"
     : editTarget.type === "narrative" ? "Edit Narrative"
     : editTarget.type === "joinMeForAll" ? "JOIN ME FOR"
     : "Edit Interests"
@@ -116,7 +116,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
         {/* Bio */}
         <SectionCard
           icon={<Heart className="h-4.5 w-4.5 text-primary" />}
-          title="Bio"
+          title="My Story"
           index={0}
           onEdit={() => openEdit({ type: "bio" })}
         >
