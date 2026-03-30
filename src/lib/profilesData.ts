@@ -192,7 +192,7 @@ export const PROFILES: ProfileData[] = [
       "A competitive board game night",
       "Farm-to-table dinner at a local vineyard",
     ],
-    photos: [profileKaran],
+    photos: [profileKaran, profileKaran2, profileKaran3, profileKaran4],
   },
   {
     name: "Ananya",
