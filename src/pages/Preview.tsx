@@ -56,9 +56,11 @@ const Preview = () => {
         location: template.location,
       }}
     />,
-    <AboutSection key="about" profile={{ about: template.about }} />,
     <BioSection key="bio" bio={profile.bio} vibed={false} onVibe={noop} />,
-    <RelationshipIntentSection key="intent" intent={template.relationshipIntent} />,
+    <ProfileDetailsCard
+      key="details"
+      profile={{ about: template.about, languages: template.languages, relationshipIntent: template.relationshipIntent }}
+    />,
     <InterestsSection key="interests" interests={profile.interests} vibed={false} onVibe={noop} />,
     <NarrativesSection key="narratives" narratives={profile.narratives} vibed={false} onVibe={noop} />,
     <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={false} onVibe={noop} />,
