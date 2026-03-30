@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreVertical, Unplug, ShieldBan, Flag } from "lucide-react";
+import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, Unplug, ShieldBan, Flag } from "lucide-react";
 import { useChatThread } from "@/hooks/useChatStore";
 import { addMessage, ChatThread } from "@/lib/chatStore";
 import EmojiPicker from "./EmojiPicker";
@@ -44,7 +44,7 @@ export default function ChatDetail({
     setMenuOpen(false);
     switch (action) {
       case "disconnect":
-        toast.success(`Disconnected from ${thread.name}.`);
+        toast.success(`Connection with ${thread.name} has been closed.`);
         break;
       case "block":
         toast.success(`${thread.name} has been blocked.`);
@@ -92,7 +92,7 @@ export default function ChatDetail({
             onClick={() => setMenuOpen((v) => !v)}
             className="p-2 rounded-xl hover:bg-muted/40 transition-colors"
           >
-            <MoreVertical className="h-5 w-5 text-muted-foreground" />
+            <MoreHorizontal className="h-5 w-5 text-muted-foreground" />
           </motion.button>
 
           <AnimatePresence>
@@ -111,7 +111,7 @@ export default function ChatDetail({
                     className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-foreground hover:bg-muted/50 transition-colors"
                   >
                     <Unplug className="h-4 w-4 text-muted-foreground" />
-                    Disconnect
+                    Close connection
                   </button>
                   <button
                     onClick={() => handleMenuAction("block")}
