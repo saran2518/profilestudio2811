@@ -249,11 +249,11 @@ function MomentCard({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pt-1">
+      <div className="flex items-center justify-end pt-1">
         <motion.button
           whileTap={{ scale: 0.85 }}
           onClick={onVibe}
-          className={`h-8 w-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+          className={`h-9 w-9 rounded-full flex items-center justify-center transition-all duration-200 ${
             isVibed
               ? "text-primary-foreground"
               : "bg-muted/50 text-muted-foreground"
@@ -261,18 +261,8 @@ function MomentCard({
           style={isVibed ? { background: "var(--gradient-warm)" } : undefined}
         >
           <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
-            <HeartPulse className="h-3.5 w-3.5" strokeWidth={2} />
+            <HeartPulse className="h-4 w-4" strokeWidth={2} />
           </motion.div>
-        </motion.button>
-
-        <motion.button
-          whileTap={{ scale: 0.93 }}
-          onClick={onInvite}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-primary-foreground"
-          style={{ background: "var(--gradient-warm)" }}
-        >
-          <Send className="h-3 w-3" />
-          <span className="text-[10px] font-bold uppercase tracking-wider font-body">Invite</span>
         </motion.button>
       </div>
     </motion.div>
