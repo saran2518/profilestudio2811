@@ -21,6 +21,7 @@ export default function ProfileActions({ profileName }: Props) {
   const [reportOpen, setReportOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
   const [blockReason, setBlockReason] = useState<string | null>(null);
+  const [blockDescription, setBlockDescription] = useState("");
 
   const handleBlock = () => {
     toast.success(`${profileName} has been blocked. You won't see their profile anymore.`);
