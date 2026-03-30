@@ -48,9 +48,9 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
             onClick={handleCancel}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 350 }}
             className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 mx-auto max-w-sm rounded-2xl border border-border bg-card p-5 shadow-xl"
           >
@@ -82,21 +82,15 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
               ))}
             </div>
 
-            {selected === "Other" && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                className="mb-4"
-              >
-                <Textarea
-                  placeholder="Please describe the issue…"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="rounded-xl border-border bg-background text-sm"
-                  rows={3}
-                />
-              </motion.div>
-            )}
+            <div className="mb-4">
+              <Textarea
+                placeholder="Add more details (optional)…"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="rounded-xl border-border bg-background text-sm"
+                rows={3}
+              />
+            </div>
 
             <div className="flex gap-3">
               <button
