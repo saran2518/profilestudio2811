@@ -116,7 +116,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
         {/* Bio */}
         <SectionCard
           icon={<Heart className="h-4.5 w-4.5 text-primary" />}
-          title="Bio"
+          title="My Story"
           index={0}
           onEdit={() => openEdit({ type: "bio" })}
         >
