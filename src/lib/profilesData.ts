@@ -134,7 +134,7 @@ export const PROFILES: ProfileData[] = [
       "Sunrise drive to a nearby hill station",
       "An evening of live acoustic music",
     ],
-    photos: [profileArjun],
+    photos: [profileArjun, profileArjun2, profileArjun3, profileArjun4],
   },
   {
     name: "Priya",
