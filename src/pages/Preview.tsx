@@ -4,12 +4,11 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProfilePhotoCard from "@/components/discover/ProfilePhotoCard";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
-import AboutSection from "@/components/discover/AboutSection";
 import BioSection from "@/components/discover/BioSection";
+import ProfileDetailsCard from "@/components/discover/ProfileDetailsCard";
 import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
-import RelationshipIntentSection from "@/components/discover/RelationshipIntentSection";
 import type { GeneratedProfile } from "@/lib/profileGenerator";
 import { PROFILES } from "@/lib/profilesData";
 
