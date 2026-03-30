@@ -39,7 +39,7 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -51,11 +51,11 @@ export default function ReportDialog({ open, onClose, profileName }: Props) {
 
           {/* Dialog */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.92 }}
-            transition={{ type: "spring", damping: 28, stiffness: 380 }}
-            className="absolute inset-x-4 top-1/2 -translate-y-1/2 mx-auto max-w-sm max-h-[85vh] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden"
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="relative z-10 w-full max-w-sm max-h-[85vh] flex flex-col rounded-2xl border border-border bg-card shadow-2xl overflow-hidden"
           >
             <div className="p-5 overflow-y-auto flex-1">
               {/* Header */}
