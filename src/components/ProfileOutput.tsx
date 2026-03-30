@@ -347,6 +347,9 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
           {editTarget?.type === "interests" && (
             <div className="space-y-5">
+              <p className="font-body text-sm text-muted-foreground">
+                You can add up to 6 interests, 2 words limit per interest
+              </p>
               <div className="flex flex-wrap gap-2.5 min-h-[48px]">
                 {interestsDraft.map((interest, idx) => (
                   <span
@@ -369,7 +372,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                     value={newInterest}
                     onChange={(e) => setNewInterest(enforceWordLimit(e.target.value, WORD_LIMITS.interest))}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && newInterest.trim()) {
+                      if (e.key === "Enter" && newInterest.trim() && interestsDraft.length < 6) {
                         setInterestsDraft([...interestsDraft, newInterest.trim()]);
                         setNewInterest("");
                       }
@@ -384,9 +387,9 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
                 <Button
                   size="icon"
                   variant="outline"
-                  disabled={!newInterest.trim()}
+                  disabled={!newInterest.trim() || interestsDraft.length >= 6}
                   onClick={() => {
-                    if (newInterest.trim()) {
+                    if (newInterest.trim() && interestsDraft.length < 6) {
                       setInterestsDraft([...interestsDraft, newInterest.trim()]);
                       setNewInterest("");
                     }
