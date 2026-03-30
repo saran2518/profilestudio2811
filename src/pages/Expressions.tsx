@@ -96,9 +96,7 @@ const Expressions = () => {
       {/* Header */}
       <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-xl border-b border-border/30">
         <div className="flex items-center justify-between px-5 py-4">
-          <button className="h-9 w-9 flex items-center justify-center">
-            <SlidersHorizontal className="h-5 w-5 text-muted-foreground" />
-          </button>
+          <div className="h-9 w-9" />
           <div className="text-center">
             <h1 className="font-display text-lg font-semibold text-foreground">Moments</h1>
             <p className="text-xs text-muted-foreground font-body mt-0.5">Moments people choose to share.</p>
