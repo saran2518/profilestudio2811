@@ -458,4 +458,33 @@ function InfinityIcon() {
   );
 }
 
+/* ── Anonymous Toggle ── */
+function AnonymousToggle() {
+  const [anonymous, setAnonymous] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => setAnonymous(!anonymous)}
+      className="flex items-center justify-between w-full px-3 py-2.5 rounded-2xl border border-border/40 bg-muted/20 hover:bg-muted/30 transition-colors"
+    >
+      <div className="flex items-center gap-2.5">
+        <div className={`h-7 w-7 rounded-full flex items-center justify-center transition-colors ${anonymous ? "bg-primary/15 text-primary" : "bg-muted/60 text-muted-foreground"}`}>
+          <EyeOff className="h-3.5 w-3.5" />
+        </div>
+        <div className="text-left">
+          <p className="text-xs font-medium text-foreground font-body">Post anonymously</p>
+          <p className="text-[10px] text-muted-foreground font-body">Your identity will be hidden</p>
+        </div>
+      </div>
+      <div
+        className={`relative h-5 w-9 rounded-full transition-colors duration-200 ${anonymous ? "bg-primary" : "bg-border"}`}
+      >
+        <div
+          className={`absolute top-0.5 h-4 w-4 rounded-full bg-background shadow-sm transition-transform duration-200 ${anonymous ? "translate-x-4" : "translate-x-0.5"}`}
+        />
+      </div>
+    </button>
+  );
+}
+
 export default Expressions;
