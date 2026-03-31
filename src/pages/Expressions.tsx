@@ -170,7 +170,7 @@ const Expressions = () => {
       {/* Vibe Dialog */}
       <VibeDialog
         open={vibeDialogOpen}
-        sectionName={vibeTarget?.moodTag || "moment"}
+        sectionName="Moments"
         onSendVibe={handleSendVibe}
         onCancel={handleVibeCancel}
         onSendInvite={handleVibeToInvite}
