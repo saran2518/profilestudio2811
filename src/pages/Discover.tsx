@@ -31,7 +31,9 @@ type VibeSection = "Photo" | "Bio" | "Interests" | "Narratives" | "Join Me For" 
 
 const Discover = () => {
   const navigate = useNavigate();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [searchParams] = useSearchParams();
+  const initialProfile = Number(searchParams.get("profile")) || 0;
+  const [currentIndex, setCurrentIndex] = useState(initialProfile);
   const [direction, setDirection] = useState(0);
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [inviteOpen, setInviteOpen] = useState(false);

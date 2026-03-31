@@ -89,5 +89,6 @@ export const MOMENTS: MomentData[] = [
     photo: momentCoffee,
     moodTag: "Coffee thoughts",
     timestamp: "12h ago",
+    profileIndex: 4,
   },
 ];

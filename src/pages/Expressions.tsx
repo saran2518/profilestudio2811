@@ -142,7 +142,7 @@ const Expressions = () => {
             onVibe={() => handleVibeClick(moment)}
             onInvite={() => handleInvite(moment)}
             onReport={() => setReportOpen(true)}
-            onViewProfile={() => navigate("/discover")}
+            onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
           />
         ))}
       </div>
