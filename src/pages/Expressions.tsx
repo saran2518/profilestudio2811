@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  SlidersHorizontal,
   Sparkles,
   Plus,
   Heart,
@@ -12,6 +11,8 @@ import {
   X,
   Send,
   Image as ImageIcon,
+  Flag,
+  Eye,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
