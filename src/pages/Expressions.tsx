@@ -141,6 +141,8 @@ const Expressions = () => {
             isVibed={vibed.has(moment.id)}
             onVibe={() => handleVibeClick(moment)}
             onInvite={() => handleInvite(moment)}
+            onReport={() => setReportOpen(true)}
+            onViewProfile={() => navigate("/discover")}
           />
         ))}
       </div>
