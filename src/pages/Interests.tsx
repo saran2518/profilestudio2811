@@ -238,7 +238,7 @@ function VibeCard({ vibe, index, onClick }: { vibe: VibeItem; index: number; onC
       {!vibe.isMutual && (
         <div className="px-4 pb-4 flex items-center justify-center">
           <p className="font-body text-[11px] text-muted-foreground/50">
-            Tap to view profile
+            Tap to view profile & respond
           </p>
         </div>
       )}
