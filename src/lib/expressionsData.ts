@@ -37,6 +37,7 @@ export const MOMENTS: MomentData[] = [
     text: "Finding beauty in the quiet moments. Looking for someone who appreciates early morning coffee and late-night architecture talks just as much as I do.",
     moodTag: "Quiet evening",
     timestamp: "2h ago",
+    profileIndex: 0,
   },
   {
     id: "m2",
