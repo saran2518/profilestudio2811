@@ -76,6 +76,7 @@ export const MOMENTS: MomentData[] = [
     photo: momentSketch,
     moodTag: "Morning energy",
     timestamp: "8h ago",
+    profileIndex: 3,
   },
   {
     id: "m5",
