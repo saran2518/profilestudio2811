@@ -136,7 +136,7 @@ const Discover = () => {
         const pIdx = photoIdx;
         const sectionKey = `Photo-${pIdx + 2}`;
         result.push(
-          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Photo")} />
+          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Picture")} />
         );
         photoIdx++;
       }
