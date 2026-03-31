@@ -459,7 +459,7 @@ function SelectableRow({
 
   const toggleOption = (opt: string) => {
     if (value.includes(opt)) {
-      if (value.length > 1) onChange(value.filter((v) => v !== opt));
+      onChange(value.filter((v) => v !== opt));
     } else {
       onChange([...value, opt]);
     }
@@ -473,7 +473,7 @@ function SelectableRow({
       >
         <span className="font-body font-semibold text-foreground">{label}</span>
         <span className="flex items-center gap-1 font-body text-sm font-medium text-primary">
-          {value.length <= 2 ? value.join(", ") : `${value.length} selected`}
+          {value.length === 0 ? "Any" : value.length <= 2 ? value.join(", ") : `${value.length} selected`}
           <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${expanded ? "rotate-90" : ""}`} />
         </span>
       </button>
