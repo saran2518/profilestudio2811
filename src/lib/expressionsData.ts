@@ -15,6 +15,7 @@ export interface MomentData {
   photo?: string;
   moodTag: string;
   timestamp: string;
+  profileIndex?: number;
 }
 
 export const MOOD_TAGS = [
@@ -36,6 +37,7 @@ export const MOMENTS: MomentData[] = [
     text: "Finding beauty in the quiet moments. Looking for someone who appreciates early morning coffee and late-night architecture talks just as much as I do.",
     moodTag: "Quiet evening",
     timestamp: "2h ago",
+    profileIndex: 0,
   },
   {
     id: "m2",
@@ -48,6 +50,7 @@ export const MOMENTS: MomentData[] = [
     photo: momentTypewriter,
     moodTag: "Creative moment",
     timestamp: "4h ago",
+    profileIndex: 1,
   },
   {
     id: "m3",
@@ -60,6 +63,7 @@ export const MOMENTS: MomentData[] = [
     photo: momentPiano,
     moodTag: "Artistic soul",
     timestamp: "6h ago",
+    profileIndex: 2,
   },
   {
     id: "m4",
@@ -72,6 +76,7 @@ export const MOMENTS: MomentData[] = [
     photo: momentSketch,
     moodTag: "Morning energy",
     timestamp: "8h ago",
+    profileIndex: 3,
   },
   {
     id: "m5",
@@ -84,5 +89,6 @@ export const MOMENTS: MomentData[] = [
     photo: momentCoffee,
     moodTag: "Coffee thoughts",
     timestamp: "12h ago",
+    profileIndex: 4,
   },
 ];
