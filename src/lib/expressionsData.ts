@@ -63,6 +63,7 @@ export const MOMENTS: MomentData[] = [
     photo: momentPiano,
     moodTag: "Artistic soul",
     timestamp: "6h ago",
+    profileIndex: 2,
   },
   {
     id: "m4",
