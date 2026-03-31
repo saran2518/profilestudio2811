@@ -300,7 +300,7 @@ function MomentCard({
   );
 }
 
-/* ── Compose Sheet ── */
+/* ── Compose Dialog ── */
 function ComposeSheet({
   open,
   onClose,
@@ -326,82 +326,97 @@ function ComposeSheet({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-md"
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, y: "100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "100%" }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-50 rounded-t-3xl bg-card border-t border-border/30 max-h-[80vh] overflow-y-auto"
-            style={{ boxShadow: "0 -12px 60px -12px hsl(var(--foreground) / 0.1)" }}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-5 pointer-events-none"
           >
-            {/* Handle */}
-            <div className="flex justify-center pt-3 pb-1">
-              <div className="w-10 h-1 rounded-full bg-border" />
-            </div>
-
-            <div className="p-5 pt-2 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-display text-base font-semibold text-foreground">Share a moment</h3>
-                <button onClick={onClose} className="h-8 w-8 rounded-full bg-muted/60 flex items-center justify-center">
+            <div
+              className="w-full max-w-sm rounded-3xl bg-card border border-border/30 overflow-hidden pointer-events-auto"
+              style={{ boxShadow: "0 24px 80px -16px hsl(var(--foreground) / 0.15)" }}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 pt-5 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="h-8 w-8 rounded-full flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
+                    <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+                  </div>
+                  <h3 className="font-display text-base font-semibold text-foreground">Share a Moment</h3>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="h-8 w-8 rounded-full bg-muted/60 flex items-center justify-center hover:bg-muted transition-colors"
+                >
                   <X className="h-3.5 w-3.5 text-muted-foreground" />
                 </button>
               </div>
 
-              <Textarea
-                value={draft}
-                onChange={(e) => onDraftChange(e.target.value)}
-                placeholder="What's on your mind right now?"
-                className="resize-none rounded-2xl border-border/40 bg-muted/20 min-h-[100px] text-sm font-body focus:border-primary/40"
-                maxLength={300}
-              />
+              {/* Content */}
+              <div className="px-5 pb-5 space-y-4">
+                <Textarea
+                  value={draft}
+                  onChange={(e) => onDraftChange(e.target.value)}
+                  placeholder="What's alive in you right now?"
+                  className="resize-none rounded-2xl border-border/40 bg-muted/20 min-h-[110px] text-sm font-body focus:border-primary/40 placeholder:text-muted-foreground/50"
+                  maxLength={300}
+                  autoFocus
+                />
 
-              <div className="flex items-center justify-between text-xs text-muted-foreground/60 font-body">
-                <button className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
-                  <ImageIcon className="h-4 w-4" />
-                  Add photo
-                </button>
-                <span>{draft.length}/300</span>
-              </div>
-
-              {/* Mood tags */}
-              <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2 font-body">Pick a mood</p>
-                <div className="flex flex-wrap gap-2">
-                  {MOOD_TAGS.slice(0, 10).map((tag) => (
-                    <motion.button
-                      key={tag}
-                      whileTap={{ scale: 0.93 }}
-                      onClick={() => onMoodChange(mood === tag ? null : tag)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 font-body ${
-                        mood === tag
-                          ? "border-primary/50 text-primary bg-primary/10"
-                          : "border-border/40 text-muted-foreground bg-muted/20 hover:border-border"
-                      }`}
-                    >
-                      {tag}
-                    </motion.button>
-                  ))}
+                <div className="flex items-center justify-between text-xs text-muted-foreground/60 font-body">
+                  <button className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-lg px-2 py-1.5 hover:bg-muted/40">
+                    <ImageIcon className="h-4 w-4" />
+                    Add photo
+                  </button>
+                  <span className={`tabular-nums ${draft.length > 250 ? "text-destructive" : ""}`}>
+                    {draft.length}/300
+                  </span>
                 </div>
-              </div>
 
-              {/* Submit */}
-              <motion.button
-                whileTap={{ scale: 0.96 }}
-                onClick={onSubmit}
-                disabled={!draft.trim() || !mood}
-                className="w-full py-3.5 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed font-body"
-                style={{
-                  background: draft.trim() && mood ? "var(--gradient-warm)" : "hsl(var(--muted))",
-                  boxShadow: draft.trim() && mood ? "var(--shadow-warm)" : "none",
-                  color: draft.trim() && mood ? undefined : "hsl(var(--muted-foreground))",
-                }}
-              >
-                <Send className="h-4 w-4" />
-                Share Moment
-              </motion.button>
+                {/* Divider */}
+                <div className="h-px bg-border/30" />
+
+                {/* Mood tags */}
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground mb-2.5 font-body">Tag your mood</p>
+                  <div className="flex flex-wrap gap-2">
+                    {MOOD_TAGS.slice(0, 10).map((tag) => (
+                      <motion.button
+                        key={tag}
+                        whileTap={{ scale: 0.93 }}
+                        onClick={() => onMoodChange(mood === tag ? null : tag)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 font-body ${
+                          mood === tag
+                            ? "border-primary/50 text-primary bg-primary/10 shadow-sm"
+                            : "border-border/40 text-muted-foreground bg-muted/20 hover:border-border hover:bg-muted/40"
+                        }`}
+                      >
+                        {tag}
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={onSubmit}
+                  disabled={!draft.trim() || !mood}
+                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed font-body"
+                  style={{
+                    background: draft.trim() && mood ? "var(--gradient-warm)" : "hsl(var(--muted))",
+                    boxShadow: draft.trim() && mood ? "var(--shadow-warm)" : "none",
+                    color: draft.trim() && mood ? undefined : "hsl(var(--muted-foreground))",
+                  }}
+                >
+                  <Send className="h-4 w-4" />
+                  Share Moment
+                </motion.button>
+              </div>
             </div>
           </motion.div>
         </>
