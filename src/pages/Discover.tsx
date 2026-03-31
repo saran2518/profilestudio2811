@@ -124,9 +124,9 @@ const Discover = () => {
         result.push(section);
         if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
           const pIdx = photoIdx;
-          const sectionKey = `Photo ${pIdx + 2}`;
+          const sectionKey = `Photo-${pIdx + 2}`;
           result.push(
-            <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog(sectionKey)} />
+            <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Photo")} />
           );
           photoIdx++;
         }
@@ -134,9 +134,9 @@ const Discover = () => {
 
       while (photoIdx < extraPhotos.length) {
         const pIdx = photoIdx;
-        const sectionKey = `Photo ${pIdx + 2}`;
+        const sectionKey = `Photo-${pIdx + 2}`;
         result.push(
-          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog(sectionKey)} />
+          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Photo")} />
         );
         photoIdx++;
       }
