@@ -318,6 +318,8 @@ function ComposeSheet({
   onMoodChange: (v: string | null) => void;
   onSubmit: () => void;
 }) {
+  const [photo, setPhoto] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
 
