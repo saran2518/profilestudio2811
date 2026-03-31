@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  SlidersHorizontal,
   Sparkles,
   Plus,
   Heart,
@@ -12,6 +11,8 @@ import {
   X,
   Send,
   Image as ImageIcon,
+  Flag,
+  Eye,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { MOMENTS, MOOD_TAGS, type MomentData } from "@/lib/expressionsData";
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
+import ReportDialog from "@/components/discover/ReportDialog";
 
 const Expressions = () => {
   const navigate = useNavigate();
@@ -35,6 +37,9 @@ const Expressions = () => {
   // Invite state
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<MomentData | null>(null);
+
+  // Report state
+  const [reportOpen, setReportOpen] = useState(false);
 
   const handleVibeClick = (moment: MomentData) => {
     setVibeTarget(moment);
@@ -136,6 +141,8 @@ const Expressions = () => {
             isVibed={vibed.has(moment.id)}
             onVibe={() => handleVibeClick(moment)}
             onInvite={() => handleInvite(moment)}
+            onReport={() => setReportOpen(true)}
+            onViewProfile={() => navigate("/discover")}
           />
         ))}
       </div>
@@ -169,6 +176,13 @@ const Expressions = () => {
         onSendInvite={handleVibeToInvite}
       />
 
+      {/* Report Dialog */}
+      <ReportDialog
+        open={reportOpen}
+        onClose={() => setReportOpen(false)}
+        profileName=""
+      />
+
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
         <div className="flex items-center justify-around py-3 px-2">
@@ -190,12 +204,16 @@ function MomentCard({
   isVibed,
   onVibe,
   onInvite,
+  onReport,
+  onViewProfile,
 }: {
   moment: MomentData;
   index: number;
   isVibed: boolean;
   onVibe: () => void;
   onInvite: () => void;
+  onReport: () => void;
+  onViewProfile: () => void;
 }) {
   return (
     <motion.div
@@ -205,22 +223,39 @@ function MomentCard({
       className="relative rounded-2xl border border-border/40 bg-card p-4"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      {/* User info */}
-      <div className="flex items-center gap-3 mb-3">
-        <Avatar className="h-10 w-10 border border-border/50">
-          <AvatarImage src={moment.avatar} alt={moment.name} />
-          <AvatarFallback className="bg-muted text-muted-foreground font-display text-sm">
-            {moment.name[0]}
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="font-display text-sm font-semibold text-foreground">
-            {moment.name}, {moment.age}
-          </p>
-          <p className="text-xs text-muted-foreground font-body">
-            {moment.profession} • {moment.location}
-          </p>
+      {/* User info + Report */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <Avatar className="h-10 w-10 border border-border/50">
+            <AvatarImage src={moment.avatar} alt={moment.name} />
+            <AvatarFallback className="bg-muted text-muted-foreground font-display text-sm">
+              {moment.name[0]}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <div className="flex items-center gap-2">
+              <p className="font-display text-sm font-semibold text-foreground">
+                {moment.name}, {moment.age}
+              </p>
+              <button
+                onClick={onViewProfile}
+                className="flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition-colors font-body"
+              >
+                <Eye className="h-3 w-3" />
+                View Profile
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground font-body">
+              {moment.profession} • {moment.location}
+            </p>
+          </div>
         </div>
+        <button
+          onClick={onReport}
+          className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+        >
+          <Flag className="h-3.5 w-3.5" />
+        </button>
       </div>
 
       {/* Moment text */}
