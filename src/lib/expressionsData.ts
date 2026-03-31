@@ -15,6 +15,7 @@ export interface MomentData {
   photo?: string;
   moodTag: string;
   timestamp: string;
+  profileIndex?: number;
 }
 
 export const MOOD_TAGS = [
