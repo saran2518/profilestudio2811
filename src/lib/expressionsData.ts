@@ -18,10 +18,11 @@ export interface MomentData {
 }
 
 export const MOOD_TAGS = [
-  "Quiet evening", "Creative moment", "Artistic soul", "Morning energy",
-  "Deep thoughts", "Wanderlust", "Grateful heart", "Playful mood",
-  "Night owl", "Sunday vibes", "Lost in music", "Coffee thoughts",
-  "Golden hour", "Rainy day feels", "Adventure calling",
+  "☀️ Morning energy", "🌙 Night owl", "🎨 Creative flow", "💭 Deep thoughts",
+  "🙏 Grateful heart", "😊 Playful mood", "☕ Coffee thoughts", "🌧️ Rainy day feels",
+  "🎵 Lost in music", "✈️ Wanderlust", "🌅 Golden hour", "🔥 Adventure calling",
+  "📚 Sunday vibes", "💫 Quiet evening", "🎭 Artistic soul", "🌸 Self-care mode",
+  "💪 Feeling strong", "🥰 In my feels", "🧘 Inner peace", "🍷 Cozy vibes",
 ] as const;
 
 export const MOMENTS: MomentData[] = [
