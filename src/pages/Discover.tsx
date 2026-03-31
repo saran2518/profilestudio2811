@@ -102,7 +102,7 @@ const Discover = () => {
     );
 
     const sections = [
-      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Photo")} onVibe={() => openVibeDialog("Photo")} profile={profile} />,
+      <ProfilePhotoCard key="hero" src={profile.photos[0]} liked={isVibed("Picture")} onVibe={() => openVibeDialog("Picture")} profile={profile} />,
       <BioSection key="bio" bio={profile.bio} vibed={isVibed("My Story")} onVibe={() => openVibeDialog("My Story")} />,
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
@@ -126,7 +126,7 @@ const Discover = () => {
           const pIdx = photoIdx;
           const sectionKey = `Photo-${pIdx + 2}`;
           result.push(
-            <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Photo")} />
+            <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Picture")} />
           );
           photoIdx++;
         }
@@ -136,7 +136,7 @@ const Discover = () => {
         const pIdx = photoIdx;
         const sectionKey = `Photo-${pIdx + 2}`;
         result.push(
-          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Photo")} />
+          <InterspersedPhoto key={`photo-${pIdx}`} src={extraPhotos[pIdx]} delay={0.2 + pIdx * 0.05} vibed={isVibed(sectionKey)} onVibe={() => openVibeDialog("Picture")} />
         );
         photoIdx++;
       }
