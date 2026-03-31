@@ -61,6 +61,11 @@ export function createThread(name: string, photo: string, source: "vibe" | "invi
   return thread;
 }
 
+export function removeThread(threadId: string) {
+  threads = threads.filter((t) => t.id !== threadId);
+  notify();
+}
+
 export function addMessage(threadId: string, text: string, sender: "me" | "them", image?: string) {
   const displayText = image ? (text || "📷 Photo") : text;
   threads = threads.map((t) =>
