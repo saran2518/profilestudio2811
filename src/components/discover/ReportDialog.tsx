@@ -5,11 +5,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 const REPORT_REASONS = [
-  { label: "Inappropriate photos", emoji: "📸" },
+  { label: "Inappropriate content", emoji: "🔞" },
+  { label: "Violence or threats", emoji: "🚨" },
+  { label: "Drug-related content", emoji: "💊" },
+  { label: "Racism or hate speech", emoji: "🚷" },
   { label: "Fake profile / Catfishing", emoji: "🎭" },
   { label: "Harassment or bullying", emoji: "⚠️" },
   { label: "Spam or scam", emoji: "🚫" },
-  { label: "Underage user", emoji: "🔞" },
+  { label: "Underage user", emoji: "👶" },
   { label: "Other", emoji: "💬" },
 ];
 
