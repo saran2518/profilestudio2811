@@ -38,6 +38,9 @@ const Expressions = () => {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<MomentData | null>(null);
 
+  // Report state
+  const [reportOpen, setReportOpen] = useState(false);
+
   const handleVibeClick = (moment: MomentData) => {
     setVibeTarget(moment);
     setVibeDialogOpen(true);
