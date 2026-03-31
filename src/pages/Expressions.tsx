@@ -385,10 +385,41 @@ function ComposeSheet({
                   />
                 </div>
 
+                {/* Photo preview */}
+                {photo && (
+                  <div className="relative rounded-2xl overflow-hidden">
+                    <img src={photo} alt="Attached" className="w-full h-36 object-cover rounded-2xl" />
+                    <button
+                      onClick={() => setPhoto(null)}
+                      className="absolute top-2 right-2 h-6 w-6 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                    >
+                      <X className="h-3 w-3 text-white" />
+                    </button>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between text-xs text-muted-foreground/60 font-body">
-                  <button className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-xl px-2.5 py-1.5 hover:bg-muted/30">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => setPhoto(ev.target?.result as string);
+                        reader.readAsDataURL(file);
+                      }
+                      e.target.value = "";
+                    }}
+                  />
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-xl px-2.5 py-1.5 hover:bg-muted/30"
+                  >
                     <ImageIcon className="h-4 w-4" />
-                    <span className="text-[11px]">Add photo</span>
+                    <span className="text-[11px]">{photo ? "Change photo" : "Add photo"}</span>
                   </button>
                   <span className={`tabular-nums text-[11px] ${draft.length > 250 ? "text-destructive font-medium" : ""}`}>
                     {draft.length}/300
