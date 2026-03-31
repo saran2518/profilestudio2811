@@ -347,9 +347,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
           {editTarget?.type === "interests" && (
             <div className="space-y-5">
-              <p className="font-body text-sm text-muted-foreground">
-                You can add up to 6 interests <span className="font-semibold text-foreground">{interestsDraft.length}/6</span>
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="font-body text-sm text-muted-foreground">
+                  You can add up to 6 interests
+                </p>
+                <span className="font-body text-sm font-semibold text-foreground">{interestsDraft.length}/6</span>
+              </div>
               <div className="flex flex-wrap gap-2.5 min-h-[48px]">
                 {interestsDraft.map((interest, idx) => (
                   <span
