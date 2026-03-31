@@ -486,20 +486,20 @@ function SelectableRow({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="flex flex-wrap gap-2 pb-1">
+            <div className="grid grid-cols-2 gap-2 pb-1">
               {options.map((opt) => (
                 <motion.button
                   key={opt}
                   whileTap={{ scale: 0.93 }}
                   onClick={() => toggleOption(opt)}
-                  className={`rounded-full px-3.5 py-1.5 text-sm font-body font-medium border transition-all duration-150 ${
+                  className={`rounded-full px-3 py-1.5 text-[13px] font-body font-medium border transition-all duration-150 text-center ${
                     value.includes(opt)
                       ? "border-primary bg-primary/10 text-primary"
                       : "border-border/60 text-muted-foreground hover:border-primary/40 hover:bg-primary/5"
                   }`}
                 >
-                  <span className="flex items-center gap-1.5">
-                    {value.includes(opt) && <Check className="h-3 w-3" />}
+                  <span className="flex items-center justify-center gap-1.5">
+                    {value.includes(opt) && <Check className="h-3 w-3 shrink-0" />}
                     {opt}
                   </span>
                 </motion.button>
