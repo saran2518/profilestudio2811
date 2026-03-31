@@ -378,9 +378,6 @@ function ComposeSheet({
                   </span>
                 </div>
 
-                {/* Anonymous toggle */}
-                <AnonymousToggle />
-
                 {/* Divider */}
                 <div className="h-px bg-border/30" />
 
