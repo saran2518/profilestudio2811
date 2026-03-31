@@ -318,6 +318,9 @@ function ComposeSheet({
   onMoodChange: (v: string | null) => void;
   onSubmit: () => void;
 }) {
+  const [showAllMoods, setShowAllMoods] = useState(false);
+  const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
+
   return (
     <AnimatePresence>
       {open && (
@@ -326,87 +329,120 @@ function ComposeSheet({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-md"
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-lg"
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.92 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-5 pointer-events-none"
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
           >
             <div
-              className="w-full max-w-sm rounded-3xl bg-card border border-border/30 overflow-hidden pointer-events-auto"
-              style={{ boxShadow: "0 24px 80px -16px hsl(var(--foreground) / 0.15)" }}
+              className="w-full max-w-sm rounded-3xl bg-card border border-border/20 overflow-hidden pointer-events-auto"
+              style={{ boxShadow: "0 32px 100px -20px hsl(var(--foreground) / 0.2), 0 0 0 1px hsl(var(--border) / 0.1)" }}
             >
+              {/* Gradient accent bar */}
+              <div className="h-1 w-full" style={{ background: "var(--gradient-warm)" }} />
+
               {/* Header */}
-              <div className="flex items-center justify-between px-5 pt-5 pb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="h-8 w-8 rounded-full flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
-                    <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+              <div className="flex items-center justify-between px-5 pt-4 pb-2">
+                <div className="flex items-center gap-3">
+                  <motion.div
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                    className="h-9 w-9 rounded-2xl flex items-center justify-center"
+                    style={{ background: "var(--gradient-warm)" }}
+                  >
+                    <Sparkles className="h-4 w-4 text-primary-foreground" />
+                  </motion.div>
+                  <div>
+                    <h3 className="font-display text-base font-semibold text-foreground">Share a Moment</h3>
+                    <p className="text-[10px] text-muted-foreground font-body">Express what's present right now</p>
                   </div>
-                  <h3 className="font-display text-base font-semibold text-foreground">Share a Moment</h3>
                 </div>
                 <button
                   onClick={onClose}
-                  className="h-8 w-8 rounded-full bg-muted/60 flex items-center justify-center hover:bg-muted transition-colors"
+                  className="h-8 w-8 rounded-full bg-muted/40 flex items-center justify-center hover:bg-muted/70 transition-colors"
                 >
                   <X className="h-3.5 w-3.5 text-muted-foreground" />
                 </button>
               </div>
 
               {/* Content */}
-              <div className="px-5 pb-5 space-y-4">
-                <Textarea
-                  value={draft}
-                  onChange={(e) => onDraftChange(e.target.value)}
-                  placeholder="What's alive in you right now?"
-                  className="resize-none rounded-2xl border-border/40 bg-muted/20 min-h-[110px] text-sm font-body focus:border-primary/40 placeholder:text-muted-foreground/50"
-                  maxLength={300}
-                  autoFocus
-                />
+              <div className="px-5 pb-5 space-y-3.5">
+                <div className="relative">
+                  <Textarea
+                    value={draft}
+                    onChange={(e) => onDraftChange(e.target.value)}
+                    placeholder="What's alive in you right now?"
+                    className="resize-none rounded-2xl border-border/30 bg-muted/10 min-h-[100px] text-sm font-body focus:border-primary/30 placeholder:text-muted-foreground/40 pr-4"
+                    maxLength={300}
+                    autoFocus
+                  />
+                </div>
 
                 <div className="flex items-center justify-between text-xs text-muted-foreground/60 font-body">
-                  <button className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-lg px-2 py-1.5 hover:bg-muted/40">
+                  <button className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-xl px-2.5 py-1.5 hover:bg-muted/30">
                     <ImageIcon className="h-4 w-4" />
-                    Add photo
+                    <span className="text-[11px]">Add photo</span>
                   </button>
-                  <span className={`tabular-nums ${draft.length > 250 ? "text-destructive" : ""}`}>
+                  <span className={`tabular-nums text-[11px] ${draft.length > 250 ? "text-destructive font-medium" : ""}`}>
                     {draft.length}/300
                   </span>
                 </div>
 
-                {/* Divider */}
-                <div className="h-px bg-border/30" />
-
                 {/* Mood tags */}
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground mb-2.5 font-body">Tag your mood</p>
-                  <div className="flex flex-wrap gap-2">
-                    {MOOD_TAGS.slice(0, 10).map((tag) => (
+                  <div className="flex items-center justify-between mb-2.5">
+                    <p className="text-[11px] font-medium text-muted-foreground font-body uppercase tracking-wider">Tag your mood</p>
+                    {mood && (
+                      <motion.span
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-[10px] text-primary font-medium font-body"
+                      >
+                        ✓ Selected
+                      </motion.span>
+                    )}
+                  </div>
+                  <motion.div layout className="flex flex-wrap gap-1.5">
+                    {visibleMoods.map((tag, i) => (
                       <motion.button
                         key={tag}
-                        whileTap={{ scale: 0.93 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.02 }}
+                        whileTap={{ scale: 0.92 }}
                         onClick={() => onMoodChange(mood === tag ? null : tag)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 font-body ${
+                        className={`px-2.5 py-1.5 rounded-xl text-[11px] font-medium border transition-all duration-200 font-body ${
                           mood === tag
-                            ? "border-primary/50 text-primary bg-primary/10 shadow-sm"
-                            : "border-border/40 text-muted-foreground bg-muted/20 hover:border-border hover:bg-muted/40"
+                            ? "border-primary/40 text-primary bg-primary/10 shadow-sm shadow-primary/10"
+                            : "border-border/30 text-muted-foreground bg-muted/10 hover:border-border/50 hover:bg-muted/30"
                         }`}
                       >
                         {tag}
                       </motion.button>
                     ))}
-                  </div>
+                    {!showAllMoods && (
+                      <motion.button
+                        whileTap={{ scale: 0.92 }}
+                        onClick={() => setShowAllMoods(true)}
+                        className="px-2.5 py-1.5 rounded-xl text-[11px] font-medium border border-dashed border-border/40 text-muted-foreground hover:text-foreground hover:border-border/60 transition-colors font-body"
+                      >
+                        +{MOOD_TAGS.length - 8} more
+                      </motion.button>
+                    )}
+                  </motion.div>
                 </div>
 
                 {/* Submit */}
                 <motion.button
-                  whileTap={{ scale: 0.96 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={onSubmit}
                   disabled={!draft.trim() || !mood}
-                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed font-body"
+                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-body mt-1"
                   style={{
                     background: draft.trim() && mood ? "var(--gradient-warm)" : "hsl(var(--muted))",
                     boxShadow: draft.trim() && mood ? "var(--shadow-warm)" : "none",
