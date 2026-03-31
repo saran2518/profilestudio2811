@@ -459,7 +459,7 @@ function SelectableRow({
 
   const toggleOption = (opt: string) => {
     if (value.includes(opt)) {
-      if (value.length > 1) onChange(value.filter((v) => v !== opt));
+      onChange(value.filter((v) => v !== opt));
     } else {
       onChange([...value, opt]);
     }
