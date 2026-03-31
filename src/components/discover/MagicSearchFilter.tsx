@@ -21,7 +21,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const RELATIONSHIP_OPTIONS = ["Long-term", "Short-term", "Casual", "Friendship"];
+const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Travel Buddy", "Shared Experiences", "Discovery Mode"];
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
