@@ -173,12 +173,6 @@ function ProfileSection({ navigate }: { navigate: (path: string) => void }) {
         <p className="text-xs text-muted-foreground mt-2">Add more photos and complete your narratives to boost visibility</p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-3">
-        <StatCard label="Profile Views" value="128" />
-        <StatCard label="Vibes Sent" value="24" />
-        <StatCard label="Matches" value="8" />
-      </div>
     </motion.div>
   );
 }
