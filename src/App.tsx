@@ -12,6 +12,7 @@ import Interests from "./pages/Interests";
 import Chat from "./pages/Chat";
 import Expressions from "./pages/Expressions";
 import Preview from "./pages/Preview";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
