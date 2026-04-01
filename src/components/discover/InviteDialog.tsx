@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Coffee, UtensilsCrossed, Film, Video, Footprints, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
+import { Coffee, UtensilsCrossed, Film, Video, Footprints, Plane, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { addInvite } from "@/lib/inviteStore";
 
@@ -10,6 +10,7 @@ const INVITE_TYPES = [
   { label: "Movie", icon: Film, emoji: "🎬" },
   { label: "Virtual Date", icon: Video, emoji: "💻" },
   { label: "A Long Walk", icon: Footprints, emoji: "🌿" },
+  { label: "Travel", icon: Plane, emoji: "✈️" },
   { label: "Other", icon: MoreHorizontal, emoji: "✨" },
 ] as const;
 
