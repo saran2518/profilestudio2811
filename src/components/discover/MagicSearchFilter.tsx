@@ -486,22 +486,26 @@ function SelectableRow({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="flex flex-wrap gap-2 pb-1">
+            <div className="space-y-1 pb-1">
               {options.map((opt) => (
                 <motion.button
                   key={opt}
-                  whileTap={{ scale: 0.93 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => toggleOption(opt)}
-                  className={`rounded-full px-3 py-1.5 text-[13px] font-body font-medium border transition-all duration-150 whitespace-nowrap ${
+                  className={`w-full flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[13px] font-body font-medium transition-all duration-150 ${
                     value.includes(opt)
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border/60 text-muted-foreground hover:border-primary/40 hover:bg-primary/5"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
                   }`}
                 >
-                  <span className="flex items-center justify-center gap-1.5">
-                    {value.includes(opt) && <Check className="h-3 w-3 shrink-0" />}
-                    {opt}
-                  </span>
+                  <span>{opt}</span>
+                  <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all duration-150 ${
+                    value.includes(opt)
+                      ? "border-primary bg-primary"
+                      : "border-border"
+                  }`}>
+                    {value.includes(opt) && <Check className="h-3 w-3 text-primary-foreground" />}
+                  </div>
                 </motion.button>
               ))}
             </div>
