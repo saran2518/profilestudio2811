@@ -96,7 +96,7 @@ export default function InviteDialog({ open, onClose, onSent, profileName, profi
               )}
 
               {/* Invite type grid */}
-              <div className="grid grid-cols-3 gap-2 mb-4">
+              <div className="grid grid-cols-4 gap-2 mb-4">
                 {INVITE_TYPES.map(({ label, icon: Icon, emoji }, idx) => {
                   const isActive = selected === label;
                   return (
