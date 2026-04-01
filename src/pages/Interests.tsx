@@ -499,7 +499,7 @@ export default function Interests() {
     const current = selectedInvitePreview;
     setSelectedInvitePreview(null);
     if (current) {
-      setInvites((prev) => prev.filter((i) => i.id !== current.id));
+      setDismissedIds((prev) => new Set(prev).add(current.id));
     }
     toast({
       title: "Declined",
