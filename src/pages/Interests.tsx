@@ -193,6 +193,16 @@ const MOCK_INVITES: InviteItem[] = [
       "There's a pottery workshop happening this Saturday. Want to join me? Could be fun to try something new!",
     profileIndex: 3,
   },
+  {
+    id: "i8",
+    name: "Alex",
+    photo: PROFILES[0]?.photos[0] || "",
+    time: "10h ago",
+    category: "coffee",
+    categoryIcon: "☕",
+    message: "",
+    profileIndex: 0,
+  },
 ];
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
