@@ -66,7 +66,7 @@ const MOCK_VIBES: VibeItem[] = [
     name: "John",
     photo: PROFILES[0]?.photos[0] || "",
     time: "2 min ago",
-    section: "photo",
+    section: "Picture",
     sectionEmoji: "📸",
     previewImage: PROFILES[0]?.photos[1] || PROFILES[0]?.photos[0] || "",
     profileIndex: 0,
