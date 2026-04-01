@@ -201,6 +201,8 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   movie: <Film className="h-3.5 w-3.5" />,
   "virtual date": <Monitor className="h-3.5 w-3.5" />,
   coffee: <Coffee className="h-3.5 w-3.5" />,
+  "a long walk": <Footprints className="h-3.5 w-3.5" />,
+  other: <Sparkles className="h-3.5 w-3.5" />,
 };
 
 /* ─── Components ─────────────────────────────────────── */
