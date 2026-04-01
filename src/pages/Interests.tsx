@@ -149,6 +149,50 @@ const MOCK_INVITES: InviteItem[] = [
       "Movie night over call tomorrow? I have a subscription we can share.",
     profileIndex: 3,
   },
+  {
+    id: "i4",
+    name: "John",
+    photo: PROFILES[0]?.photos[0] || "",
+    time: "4h ago",
+    category: "coffee",
+    categoryIcon: "☕",
+    message:
+      "Know a great café that just opened near the park. Coffee this Sunday?",
+    profileIndex: 0,
+  },
+  {
+    id: "i5",
+    name: "Aanya",
+    photo: PROFILES[2]?.photos[0] || "",
+    time: "5h ago",
+    category: "virtual date",
+    categoryIcon: "💻",
+    message:
+      "How about a virtual date tonight? We could cook the same recipe together over video call!",
+    profileIndex: 2,
+  },
+  {
+    id: "i6",
+    name: "David",
+    photo: PROFILES[1]?.photos[0] || "",
+    time: "6h ago",
+    category: "a long walk",
+    categoryIcon: "🚶",
+    message:
+      "The weather's perfect — fancy a long walk along the riverside trail this evening?",
+    profileIndex: 1,
+  },
+  {
+    id: "i7",
+    name: "Sara",
+    photo: PROFILES[3]?.photos[0] || "",
+    time: "8h ago",
+    category: "other",
+    categoryIcon: "✨",
+    message:
+      "There's a pottery workshop happening this Saturday. Want to join me? Could be fun to try something new!",
+    profileIndex: 3,
+  },
 ];
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
@@ -157,6 +201,8 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   movie: <Film className="h-3.5 w-3.5" />,
   "virtual date": <Monitor className="h-3.5 w-3.5" />,
   coffee: <Coffee className="h-3.5 w-3.5" />,
+  "a long walk": <Footprints className="h-3.5 w-3.5" />,
+  other: <Sparkles className="h-3.5 w-3.5" />,
 };
 
 /* ─── Components ─────────────────────────────────────── */
