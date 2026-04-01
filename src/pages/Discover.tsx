@@ -80,6 +80,20 @@ const Discover = () => {
   const handleSendVibe = () => {
     setVibedSections((prev) => new Set(prev).add(vibeDialogSection));
     setVibeDialogOpen(false);
+
+    // Add vibe to store so it appears in Interests page
+    if (profile) {
+      const originalIndex = PROFILES.indexOf(profile);
+      addVibe(
+        profile.name,
+        profile.photos[0],
+        vibeDialogSection === "Picture" ? "picture" : vibeDialogSection.toLowerCase(),
+        originalIndex >= 0 ? originalIndex : currentIndex,
+        vibeDialogSection === "Picture" ? profile.photos[0] : undefined,
+        vibeDialogSection === "My Story" ? profile.bio?.slice(0, 80) : undefined,
+      );
+    }
+
     goNext();
   };
 
