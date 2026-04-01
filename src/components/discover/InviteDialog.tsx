@@ -20,15 +20,16 @@ interface InviteDialogProps {
   onSent?: () => void;
   profileName?: string;
   profilePhoto?: string;
+  profileIndex?: number;
 }
 
-export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto }: InviteDialogProps) {
+export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto, profileIndex = 0 }: InviteDialogProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [message, setMessage] = useState("");
 
   const handleInvite = () => {
     if (selected && profileName) {
-      addInvite(profileName, profilePhoto || "", selected, message);
+      addInvite(profileName, profilePhoto || "", selected, message, profileIndex);
     }
     setSelected(null);
     setMessage("");

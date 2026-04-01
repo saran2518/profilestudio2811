@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -30,6 +30,8 @@ import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
+import { useSentVibes } from "@/hooks/useVibeStore";
+import { useSentInvites } from "@/hooks/useInviteStore";
 
 /* ─── Mock data ───────────────────────────────────────── */
 
@@ -403,8 +405,41 @@ export default function Interests() {
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
 
-  const [vibes, setVibes] = useState<VibeItem[]>(MOCK_VIBES);
-  const [invites, setInvites] = useState<InviteItem[]>(MOCK_INVITES);
+  const sentVibes = useSentVibes();
+  const sentInvitesFromStore = useSentInvites();
+
+  const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+
+  // Merge store data with mock data
+  const vibes = useMemo(() => {
+    const storeVibes: VibeItem[] = sentVibes.map((sv) => ({
+      id: sv.id,
+      name: sv.name,
+      photo: sv.photo,
+      time: sv.time,
+      section: sv.section,
+      sectionEmoji: sv.sectionEmoji,
+      previewImage: sv.previewImage,
+      previewText: sv.previewText,
+      profileIndex: sv.profileIndex,
+    }));
+    return [...storeVibes, ...MOCK_VIBES].filter((v) => !dismissedIds.has(v.id));
+  }, [sentVibes, dismissedIds]);
+
+  const invites = useMemo(() => {
+    const storeInvites: InviteItem[] = sentInvitesFromStore.map((si) => ({
+      id: si.id,
+      name: si.name,
+      photo: si.photo,
+      time: si.time,
+      category: si.category,
+      categoryIcon: si.categoryIcon,
+      message: si.message,
+      accepted: si.accepted,
+      profileIndex: si.profileIndex,
+    }));
+    return [...storeInvites, ...MOCK_INVITES].filter((i) => !dismissedIds.has(i.id));
+  }, [sentInvitesFromStore, dismissedIds]);
 
   const newInvites = invites.filter((i) => !i.accepted);
   const acceptedInvites = invites.filter((i) => i.accepted);
@@ -422,7 +457,7 @@ export default function Interests() {
 
   const handleVibeBack = (vibe: VibeItem) => {
     setSelectedVibePreview(null);
-    setVibes((prev) => prev.filter((v) => v.id !== vibe.id));
+    setDismissedIds((prev) => new Set(prev).add(vibe.id));
     const thread = createThread(vibe.name, vibe.photo, "vibe");
     setMutualVibeProfile({ ...vibe, _threadId: thread.id } as any);
   };
@@ -431,7 +466,7 @@ export default function Interests() {
     const current = selectedVibePreview;
     setSelectedVibePreview(null);
     if (current) {
-      setVibes((prev) => prev.filter((v) => v.id !== current.id));
+      setDismissedIds((prev) => new Set(prev).add(current.id));
     }
     toast({
       title: "Passed",
@@ -455,7 +490,7 @@ export default function Interests() {
 
   const handleAcceptInvite = (invite: InviteItem) => {
     setSelectedInvitePreview(null);
-    setInvites((prev) => prev.filter((i) => i.id !== invite.id));
+    setDismissedIds((prev) => new Set(prev).add(invite.id));
     const thread = createThread(invite.name, invite.photo, "invite");
     setAcceptedInviteProfile({ ...invite, _threadId: thread.id } as any);
   };
@@ -464,7 +499,7 @@ export default function Interests() {
     const current = selectedInvitePreview;
     setSelectedInvitePreview(null);
     if (current) {
-      setInvites((prev) => prev.filter((i) => i.id !== current.id));
+      setDismissedIds((prev) => new Set(prev).add(current.id));
     }
     toast({
       title: "Declined",

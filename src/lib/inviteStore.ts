@@ -7,6 +7,7 @@ export interface SentInvite {
   categoryIcon: string;
   message: string;
   accepted?: boolean;
+  profileIndex: number;
 }
 
 let invites: SentInvite[] = [];
@@ -31,10 +32,11 @@ const CATEGORY_EMOJIS: Record<string, string> = {
   Movie: "🎬",
   "Virtual Date": "💻",
   "A Long Walk": "🌿",
+  Travel: "✈️",
   Other: "✨",
 };
 
-export function addInvite(name: string, photo: string, category: string, message: string): SentInvite {
+export function addInvite(name: string, photo: string, category: string, message: string, profileIndex: number = 0): SentInvite {
   const invite: SentInvite = {
     id: `inv-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     name,
@@ -44,6 +46,7 @@ export function addInvite(name: string, photo: string, category: string, message
     categoryIcon: CATEGORY_EMOJIS[category] || "✨",
     message,
     accepted: false,
+    profileIndex,
   };
 
   invites = [invite, ...invites];

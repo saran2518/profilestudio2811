@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -26,6 +26,7 @@ import MagicSearchFilter from "@/components/discover/MagicSearchFilter";
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
 import ProfileActions from "@/components/discover/ProfileActions";
+import { addVibe } from "@/lib/vibeStore";
 
 type VibeSection = "Photo" | "My Story" | "Interests" | "Narratives" | "Join Me For" | string;
 
@@ -79,6 +80,20 @@ const Discover = () => {
   const handleSendVibe = () => {
     setVibedSections((prev) => new Set(prev).add(vibeDialogSection));
     setVibeDialogOpen(false);
+
+    // Add vibe to store so it appears in Interests page
+    if (profile) {
+      const originalIndex = PROFILES.indexOf(profile);
+      addVibe(
+        profile.name,
+        profile.photos[0],
+        vibeDialogSection === "Picture" ? "picture" : vibeDialogSection.toLowerCase(),
+        originalIndex >= 0 ? originalIndex : currentIndex,
+        vibeDialogSection === "Picture" ? profile.photos[0] : undefined,
+        vibeDialogSection === "My Story" ? profile.bio?.slice(0, 80) : undefined,
+      );
+    }
+
     goNext();
   };
 
@@ -232,7 +247,7 @@ const Discover = () => {
       />
 
       {/* Invite Dialog */}
-      <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} />
+      <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} />
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
