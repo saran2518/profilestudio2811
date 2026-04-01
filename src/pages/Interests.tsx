@@ -466,7 +466,7 @@ export default function Interests() {
     const current = selectedVibePreview;
     setSelectedVibePreview(null);
     if (current) {
-      setVibes((prev) => prev.filter((v) => v.id !== current.id));
+      setDismissedIds((prev) => new Set(prev).add(current.id));
     }
     toast({
       title: "Passed",
