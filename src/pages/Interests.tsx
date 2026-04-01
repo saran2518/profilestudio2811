@@ -76,11 +76,42 @@ const MOCK_VIBES: VibeItem[] = [
     name: "Aanya",
     photo: PROFILES[2]?.photos[0] || "",
     time: "15 min ago",
-    section: "narrative",
+    section: "Narratives",
     sectionEmoji: "✍️",
     previewText:
       '"Sometimes the quietest moments speak the loudest volumes. Finding peace in the chaos..."',
     profileIndex: 2,
+  },
+  {
+    id: "v3",
+    name: "David",
+    photo: PROFILES[1]?.photos[0] || "",
+    time: "30 min ago",
+    section: "My Story",
+    sectionEmoji: "📖",
+    previewText:
+      '"A traveler at heart, always chasing the next horizon and the stories that come with it."',
+    profileIndex: 1,
+  },
+  {
+    id: "v4",
+    name: "Sara",
+    photo: PROFILES[3]?.photos[0] || "",
+    time: "1h ago",
+    section: "Interests",
+    sectionEmoji: "🎯",
+    previewText: "Hiking · Photography · Jazz · Cooking",
+    profileIndex: 3,
+  },
+  {
+    id: "v5",
+    name: "Alex",
+    photo: PROFILES[4]?.photos[0] || PROFILES[0]?.photos[0] || "",
+    time: "2h ago",
+    section: "Join Me For",
+    sectionEmoji: "🗺️",
+    previewText: "A weekend road trip to the mountains 🏔️",
+    profileIndex: 4 < PROFILES.length ? 4 : 0,
   },
 ];
 
