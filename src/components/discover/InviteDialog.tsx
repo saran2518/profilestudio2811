@@ -20,6 +20,7 @@ interface InviteDialogProps {
   onSent?: () => void;
   profileName?: string;
   profilePhoto?: string;
+  profileIndex?: number;
 }
 
 export default function InviteDialog({ open, onClose, onSent, profileName, profilePhoto }: InviteDialogProps) {
