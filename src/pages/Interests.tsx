@@ -30,6 +30,8 @@ import InterestsSection from "@/components/discover/InterestsSection";
 import NarrativesSection from "@/components/discover/NarrativesSection";
 import JoinMeForSection from "@/components/discover/JoinMeForSection";
 import InterspersedPhoto from "@/components/discover/InterspersedPhoto";
+import { useSentVibes } from "@/hooks/useVibeStore";
+import { useSentInvites } from "@/hooks/useInviteStore";
 
 /* ─── Mock data ───────────────────────────────────────── */
 
