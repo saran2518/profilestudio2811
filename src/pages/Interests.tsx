@@ -406,10 +406,12 @@ export default function Interests() {
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
 
   const sentVibes = useSentVibes();
-  const sentInvites = useSentInvites();
+  const sentInvitesFromStore = useSentInvites();
 
-  // Merge mock data with store data
-  const allVibes = useMemo(() => {
+  const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+
+  // Merge store data with mock data
+  const vibes = useMemo(() => {
     const storeVibes: VibeItem[] = sentVibes.map((sv) => ({
       id: sv.id,
       name: sv.name,
@@ -421,11 +423,11 @@ export default function Interests() {
       previewText: sv.previewText,
       profileIndex: sv.profileIndex,
     }));
-    return [...storeVibes, ...MOCK_VIBES];
-  }, [sentVibes]);
+    return [...storeVibes, ...MOCK_VIBES].filter((v) => !dismissedIds.has(v.id));
+  }, [sentVibes, dismissedIds]);
 
-  const allInvites = useMemo(() => {
-    const storeInvites: InviteItem[] = sentInvites.map((si) => ({
+  const invites = useMemo(() => {
+    const storeInvites: InviteItem[] = sentInvitesFromStore.map((si) => ({
       id: si.id,
       name: si.name,
       photo: si.photo,
@@ -436,11 +438,8 @@ export default function Interests() {
       accepted: si.accepted,
       profileIndex: si.profileIndex,
     }));
-    return [...storeInvites, ...MOCK_INVITES];
-  }, [sentInvites]);
-
-  const [vibes, setVibes] = useState<VibeItem[]>(MOCK_VIBES);
-  const [invites, setInvites] = useState<InviteItem[]>(MOCK_INVITES);
+    return [...storeInvites, ...MOCK_INVITES].filter((i) => !dismissedIds.has(i.id));
+  }, [sentInvitesFromStore, dismissedIds]);
 
   const newInvites = invites.filter((i) => !i.accepted);
   const acceptedInvites = invites.filter((i) => i.accepted);
