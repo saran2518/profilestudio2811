@@ -29,7 +29,7 @@ export default function InviteDialog({ open, onClose, onSent, profileName, profi
 
   const handleInvite = () => {
     if (selected && profileName) {
-      addInvite(profileName, profilePhoto || "", selected, message);
+      addInvite(profileName, profilePhoto || "", selected, message, profileIndex);
     }
     setSelected(null);
     setMessage("");
