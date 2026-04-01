@@ -405,6 +405,40 @@ export default function Interests() {
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
 
+  const sentVibes = useSentVibes();
+  const sentInvites = useSentInvites();
+
+  // Merge mock data with store data
+  const allVibes = useMemo(() => {
+    const storeVibes: VibeItem[] = sentVibes.map((sv) => ({
+      id: sv.id,
+      name: sv.name,
+      photo: sv.photo,
+      time: sv.time,
+      section: sv.section,
+      sectionEmoji: sv.sectionEmoji,
+      previewImage: sv.previewImage,
+      previewText: sv.previewText,
+      profileIndex: sv.profileIndex,
+    }));
+    return [...storeVibes, ...MOCK_VIBES];
+  }, [sentVibes]);
+
+  const allInvites = useMemo(() => {
+    const storeInvites: InviteItem[] = sentInvites.map((si) => ({
+      id: si.id,
+      name: si.name,
+      photo: si.photo,
+      time: si.time,
+      category: si.category,
+      categoryIcon: si.categoryIcon,
+      message: si.message,
+      accepted: si.accepted,
+      profileIndex: si.profileIndex,
+    }));
+    return [...storeInvites, ...MOCK_INVITES];
+  }, [sentInvites]);
+
   const [vibes, setVibes] = useState<VibeItem[]>(MOCK_VIBES);
   const [invites, setInvites] = useState<InviteItem[]>(MOCK_INVITES);
 
