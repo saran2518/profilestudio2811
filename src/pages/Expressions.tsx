@@ -393,6 +393,7 @@ function ComposeSheet({
   mood,
   onMoodChange,
   onSubmit,
+  isEdit,
 }: {
   open: boolean;
   onClose: () => void;
@@ -401,6 +402,7 @@ function ComposeSheet({
   mood: string | null;
   onMoodChange: (v: string | null) => void;
   onSubmit: () => void;
+  isEdit?: boolean;
 }) {
   const [photo, setPhoto] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
