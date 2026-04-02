@@ -569,7 +569,7 @@ function ComposeSheet({
                   }}
                 >
                   <Send className="h-4 w-4" />
-                  Share Moment
+                  {isEdit ? "Save Changes" : "Share Moment"}
                 </motion.button>
               </div>
             </div>
