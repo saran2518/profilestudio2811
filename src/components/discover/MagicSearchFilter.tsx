@@ -273,11 +273,6 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             </FilterCard>
           </motion.div>
 
-          {/* ADVANCED PREFERENCES */}
-          <motion.div variants={staggerItem}>
-            <SectionLabel label="ADVANCED PREFERENCES" />
-          </motion.div>
-
           {/* Height */}
           <motion.div variants={staggerItem}>
             <FilterCard
@@ -296,6 +291,21 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             </FilterCard>
           </motion.div>
 
+          {/* Gender */}
+          <motion.div variants={staggerItem}>
+            <FilterCard
+              icon={<Users className="h-4 w-4" />}
+              isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
+            >
+              <SelectableRow label="Gender" value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+            </FilterCard>
+          </motion.div>
+
+          {/* ADVANCED PREFERENCES */}
+          <motion.div variants={staggerItem}>
+            <SectionLabel label="ADVANCED PREFERENCES" />
+          </motion.div>
+
           {/* Selectable rows */}
           <motion.div variants={staggerItem}>
             <FilterCard
@@ -312,15 +322,6 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               isModified={JSON.stringify(education) !== JSON.stringify(DEFAULTS.education)}
             >
               <SelectableRow label="Education" value={education} options={EDUCATION_OPTIONS} onChange={setEducation} />
-            </FilterCard>
-          </motion.div>
-
-          <motion.div variants={staggerItem}>
-            <FilterCard
-              icon={<Users className="h-4 w-4" />}
-              isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
-            >
-              <SelectableRow label="Gender" value={gender} options={GENDER_OPTIONS} onChange={setGender} />
             </FilterCard>
           </motion.div>
 
