@@ -261,7 +261,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
           {isJoinMeForEdit && (
             <div className="space-y-5">
-              <p className="font-body text-sm text-muted-foreground">Edit your experiences below (max 3)</p>
+              <p className="font-body text-sm text-muted-foreground">Add up to 3 experiences you'd love to share</p>
               {[0, 1, 2].map((idx) => (
                 <div key={idx}>
                   <div className="flex items-center justify-between mb-1.5">
