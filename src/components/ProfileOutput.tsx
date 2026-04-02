@@ -75,7 +75,6 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
     }
     else if (target.type === "joinMeForAll") {
       setJoinMeForDraft([...current.joinMeFor]);
-      setNewMoment("");
     }
     else if (target.type === "interests") {
       setInterestsDraft([...current.interests]);
