@@ -352,7 +352,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
             </div>
           )}
 
-          {!isJoinMeForEdit && (
+          {(
             <DrawerFooter className="px-0 pt-6 flex-row gap-3">
               <Button variant="outline" onClick={() => setEditTarget(null)} className="font-body rounded-xl flex-1 h-12 text-base">
                 Cancel
