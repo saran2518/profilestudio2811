@@ -446,8 +446,8 @@ function ComposeSheet({
                     <Sparkles className="h-4 w-4 text-primary-foreground" />
                   </motion.div>
                   <div>
-                    <h3 className="font-display text-base font-semibold text-foreground">Share a Moment</h3>
-                    <p className="text-[10px] text-muted-foreground font-body">Express what's present right now</p>
+                    <h3 className="font-display text-base font-semibold text-foreground">{isEdit ? "Edit Moment" : "Share a Moment"}</h3>
+                    <p className="text-[10px] text-muted-foreground font-body">{isEdit ? "Update your moment" : "Express what's present right now"}</p>
                   </div>
                 </div>
                 <button
