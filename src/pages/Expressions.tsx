@@ -47,8 +47,37 @@ const Expressions = () => {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<MomentData | null>(null);
 
-  // Report state
-  const [reportOpen, setReportOpen] = useState(false);
+  // Edit state
+  const [editingMoment, setEditingMoment] = useState<MomentData | null>(null);
+  const [editDraft, setEditDraft] = useState("");
+  const [editMood, setEditMood] = useState<string | null>(null);
+
+  const handleDelete = (momentId: string) => {
+    setMoments((prev) => prev.filter((m) => m.id !== momentId));
+  };
+
+  const handleEditStart = (moment: MomentData) => {
+    setEditingMoment(moment);
+    setEditDraft(moment.text);
+    setEditMood(moment.moodTag);
+    setShowCompose(false);
+  };
+
+  const handleEditSave = () => {
+    if (!editingMoment || !editDraft.trim() || !editMood) return;
+    setMoments((prev) =>
+      prev.map((m) =>
+        m.id === editingMoment.id
+          ? { ...m, text: editDraft.trim(), moodTag: editMood, timestamp: "Just now" }
+          : m
+      )
+    );
+    setEditingMoment(null);
+    setEditDraft("");
+    setEditMood(null);
+  };
+
+  const handleReport = () => setReportOpen(true);
 
   const handleVibeClick = (moment: MomentData) => {
     setVibeTarget(moment);
