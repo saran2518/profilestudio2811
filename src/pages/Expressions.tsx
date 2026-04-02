@@ -13,6 +13,9 @@ import {
   Image as ImageIcon,
   Flag,
   Eye,
+  MoreVertical,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
