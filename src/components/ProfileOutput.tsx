@@ -261,12 +261,12 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
           {isJoinMeForEdit && (
             <div className="space-y-5">
-              <p className="font-body text-sm text-muted-foreground">Edit your moments below (max 3)</p>
+              <p className="font-body text-sm text-muted-foreground">Edit your experiences below (max 3)</p>
               {[0, 1, 2].map((idx) => (
                 <div key={idx}>
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="font-body text-sm font-medium text-muted-foreground">
-                      Moment {idx + 1}
+                      Experience {idx + 1}
                     </label>
                     <span className={`font-body text-xs ${countWords(joinMeForDraft[idx] || "") >= WORD_LIMITS.joinMeFor ? 'text-destructive' : 'text-muted-foreground/50'}`}>
                       {countWords(joinMeForDraft[idx] || "")}/{WORD_LIMITS.joinMeFor}
