@@ -275,7 +275,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
           {/* ADVANCED PREFERENCES */}
           <motion.div variants={staggerItem}>
-            <SectionLabel label="REFINE" />
+            <SectionLabel label="ADVANCED PREFERENCES" />
           </motion.div>
 
           {/* Height */}
