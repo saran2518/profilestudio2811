@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, MapPin, BookOpen, Pencil, Plus, X, Check, GripVertical } from "lucide-react";
+import { Heart, Sparkles, MapPin, BookOpen, Pencil, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
