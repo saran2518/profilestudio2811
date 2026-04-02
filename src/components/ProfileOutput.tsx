@@ -272,75 +272,32 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
 
           {isJoinMeForEdit && (
             <div className="space-y-5">
-              <p className="font-body text-sm text-muted-foreground">Adjust what represents you best</p>
-              <div className="space-y-3">
-                {joinMeForDraft.map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className="flex items-center gap-3 rounded-xl border border-border/60 px-4 py-3.5"
-                    style={{ background: "hsl(var(--accent) / 0.08)" }}
-                  >
-                    <GripVertical className="h-4 w-4 text-muted-foreground/40 shrink-0" />
-                    <div className="flex-1 relative">
-                      <Input
-                        value={item}
-                        onChange={(e) => {
-                          const next = [...joinMeForDraft];
-                          next[idx] = enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor);
-                          setJoinMeForDraft(next);
-                        }}
-                        className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-foreground focus-visible:ring-0 shadow-none pr-12"
-                      />
-                      <span className={`absolute right-0 top-1/2 -translate-y-1/2 font-body text-xs ${countWords(item) >= WORD_LIMITS.joinMeFor ? 'text-destructive' : 'text-muted-foreground/50'}`}>
-                        {countWords(item)}/{WORD_LIMITS.joinMeFor}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => setJoinMeForDraft(joinMeForDraft.filter((_, i) => i !== idx))}
-                      className="text-muted-foreground/50 hover:text-destructive transition-colors shrink-0"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </motion.div>
-                ))}
-              </div>
-              {joinMeForDraft.length < 3 && (
-                <div className="flex items-center gap-3 rounded-xl border border-dashed border-border/60 px-4 py-3.5">
-                <div className="flex-1 relative">
+              <p className="font-body text-sm text-muted-foreground">Edit your moments below (max 3)</p>
+              {[0, 1, 2].map((idx) => (
+                <div key={idx}>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="font-body text-sm font-medium text-muted-foreground">
+                      Moment {idx + 1}
+                    </label>
+                    <span className={`font-body text-xs ${countWords(joinMeForDraft[idx] || "") >= WORD_LIMITS.joinMeFor ? 'text-destructive' : 'text-muted-foreground/50'}`}>
+                      {countWords(joinMeForDraft[idx] || "")}/{WORD_LIMITS.joinMeFor}
+                    </span>
+                  </div>
                   <Input
-                    value={newMoment}
-                    onChange={(e) => setNewMoment(enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor))}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && newMoment.trim()) {
-                        setJoinMeForDraft([...joinMeForDraft, newMoment.trim()]);
-                        setNewMoment("");
-                      }
+                    value={joinMeForDraft[idx] || ""}
+                    onChange={(e) => {
+                      const next = [...joinMeForDraft];
+                      while (next.length <= idx) next.push("");
+                      next[idx] = enforceWordLimit(e.target.value, WORD_LIMITS.joinMeFor);
+                      setJoinMeForDraft(next);
                     }}
-                    placeholder="Add a moment..."
-                    className="flex-1 border-0 bg-transparent p-0 h-auto font-body text-[15px] text-muted-foreground placeholder:text-muted-foreground/50 focus-visible:ring-0 shadow-none pr-12"
+                    placeholder={`e.g. ${["A sunset hike", "Coffee and deep talks", "Weekend farmers market"][idx]}`}
+                    className="font-body text-base rounded-xl h-12"
                   />
-                  <span className={`absolute right-0 top-1/2 -translate-y-1/2 font-body text-xs ${countWords(newMoment) >= WORD_LIMITS.joinMeFor ? 'text-destructive' : 'text-muted-foreground/50'}`}>
-                    {countWords(newMoment)}/{WORD_LIMITS.joinMeFor}
-                  </span>
                 </div>
-                  <button
-                    onClick={() => {
-                      if (newMoment.trim()) {
-                        setJoinMeForDraft([...joinMeForDraft, newMoment.trim()]);
-                        setNewMoment("");
-                      }
-                    }}
-                    className="text-muted-foreground/50 hover:text-primary transition-colors shrink-0"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
-                </div>
-              )}
-              <p className="font-body text-xs text-muted-foreground/50 text-center pt-2">
-                Profiles with 3–4 meaningful moments resonate best.
+              ))}
+              <p className="font-body text-xs text-muted-foreground/50 text-center pt-1">
+                Leave a field empty to remove it.
               </p>
             </div>
           )}
