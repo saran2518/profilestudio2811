@@ -77,6 +77,7 @@ const Expressions = () => {
     setEditMood(null);
   };
 
+  const [reportOpen, setReportOpen] = useState(false);
   const handleReport = () => setReportOpen(true);
 
   const handleVibeClick = (moment: MomentData) => {
