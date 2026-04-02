@@ -200,6 +200,18 @@ const Expressions = () => {
         onSubmit={handleShareMoment}
       />
 
+      {/* Edit Compose Sheet */}
+      <ComposeSheet
+        open={!!editingMoment}
+        onClose={() => { setEditingMoment(null); setEditDraft(""); setEditMood(null); }}
+        draft={editDraft}
+        onDraftChange={setEditDraft}
+        mood={editMood}
+        onMoodChange={setEditMood}
+        onSubmit={handleEditSave}
+        isEdit
+      />
+
       {/* Invite Dialog */}
       <InviteDialog
         open={inviteOpen}
