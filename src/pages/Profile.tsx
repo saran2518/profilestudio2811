@@ -86,7 +86,7 @@ const Profile = () => {
               photoUrl={userProfile.photos[0]}
               onViewProfile={() => navigate("/preview")}
             />
-            <QuickActions onEditProfile={() => navigate("/create")} />
+            <QuickActions onEditProfile={() => navigate("/profile-studio-intro")} />
             <ProfileCompleteness
               percentage={75}
               message="Add more photos and complete your narratives to boost visibility"
