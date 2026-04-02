@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
@@ -13,6 +13,7 @@ import {
   Globe,
   Sparkles,
   Check,
+  ChevronDown,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import {
