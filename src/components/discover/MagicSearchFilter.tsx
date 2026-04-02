@@ -58,6 +58,11 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [education, setEducation] = useState<string[]>(["Masters"]);
   const [gender, setGender] = useState<string[]>(["Women"]);
   const [languages, setLanguages] = useState<string[]>([]);
+  const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
+
+  const toggleFilter = useCallback((key: string) => {
+    setExpandedFilter((prev) => (prev === key ? null : key));
+  }, []);
 
   // Count active filters (non-default)
   const activeCount = useMemo(() => {
