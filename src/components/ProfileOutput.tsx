@@ -206,17 +206,7 @@ const ProfileOutput = ({ profile, onProfileChange }: ProfileOutputProps) => {
       <Drawer open={!!editTarget} onOpenChange={(open) => !open && setEditTarget(null)}>
         <DrawerContent className="px-6 pb-8 pt-3 min-h-[50vh] max-h-[85vh]">
           <DrawerHeader className="px-0 pb-5">
-            <div className="flex items-center justify-between">
-              <DrawerTitle className="font-display text-xl">{dialogTitle}</DrawerTitle>
-              {isJoinMeForEdit && (
-                <button
-                  onClick={saveEdit}
-                  className="font-display text-base font-semibold text-primary"
-                >
-                  Done
-                </button>
-              )}
-            </div>
+            <DrawerTitle className="font-display text-xl">{dialogTitle}</DrawerTitle>
           </DrawerHeader>
 
           {isNarrativeEdit && (
