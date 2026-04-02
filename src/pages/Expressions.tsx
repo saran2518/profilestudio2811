@@ -244,18 +244,24 @@ function MomentCard({
   moment,
   index,
   isVibed,
+  isOwn,
   onVibe,
   onInvite,
   onReport,
   onViewProfile,
+  onEdit,
+  onDelete,
 }: {
   moment: MomentData;
   index: number;
   isVibed: boolean;
+  isOwn?: boolean;
   onVibe: () => void;
   onInvite: () => void;
   onReport: () => void;
   onViewProfile: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }) {
   return (
     <motion.div
@@ -265,7 +271,7 @@ function MomentCard({
       className="relative rounded-2xl border border-border/40 bg-card p-4"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      {/* User info + Report */}
+      {/* User info + actions */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10 border border-border/50">
@@ -277,27 +283,49 @@ function MomentCard({
           <div>
             <div className="flex items-center gap-2">
               <p className="font-display text-sm font-semibold text-foreground">
-                {moment.name}, {moment.age}
+                {isOwn ? "You" : `${moment.name}, ${moment.age}`}
               </p>
-              <button
-                onClick={onViewProfile}
-                className="flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition-colors font-body"
-              >
-                <Eye className="h-3 w-3" />
-                View Profile
-              </button>
+              {!isOwn && (
+                <button
+                  onClick={onViewProfile}
+                  className="flex items-center gap-1 text-[11px] font-medium text-primary hover:text-primary/80 transition-colors font-body"
+                >
+                  <Eye className="h-3 w-3" />
+                  View Profile
+                </button>
+              )}
             </div>
             <p className="text-xs text-muted-foreground font-body">
               {moment.profession} • {moment.location}
             </p>
           </div>
         </div>
-        <button
-          onClick={onReport}
-          className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-        >
-          <Flag className="h-3.5 w-3.5" />
-        </button>
+        {isOwn ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors">
+                <MoreVertical className="h-3.5 w-3.5" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-[140px]">
+              <DropdownMenuItem onClick={onEdit} className="gap-2 text-sm">
+                <Pencil className="h-3.5 w-3.5" />
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={onDelete} className="gap-2 text-sm text-destructive focus:text-destructive">
+                <Trash2 className="h-3.5 w-3.5" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <button
+            onClick={onReport}
+            className="h-8 w-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+          >
+            <Flag className="h-3.5 w-3.5" />
+          </button>
+        )}
       </div>
 
       {/* Moment text */}
@@ -323,21 +351,23 @@ function MomentCard({
         </span>
       </div>
 
-      {/* HeartPulse - positioned at right side near end of content */}
-      <motion.button
-        whileTap={{ scale: 0.85 }}
-        onClick={onVibe}
-        className={`absolute right-4 bottom-4 h-9 w-9 rounded-full flex items-center justify-center transition-all duration-200 ${
-          isVibed
-            ? "text-primary-foreground"
-            : "bg-muted/50 text-muted-foreground"
-        }`}
-        style={isVibed ? { background: "var(--gradient-warm)" } : undefined}
-      >
-        <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
-          <HeartPulse className="h-4 w-4" strokeWidth={2} />
-        </motion.div>
-      </motion.button>
+      {/* HeartPulse - only for other people's moments */}
+      {!isOwn && (
+        <motion.button
+          whileTap={{ scale: 0.85 }}
+          onClick={onVibe}
+          className={`absolute right-4 bottom-4 h-9 w-9 rounded-full flex items-center justify-center transition-all duration-200 ${
+            isVibed
+              ? "text-primary-foreground"
+              : "bg-muted/50 text-muted-foreground"
+          }`}
+          style={isVibed ? { background: "var(--gradient-warm)" } : undefined}
+        >
+          <motion.div animate={isVibed ? { scale: [1, 1.3, 1] } : {}} transition={{ duration: 0.3 }}>
+            <HeartPulse className="h-4 w-4" strokeWidth={2} />
+          </motion.div>
+        </motion.button>
+      )}
     </motion.div>
   );
 }
