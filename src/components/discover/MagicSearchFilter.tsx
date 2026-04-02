@@ -232,40 +232,28 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             </motion.div>
           )}
 
-          {/* REFINE section */}
-          <motion.div variants={staggerItem}>
-            <SectionLabel label="REFINE" />
-          </motion.div>
-
-          {/* Age Range */}
-          <motion.div variants={staggerItem}>
-            <FilterCard
+          {/* Accordion filter items */}
+          <motion.div variants={staggerItem} className="rounded-2xl border border-border/40 bg-card/60 overflow-hidden divide-y divide-border/30">
+            <AccordionFilterItem
               icon={<Calendar className="h-4 w-4" />}
+              label="Age Range"
+              summary={`${ageRange[0]} – ${ageRange[1]}`}
               isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
+              expanded={expandedFilter === "age"}
+              onToggle={() => toggleFilter("age")}
             >
-              <SliderField
-                label="Age Range"
-                valueLabel={`${ageRange[0]} – ${ageRange[1]}`}
-                value={ageRange}
-                onChange={setAgeRange}
-                min={18}
-                max={60}
-                step={1}
-              />
-            </FilterCard>
-          </motion.div>
+              <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]}`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
+            </AccordionFilterItem>
 
-          {/* Distance */}
-          <motion.div variants={staggerItem}>
-            <FilterCard
+            <AccordionFilterItem
               icon={<MapPin className="h-4 w-4" />}
+              label="Distance"
+              summary={`${distance[0]} km`}
               isModified={distance[0] !== DEFAULTS.distance[0]}
+              expanded={expandedFilter === "distance"}
+              onToggle={() => toggleFilter("distance")}
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-body font-semibold text-foreground">Distance</span>
-                  <span className="font-body text-sm font-medium text-primary">{distance[0]} km</span>
-                </div>
                 <Slider
                   value={distance}
                   onValueChange={setDistance}
@@ -276,68 +264,62 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 />
                 <p className="text-xs font-body text-muted-foreground">Expand your discovery radius</p>
               </div>
-            </FilterCard>
-          </motion.div>
+            </AccordionFilterItem>
 
-          {/* Height */}
-          <motion.div variants={staggerItem}>
-            <FilterCard
+            <AccordionFilterItem
               icon={<Ruler className="h-4 w-4" />}
+              label="Height"
+              summary={`${heightRange[0]} – ${heightRange[1]} cm`}
               isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
+              expanded={expandedFilter === "height"}
+              onToggle={() => toggleFilter("height")}
             >
-              <SliderField
-                label="Height"
-                valueLabel={`${heightRange[0]} – ${heightRange[1]} cm`}
-                value={heightRange}
-                onChange={setHeightRange}
-                min={140}
-                max={220}
-                step={1}
-              />
-            </FilterCard>
-          </motion.div>
+              <SliderField label="Height" valueLabel={`${heightRange[0]} – ${heightRange[1]} cm`} value={heightRange} onChange={setHeightRange} min={140} max={220} step={1} />
+            </AccordionFilterItem>
 
-          {/* Gender */}
-          <motion.div variants={staggerItem}>
-            <FilterCard
+            <AccordionFilterItem
               icon={<Users className="h-4 w-4" />}
+              label="Gender"
+              summary={gender.length === 0 ? "Any" : gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`}
               isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
+              expanded={expandedFilter === "gender"}
+              onToggle={() => toggleFilter("gender")}
             >
-              <SelectableRow label="Gender" value={gender} options={GENDER_OPTIONS} onChange={setGender} />
-            </FilterCard>
-          </motion.div>
+              <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+            </AccordionFilterItem>
 
-          {/* ADVANCED PREFERENCES */}
-          <motion.div variants={staggerItem}>
-            <SectionLabel label="ADVANCED PREFERENCES" />
-          </motion.div>
-
-          {/* Selectable rows */}
-          <motion.div variants={staggerItem}>
-            <FilterCard
+            <AccordionFilterItem
               icon={<Heart className="h-4 w-4" />}
+              label="Relationship Intent"
+              summary={relationship.length === 0 ? "Any" : relationship.length <= 2 ? relationship.join(", ") : `${relationship.length} selected`}
               isModified={JSON.stringify(relationship) !== JSON.stringify(DEFAULTS.relationship)}
+              expanded={expandedFilter === "relationship"}
+              onToggle={() => toggleFilter("relationship")}
             >
-              <SelectableRow label="Relationship Intent" value={relationship} options={RELATIONSHIP_OPTIONS} onChange={setRelationship} />
-            </FilterCard>
-          </motion.div>
+              <InlineSelectableOptions value={relationship} options={RELATIONSHIP_OPTIONS} onChange={setRelationship} />
+            </AccordionFilterItem>
 
-          <motion.div variants={staggerItem}>
-            <FilterCard
+            <AccordionFilterItem
               icon={<GraduationCap className="h-4 w-4" />}
+              label="Education"
+              summary={education.length === 0 ? "Any" : education.length <= 2 ? education.join(", ") : `${education.length} selected`}
               isModified={JSON.stringify(education) !== JSON.stringify(DEFAULTS.education)}
+              expanded={expandedFilter === "education"}
+              onToggle={() => toggleFilter("education")}
             >
-              <SelectableRow label="Education" value={education} options={EDUCATION_OPTIONS} onChange={setEducation} />
-            </FilterCard>
-          </motion.div>
+              <InlineSelectableOptions value={education} options={EDUCATION_OPTIONS} onChange={setEducation} />
+            </AccordionFilterItem>
 
-          <motion.div variants={staggerItem}>
-            <FilterCard
+            <AccordionFilterItem
               icon={<Globe className="h-4 w-4" />}
+              label="Languages"
+              summary={languages.length === 0 ? "Any" : languages.length <= 2 ? languages.join(", ") : `${languages.length} selected`}
               isModified={languages.length > 0}
+              expanded={expandedFilter === "languages"}
+              onToggle={() => toggleFilter("languages")}
             >
-              <LanguageFilterRow value={languages} onChange={setLanguages} />
-            </FilterCard>
+              <LanguageInlineRow value={languages} onChange={setLanguages} />
+            </AccordionFilterItem>
           </motion.div>
         </motion.div>
 
