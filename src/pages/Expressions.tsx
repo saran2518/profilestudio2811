@@ -178,10 +178,13 @@ const Expressions = () => {
             moment={moment}
             index={idx}
             isVibed={vibed.has(moment.id)}
+            isOwn={moment.name === "You"}
             onVibe={() => handleVibeClick(moment)}
             onInvite={() => handleInvite(moment)}
             onReport={() => setReportOpen(true)}
             onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
+            onEdit={() => handleEditStart(moment)}
+            onDelete={() => handleDelete(moment.id)}
           />
         ))}
       </div>
