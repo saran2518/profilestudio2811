@@ -40,7 +40,7 @@ const Profile = () => {
           className="flex items-center gap-3 rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-5 py-3"
           style={{ boxShadow: "0 4px 24px -4px hsl(var(--foreground) / 0.04)" }}
         >
-          <span className="font-display text-base font-semibold text-foreground tracking-tight">My Profile</span>
+          <span className="font-display text-base font-semibold text-foreground tracking-tight">Elyxer</span>
         </div>
       </header>
 
