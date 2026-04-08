@@ -19,6 +19,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import {
   Sheet,
   SheetContent,
@@ -62,6 +63,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [languages, setLanguages] = useState<string[]>([]);
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
   const [expandedSuggestion, setExpandedSuggestion] = useState<string | null>(null);
+  const [basicFiltersEnabled, setBasicFiltersEnabled] = useState(true);
 
   const toggleFilter = useCallback((key: string) => {
     setExpandedFilter((prev) => (prev === key ? null : key));
@@ -294,14 +296,32 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   Search{searchTags.length > 0 ? ` (${searchTags.length})` : ""}
                 </span>
               </motion.button>
+
+              {/* Basic Filters Toggle */}
+              <div className="flex items-center justify-between pt-2 border-t border-border/20">
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="text-[12px] font-body font-medium text-muted-foreground">Include Basic Filters</span>
+                </div>
+                <Switch
+                  checked={basicFiltersEnabled}
+                  onCheckedChange={setBasicFiltersEnabled}
+                />
+              </div>
             </div>
           </div>
 
           {/* BASIC FILTERS - styled card like Magic Search */}
+          <AnimatePresence>
+          {basicFiltersEnabled && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
           <div className="space-y-2.5">
-            <span className="text-[11px] font-body font-semibold tracking-[0.15em] text-muted-foreground uppercase px-1">
-              Basic Filters
-            </span>
             <div className="rounded-3xl bg-card p-5 space-y-4">
               {/* Header */}
               <div className="flex items-center gap-2.5">
@@ -404,6 +424,9 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </motion.button>
             </div>
           </div>
+          </motion.div>
+          )}
+          </AnimatePresence>
         </div>
       </SheetContent>
     </Sheet>
