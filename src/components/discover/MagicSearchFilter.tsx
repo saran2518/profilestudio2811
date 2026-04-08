@@ -187,13 +187,15 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </div>
             )}
 
-            {/* Suggestion Categories */}
-            <div className="space-y-2.5 pt-1">
+            {/* Suggestions - flowing inspiration */}
+            <div className="pt-2 space-y-3">
+              <p className="text-[11px] font-body font-medium text-muted-foreground/70 uppercase tracking-wider">Try searching for…</p>
               {SUGGESTION_CATEGORIES.map((cat) => (
-                <div key={cat.label} className="space-y-1.5">
-                  <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-bold font-body uppercase tracking-wider ${cat.color}`}>
-                    {cat.label}
-                  </span>
+                <div key={cat.label} className="space-y-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">{cat.icon}</span>
+                    <span className="text-[12px] font-body font-semibold text-foreground/70">{cat.label}</span>
+                  </div>
                   <div className="flex flex-wrap gap-1.5">
                     {cat.keywords.map((kw) => {
                       const isActive = searchTags.includes(kw);
@@ -202,19 +204,16 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                           key={kw}
                           whileTap={{ scale: 0.92 }}
                           onClick={() => {
-                            if (isActive) {
-                              removeTag(kw);
-                            } else {
-                              setSearchTags((prev) => [...prev, kw]);
-                            }
+                            if (isActive) removeTag(kw);
+                            else setSearchTags((prev) => [...prev, kw]);
                           }}
-                          className={`px-2.5 py-1 rounded-full text-[11px] font-body font-medium border transition-all ${
+                          className={`px-3 py-1.5 rounded-full text-[12px] font-body font-medium transition-all duration-200 ${
                             isActive
-                              ? "bg-primary/15 border-primary/30 text-primary"
-                              : "bg-card border-border/40 text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                              ? "bg-primary text-primary-foreground shadow-sm"
+                              : "bg-transparent text-muted-foreground hover:text-foreground"
                           }`}
                         >
-                          {kw}
+                          {isActive ? `✓ ${kw}` : kw}
                         </motion.button>
                       );
                     })}
