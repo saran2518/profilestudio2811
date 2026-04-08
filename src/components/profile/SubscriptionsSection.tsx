@@ -177,6 +177,9 @@ function PlanCard({ plan }: { plan: PlanData }) {
             <span className="text-2xl font-bold text-foreground">{plan.price}</span>
             <span className="text-xs text-muted-foreground">{plan.period}</span>
           </div>
+          {plan.altPrice && (
+            <span className="text-[11px] text-muted-foreground mt-0.5">or {plan.altPrice}</span>
+          )}
         </div>
 
         {/* CTA */}
