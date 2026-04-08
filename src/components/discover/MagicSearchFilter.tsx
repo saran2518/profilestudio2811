@@ -328,20 +328,24 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                     <span className="text-[10px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
                   </div>
                 </div>
-                {basicFiltersEnabled && (ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] || distance[0] !== DEFAULTS.distance[0] || heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] || JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)) && (
-                  <button
-                    onClick={() => {
-                      setAgeRange([...DEFAULTS.ageRange]);
-                      setDistance([...DEFAULTS.distance]);
-                      setHeightRange([...DEFAULTS.heightRange]);
-                      setGender([...DEFAULTS.gender]);
-                      setExpandedFilter(null);
-                    }}
-                    className="text-[11px] font-body font-semibold text-primary hover:text-primary/80 transition-colors"
-                  >
-                    Clear
-                  </button>
-                )}
+                {(() => {
+                  const hasChanges = ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] || distance[0] !== DEFAULTS.distance[0] || heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] || JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender);
+                  return (
+                    <button
+                      disabled={!hasChanges}
+                      onClick={() => {
+                        setAgeRange([...DEFAULTS.ageRange]);
+                        setDistance([...DEFAULTS.distance]);
+                        setHeightRange([...DEFAULTS.heightRange]);
+                        setGender([...DEFAULTS.gender]);
+                        setExpandedFilter(null);
+                      }}
+                      className={`text-[11px] font-body font-semibold transition-colors ${hasChanges ? 'text-primary hover:text-primary/80 cursor-pointer' : 'text-muted-foreground/40 cursor-not-allowed'}`}
+                    >
+                      Clear
+                    </button>
+                  );
+                })()}
               </div>
 
               {/* Filter rows */}
