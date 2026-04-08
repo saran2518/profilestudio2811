@@ -187,9 +187,41 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </div>
             )}
 
-            <p className="text-[11px] font-body text-primary/60">
-              Search by mindset, interests & lifestyle
-            </p>
+            {/* Suggestion Categories */}
+            <div className="space-y-2.5 pt-1">
+              {SUGGESTION_CATEGORIES.map((cat) => (
+                <div key={cat.label} className="space-y-1.5">
+                  <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-bold font-body uppercase tracking-wider ${cat.color}`}>
+                    {cat.label}
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {cat.keywords.map((kw) => {
+                      const isActive = searchTags.includes(kw);
+                      return (
+                        <motion.button
+                          key={kw}
+                          whileTap={{ scale: 0.92 }}
+                          onClick={() => {
+                            if (isActive) {
+                              removeTag(kw);
+                            } else {
+                              setSearchTags((prev) => [...prev, kw]);
+                            }
+                          }}
+                          className={`px-2.5 py-1 rounded-full text-[11px] font-body font-medium border transition-all ${
+                            isActive
+                              ? "bg-primary/15 border-primary/30 text-primary"
+                              : "bg-card border-border/40 text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                          }`}
+                        >
+                          {kw}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* BASIC FILTERS */}
