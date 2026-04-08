@@ -315,17 +315,33 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
           <div className="space-y-2.5">
             <div className={`rounded-3xl bg-card p-5 space-y-4 transition-opacity duration-300 ${!basicFiltersEnabled ? 'opacity-40 pointer-events-none grayscale' : ''}`}>
               {/* Header */}
-              <div className="flex items-center gap-2.5">
-                <div
-                  className="h-9 w-9 rounded-xl flex items-center justify-center"
-                  style={{ background: basicFiltersEnabled ? "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.7))" : "hsl(var(--muted))" }}
-                >
-                  <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="h-9 w-9 rounded-xl flex items-center justify-center"
+                    style={{ background: basicFiltersEnabled ? "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.7))" : "hsl(var(--muted))" }}
+                  >
+                    <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
+                  </div>
+                  <div>
+                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Standard Filters</span>
+                    <span className="text-[10px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Standard Filters</span>
-                  <span className="text-[10px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
-                </div>
+                {basicFiltersEnabled && (ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] || distance[0] !== DEFAULTS.distance[0] || heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] || JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)) && (
+                  <button
+                    onClick={() => {
+                      setAgeRange([...DEFAULTS.ageRange]);
+                      setDistance([...DEFAULTS.distance]);
+                      setHeightRange([...DEFAULTS.heightRange]);
+                      setGender([...DEFAULTS.gender]);
+                      setExpandedFilter(null);
+                    }}
+                    className="text-[11px] font-body font-semibold text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
 
               {/* Filter rows */}
