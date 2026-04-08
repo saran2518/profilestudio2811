@@ -100,6 +100,7 @@ interface PlanData {
   icon: React.ReactNode;
   title: string;
   price: string;
+  altPrice?: string;
   period: string;
   badge?: string;
   ctaLabel: string;
