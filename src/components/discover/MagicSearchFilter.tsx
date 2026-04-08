@@ -311,29 +311,20 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             </div>
           </div>
 
-          {/* BASIC FILTERS - styled card like Magic Search */}
-          <AnimatePresence>
-          {basicFiltersEnabled && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
+          {/* STANDARD FILTERS - styled card like Magic Search */}
           <div className="space-y-2.5">
-            <div className="rounded-3xl bg-card p-5 space-y-4">
+            <div className={`rounded-3xl bg-card p-5 space-y-4 transition-opacity duration-300 ${!basicFiltersEnabled ? 'opacity-40 pointer-events-none grayscale' : ''}`}>
               {/* Header */}
               <div className="flex items-center gap-2.5">
                 <div
                   className="h-9 w-9 rounded-xl flex items-center justify-center"
-                  style={{ background: "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.7))" }}
+                  style={{ background: basicFiltersEnabled ? "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.7))" : "hsl(var(--muted))" }}
                 >
                   <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
                 </div>
                 <div>
                   <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Standard Filters</span>
-                  <span className="text-[10px] font-body text-muted-foreground">Narrow down your preferences</span>
+                  <span className="text-[10px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
                 </div>
               </div>
 
@@ -424,9 +415,6 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </motion.button>
             </div>
           </div>
-          </motion.div>
-          )}
-          </AnimatePresence>
         </div>
       </SheetContent>
     </Sheet>
