@@ -355,7 +355,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-amber-100"
                   iconColor="text-amber-600"
                   label="Age range"
-                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]}` : ""}
+                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]}` : "Any"}
                   isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
                   expanded={expandedFilter === "age"}
                   onToggle={() => toggleFilter("age")}
@@ -368,7 +368,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-rose-100"
                   iconColor="text-rose-500"
                   label="Distance"
-                  summary={distance[0] !== DEFAULTS.distance[0] ? `${distance[0]} km` : ""}
+                  summary={distance[0] !== DEFAULTS.distance[0] ? `${distance[0]} km` : "Any"}
                   isModified={distance[0] !== DEFAULTS.distance[0]}
                   expanded={expandedFilter === "distance"}
                   onToggle={() => toggleFilter("distance")}
@@ -391,7 +391,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-slate-100"
                   iconColor="text-slate-500"
                   label="Height"
-                  summary={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] ? `${heightRange[0]} – ${heightRange[1]} cm` : ""}
+                  summary={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] ? `${heightRange[0]} – ${heightRange[1]} cm` : "Any"}
                   isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
                   expanded={expandedFilter === "height"}
                   onToggle={() => toggleFilter("height")}
@@ -404,7 +404,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-violet-100"
                   iconColor="text-violet-600"
                   label="Gender"
-                  summary={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender) ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : ""}
+                  summary={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender) ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : "Any"}
                   isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
                   expanded={expandedFilter === "gender"}
                   onToggle={() => toggleFilter("gender")}
