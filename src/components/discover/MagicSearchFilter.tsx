@@ -28,7 +28,11 @@ const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Trav
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
-const SUGGESTED_TAGS = ["Creative Thinker", "Fitness Enthusiast", "Startup Founder", "Bookworm", "Traveler", "Foodie", "Night Owl", "Morning Person"];
+const SUGGESTION_CATEGORIES: { label: string; color: string; keywords: string[] }[] = [
+  { label: "Interests", color: "bg-amber-100 text-amber-700", keywords: ["Photography", "Hiking", "Cooking", "Music", "Fitness", "Reading", "Travel", "Art"] },
+  { label: "Lifestyle", color: "bg-rose-100 text-rose-600", keywords: ["Night Owl", "Morning Person", "Startup Founder", "Foodie", "Minimalist", "Adventure Seeker"] },
+  { label: "Values", color: "bg-violet-100 text-violet-600", keywords: ["Empathy", "Authenticity", "Growth Mindset", "Kindness", "Ambition", "Spirituality"] },
+];
 
 const DEFAULTS = {
   ageRange: [18, 50],
