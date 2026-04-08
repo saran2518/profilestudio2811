@@ -332,7 +332,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
                 </div>
                 <div>
-                  <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Refine Results</span>
+                  <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Standard Filters</span>
                   <span className="text-[10px] font-body text-muted-foreground">Narrow down your preferences</span>
                 </div>
               </div>
