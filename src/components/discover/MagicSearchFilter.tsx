@@ -368,7 +368,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-rose-100"
                   iconColor="text-rose-500"
                   label="Distance"
-                  summary={distance[0] !== DEFAULTS.distance[0] ? `${distance[0]} km` : ""}
+                  summary={distance[0] !== DEFAULTS.distance[0] ? `${distance[0]} km` : "Any"}
                   isModified={distance[0] !== DEFAULTS.distance[0]}
                   expanded={expandedFilter === "distance"}
                   onToggle={() => toggleFilter("distance")}
