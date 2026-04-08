@@ -131,17 +131,14 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto px-5 pb-4 pt-4 space-y-5">
 
-          {/* Magic Search - Gradient Card */}
-          <div
-            className="rounded-2xl p-4 space-y-3"
-            style={{
-              background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.08))",
-            }}
-          >
+          {/* Magic Search Card */}
+          <div className="rounded-2xl p-4 pb-5 space-y-3 border border-primary/10 bg-card">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <span className="font-display text-sm font-bold text-primary">Magic Search</span>
-              <span className="px-2 py-0.5 rounded-full bg-primary/20 text-[10px] font-bold font-body text-primary uppercase tracking-wider">
+              <div className="h-7 w-7 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(var(--primary) / 0.08))" }}>
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+              </div>
+              <span className="font-display text-sm font-bold text-foreground">Magic Search</span>
+              <span className="px-2 py-0.5 rounded-full bg-primary/15 text-[9px] font-bold font-body text-primary uppercase tracking-wider">
                 Pro
               </span>
             </div>
