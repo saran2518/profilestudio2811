@@ -60,6 +60,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [gender, setGender] = useState<string[]>(["Women"]);
   const [languages, setLanguages] = useState<string[]>([]);
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
+  const [expandedSuggestion, setExpandedSuggestion] = useState<string | null>(null);
 
   const toggleFilter = useCallback((key: string) => {
     setExpandedFilter((prev) => (prev === key ? null : key));
@@ -132,91 +133,149 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         <div className="flex-1 overflow-y-auto px-5 pb-4 pt-4 space-y-5">
 
           {/* Magic Search Card */}
-          <div className="rounded-2xl p-4 pb-5 space-y-3 border border-primary/10 bg-card">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(var(--primary) / 0.08))" }}>
-                <Sparkles className="h-3.5 w-3.5 text-primary" />
-              </div>
-              <span className="font-display text-sm font-bold text-foreground">Magic Search</span>
-              <span className="px-2 py-0.5 rounded-full bg-primary/15 text-[9px] font-bold font-body text-primary uppercase tracking-wider">
-                Pro
-              </span>
-            </div>
-
-            <div className="rounded-xl border border-primary/20 bg-card px-3 py-2.5 flex items-center gap-2 focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
-              <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-              <input
-                type="text"
-                placeholder="loves hiking, startup founder…"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={handleAddTag}
-                className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
-              />
-              <motion.button
-                whileTap={{ scale: 0.85 }}
-                onClick={() => {
-                  if (searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
-                    setSearchTags([...searchTags, searchQuery.trim()]);
-                    setSearchQuery("");
-                  }
-                }}
-                className="h-7 w-7 rounded-full bg-primary flex items-center justify-center shrink-0 hover:opacity-80 transition-opacity"
-              >
-                <span className="text-primary-foreground text-sm font-bold leading-none">+</span>
-              </motion.button>
-            </div>
-
-            {/* Tags */}
-            {searchTags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {searchTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-3 py-1 text-xs font-body font-medium text-primary"
+          <div
+            className="rounded-3xl p-[1px] overflow-hidden"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.3))" }}
+          >
+            <div className="rounded-3xl bg-card p-5 space-y-4">
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className="h-9 w-9 rounded-xl flex items-center justify-center"
+                    style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
                   >
-                    {tag}
-                    <button onClick={() => removeTag(tag)}>
-                      <X className="h-3 w-3" />
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Suggestions - flowing inspiration */}
-            <div className="pt-2 space-y-3">
-              <p className="text-[11px] font-body font-medium text-muted-foreground/70 uppercase tracking-wider">Try searching for…</p>
-              {SUGGESTION_CATEGORIES.map((cat) => (
-                <div key={cat.label} className="space-y-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm">{cat.icon}</span>
-                    <span className="text-[12px] font-body font-semibold text-foreground/70">{cat.label}</span>
+                    <Sparkles className="h-4 w-4 text-primary-foreground" />
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {cat.keywords.map((kw) => {
-                      const isActive = searchTags.includes(kw);
-                      return (
-                        <motion.button
-                          key={kw}
-                          whileTap={{ scale: 0.92 }}
-                          onClick={() => {
-                            if (isActive) removeTag(kw);
-                            else setSearchTags((prev) => [...prev, kw]);
-                          }}
-                          className={`px-3 py-1.5 rounded-full text-[12px] font-body font-medium transition-all duration-200 ${
-                            isActive
-                              ? "bg-primary text-primary-foreground shadow-sm"
-                              : "bg-transparent text-muted-foreground hover:text-foreground"
-                          }`}
-                        >
-                          {isActive ? `✓ ${kw}` : kw}
-                        </motion.button>
-                      );
-                    })}
+                  <div>
+                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Magic Search</span>
+                    <span className="text-[10px] font-body text-muted-foreground">Find your perfect match</span>
                   </div>
                 </div>
-              ))}
+                <span
+                  className="px-2.5 py-1 rounded-full text-[9px] font-bold font-body uppercase tracking-wider text-primary-foreground"
+                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
+                >
+                  Pro
+                </span>
+              </div>
+
+              {/* Search input */}
+              <div
+                className="rounded-2xl bg-muted/40 px-4 py-3 flex items-center gap-2.5 focus-within:bg-muted/60 transition-all duration-200"
+                style={{ boxShadow: "inset 0 1px 3px hsl(var(--foreground) / 0.04)" }}
+              >
+                <Search className="h-4 w-4 text-muted-foreground/60 shrink-0" />
+                <input
+                  type="text"
+                  placeholder="loves hiking, startup founder…"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleAddTag}
+                  className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground/50 outline-none"
+                />
+                <motion.button
+                  whileTap={{ scale: 0.85 }}
+                  onClick={() => {
+                    if (searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
+                      setSearchTags([...searchTags, searchQuery.trim()]);
+                      setSearchQuery("");
+                    }
+                  }}
+                  className="h-7 w-7 rounded-full flex items-center justify-center shrink-0 transition-opacity"
+                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
+                >
+                  <span className="text-primary-foreground text-sm font-bold leading-none">+</span>
+                </motion.button>
+              </div>
+
+              {/* Active tags */}
+              {searchTags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {searchTags.map((tag) => (
+                    <motion.span
+                      key={tag}
+                      layout
+                      initial={{ opacity: 0, scale: 0.85 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.85 }}
+                      className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-body font-semibold text-primary-foreground"
+                      style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8))" }}
+                    >
+                      {tag}
+                      <button onClick={() => removeTag(tag)} className="opacity-70 hover:opacity-100 transition-opacity">
+                        <X className="h-3 w-3" />
+                      </button>
+                    </motion.span>
+                  ))}
+                </div>
+              )}
+
+              {/* Collapsible Suggestions */}
+              <div className="pt-1">
+                <p className="text-[10px] font-body font-semibold text-muted-foreground/50 uppercase tracking-[0.15em] mb-3">Suggestions</p>
+                <div className="space-y-1">
+                  {SUGGESTION_CATEGORIES.map((cat) => {
+                    const [catOpen, setCatOpen] = [
+                      expandedSuggestion === cat.label,
+                      () => setExpandedSuggestion((prev: string | null) => prev === cat.label ? null : cat.label),
+                    ];
+                    const activeInCat = cat.keywords.filter((kw) => searchTags.includes(kw)).length;
+                    return (
+                      <div key={cat.label} className="rounded-xl overflow-hidden">
+                        <button
+                          onClick={setCatOpen}
+                          className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-muted/30 transition-colors rounded-xl"
+                        >
+                          <span className="text-base">{cat.icon}</span>
+                          <span className="text-[13px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
+                          {activeInCat > 0 && (
+                            <span className="h-5 min-w-[20px] px-1.5 rounded-full bg-primary/15 text-[10px] font-bold text-primary flex items-center justify-center">
+                              {activeInCat}
+                            </span>
+                          )}
+                          <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 ${catOpen ? "rotate-180" : ""}`} />
+                        </button>
+                        <AnimatePresence>
+                          {catOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                              className="overflow-hidden"
+                            >
+                              <div className="flex flex-wrap gap-1.5 px-3 pb-3 pt-1">
+                                {cat.keywords.map((kw) => {
+                                  const isActive = searchTags.includes(kw);
+                                  return (
+                                    <motion.button
+                                      key={kw}
+                                      whileTap={{ scale: 0.92 }}
+                                      onClick={() => {
+                                        if (isActive) removeTag(kw);
+                                        else setSearchTags((prev) => [...prev, kw]);
+                                      }}
+                                      className={`px-3 py-1.5 rounded-full text-[12px] font-body font-medium border transition-all duration-200 ${
+                                        isActive
+                                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                          : "border-border/40 bg-muted/30 text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                                      }`}
+                                    >
+                                      {isActive && <Check className="h-3 w-3 inline mr-1 -mt-0.5" />}
+                                      {kw}
+                                    </motion.button>
+                                  );
+                                })}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 
