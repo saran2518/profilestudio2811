@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
+  SlidersHorizontal,
   Search,
   X,
   Calendar,
@@ -296,95 +297,112 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             </div>
           </div>
 
-          {/* BASIC FILTERS */}
+          {/* BASIC FILTERS - styled card like Magic Search */}
           <div className="space-y-2.5">
             <span className="text-[11px] font-body font-semibold tracking-[0.15em] text-muted-foreground uppercase px-1">
               Basic Filters
             </span>
-            <div className="rounded-2xl border border-border/40 bg-card overflow-hidden divide-y divide-border/30">
-              <FilterRow
-                icon={<Calendar className="h-4.5 w-4.5" />}
-                iconBg="bg-amber-100"
-                iconColor="text-amber-600"
-                label="Age range"
-                summary={`${ageRange[0]} – ${ageRange[1]}`}
-                isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
-                expanded={expandedFilter === "age"}
-                onToggle={() => toggleFilter("age")}
-              >
-                <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]}`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
-              </FilterRow>
-
-              <FilterRow
-                icon={<MapPin className="h-4.5 w-4.5" />}
-                iconBg="bg-rose-100"
-                iconColor="text-rose-500"
-                label="Distance"
-                summary={`${distance[0]} km`}
-                isModified={distance[0] !== DEFAULTS.distance[0]}
-                expanded={expandedFilter === "distance"}
-                onToggle={() => toggleFilter("distance")}
-              >
-                <div className="space-y-3">
-                  <Slider
-                    value={distance}
-                    onValueChange={setDistance}
-                    min={1}
-                    max={200}
-                    step={1}
-                    className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
-                  />
-                  <p className="text-xs font-body text-muted-foreground">Expand your discovery radius</p>
+            <div className="rounded-3xl bg-card p-5 space-y-4">
+              {/* Header */}
+              <div className="flex items-center gap-2.5">
+                <div
+                  className="h-9 w-9 rounded-xl flex items-center justify-center"
+                  style={{ background: "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.7))" }}
+                >
+                  <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
                 </div>
-              </FilterRow>
+                <div>
+                  <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Refine Results</span>
+                  <span className="text-[10px] font-body text-muted-foreground">Narrow down your preferences</span>
+                </div>
+              </div>
 
-              <FilterRow
-                icon={<Ruler className="h-4.5 w-4.5" />}
-                iconBg="bg-slate-100"
-                iconColor="text-slate-500"
-                label="Height"
-                summary={`${heightRange[0]} – ${heightRange[1]} cm`}
-                isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
-                expanded={expandedFilter === "height"}
-                onToggle={() => toggleFilter("height")}
-              >
-                <SliderField label="Height" valueLabel={`${heightRange[0]} – ${heightRange[1]} cm`} value={heightRange} onChange={setHeightRange} min={140} max={220} step={1} />
-              </FilterRow>
+              {/* Filter rows */}
+              <div className="rounded-2xl border border-border/30 overflow-hidden divide-y divide-border/20">
+                <FilterRow
+                  icon={<Calendar className="h-4.5 w-4.5" />}
+                  iconBg="bg-amber-100"
+                  iconColor="text-amber-600"
+                  label="Age range"
+                  summary={`${ageRange[0]} – ${ageRange[1]}`}
+                  isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
+                  expanded={expandedFilter === "age"}
+                  onToggle={() => toggleFilter("age")}
+                >
+                  <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]}`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
+                </FilterRow>
 
-              <FilterRow
-                icon={<Users className="h-4.5 w-4.5" />}
-                iconBg="bg-violet-100"
-                iconColor="text-violet-600"
-                label="Gender"
-                summary={gender.length === 0 ? "Any" : gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`}
-                isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
-                expanded={expandedFilter === "gender"}
-                onToggle={() => toggleFilter("gender")}
+                <FilterRow
+                  icon={<MapPin className="h-4.5 w-4.5" />}
+                  iconBg="bg-rose-100"
+                  iconColor="text-rose-500"
+                  label="Distance"
+                  summary={`${distance[0]} km`}
+                  isModified={distance[0] !== DEFAULTS.distance[0]}
+                  expanded={expandedFilter === "distance"}
+                  onToggle={() => toggleFilter("distance")}
+                >
+                  <div className="space-y-3">
+                    <Slider
+                      value={distance}
+                      onValueChange={setDistance}
+                      min={1}
+                      max={200}
+                      step={1}
+                      className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
+                    />
+                    <p className="text-xs font-body text-muted-foreground">Expand your discovery radius</p>
+                  </div>
+                </FilterRow>
+
+                <FilterRow
+                  icon={<Ruler className="h-4.5 w-4.5" />}
+                  iconBg="bg-slate-100"
+                  iconColor="text-slate-500"
+                  label="Height"
+                  summary={`${heightRange[0]} – ${heightRange[1]} cm`}
+                  isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
+                  expanded={expandedFilter === "height"}
+                  onToggle={() => toggleFilter("height")}
+                >
+                  <SliderField label="Height" valueLabel={`${heightRange[0]} – ${heightRange[1]} cm`} value={heightRange} onChange={setHeightRange} min={140} max={220} step={1} />
+                </FilterRow>
+
+                <FilterRow
+                  icon={<Users className="h-4.5 w-4.5" />}
+                  iconBg="bg-violet-100"
+                  iconColor="text-violet-600"
+                  label="Gender"
+                  summary={gender.length === 0 ? "Any" : gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`}
+                  isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
+                  expanded={expandedFilter === "gender"}
+                  onToggle={() => toggleFilter("gender")}
+                >
+                  <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+                </FilterRow>
+              </div>
+
+              {/* Apply Filters CTA */}
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={() => {
+                  onApply?.(searchTags);
+                  setOpen(false);
+                }}
+                className="w-full rounded-xl py-3 font-body text-[13px] font-semibold text-primary-foreground transition-opacity"
+                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
               >
-                <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
-              </FilterRow>
+                <span className="flex items-center justify-center gap-2">
+                  <Search className="h-3.5 w-3.5" />
+                  Apply Filters
+                  {activeCount > 0 && (
+                    <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
+                      {activeCount}
+                    </span>
+                  )}
+                </span>
+              </motion.button>
             </div>
-
-            {/* Apply Filters CTA inside Basic Filters */}
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              onClick={() => {
-                onApply?.(searchTags);
-                setOpen(false);
-              }}
-              className="w-full mt-4 rounded-full py-3 font-body text-sm font-semibold text-primary-foreground"
-              style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))", boxShadow: "0 4px 16px -4px hsl(var(--primary) / 0.4)" }}
-            >
-              <span className="flex items-center justify-center gap-2">
-                <Search className="h-3.5 w-3.5" />
-                Apply Filters
-                {activeCount > 0 && (
-                  <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
-                    {activeCount}
-                  </span>
-                )}
-              </span>
-            </motion.button>
           </div>
         </div>
       </SheetContent>
