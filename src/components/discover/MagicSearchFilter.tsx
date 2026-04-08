@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
+  SlidersHorizontal,
   Search,
   X,
   Calendar,
