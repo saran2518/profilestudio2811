@@ -355,7 +355,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-amber-100"
                   iconColor="text-amber-600"
                   label="Age range"
-                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]}` : ""}
+                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]}` : "Any"}
                   isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
                   expanded={expandedFilter === "age"}
                   onToggle={() => toggleFilter("age")}
