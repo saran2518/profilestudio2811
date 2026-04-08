@@ -404,7 +404,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-violet-100"
                   iconColor="text-violet-600"
                   label="Gender"
-                  summary={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender) ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : ""}
+                  summary={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender) ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : "Any"}
                   isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
                   expanded={expandedFilter === "gender"}
                   onToggle={() => toggleFilter("gender")}
