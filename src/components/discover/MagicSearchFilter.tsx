@@ -292,20 +292,21 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-4 border-t border-border/30 bg-background">
+        <div className="px-5 py-4 border-t border-border/30 bg-card/50 backdrop-blur-sm">
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={() => {
               onApply?.(searchTags);
               setOpen(false);
             }}
-            className="w-full rounded-full py-3.5 font-body text-sm font-semibold border border-border/60 bg-card text-foreground hover:bg-muted/40 transition-all"
+            className="w-full rounded-full py-3.5 font-body text-sm font-semibold text-primary-foreground"
+            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
           >
             <span className="flex items-center justify-center gap-2">
               Apply filters
               {activeCount > 0 && (
-                <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-muted text-[11px] font-bold text-muted-foreground">
-                  {activeCount} active
+                <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
+                  {activeCount}
                 </span>
               )}
             </span>
