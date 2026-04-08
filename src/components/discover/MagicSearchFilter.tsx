@@ -391,7 +391,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-slate-100"
                   iconColor="text-slate-500"
                   label="Height"
-                  summary={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] ? `${heightRange[0]} – ${heightRange[1]} cm` : ""}
+                  summary={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] ? `${heightRange[0]} – ${heightRange[1]} cm` : "Any"}
                   isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
                   expanded={expandedFilter === "height"}
                   onToggle={() => toggleFilter("height")}
