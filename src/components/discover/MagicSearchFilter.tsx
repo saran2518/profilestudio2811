@@ -60,6 +60,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [gender, setGender] = useState<string[]>(["Women"]);
   const [languages, setLanguages] = useState<string[]>([]);
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
+  const [expandedSuggestion, setExpandedSuggestion] = useState<string | null>(null);
 
   const toggleFilter = useCallback((key: string) => {
     setExpandedFilter((prev) => (prev === key ? null : key));
