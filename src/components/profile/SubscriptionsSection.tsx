@@ -23,15 +23,29 @@ const SubscriptionsSection = () => {
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Plans</h3>
 
         {/* Free Plan - Compact */}
-        <div className="rounded-2xl border border-border/30 bg-card px-4 py-3 flex items-center gap-3" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="h-9 w-9 rounded-xl bg-muted/70 flex items-center justify-center shrink-0">
-            <Star className="h-4 w-4 text-muted-foreground" />
+        <div className="rounded-2xl border border-border/30 bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div className="flex items-center gap-3 mb-2.5">
+            <div className="h-9 w-9 rounded-xl bg-muted/70 flex items-center justify-center shrink-0">
+              <Star className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-semibold text-foreground">Free</h3>
+              <p className="text-[11px] text-muted-foreground">$0/month</p>
+            </div>
+            <span className="text-[11px] font-medium text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full">Current</span>
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-foreground">Free</h3>
-            <p className="text-[11px] text-muted-foreground">15 discovers/day · 5 vibes/day · 1 invite/week</p>
+          <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
+            <PlanFeature included label="15 discovers/day" />
+            <PlanFeature included label="5 vibes/day" />
+            <PlanFeature included label="1 invite/week" />
+            <PlanFeature included label="1 magic search/wk" />
+            <PlanFeature included={false} label="Extended filters" />
+            <PlanFeature included={false} label="See who vibed you" />
+            <PlanFeature included={false} label="See who invited you" />
+            <PlanFeature included={false} label="Moments interact" />
+            <PlanFeature included={false} label="Profile unlock" />
+            <PlanFeature included={false} label="Enhanced visibility" />
           </div>
-          <span className="text-[11px] font-medium text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full">Current</span>
         </div>
 
         {/* Elyxer Plus */}
