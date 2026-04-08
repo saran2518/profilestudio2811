@@ -61,8 +61,9 @@ const plans: PlanData[] = [
   {
     icon: <Gem className="h-5 w-5" />,
     title: "Elyxer Infinity",
-    price: "$19.99",
-    period: "/mo",
+    price: "₹299",
+    period: "/wk",
+    altPrice: "₹999/mo",
     badge: "BEST VALUE",
     ctaLabel: "Go Infinity",
     ctaClass: "bg-accent text-accent-foreground hover:bg-accent/90",
