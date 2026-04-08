@@ -9,8 +9,8 @@ const plans: PlanData[] = [
   {
     icon: <Star className="h-5 w-5" />,
     title: "Free",
-    price: "$0",
-    period: "/mo",
+    price: "₹0",
+    period: "",
     ctaLabel: "Current Plan",
     ctaDisabled: true,
     iconBg: "bg-muted/70",
