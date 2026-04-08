@@ -9,8 +9,8 @@ const plans: PlanData[] = [
   {
     icon: <Star className="h-5 w-5" />,
     title: "Free",
-    price: "$0",
-    period: "/mo",
+    price: "₹0",
+    period: "",
     ctaLabel: "Current Plan",
     ctaDisabled: true,
     iconBg: "bg-muted/70",
@@ -33,8 +33,9 @@ const plans: PlanData[] = [
   {
     icon: <Crown className="h-5 w-5" />,
     title: "Elyxer Plus",
-    price: "$9.99",
-    period: "/mo",
+    price: "₹199",
+    period: "/wk",
+    altPrice: "₹699/mo",
     badge: "POPULAR",
     ctaLabel: "Upgrade",
     ctaStyle: { background: "var(--gradient-warm)" },
@@ -60,8 +61,9 @@ const plans: PlanData[] = [
   {
     icon: <Gem className="h-5 w-5" />,
     title: "Elyxer Infinity",
-    price: "$19.99",
-    period: "/mo",
+    price: "₹299",
+    period: "/wk",
+    altPrice: "₹999/mo",
     badge: "BEST VALUE",
     ctaLabel: "Go Infinity",
     ctaClass: "bg-accent text-accent-foreground hover:bg-accent/90",
@@ -98,6 +100,7 @@ interface PlanData {
   icon: React.ReactNode;
   title: string;
   price: string;
+  altPrice?: string;
   period: string;
   badge?: string;
   ctaLabel: string;
@@ -120,9 +123,9 @@ const SubscriptionsSection = () => {
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
         <div className="grid grid-cols-3 gap-2">
-          <PurchaseItem icon={<Zap className="h-5 w-5" />} label="Vibes" price="$1.99" color="primary" />
-          <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" price="$2.99" color="accent" />
-          <PurchaseItem icon={<Search className="h-5 w-5" />} label="Magic Search" price="$0.99" color="secondary" />
+          <PurchaseItem icon={<Zap className="h-5 w-5" />} label="Vibes" price="₹49" color="primary" />
+          <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" price="₹79" color="accent" />
+          <PurchaseItem icon={<Search className="h-5 w-5" />} label="Magic Search" price="₹29" color="secondary" />
         </div>
       </div>
 
@@ -174,6 +177,9 @@ function PlanCard({ plan }: { plan: PlanData }) {
             <span className="text-2xl font-bold text-foreground">{plan.price}</span>
             <span className="text-xs text-muted-foreground">{plan.period}</span>
           </div>
+          {plan.altPrice && (
+            <span className="text-[11px] text-muted-foreground mt-0.5">or {plan.altPrice}</span>
+          )}
         </div>
 
         {/* CTA */}
