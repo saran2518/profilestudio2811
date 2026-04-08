@@ -328,20 +328,24 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                     <span className="text-[10px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
                   </div>
                 </div>
-                {basicFiltersEnabled && (ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] || distance[0] !== DEFAULTS.distance[0] || heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] || JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)) && (
-                  <button
-                    onClick={() => {
-                      setAgeRange([...DEFAULTS.ageRange]);
-                      setDistance([...DEFAULTS.distance]);
-                      setHeightRange([...DEFAULTS.heightRange]);
-                      setGender([...DEFAULTS.gender]);
-                      setExpandedFilter(null);
-                    }}
-                    className="text-[11px] font-body font-semibold text-primary hover:text-primary/80 transition-colors"
-                  >
-                    Clear
-                  </button>
-                )}
+                {(() => {
+                  const hasChanges = ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] || distance[0] !== DEFAULTS.distance[0] || heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] || JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender);
+                  return (
+                    <button
+                      disabled={!hasChanges}
+                      onClick={() => {
+                        setAgeRange([...DEFAULTS.ageRange]);
+                        setDistance([...DEFAULTS.distance]);
+                        setHeightRange([...DEFAULTS.heightRange]);
+                        setGender([...DEFAULTS.gender]);
+                        setExpandedFilter(null);
+                      }}
+                      className={`text-[11px] font-body font-semibold transition-colors ${hasChanges ? 'text-primary hover:text-primary/80 cursor-pointer' : 'text-muted-foreground/40 cursor-not-allowed'}`}
+                    >
+                      Clear
+                    </button>
+                  );
+                })()}
               </div>
 
               {/* Filter rows */}
@@ -351,7 +355,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-amber-100"
                   iconColor="text-amber-600"
                   label="Age range"
-                  summary={`${ageRange[0]} – ${ageRange[1]}`}
+                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]}` : ""}
                   isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
                   expanded={expandedFilter === "age"}
                   onToggle={() => toggleFilter("age")}
@@ -364,7 +368,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-rose-100"
                   iconColor="text-rose-500"
                   label="Distance"
-                  summary={`${distance[0]} km`}
+                  summary={distance[0] !== DEFAULTS.distance[0] ? `${distance[0]} km` : ""}
                   isModified={distance[0] !== DEFAULTS.distance[0]}
                   expanded={expandedFilter === "distance"}
                   onToggle={() => toggleFilter("distance")}
@@ -387,7 +391,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-slate-100"
                   iconColor="text-slate-500"
                   label="Height"
-                  summary={`${heightRange[0]} – ${heightRange[1]} cm`}
+                  summary={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] ? `${heightRange[0]} – ${heightRange[1]} cm` : ""}
                   isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
                   expanded={expandedFilter === "height"}
                   onToggle={() => toggleFilter("height")}
@@ -400,7 +404,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-violet-100"
                   iconColor="text-violet-600"
                   label="Gender"
-                  summary={gender.length === 0 ? "Any" : gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`}
+                  summary={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender) ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : ""}
                   isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
                   expanded={expandedFilter === "gender"}
                   onToggle={() => toggleFilter("gender")}
