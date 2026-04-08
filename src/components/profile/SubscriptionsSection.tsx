@@ -1,12 +1,13 @@
-import { motion } from "framer-motion";
-import { Crown, Star, CreditCard, Check, X, Gem, Zap, Send, Search } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Crown, Star, CreditCard, Check, X, Gem, Zap, Send, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 const SubscriptionsSection = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-      {/* Single Purchase Items */}
+      {/* Buy Extras */}
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
         <div className="grid grid-cols-3 gap-2">
@@ -19,116 +20,194 @@ const SubscriptionsSection = () => {
       <Separator className="bg-border/30" />
 
       {/* Plans */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Plans</h3>
 
-        {/* Free Plan - Compact */}
-        <div className="rounded-2xl border border-border/30 bg-card p-4" style={{ boxShadow: "var(--shadow-card)" }}>
-          <div className="flex items-center gap-3 mb-2.5">
-            <div className="h-9 w-9 rounded-xl bg-muted/70 flex items-center justify-center shrink-0">
-              <Star className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-foreground">Free</h3>
-              <p className="text-[11px] text-muted-foreground">$0/month</p>
-            </div>
-            <span className="text-[11px] font-medium text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full">Current</span>
-          </div>
-          <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
-            <PlanFeature included label="15 discovers/day" />
-            <PlanFeature included label="5 vibes/day" />
-            <PlanFeature included label="1 invite/week" />
-            <PlanFeature included label="1 magic search/wk" />
-            <PlanFeature included={false} label="Extended filters" />
-            <PlanFeature included={false} label="See who vibed you" />
-            <PlanFeature included={false} label="See who invited you" />
-            <PlanFeature included={false} label="Moments interact" />
-            <PlanFeature included={false} label="Profile unlock" />
-            <PlanFeature included={false} label="Enhanced visibility" />
-          </div>
-        </div>
+        {/* Free */}
+        <PlanCard
+          icon={<Star className="h-4.5 w-4.5" />}
+          title="Free"
+          price="$0"
+          period="/month"
+          ctaLabel="Current Plan"
+          ctaDisabled
+          iconBg="bg-muted/70"
+          iconColor="text-muted-foreground"
+          features={[
+            { included: true, label: "15 discovers/day" },
+            { included: true, label: "5 vibes/day" },
+            { included: true, label: "1 invite/week" },
+            { included: true, label: "1 magic search/wk" },
+            { included: false, label: "Extended filters" },
+            { included: false, label: "See who vibed you" },
+            { included: false, label: "See who invited you" },
+            { included: false, label: "Moments interact" },
+            { included: false, label: "Profile unlock" },
+            { included: false, label: "Enhanced visibility" },
+          ]}
+        />
 
         {/* Elyxer Plus */}
-        <div
-          className="rounded-2xl border-2 border-primary/30 bg-card p-4 relative overflow-hidden"
-          style={{ boxShadow: "var(--shadow-warm)" }}
-        >
-          <div className="absolute top-0 right-0 text-[9px] font-bold px-2.5 py-1 rounded-bl-xl" style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}>
-            POPULAR
-          </div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,hsl(var(--primary)/0.05),transparent_50%)]" />
-          <div className="relative">
-            <div className="flex items-center gap-3 mb-2.5">
-              <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                <Crown className="h-4 w-4 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-foreground">Elyxer Plus</h3>
-                <p className="text-[11px] text-muted-foreground">$9.99/month</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mb-3">
-              <PlanFeature included label="Unlimited discover" />
-              <PlanFeature included label="15 vibes/day" />
-              <PlanFeature included label="5 invites/week" />
-              <PlanFeature included label="5 magic search/wk" />
-              <PlanFeature included label="Extended filters" />
-              <PlanFeature included label="See who vibed you" />
-              <PlanFeature included label="See who invited you" />
-              <PlanFeature included label="Moments interact" />
-              <PlanFeature included label="2 posts/week" />
-              <PlanFeature included label="Enhanced visibility" />
-            </div>
-            <Button className="w-full rounded-2xl gap-2 h-10 text-[13px] font-medium" style={{ background: "var(--gradient-warm)" }}>
-              <CreditCard className="h-3.5 w-3.5" />
-              Upgrade to Plus
-            </Button>
-          </div>
-        </div>
+        <PlanCard
+          icon={<Crown className="h-4.5 w-4.5" />}
+          title="Elyxer Plus"
+          price="$9.99"
+          period="/month"
+          badge="POPULAR"
+          ctaLabel="Upgrade to Plus"
+          ctaStyle={{ background: "var(--gradient-warm)" }}
+          borderClass="border-primary/30"
+          iconBg="bg-primary/10"
+          iconColor="text-primary"
+          shadowStyle={{ boxShadow: "var(--shadow-warm)" }}
+          features={[
+            { included: true, label: "Unlimited discover" },
+            { included: true, label: "15 vibes/day" },
+            { included: true, label: "5 invites/week" },
+            { included: true, label: "5 magic search/wk" },
+            { included: true, label: "Extended filters" },
+            { included: true, label: "See who vibed you" },
+            { included: true, label: "See who invited you" },
+            { included: true, label: "Moments interact" },
+            { included: true, label: "2 posts/week" },
+            { included: true, label: "Enhanced visibility" },
+          ]}
+        />
 
         {/* Elyxer Infinity */}
-        <div
-          className="rounded-2xl border-2 border-accent/40 bg-card p-4 relative overflow-hidden"
-          style={{ boxShadow: "0 4px 24px -4px hsl(var(--accent) / 0.15)" }}
-        >
-          <div className="absolute top-0 right-0 text-[9px] font-bold px-2.5 py-1 rounded-bl-xl bg-accent text-accent-foreground">
-            BEST VALUE
-          </div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,hsl(var(--accent)/0.06),transparent_50%)]" />
-          <div className="relative">
-            <div className="flex items-center gap-3 mb-2.5">
-              <div className="h-9 w-9 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
-                <Gem className="h-4 w-4 text-accent-foreground" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-foreground">Elyxer Infinity</h3>
-                <p className="text-[11px] text-muted-foreground">$19.99/month</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mb-3">
-              <PlanFeature included label="Priority discover" />
-              <PlanFeature included label="30 vibes/day" />
-              <PlanFeature included label="10 invites/week" />
-              <PlanFeature included label="Unlimited search" />
-              <PlanFeature included label="Advanced filters" />
-              <PlanFeature included label="See who vibed you" />
-              <PlanFeature included label="See who invited you" />
-              <PlanFeature included label="Full moments access" />
-              <PlanFeature included label="4 posts/week" />
-              <PlanFeature included label="Profile unlock" />
-              <PlanFeature included label="Profile control" />
-              <PlanFeature included label="Priority visibility" />
-            </div>
-            <Button className="w-full rounded-2xl gap-2 h-10 text-[13px] font-medium bg-accent text-accent-foreground hover:bg-accent/90">
-              <Gem className="h-3.5 w-3.5" />
-              Go Infinity
-            </Button>
-          </div>
-        </div>
+        <PlanCard
+          icon={<Gem className="h-4.5 w-4.5" />}
+          title="Elyxer Infinity"
+          price="$19.99"
+          period="/month"
+          badge="BEST VALUE"
+          ctaLabel="Go Infinity"
+          ctaClass="bg-accent text-accent-foreground hover:bg-accent/90"
+          borderClass="border-accent/40"
+          iconBg="bg-accent/10"
+          iconColor="text-accent-foreground"
+          shadowStyle={{ boxShadow: "0 4px 24px -4px hsl(var(--accent) / 0.15)" }}
+          badgeClass="bg-accent text-accent-foreground"
+          features={[
+            { included: true, label: "Priority discover" },
+            { included: true, label: "30 vibes/day" },
+            { included: true, label: "10 invites/week" },
+            { included: true, label: "Unlimited search" },
+            { included: true, label: "Advanced filters" },
+            { included: true, label: "See who vibed you" },
+            { included: true, label: "See who invited you" },
+            { included: true, label: "Full moments access" },
+            { included: true, label: "4 posts/week" },
+            { included: true, label: "Profile unlock" },
+            { included: true, label: "Profile control" },
+            { included: true, label: "Priority visibility" },
+          ]}
+        />
       </div>
     </motion.div>
   );
 };
+
+interface PlanCardProps {
+  icon: React.ReactNode;
+  title: string;
+  price: string;
+  period: string;
+  badge?: string;
+  ctaLabel: string;
+  ctaDisabled?: boolean;
+  ctaStyle?: React.CSSProperties;
+  ctaClass?: string;
+  borderClass?: string;
+  iconBg: string;
+  iconColor: string;
+  shadowStyle?: React.CSSProperties;
+  badgeClass?: string;
+  features: { included: boolean; label: string }[];
+}
+
+function PlanCard({
+  icon, title, price, period, badge, ctaLabel, ctaDisabled, ctaStyle, ctaClass,
+  borderClass, iconBg, iconColor, shadowStyle, badgeClass, features,
+}: PlanCardProps) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div
+      className={`rounded-2xl border-2 ${borderClass || "border-border/30"} bg-card overflow-hidden transition-all`}
+      style={shadowStyle || { boxShadow: "var(--shadow-card)" }}
+    >
+      {/* Header: always visible */}
+      <div className="p-4 pb-3">
+        {badge && (
+          <div className="flex justify-end -mt-1 -mr-1 mb-1">
+            <span className={`text-[9px] font-bold px-2.5 py-0.5 rounded-full ${badgeClass || ""}`}
+              style={!badgeClass ? { background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" } : undefined}
+            >{badge}</span>
+          </div>
+        )}
+        <div className="flex items-center gap-3">
+          <div className={`h-10 w-10 rounded-xl ${iconBg} flex items-center justify-center shrink-0`}>
+            <span className={iconColor}>{icon}</span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base font-bold text-foreground leading-tight">{title}</h3>
+          </div>
+          <div className="text-right shrink-0">
+            <span className="text-xl font-bold text-foreground">{price}</span>
+            <span className="text-xs text-muted-foreground">{period}</span>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-3">
+          {ctaDisabled ? (
+            <div className="w-full rounded-2xl h-9 flex items-center justify-center text-[13px] font-medium text-muted-foreground bg-muted/50 border border-border/30">
+              {ctaLabel}
+            </div>
+          ) : (
+            <Button
+              className={`w-full rounded-2xl gap-2 h-9 text-[13px] font-medium ${ctaClass || ""}`}
+              style={ctaStyle}
+            >
+              <CreditCard className="h-3.5 w-3.5" />
+              {ctaLabel}
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Expandable features */}
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center justify-center gap-1.5 py-2 text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors border-t border-border/20 bg-muted/20"
+      >
+        {expanded ? "Hide" : "View"} features
+        <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+          <ChevronDown className="h-3.5 w-3.5" />
+        </motion.span>
+      </button>
+
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 px-4 pb-4 pt-2">
+              {features.map((f, i) => (
+                <PlanFeature key={i} included={f.included} label={f.label} />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function PurchaseItem({ icon, label, price, color }: { icon: React.ReactNode; label: string; price: string; color: string }) {
   const bgClass = color === "primary" ? "bg-primary/10" : color === "accent" ? "bg-accent/10" : "bg-muted/60";
