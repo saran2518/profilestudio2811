@@ -29,7 +29,7 @@ const SubscriptionsSection = () => {
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-semibold text-foreground">Free</h3>
-            <p className="text-[11px] text-muted-foreground">5 vibes/day · Basic profile</p>
+            <p className="text-[11px] text-muted-foreground">15 discovers/day · 5 vibes/day · 1 invite/week</p>
           </div>
           <span className="text-[11px] font-medium text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full">Current</span>
         </div>
@@ -54,10 +54,16 @@ const SubscriptionsSection = () => {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mb-3">
-              <PlanFeature included label="Unlimited vibes" />
-              <PlanFeature included label="Who viewed you" />
-              <PlanFeature included label="Priority discover" />
-              <PlanFeature included label="Advanced filters" />
+              <PlanFeature included label="Unlimited discover" />
+              <PlanFeature included label="15 vibes/day" />
+              <PlanFeature included label="5 invites/week" />
+              <PlanFeature included label="5 magic search/wk" />
+              <PlanFeature included label="Extended filters" />
+              <PlanFeature included label="See who vibed you" />
+              <PlanFeature included label="See who invited you" />
+              <PlanFeature included label="Moments interact" />
+              <PlanFeature included label="2 posts/week" />
+              <PlanFeature included label="Enhanced visibility" />
             </div>
             <Button className="w-full rounded-2xl gap-2 h-10 text-[13px] font-medium" style={{ background: "var(--gradient-warm)" }}>
               <CreditCard className="h-3.5 w-3.5" />
@@ -66,7 +72,7 @@ const SubscriptionsSection = () => {
           </div>
         </div>
 
-        {/* Elyxer Premium */}
+        {/* Elyxer Infinity */}
         <div
           className="rounded-2xl border-2 border-accent/40 bg-card p-4 relative overflow-hidden"
           style={{ boxShadow: "0 4px 24px -4px hsl(var(--accent) / 0.15)" }}
@@ -81,20 +87,27 @@ const SubscriptionsSection = () => {
                 <Gem className="h-4 w-4 text-accent-foreground" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-foreground">Elyxer Premium</h3>
+                <h3 className="text-sm font-semibold text-foreground">Elyxer Infinity</h3>
                 <p className="text-[11px] text-muted-foreground">$19.99/month</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mb-3">
-              <PlanFeature included label="Everything in Plus" />
-              <PlanFeature included label="Exclusive badges" />
-              <PlanFeature included label="Weekly boost" />
-              <PlanFeature included label="Read receipts" />
-              <PlanFeature included label="Incognito mode" />
+              <PlanFeature included label="Priority discover" />
+              <PlanFeature included label="30 vibes/day" />
+              <PlanFeature included label="10 invites/week" />
+              <PlanFeature included label="Unlimited search" />
+              <PlanFeature included label="Advanced filters" />
+              <PlanFeature included label="See who vibed you" />
+              <PlanFeature included label="See who invited you" />
+              <PlanFeature included label="Full moments access" />
+              <PlanFeature included label="4 posts/week" />
+              <PlanFeature included label="Profile unlock" />
+              <PlanFeature included label="Profile control" />
+              <PlanFeature included label="Priority visibility" />
             </div>
             <Button className="w-full rounded-2xl gap-2 h-10 text-[13px] font-medium bg-accent text-accent-foreground hover:bg-accent/90">
               <Gem className="h-3.5 w-3.5" />
-              Go Premium
+              Go Infinity
             </Button>
           </div>
         </div>
