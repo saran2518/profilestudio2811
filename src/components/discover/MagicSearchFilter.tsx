@@ -301,7 +301,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               <div className="flex items-center justify-between pt-2 border-t border-border/20">
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="text-[12px] font-body font-medium text-muted-foreground">Include Basic Filters</span>
+                  <span className="text-[12px] font-body font-medium text-muted-foreground">Include Standard Filters</span>
                 </div>
                 <Switch
                   checked={basicFiltersEnabled}
