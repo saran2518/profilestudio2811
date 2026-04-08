@@ -364,29 +364,28 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
               </FilterRow>
             </div>
-          </div>
-        </div>
 
-        {/* Footer */}
-        <div className="px-5 py-4 border-t border-border/30 bg-card/50 backdrop-blur-sm">
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            onClick={() => {
-              onApply?.(searchTags);
-              setOpen(false);
-            }}
-            className="w-full rounded-full py-3.5 font-body text-sm font-semibold text-primary-foreground"
-            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-          >
-            <span className="flex items-center justify-center gap-2">
-              Apply filters
-              {activeCount > 0 && (
-                <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
-                  {activeCount}
-                </span>
-              )}
-            </span>
-          </motion.button>
+            {/* Apply Filters CTA inside Basic Filters */}
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={() => {
+                onApply?.(searchTags);
+                setOpen(false);
+              }}
+              className="w-full mt-4 rounded-full py-3 font-body text-sm font-semibold text-primary-foreground"
+              style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))", boxShadow: "0 4px 16px -4px hsl(var(--primary) / 0.4)" }}
+            >
+              <span className="flex items-center justify-center gap-2">
+                <Search className="h-3.5 w-3.5" />
+                Apply Filters
+                {activeCount > 0 && (
+                  <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
+                    {activeCount}
+                  </span>
+                )}
+              </span>
+            </motion.button>
+          </div>
         </div>
       </SheetContent>
     </Sheet>
