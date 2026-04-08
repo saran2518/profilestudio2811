@@ -28,10 +28,10 @@ const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Trav
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
-const SUGGESTION_CATEGORIES: { label: string; color: string; keywords: string[] }[] = [
-  { label: "Interests", color: "bg-amber-100 text-amber-700", keywords: ["Photography", "Hiking", "Cooking", "Music", "Fitness", "Reading", "Travel", "Art"] },
-  { label: "Lifestyle", color: "bg-rose-100 text-rose-600", keywords: ["Night Owl", "Morning Person", "Startup Founder", "Foodie", "Minimalist", "Adventure Seeker"] },
-  { label: "Values", color: "bg-violet-100 text-violet-600", keywords: ["Empathy", "Authenticity", "Growth Mindset", "Kindness", "Ambition", "Spirituality"] },
+const SUGGESTION_CATEGORIES: { label: string; icon: string; keywords: string[] }[] = [
+  { label: "Interests", icon: "🎨", keywords: ["Photography", "Hiking", "Cooking", "Music", "Fitness", "Reading", "Travel", "Art"] },
+  { label: "Lifestyle", icon: "✨", keywords: ["Night Owl", "Morning Person", "Startup Founder", "Foodie", "Minimalist", "Adventure Seeker"] },
+  { label: "Values", icon: "💎", keywords: ["Empathy", "Authenticity", "Growth Mindset", "Kindness", "Ambition", "Spirituality"] },
 ];
 
 const DEFAULTS = {
@@ -131,17 +131,14 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto px-5 pb-4 pt-4 space-y-5">
 
-          {/* Magic Search - Gradient Card */}
-          <div
-            className="rounded-2xl p-4 space-y-3"
-            style={{
-              background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.08))",
-            }}
-          >
+          {/* Magic Search Card */}
+          <div className="rounded-2xl p-4 pb-5 space-y-3 border border-primary/10 bg-card">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <span className="font-display text-sm font-bold text-primary">Magic Search</span>
-              <span className="px-2 py-0.5 rounded-full bg-primary/20 text-[10px] font-bold font-body text-primary uppercase tracking-wider">
+              <div className="h-7 w-7 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(var(--primary) / 0.08))" }}>
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+              </div>
+              <span className="font-display text-sm font-bold text-foreground">Magic Search</span>
+              <span className="px-2 py-0.5 rounded-full bg-primary/15 text-[9px] font-bold font-body text-primary uppercase tracking-wider">
                 Pro
               </span>
             </div>
@@ -187,13 +184,15 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </div>
             )}
 
-            {/* Suggestion Categories */}
-            <div className="space-y-2.5 pt-1">
+            {/* Suggestions - flowing inspiration */}
+            <div className="pt-2 space-y-3">
+              <p className="text-[11px] font-body font-medium text-muted-foreground/70 uppercase tracking-wider">Try searching for…</p>
               {SUGGESTION_CATEGORIES.map((cat) => (
-                <div key={cat.label} className="space-y-1.5">
-                  <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-bold font-body uppercase tracking-wider ${cat.color}`}>
-                    {cat.label}
-                  </span>
+                <div key={cat.label} className="space-y-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">{cat.icon}</span>
+                    <span className="text-[12px] font-body font-semibold text-foreground/70">{cat.label}</span>
+                  </div>
                   <div className="flex flex-wrap gap-1.5">
                     {cat.keywords.map((kw) => {
                       const isActive = searchTags.includes(kw);
@@ -202,19 +201,16 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                           key={kw}
                           whileTap={{ scale: 0.92 }}
                           onClick={() => {
-                            if (isActive) {
-                              removeTag(kw);
-                            } else {
-                              setSearchTags((prev) => [...prev, kw]);
-                            }
+                            if (isActive) removeTag(kw);
+                            else setSearchTags((prev) => [...prev, kw]);
                           }}
-                          className={`px-2.5 py-1 rounded-full text-[11px] font-body font-medium border transition-all ${
+                          className={`px-3 py-1.5 rounded-full text-[12px] font-body font-medium transition-all duration-200 ${
                             isActive
-                              ? "bg-primary/15 border-primary/30 text-primary"
-                              : "bg-card border-border/40 text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                              ? "bg-primary text-primary-foreground shadow-sm"
+                              : "bg-transparent text-muted-foreground hover:text-foreground"
                           }`}
                         >
-                          {kw}
+                          {isActive ? `✓ ${kw}` : kw}
                         </motion.button>
                       );
                     })}
@@ -296,20 +292,21 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-4 border-t border-border/30 bg-background">
+        <div className="px-5 py-4 border-t border-border/30 bg-card/50 backdrop-blur-sm">
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={() => {
               onApply?.(searchTags);
               setOpen(false);
             }}
-            className="w-full rounded-full py-3.5 font-body text-sm font-semibold border border-border/60 bg-card text-foreground hover:bg-muted/40 transition-all"
+            className="w-full rounded-full py-3.5 font-body text-sm font-semibold text-primary-foreground"
+            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
           >
             <span className="flex items-center justify-center gap-2">
               Apply filters
               {activeCount > 0 && (
-                <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-muted text-[11px] font-bold text-muted-foreground">
-                  {activeCount} active
+                <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
+                  {activeCount}
                 </span>
               )}
             </span>
