@@ -276,6 +276,23 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   })}
                 </div>
               </div>
+
+              {/* Magic Search CTA */}
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={() => {
+                  onApply?.(searchTags);
+                  setOpen(false);
+                }}
+                disabled={searchTags.length === 0}
+                className="w-full rounded-xl py-3 font-body text-[13px] font-semibold text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
+                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Search{searchTags.length > 0 ? ` (${searchTags.length})` : ""}
+                </span>
+              </motion.button>
             </div>
           </div>
 
