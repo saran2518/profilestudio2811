@@ -496,25 +496,32 @@ function FilterRow({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="transition-colors">
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted/20 transition-colors"
+        className={`w-full flex items-center gap-3 px-4 py-3.5 transition-all duration-200 ${expanded ? "bg-muted/20" : "hover:bg-muted/10"}`}
       >
-        <div className={`h-8 w-8 rounded-lg ${iconBg} flex items-center justify-center shrink-0`}>
+        <div className={`h-8 w-8 rounded-xl ${iconBg} flex items-center justify-center shrink-0 transition-transform duration-200 ${expanded ? "scale-110" : ""}`}>
           <div className={iconColor}>{icon}</div>
         </div>
-        <span className="font-body font-medium text-foreground text-[14px] flex-1 text-left">{label}</span>
-        <span className="font-body text-xs font-medium text-muted-foreground max-w-[100px] truncate text-right">
+        <span className="font-body font-medium text-foreground text-[13px] flex-1 text-left">{label}</span>
+        <span className="font-body text-[11px] font-medium text-muted-foreground/70 max-w-[100px] truncate text-right">
           {summary}
         </span>
         {isModified && (
-          <div className="h-2 w-2 rounded-full bg-primary shrink-0" />
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="h-2 w-2 rounded-full shrink-0"
+            style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
+          />
         )}
         {locked ? (
           <Lock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
         ) : (
-          <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground shrink-0 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
+          <motion.div animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+            <ChevronDown className="h-3.5 w-3.5 text-muted-foreground/40 shrink-0" />
+          </motion.div>
         )}
       </button>
       <AnimatePresence>
@@ -523,10 +530,10 @@ function FilterRow({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className="px-4 pb-4 pt-1">{children}</div>
+            <div className="px-4 pb-4 pt-2">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>
