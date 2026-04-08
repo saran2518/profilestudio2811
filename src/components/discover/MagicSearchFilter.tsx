@@ -14,6 +14,8 @@ import {
   Sparkles,
   Check,
   ChevronDown,
+  Lock,
+  ArrowUpRight,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -42,11 +44,6 @@ interface MagicSearchFilterProps {
   onApply?: (tags: string[]) => void;
 }
 
-const staggerItem = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0 },
-};
-
 const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,7 +61,6 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
     setExpandedFilter((prev) => (prev === key ? null : key));
   }, []);
 
-  // Count active filters (non-default)
   const activeCount = useMemo(() => {
     let count = searchTags.length;
     if (ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]) count++;
@@ -112,19 +108,16 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
           <div className="flex items-center justify-between">
             <button
               onClick={() => setOpen(false)}
-              className="p-1 rounded-full hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
+              className="p-1.5 rounded-full hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
             >
               <ChevronRight className="h-5 w-5 rotate-180" />
             </button>
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <h2 className="font-display text-lg font-semibold text-foreground">
-                Magic Search
-              </h2>
-            </div>
+            <h2 className="font-display text-lg font-semibold text-foreground">
+              Discover filters
+            </h2>
             <button
               onClick={handleReset}
-              className="text-xs font-body font-medium text-destructive hover:underline transition-colors active:scale-95"
+              className="px-3 py-1.5 rounded-full border border-border/60 text-xs font-body font-semibold text-foreground hover:bg-muted/40 transition-all active:scale-95"
             >
               Reset
             </button>
@@ -132,22 +125,28 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         </div>
 
         {/* Scrollable body */}
-        <motion.div
-          className="flex-1 overflow-y-auto px-5 pb-4 pt-4 space-y-5"
-          initial="hidden"
-          animate="show"
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.06 } },
-          }}
-        >
-          {/* Search input */}
-          <motion.div variants={staggerItem} className="space-y-2">
-            <div className="rounded-2xl border border-border/60 bg-card px-4 py-3 flex items-center gap-3 focus-within:border-primary/40 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
+        <div className="flex-1 overflow-y-auto px-5 pb-4 pt-4 space-y-5">
+
+          {/* Magic Search - Gradient Card */}
+          <div
+            className="rounded-2xl p-4 space-y-3"
+            style={{
+              background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.08))",
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="font-display text-sm font-bold text-primary">Magic Search</span>
+              <span className="px-2 py-0.5 rounded-full bg-primary/20 text-[10px] font-bold font-body text-primary uppercase tracking-wider">
+                Pro
+              </span>
+            </div>
+
+            <div className="rounded-xl border border-primary/20 bg-card px-3 py-2.5 flex items-center gap-2 focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
               <Search className="h-4 w-4 text-muted-foreground shrink-0" />
               <input
                 type="text"
-                placeholder="e.g. loves hiking, startup founder…"
+                placeholder="loves hiking, startup founder…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleAddTag}
@@ -166,162 +165,173 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 <span className="text-primary-foreground text-sm font-bold leading-none">+</span>
               </motion.button>
             </div>
-            <p className="text-xs font-body text-muted-foreground px-1">
-              Search by mindset, interests, hobbies, or work habits
-            </p>
-          </motion.div>
 
-          {/* Quick suggestions */}
-          {searchTags.length === 0 && (
-            <motion.div variants={staggerItem} className="space-y-2.5">
-              <span className="text-[11px] font-body font-semibold tracking-widest text-muted-foreground uppercase">
-                Suggested
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {SUGGESTED_TAGS.map((tag, i) => (
-                  <motion.button
+            {/* Tags */}
+            {searchTags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {searchTags.map((tag) => (
+                  <span
                     key={tag}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.04 }}
-                    whileTap={{ scale: 0.93 }}
-                    onClick={() => setSearchTags((prev) => prev.includes(tag) ? prev : [...prev, tag])}
-                    className="rounded-full border border-border/60 px-3.5 py-1.5 text-sm font-body font-medium text-muted-foreground hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all"
+                    className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-3 py-1 text-xs font-body font-medium text-primary"
                   >
                     {tag}
-                  </motion.button>
+                    <button onClick={() => removeTag(tag)}>
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
                 ))}
               </div>
-            </motion.div>
-          )}
+            )}
 
-          {/* Tags */}
-          {searchTags.length > 0 && (
-            <motion.div variants={staggerItem} className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-body font-medium text-muted-foreground">
-                  {searchTags.length} keyword{searchTags.length !== 1 ? "s" : ""}
-                </span>
-                <button
-                  onClick={() => setSearchTags([])}
-                  className="text-xs font-body font-medium text-destructive hover:underline transition-colors"
-                >
-                  Clear all
+            <p className="text-[11px] font-body text-primary/60">
+              Search by mindset, interests & lifestyle
+            </p>
+          </div>
+
+          {/* BASIC FILTERS */}
+          <div className="space-y-2.5">
+            <span className="text-[11px] font-body font-semibold tracking-[0.15em] text-muted-foreground uppercase px-1">
+              Basic Filters
+            </span>
+            <div className="rounded-2xl border border-border/40 bg-card overflow-hidden divide-y divide-border/30">
+              <FilterRow
+                icon={<Calendar className="h-4.5 w-4.5" />}
+                iconBg="bg-amber-100"
+                iconColor="text-amber-600"
+                label="Age range"
+                summary={`${ageRange[0]} – ${ageRange[1]}`}
+                isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
+                expanded={expandedFilter === "age"}
+                onToggle={() => toggleFilter("age")}
+              >
+                <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]}`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
+              </FilterRow>
+
+              <FilterRow
+                icon={<MapPin className="h-4.5 w-4.5" />}
+                iconBg="bg-rose-100"
+                iconColor="text-rose-500"
+                label="Distance"
+                summary={`${distance[0]} km`}
+                isModified={distance[0] !== DEFAULTS.distance[0]}
+                expanded={expandedFilter === "distance"}
+                onToggle={() => toggleFilter("distance")}
+              >
+                <div className="space-y-3">
+                  <Slider
+                    value={distance}
+                    onValueChange={setDistance}
+                    min={1}
+                    max={200}
+                    step={1}
+                    className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
+                  />
+                  <p className="text-xs font-body text-muted-foreground">Expand your discovery radius</p>
+                </div>
+              </FilterRow>
+
+              <FilterRow
+                icon={<Ruler className="h-4.5 w-4.5" />}
+                iconBg="bg-slate-100"
+                iconColor="text-slate-500"
+                label="Height"
+                summary={`${heightRange[0]} – ${heightRange[1]} cm`}
+                isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
+                expanded={expandedFilter === "height"}
+                onToggle={() => toggleFilter("height")}
+              >
+                <SliderField label="Height" valueLabel={`${heightRange[0]} – ${heightRange[1]} cm`} value={heightRange} onChange={setHeightRange} min={140} max={220} step={1} />
+              </FilterRow>
+
+              <FilterRow
+                icon={<Users className="h-4.5 w-4.5" />}
+                iconBg="bg-violet-100"
+                iconColor="text-violet-600"
+                label="Gender"
+                summary={gender.length === 0 ? "Any" : gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`}
+                isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
+                expanded={expandedFilter === "gender"}
+                onToggle={() => toggleFilter("gender")}
+              >
+                <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+              </FilterRow>
+            </div>
+          </div>
+
+          {/* Match count banner */}
+          <div className="rounded-xl border border-border/40 bg-card px-4 py-3 flex items-center gap-3">
+            <div className="flex gap-1">
+              <span className="h-5 w-5 rounded-md bg-rose-400 text-[10px] font-bold text-primary-foreground flex items-center justify-center">A</span>
+              <span className="h-5 w-5 rounded-md bg-emerald-400 text-[10px] font-bold text-primary-foreground flex items-center justify-center">S</span>
+              <span className="h-5 w-5 rounded-md bg-sky-400 text-[10px] font-bold text-primary-foreground flex items-center justify-center">M</span>
+            </div>
+            <span className="font-body text-xs font-medium text-foreground flex-1">
+              Your filters match <span className="font-bold">~1,240 people</span>
+            </span>
+            <span className="text-[11px] font-body text-muted-foreground">nearby</span>
+          </div>
+
+          {/* LIFESTYLE FILTERS */}
+          <div className="space-y-2.5">
+            <span className="text-[11px] font-body font-semibold tracking-[0.15em] text-muted-foreground uppercase px-1">
+              Lifestyle Filters
+            </span>
+            <div className="rounded-2xl border border-border/40 bg-card overflow-hidden divide-y divide-border/30">
+              {/* Premium unlock banner */}
+              <div className="px-4 py-3 flex items-center justify-between" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.06), hsl(var(--primary) / 0.02))" }}>
+                <div className="flex items-center gap-2">
+                  <span className="text-base">👑</span>
+                  <span className="font-body text-sm font-semibold text-primary">Unlock with Premium</span>
+                </div>
+                <button className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-border/60 text-xs font-body font-semibold text-foreground hover:bg-muted/40 transition-all">
+                  Upgrade <ArrowUpRight className="h-3 w-3" />
                 </button>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {searchTags.map((tag) => (
-                  <motion.span
-                    key={tag}
-                    layout
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-3.5 py-1.5 text-sm font-body font-medium text-primary"
-                  >
-                    {tag}
-                    <motion.button
-                      whileTap={{ scale: 0.8 }}
-                      onClick={() => removeTag(tag)}
-                    >
-                      <X className="h-3 w-3" />
-                    </motion.button>
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
-          )}
 
-          {/* Accordion filter items */}
-          <motion.div variants={staggerItem} className="rounded-2xl border border-border/40 bg-card/60 overflow-hidden divide-y divide-border/30">
-            <AccordionFilterItem
-              icon={<Calendar className="h-4 w-4" />}
-              label="Age Range"
-              summary={`${ageRange[0]} – ${ageRange[1]}`}
-              isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
-              expanded={expandedFilter === "age"}
-              onToggle={() => toggleFilter("age")}
-            >
-              <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]}`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
-            </AccordionFilterItem>
+              <FilterRow
+                icon={<Heart className="h-4.5 w-4.5" />}
+                iconBg="bg-pink-50"
+                iconColor="text-pink-400"
+                label="Relationship intent"
+                summary={relationship.length === 0 ? "Any" : relationship.length <= 1 ? relationship[0] : `${relationship.length} selected`}
+                isModified={JSON.stringify(relationship) !== JSON.stringify(DEFAULTS.relationship)}
+                expanded={expandedFilter === "relationship"}
+                onToggle={() => toggleFilter("relationship")}
+                locked
+              >
+                <InlineSelectableOptions value={relationship} options={RELATIONSHIP_OPTIONS} onChange={setRelationship} />
+              </FilterRow>
 
-            <AccordionFilterItem
-              icon={<MapPin className="h-4 w-4" />}
-              label="Distance"
-              summary={`${distance[0]} km`}
-              isModified={distance[0] !== DEFAULTS.distance[0]}
-              expanded={expandedFilter === "distance"}
-              onToggle={() => toggleFilter("distance")}
-            >
-              <div className="space-y-3">
-                <Slider
-                  value={distance}
-                  onValueChange={setDistance}
-                  min={1}
-                  max={200}
-                  step={1}
-                  className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
-                />
-                <p className="text-xs font-body text-muted-foreground">Expand your discovery radius</p>
-              </div>
-            </AccordionFilterItem>
+              <FilterRow
+                icon={<GraduationCap className="h-4.5 w-4.5" />}
+                iconBg="bg-amber-50"
+                iconColor="text-amber-500"
+                label="Education"
+                summary={education.length === 0 ? "Any" : education.length <= 1 ? education[0] : `${education.length} selected`}
+                isModified={JSON.stringify(education) !== JSON.stringify(DEFAULTS.education)}
+                expanded={expandedFilter === "education"}
+                onToggle={() => toggleFilter("education")}
+                locked
+              >
+                <InlineSelectableOptions value={education} options={EDUCATION_OPTIONS} onChange={setEducation} />
+              </FilterRow>
 
-            <AccordionFilterItem
-              icon={<Ruler className="h-4 w-4" />}
-              label="Height"
-              summary={`${heightRange[0]} – ${heightRange[1]} cm`}
-              isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
-              expanded={expandedFilter === "height"}
-              onToggle={() => toggleFilter("height")}
-            >
-              <SliderField label="Height" valueLabel={`${heightRange[0]} – ${heightRange[1]} cm`} value={heightRange} onChange={setHeightRange} min={140} max={220} step={1} />
-            </AccordionFilterItem>
-
-            <AccordionFilterItem
-              icon={<Users className="h-4 w-4" />}
-              label="Gender"
-              summary={gender.length === 0 ? "Any" : gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`}
-              isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
-              expanded={expandedFilter === "gender"}
-              onToggle={() => toggleFilter("gender")}
-            >
-              <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
-            </AccordionFilterItem>
-
-            <AccordionFilterItem
-              icon={<Heart className="h-4 w-4" />}
-              label="Relationship Intent"
-              summary={relationship.length === 0 ? "Any" : relationship.length <= 2 ? relationship.join(", ") : `${relationship.length} selected`}
-              isModified={JSON.stringify(relationship) !== JSON.stringify(DEFAULTS.relationship)}
-              expanded={expandedFilter === "relationship"}
-              onToggle={() => toggleFilter("relationship")}
-            >
-              <InlineSelectableOptions value={relationship} options={RELATIONSHIP_OPTIONS} onChange={setRelationship} />
-            </AccordionFilterItem>
-
-            <AccordionFilterItem
-              icon={<GraduationCap className="h-4 w-4" />}
-              label="Education"
-              summary={education.length === 0 ? "Any" : education.length <= 2 ? education.join(", ") : `${education.length} selected`}
-              isModified={JSON.stringify(education) !== JSON.stringify(DEFAULTS.education)}
-              expanded={expandedFilter === "education"}
-              onToggle={() => toggleFilter("education")}
-            >
-              <InlineSelectableOptions value={education} options={EDUCATION_OPTIONS} onChange={setEducation} />
-            </AccordionFilterItem>
-
-            <AccordionFilterItem
-              icon={<Globe className="h-4 w-4" />}
-              label="Languages"
-              summary={languages.length === 0 ? "Any" : languages.length <= 2 ? languages.join(", ") : `${languages.length} selected`}
-              isModified={languages.length > 0}
-              expanded={expandedFilter === "languages"}
-              onToggle={() => toggleFilter("languages")}
-            >
-              <LanguageInlineRow value={languages} onChange={setLanguages} />
-            </AccordionFilterItem>
-          </motion.div>
-        </motion.div>
+              <FilterRow
+                icon={<Globe className="h-4.5 w-4.5" />}
+                iconBg="bg-sky-50"
+                iconColor="text-sky-500"
+                label="Languages"
+                summary={languages.length === 0 ? "Any" : languages.length <= 2 ? languages.join(", ") : `${languages.length} selected`}
+                isModified={languages.length > 0}
+                expanded={expandedFilter === "languages"}
+                onToggle={() => toggleFilter("languages")}
+                locked
+              >
+                <LanguageInlineRow value={languages} onChange={setLanguages} />
+              </FilterRow>
+            </div>
+          </div>
+        </div>
 
         {/* Footer */}
         <div className="px-5 py-4 border-t border-border/30 bg-background">
@@ -331,14 +341,13 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               onApply?.(searchTags);
               setOpen(false);
             }}
-            className="w-full rounded-full py-3 font-body text-sm font-semibold text-primary-foreground relative overflow-hidden"
-            style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+            className="w-full rounded-full py-3.5 font-body text-sm font-semibold border border-border/60 bg-card text-foreground hover:bg-muted/40 transition-all"
           >
             <span className="flex items-center justify-center gap-2">
-              Apply Filters
+              Apply filters
               {activeCount > 0 && (
-                <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
-                  {activeCount}
+                <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-muted text-[11px] font-bold text-muted-foreground">
+                  {activeCount} active
                 </span>
               )}
             </span>
@@ -349,42 +358,52 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   );
 };
 
-/* ── Accordion Filter Item ──────────────────────────────── */
+/* ── Filter Row ─────────────────────────────────────────── */
 
-function AccordionFilterItem({
+function FilterRow({
   icon,
+  iconBg,
+  iconColor,
   label,
   summary,
   isModified,
   expanded,
   onToggle,
+  locked,
   children,
 }: {
   icon: React.ReactNode;
+  iconBg: string;
+  iconColor: string;
   label: string;
   summary: string;
   isModified: boolean;
   expanded: boolean;
   onToggle: () => void;
+  locked?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div>
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted/30 transition-colors"
+        className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted/20 transition-colors"
       >
-        <div className={`shrink-0 transition-colors ${isModified ? "text-primary" : "text-muted-foreground/60"}`}>
-          {icon}
+        <div className={`h-8 w-8 rounded-lg ${iconBg} flex items-center justify-center shrink-0`}>
+          <div className={iconColor}>{icon}</div>
         </div>
-        <span className="font-body font-semibold text-foreground text-sm flex-1 text-left">{label}</span>
-        <span className="font-body text-xs font-medium text-muted-foreground max-w-[120px] truncate">
+        <span className="font-body font-medium text-foreground text-[14px] flex-1 text-left">{label}</span>
+        <span className="font-body text-xs font-medium text-muted-foreground max-w-[100px] truncate text-right">
           {summary}
         </span>
         {isModified && (
           <div className="h-2 w-2 rounded-full bg-primary shrink-0" />
         )}
-        <ChevronDown className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
+        {locked ? (
+          <Lock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+        ) : (
+          <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground shrink-0 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
+        )}
       </button>
       <AnimatePresence>
         {expanded && (
