@@ -424,6 +424,9 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </motion.button>
             </div>
           </div>
+          </motion.div>
+          )}
+          </AnimatePresence>
         </div>
       </SheetContent>
     </Sheet>
