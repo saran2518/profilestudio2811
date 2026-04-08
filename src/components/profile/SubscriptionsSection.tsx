@@ -33,8 +33,9 @@ const plans: PlanData[] = [
   {
     icon: <Crown className="h-5 w-5" />,
     title: "Elyxer Plus",
-    price: "$9.99",
-    period: "/mo",
+    price: "₹199",
+    period: "/wk",
+    altPrice: "₹699/mo",
     badge: "POPULAR",
     ctaLabel: "Upgrade",
     ctaStyle: { background: "var(--gradient-warm)" },
