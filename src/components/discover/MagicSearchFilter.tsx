@@ -30,11 +30,11 @@ const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Trav
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
-const SUGGESTION_CATEGORIES: { label: string; icon: string; keywords: string[] }[] = [
-  { label: "Interests", icon: "🎨", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
-  { label: "Lifestyle", icon: "✨", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
-  { label: "Values", icon: "💎", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
-  { label: "General", icon: "🌐", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
+const SUGGESTION_CATEGORIES: { label: string; iconKey: "interests" | "lifestyle" | "values" | "general"; keywords: string[] }[] = [
+  { label: "Interests", iconKey: "interests", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
+  { label: "Lifestyle", iconKey: "lifestyle", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
+  { label: "Values", iconKey: "values", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
+  { label: "General", iconKey: "general", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
 ];
 
 const DEFAULTS = {
