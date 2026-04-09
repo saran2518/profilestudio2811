@@ -244,7 +244,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-wrap gap-1.5 px-2.5 pb-2 pt-0.5">
+                              <div className="grid grid-cols-3 gap-1.5 px-2.5 pb-2 pt-0.5">
                                 {cat.keywords.map((kw) => {
                                   const isActive = searchTags.includes(kw);
                                   return (
@@ -255,7 +255,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                                         if (isActive) removeTag(kw);
                                         else setSearchTags((prev) => [...prev, kw]);
                                       }}
-                                      className={`px-2.5 py-1 rounded-full text-[11px] font-body font-medium border transition-all duration-200 ${
+                                      className={`px-2 py-1.5 rounded-full text-[10px] font-body font-medium border transition-all duration-200 text-center truncate ${
                                         isActive
                                           ? "border-primary bg-primary text-primary-foreground shadow-sm"
                                           : "border-border/40 bg-muted/30 text-muted-foreground hover:border-primary/30 hover:text-foreground"
