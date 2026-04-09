@@ -113,18 +113,18 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         className="w-full sm:max-w-md p-0 flex flex-col bg-background"
       >
         {/* Header */}
-        <div className="px-5 pt-5 pb-3 border-b border-border/20">
+        <div className="px-4 pt-3 pb-2 border-b border-border/20">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setOpen(false)}
-              className="p-2 -ml-1 rounded-xl hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
+              className="p-1.5 -ml-1 rounded-lg hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
             >
-              <ChevronRight className="h-5 w-5 rotate-180" />
+              <ChevronRight className="h-4 w-4 rotate-180" />
             </button>
-            <h2 className="font-display text-lg font-semibold text-foreground tracking-tight">
-              Refine Search
+            <h2 className="font-display text-sm font-semibold text-foreground tracking-tight">
+              Curate Discovery
             </h2>
-            <div className="w-9" />
+            <div className="w-7" />
           </div>
         </div>
 
