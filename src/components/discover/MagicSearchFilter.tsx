@@ -31,10 +31,10 @@ const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
 const SUGGESTION_CATEGORIES: { label: string; icon: string; keywords: string[] }[] = [
-  { label: "Interests", icon: "🎨", keywords: ["Photography", "Hiking", "Cooking", "Music", "Fitness", "Reading", "Travel", "Art"] },
-  { label: "Lifestyle", icon: "✨", keywords: ["Night Owl", "Morning Person", "Startup Founder", "Foodie", "Minimalist", "Adventure Seeker"] },
-  { label: "Values", icon: "💎", keywords: ["Empathy", "Authenticity", "Growth Mindset", "Kindness", "Ambition", "Spirituality"] },
-  { label: "General", icon: "🌐", keywords: ["English", "Hindi", "Tamil", "French", "Spanish", "Engineering", "Medicine", "Law", "Design", "Software Engineer", "Doctor", "Lawyer", "Teacher", "Designer", "Entrepreneur"] },
+  { label: "Interests", icon: "🎨", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
+  { label: "Lifestyle", icon: "✨", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
+  { label: "Values", icon: "💎", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
+  { label: "General", icon: "🌐", keywords: ["English", "Hindi", "French", "Spanish", "Tamil", "Architecture", "Medicine", "Design"] },
 ];
 
 const DEFAULTS = {
