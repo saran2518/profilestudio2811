@@ -133,26 +133,26 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-5 pb-4 pt-4 space-y-5">
+        <div className="flex-1 overflow-y-auto px-4 pb-3 pt-3 space-y-3">
 
           {/* Magic Search Card */}
           <div
-            className="rounded-3xl p-[1px] overflow-hidden"
+            className="rounded-2xl p-[1px] overflow-hidden"
             style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.3))" }}
           >
-            <div className="rounded-3xl bg-card p-5 space-y-4">
+            <div className="rounded-2xl bg-card px-4 py-3.5 space-y-3">
               {/* Header */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2">
                   <div
-                    className="h-9 w-9 rounded-xl flex items-center justify-center"
+                    className="h-7 w-7 rounded-lg flex items-center justify-center"
                     style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
                   >
-                    <Sparkles className="h-4 w-4 text-primary-foreground" />
+                    <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
                   </div>
                   <div>
-                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Magic Search</span>
-                    <span className="text-[10px] font-body text-muted-foreground">Find your perfect match</span>
+                    <span className="font-display text-[14px] font-bold text-foreground block leading-tight">Magic Search</span>
+                    <span className="text-[9px] font-body text-muted-foreground">Find your perfect match</span>
                   </div>
                 </div>
                 <span
