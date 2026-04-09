@@ -349,9 +349,9 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </div>
 
               {/* Filter rows */}
-              <div className="rounded-2xl border border-border/30 overflow-hidden divide-y divide-border/20">
+              <div className="rounded-xl border border-border/30 overflow-hidden divide-y divide-border/20">
                 <FilterRow
-                  icon={<Calendar className="h-4.5 w-4.5" />}
+                  icon={<Calendar className="h-3.5 w-3.5" />}
                   iconBg="bg-amber-100"
                   iconColor="text-amber-600"
                   label="Age range"
@@ -364,7 +364,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 </FilterRow>
 
                 <FilterRow
-                  icon={<MapPin className="h-4.5 w-4.5" />}
+                  icon={<MapPin className="h-3.5 w-3.5" />}
                   iconBg="bg-rose-100"
                   iconColor="text-rose-500"
                   label="Distance"
@@ -373,7 +373,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   expanded={expandedFilter === "distance"}
                   onToggle={() => toggleFilter("distance")}
                 >
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <Slider
                       value={distance}
                       onValueChange={setDistance}
@@ -382,12 +382,12 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                       step={1}
                       className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
                     />
-                    <p className="text-xs font-body text-muted-foreground">Expand your discovery radius</p>
+                    <p className="text-[11px] font-body text-muted-foreground">Expand your discovery radius</p>
                   </div>
                 </FilterRow>
 
                 <FilterRow
-                  icon={<Ruler className="h-4.5 w-4.5" />}
+                  icon={<Ruler className="h-3.5 w-3.5" />}
                   iconBg="bg-slate-100"
                   iconColor="text-slate-500"
                   label="Height"
@@ -400,7 +400,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 </FilterRow>
 
                 <FilterRow
-                  icon={<Users className="h-4.5 w-4.5" />}
+                  icon={<Users className="h-3.5 w-3.5" />}
                   iconBg="bg-violet-100"
                   iconColor="text-violet-600"
                   label="Gender"
@@ -420,14 +420,14 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   onApply?.(searchTags);
                   setOpen(false);
                 }}
-                className="w-full rounded-xl py-3 font-body text-[13px] font-semibold text-primary-foreground transition-opacity"
+                className="w-full rounded-xl py-2.5 font-body text-[12px] font-semibold text-primary-foreground transition-opacity"
                 style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
               >
                 <span className="flex items-center justify-center gap-2">
-                  <Search className="h-3.5 w-3.5" />
+                  <Search className="h-3 w-3" />
                   Apply Filters
                   {activeCount > 0 && (
-                    <span className="inline-flex items-center justify-center h-5 min-w-[20px] px-1.5 rounded-full bg-primary-foreground/20 text-[11px] font-bold text-primary-foreground">
+                    <span className="inline-flex items-center justify-center h-4 min-w-[16px] px-1 rounded-full bg-primary-foreground/20 text-[10px] font-bold text-primary-foreground">
                       {activeCount}
                     </span>
                   )}
