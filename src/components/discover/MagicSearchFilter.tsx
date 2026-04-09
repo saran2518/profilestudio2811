@@ -194,7 +194,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
               {/* Active tags */}
               {searchTags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1">
                   {searchTags.map((tag) => (
                     <motion.span
                       key={tag}
@@ -202,12 +202,12 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                       initial={{ opacity: 0, scale: 0.85 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.85 }}
-                      className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-body font-semibold text-primary-foreground"
+                      className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-body font-semibold text-primary-foreground"
                       style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8))" }}
                     >
                       {tag}
                       <button onClick={() => removeTag(tag)} className="opacity-70 hover:opacity-100 transition-opacity">
-                        <X className="h-3 w-3" />
+                        <X className="h-2.5 w-2.5" />
                       </button>
                     </motion.span>
                   ))}
