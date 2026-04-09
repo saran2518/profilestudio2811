@@ -123,12 +123,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             <h2 className="font-display text-lg font-semibold text-foreground">
               Refine Search
             </h2>
-            <button
-              onClick={handleReset}
-              className="px-3 py-1.5 rounded-full border border-border/60 text-xs font-body font-semibold text-foreground hover:bg-muted/40 transition-all active:scale-95"
-            >
-              Reset
-            </button>
+            <div className="w-8" />
           </div>
         </div>
 
