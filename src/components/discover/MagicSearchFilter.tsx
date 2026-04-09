@@ -156,7 +156,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   </div>
                 </div>
                 <span
-                  className="px-2.5 py-1 rounded-full text-[9px] font-bold font-body uppercase tracking-wider text-primary-foreground"
+                  className="px-2 py-0.5 rounded-full text-[8px] font-bold font-body uppercase tracking-wider text-primary-foreground"
                   style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
                 >
                   Pro
