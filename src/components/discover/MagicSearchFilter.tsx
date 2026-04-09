@@ -165,17 +165,17 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
               {/* Search input */}
               <div
-                className="rounded-2xl bg-muted/40 px-4 py-3 flex items-center gap-2.5 focus-within:bg-muted/60 transition-all duration-200"
+                className="rounded-xl bg-muted/40 px-3 py-2 flex items-center gap-2 focus-within:bg-muted/60 transition-all duration-200"
                 style={{ boxShadow: "inset 0 1px 3px hsl(var(--foreground) / 0.04)" }}
               >
-                <Search className="h-4 w-4 text-muted-foreground/60 shrink-0" />
+                <Search className="h-3.5 w-3.5 text-muted-foreground/60 shrink-0" />
                 <input
                   type="text"
                   placeholder="loves hiking, startup founder…"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleAddTag}
-                  className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground/50 outline-none"
+                  className="flex-1 bg-transparent text-[13px] font-body text-foreground placeholder:text-muted-foreground/50 outline-none"
                 />
                 <motion.button
                   whileTap={{ scale: 0.85 }}
@@ -185,10 +185,10 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                       setSearchQuery("");
                     }
                   }}
-                  className="h-7 w-7 rounded-full flex items-center justify-center shrink-0 transition-opacity"
+                  className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 transition-opacity"
                   style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
                 >
-                  <span className="text-primary-foreground text-sm font-bold leading-none">+</span>
+                  <span className="text-primary-foreground text-xs font-bold leading-none">+</span>
                 </motion.button>
               </div>
 
