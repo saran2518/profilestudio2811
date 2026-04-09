@@ -53,15 +53,16 @@ export default function ProfileDetailsCard({ profile }: Props) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="rounded-2xl border border-border/30 bg-card overflow-hidden"
+      className="rounded-[20px] border border-border/40 bg-card overflow-hidden"
+      style={{ boxShadow: "var(--shadow-card)" }}
     >
       {/* Tab bar */}
-      <div className="flex border-b border-border/20">
+      <div className="flex border-b border-border/25">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActive(tab.key)}
-            className={`relative flex-1 flex items-center justify-center gap-1.5 py-3 font-body text-[11px] font-bold uppercase tracking-[0.12em] transition-colors duration-200 ${
+            className={`relative flex-1 flex items-center justify-center gap-1.5 py-3 font-body text-[11px] font-bold uppercase tracking-[0.12em] transition-all duration-200 ${
               active === tab.key ? "text-primary" : "text-muted-foreground/60 hover:text-foreground"
             }`}
           >
@@ -70,7 +71,8 @@ export default function ProfileDetailsCard({ profile }: Props) {
             {active === tab.key && (
               <motion.div
                 layoutId="tab-indicator"
-                className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-primary"
+                className="absolute bottom-0 left-4 right-4 h-[2.5px] rounded-full"
+                style={{ background: "var(--gradient-warm)" }}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
@@ -87,7 +89,7 @@ export default function ProfileDetailsCard({ profile }: Props) {
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 12 }}
-              transition={{ duration: 0.22 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className="space-y-2"
             >
               <div className="grid gap-x-2 gap-y-2.5" style={{ gridTemplateColumns: `repeat(${topCols}, minmax(0, 1fr))` }}>
@@ -107,9 +109,10 @@ export default function ProfileDetailsCard({ profile }: Props) {
                   initial={{ opacity: 0, scale: 0.85 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: idx * 0.05, duration: 0.3 }}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border/30 px-3.5 py-2 text-[13px] font-medium text-foreground bg-muted/30"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/30 px-3.5 py-2 text-[13px] font-medium text-foreground"
+                  style={{ background: "hsl(var(--primary) / 0.05)" }}
                 >
-                  <Globe className="h-3.5 w-3.5 text-muted-foreground" />
+                  <Globe className="h-3.5 w-3.5 text-primary/60" />
                   {lang}
                 </motion.span>
               ))}
@@ -124,9 +127,10 @@ export default function ProfileDetailsCard({ profile }: Props) {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.07, duration: 0.3 }}
-                  className="flex items-center gap-3 rounded-xl p-3 border border-border/20 bg-muted/20"
+                  className="flex items-center gap-3 rounded-xl p-3 border border-border/25"
+                  style={{ background: "hsl(var(--primary) / 0.03)" }}
                 >
-                  <span className="text-muted-foreground">{intentIcons[item] || <Sparkles className="h-4 w-4" />}</span>
+                  <span className="text-primary/50">{intentIcons[item] || <Sparkles className="h-4 w-4" />}</span>
                   <span className="font-body text-[13.5px] font-medium text-foreground/80">{item}</span>
                 </motion.div>
               ))}
@@ -145,9 +149,10 @@ function AboutItem({ item, delay }: { item: { icon: React.ReactNode; label: stri
       initial={{ opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.3 }}
-      className="flex flex-col items-center text-center gap-1.5 rounded-xl border border-border/20 px-2 py-3 bg-muted/20"
+      className="flex flex-col items-center text-center gap-1.5 rounded-xl border border-border/25 px-2 py-3"
+      style={{ background: "hsl(var(--muted) / 0.3)" }}
     >
-      <div className="flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground">
+      <div className="flex h-7 w-7 items-center justify-center rounded-lg text-primary" style={{ background: "hsl(var(--primary) / 0.08)" }}>
         {React.cloneElement(item.icon as React.ReactElement, { className: "h-3.5 w-3.5" })}
       </div>
       <div className="flex flex-col items-center gap-0.5">
