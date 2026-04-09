@@ -470,22 +470,22 @@ function FilterRow({
     <div>
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-muted/20 transition-colors"
+        className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-muted/20 transition-colors"
       >
-        <div className={`h-8 w-8 rounded-lg ${iconBg} flex items-center justify-center shrink-0`}>
+        <div className={`h-6 w-6 rounded-md ${iconBg} flex items-center justify-center shrink-0`}>
           <div className={iconColor}>{icon}</div>
         </div>
-        <span className="font-body font-medium text-foreground text-[14px] flex-1 text-left">{label}</span>
-        <span className="font-body text-xs font-medium text-muted-foreground max-w-[100px] truncate text-right">
+        <span className="font-body font-medium text-foreground text-[13px] flex-1 text-left">{label}</span>
+        <span className="font-body text-[11px] font-medium text-muted-foreground max-w-[100px] truncate text-right">
           {summary}
         </span>
         {isModified && (
-          <div className="h-2 w-2 rounded-full bg-primary shrink-0" />
+          <div className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
         )}
         {locked ? (
-          <Lock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+          <Lock className="h-3 w-3 text-amber-400 shrink-0" />
         ) : (
-          <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground shrink-0 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
+          <ChevronDown className={`h-3 w-3 text-muted-foreground shrink-0 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
         )}
       </button>
       <AnimatePresence>
@@ -497,7 +497,7 @@ function FilterRow({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="px-4 pb-4 pt-1">{children}</div>
+            <div className="px-3 pb-3 pt-1">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>
