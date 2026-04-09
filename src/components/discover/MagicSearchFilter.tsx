@@ -312,20 +312,20 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
           </div>
 
           {/* STANDARD FILTERS - styled card like Magic Search */}
-          <div className="space-y-2.5">
-            <div className={`rounded-3xl bg-card p-5 space-y-4 transition-opacity duration-300 ${!basicFiltersEnabled ? 'opacity-40 pointer-events-none grayscale' : ''}`}>
+          <div className="space-y-2">
+            <div className={`rounded-2xl bg-card px-4 py-3.5 space-y-3 transition-opacity duration-300 ${!basicFiltersEnabled ? 'opacity-40 pointer-events-none grayscale' : ''}`}>
               {/* Header */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2">
                   <div
-                    className="h-9 w-9 rounded-xl flex items-center justify-center"
+                    className="h-7 w-7 rounded-lg flex items-center justify-center"
                     style={{ background: basicFiltersEnabled ? "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.7))" : "hsl(var(--muted))" }}
                   >
-                    <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
+                    <SlidersHorizontal className="h-3.5 w-3.5 text-accent-foreground" />
                   </div>
                   <div>
-                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Standard Filters</span>
-                    <span className="text-[10px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
+                    <span className="font-display text-[14px] font-bold text-foreground block leading-tight">Standard Filters</span>
+                    <span className="text-[9px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
                   </div>
                 </div>
                 {(() => {
