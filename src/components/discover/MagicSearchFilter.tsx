@@ -113,76 +113,73 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         className="w-full sm:max-w-md p-0 flex flex-col bg-background"
       >
         {/* Header */}
-        <div className="px-5 pt-5 pb-3 border-b border-border/30">
+        <div className="px-5 pt-5 pb-3 border-b border-border/20">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setOpen(false)}
-              className="p-1.5 rounded-full hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
+              className="p-2 -ml-1 rounded-xl hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
             >
               <ChevronRight className="h-5 w-5 rotate-180" />
             </button>
-            <h2 className="font-display text-lg font-semibold text-foreground">
+            <h2 className="font-display text-lg font-semibold text-foreground tracking-tight">
               Refine Search
             </h2>
-            <div className="w-8" />
+            <div className="w-9" />
           </div>
         </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-4 pb-3 pt-3 space-y-3">
+        <div className="flex-1 overflow-y-auto px-4 pb-4 pt-3 space-y-3">
 
-          {/* Magic Search Card */}
+          {/* ── Magic Search Card ── */}
           <div
-            className="rounded-2xl p-[1px] overflow-hidden"
-            style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.3))" }}
+            className="rounded-2xl p-[1.5px] overflow-hidden"
+            style={{ background: "linear-gradient(160deg, hsl(var(--primary) / 0.5), hsl(var(--primary) / 0.05) 50%, hsl(var(--primary) / 0.35))" }}
           >
-            <div className="rounded-2xl bg-card px-4 py-3.5 space-y-3">
+            <div className="rounded-2xl bg-card px-4 py-4 space-y-3.5">
               {/* Header */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <div
-                    className="h-7 w-7 rounded-lg flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
+                    className="h-8 w-8 rounded-xl flex items-center justify-center"
+                    style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.65))" }}
                   >
-                    <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+                    <Sparkles className="h-4 w-4 text-primary-foreground" />
                   </div>
                   <div>
-                    <span className="font-display text-[14px] font-bold text-foreground block leading-tight">Magic Search</span>
-                    <span className="text-[9px] font-body text-muted-foreground">Find your perfect match</span>
+                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Magic Search</span>
+                    <span className="text-[10px] font-body text-muted-foreground/70">AI-powered discovery</span>
                   </div>
                 </div>
                 <span
-                  className="px-2 py-0.5 rounded-full text-[8px] font-bold font-body uppercase tracking-wider text-primary-foreground"
-                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
+                  className="px-2.5 py-0.5 rounded-full text-[8px] font-bold font-body uppercase tracking-wider text-primary-foreground"
+                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
                 >
                   Pro
                 </span>
               </div>
 
               {/* Search input */}
-              <div
-                className="rounded-xl bg-muted/40 px-3 py-2 flex items-center gap-2 focus-within:bg-muted/60 transition-all duration-200"
-                style={{ boxShadow: "inset 0 1px 3px hsl(var(--foreground) / 0.04)" }}
-              >
-                <Search className="h-3.5 w-3.5 text-muted-foreground/60 shrink-0" />
+              <div className="rounded-xl bg-muted/30 px-3.5 py-2.5 flex items-center gap-2.5 focus-within:bg-muted/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all duration-300">
+                <Search className="h-4 w-4 text-muted-foreground/50 shrink-0" />
                 <input
                   type="text"
                   placeholder="loves hiking, startup founder…"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleAddTag}
-                  className="flex-1 bg-transparent text-[13px] font-body text-foreground placeholder:text-muted-foreground/50 outline-none"
+                  className="flex-1 bg-transparent text-[13px] font-body text-foreground placeholder:text-muted-foreground/40 outline-none"
                 />
                 <motion.button
-                  whileTap={{ scale: 0.85 }}
+                  whileTap={{ scale: 0.8 }}
                   onClick={() => {
                     if (searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
                       setSearchTags([...searchTags, searchQuery.trim()]);
                       setSearchQuery("");
                     }
                   }}
-                  className="h-6 w-6 rounded-full flex items-center justify-center shrink-0 transition-opacity"
-                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
+                  className="h-7 w-7 rounded-lg flex items-center justify-center shrink-0 transition-all"
+                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
                 >
                   <span className="text-primary-foreground text-xs font-bold leading-none">+</span>
                 </motion.button>
@@ -190,7 +187,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
               {/* Active tags */}
               {searchTags.length > 0 && (
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1.5">
                   {searchTags.map((tag) => (
                     <motion.span
                       key={tag}
@@ -198,7 +195,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                       initial={{ opacity: 0, scale: 0.85 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.85 }}
-                      className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-body font-semibold text-primary-foreground"
+                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-body font-semibold text-primary-foreground"
                       style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8))" }}
                     >
                       {tag}
@@ -212,7 +209,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
               {/* Collapsible Suggestions */}
               <div>
-                <p className="text-[9px] font-body font-semibold text-muted-foreground/50 uppercase tracking-[0.15em] mb-2">Suggestions</p>
+                <p className="text-[9px] font-body font-semibold text-muted-foreground/40 uppercase tracking-[0.18em] mb-2">Suggestions</p>
                 <div className="space-y-0.5">
                   {SUGGESTION_CATEGORIES.map((cat) => {
                     const [catOpen, setCatOpen] = [
@@ -221,19 +218,23 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                     ];
                     const activeInCat = cat.keywords.filter((kw) => searchTags.includes(kw)).length;
                     return (
-                      <div key={cat.label} className="rounded-lg overflow-hidden">
+                      <div key={cat.label} className="rounded-xl overflow-hidden">
                         <button
                           onClick={setCatOpen}
-                          className="w-full flex items-center gap-2 px-2.5 py-2 hover:bg-muted/30 transition-colors rounded-lg"
+                          className={`w-full flex items-center gap-2.5 px-3 py-2 transition-colors rounded-xl ${catOpen ? 'bg-muted/30' : 'hover:bg-muted/20'}`}
                         >
                           <span className="text-sm">{cat.icon}</span>
                           <span className="text-[12px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
                           {activeInCat > 0 && (
-                            <span className="h-4 min-w-[16px] px-1 rounded-full bg-primary/15 text-[9px] font-bold text-primary flex items-center justify-center">
+                            <motion.span
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              className="h-4 min-w-[16px] px-1 rounded-full bg-primary/15 text-[9px] font-bold text-primary flex items-center justify-center"
+                            >
                               {activeInCat}
-                            </span>
+                            </motion.span>
                           )}
-                          <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform duration-200 ${catOpen ? "rotate-180" : ""}`} />
+                          <ChevronDown className={`h-3 w-3 text-muted-foreground/50 transition-transform duration-300 ${catOpen ? "rotate-180" : ""}`} />
                         </button>
                         <AnimatePresence>
                           {catOpen && (
@@ -241,10 +242,10 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                               className="overflow-hidden"
                             >
-                              <div className="grid grid-cols-3 gap-1.5 px-2.5 pb-2 pt-0.5">
+                              <div className="grid grid-cols-3 gap-1.5 px-3 pb-2.5 pt-1">
                                 {cat.keywords.map((kw) => {
                                   const isActive = searchTags.includes(kw);
                                   return (
@@ -255,10 +256,10 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                                         if (isActive) removeTag(kw);
                                         else setSearchTags((prev) => [...prev, kw]);
                                       }}
-                                      className={`px-2 py-1.5 rounded-full text-[10px] font-body font-medium border transition-all duration-200 text-center truncate ${
+                                      className={`px-2 py-1.5 rounded-lg text-[10px] font-body font-medium border transition-all duration-200 text-center truncate ${
                                         isActive
                                           ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                                          : "border-border/40 bg-muted/30 text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                                          : "border-border/30 bg-muted/20 text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
                                       }`}
                                     >
                                       {isActive && <Check className="h-2.5 w-2.5 inline mr-0.5 -mt-0.5" />}
@@ -279,32 +280,34 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               {/* Magic Search CTA */}
               <motion.button
                 whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.01 }}
                 onClick={() => {
                   onApply?.(searchTags);
                   setOpen(false);
                 }}
                 disabled={searchTags.length === 0}
-                className="w-full rounded-xl py-2.5 font-body text-[12px] font-semibold text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
-                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
+                className="w-full rounded-xl py-2.5 font-body text-[13px] font-semibold text-primary-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
               >
                 <span className="flex items-center justify-center gap-2">
-                  <Sparkles className="h-3 w-3" />
-                  Search{searchTags.length > 0 ? ` (${searchTags.length})` : ""}
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Search{searchTags.length > 0 ? ` · ${searchTags.length} keywords` : ""}
                 </span>
               </motion.button>
 
               <a
                 href="#"
                 onClick={(e) => e.preventDefault()}
-                className="block text-center text-[11px] font-body font-medium text-primary/70 hover:text-primary transition-colors -mt-1"
+                className="flex items-center justify-center gap-1 text-[11px] font-body font-medium text-primary/60 hover:text-primary transition-colors -mt-1"
               >
                 More about Magic Search
+                <ArrowUpRight className="h-3 w-3" />
               </a>
 
-              {/* Basic Filters Toggle */}
-              <div className="flex items-center justify-between pt-1.5 border-t border-border/20">
+              {/* Standard Filters Toggle */}
+              <div className="flex items-center justify-between pt-2 border-t border-border/15">
                 <div className="flex items-center gap-1.5">
-                  <SlidersHorizontal className="h-3 w-3 text-muted-foreground" />
+                  <SlidersHorizontal className="h-3 w-3 text-muted-foreground/60" />
                   <span className="text-[11px] font-body font-medium text-muted-foreground">Include Standard Filters</span>
                 </div>
                 <Switch
@@ -315,21 +318,21 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
             </div>
           </div>
 
-          {/* STANDARD FILTERS - styled card like Magic Search */}
+          {/* ── STANDARD FILTERS ── */}
           <div className="space-y-2">
-            <div className={`rounded-2xl bg-card px-4 py-3.5 space-y-3 transition-opacity duration-300 ${!basicFiltersEnabled ? 'opacity-40 pointer-events-none grayscale' : ''}`}>
+            <div className={`rounded-2xl bg-card border border-border/15 px-4 py-4 space-y-3.5 transition-all duration-400 ${!basicFiltersEnabled ? 'opacity-35 pointer-events-none grayscale blur-[0.5px]' : ''}`}>
               {/* Header */}
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <div
-                    className="h-7 w-7 rounded-lg flex items-center justify-center"
-                    style={{ background: basicFiltersEnabled ? "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.7))" : "hsl(var(--muted))" }}
+                    className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-300"
+                    style={{ background: basicFiltersEnabled ? "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.65))" : "hsl(var(--muted))" }}
                   >
-                    <SlidersHorizontal className="h-3.5 w-3.5 text-accent-foreground" />
+                    <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
                   </div>
                   <div>
-                    <span className="font-display text-[14px] font-bold text-foreground block leading-tight">Standard Filters</span>
-                    <span className="text-[9px] font-body text-muted-foreground">{basicFiltersEnabled ? 'Narrow down your preferences' : 'Disabled — toggle to enable'}</span>
+                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Standard Filters</span>
+                    <span className="text-[10px] font-body text-muted-foreground/70">{basicFiltersEnabled ? 'Narrow down preferences' : 'Toggle to enable'}</span>
                   </div>
                 </div>
                 {(() => {
@@ -344,7 +347,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                         setGender([...DEFAULTS.gender]);
                         setExpandedFilter(null);
                       }}
-                      className={`text-[11px] font-body font-semibold transition-colors ${hasChanges ? 'text-primary hover:text-primary/80 cursor-pointer' : 'text-muted-foreground/40 cursor-not-allowed'}`}
+                      className={`text-[11px] font-body font-semibold rounded-lg px-2.5 py-1 transition-all ${hasChanges ? 'text-primary hover:bg-primary/5 cursor-pointer' : 'text-muted-foreground/30 cursor-not-allowed'}`}
                     >
                       Clear
                     </button>
@@ -353,11 +356,11 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </div>
 
               {/* Filter rows */}
-              <div className="rounded-xl border border-border/30 overflow-hidden divide-y divide-border/20">
+              <div className="rounded-xl border border-border/20 overflow-hidden divide-y divide-border/15">
                 <FilterRow
                   icon={<Calendar className="h-3.5 w-3.5" />}
-                  iconBg="bg-amber-100"
-                  iconColor="text-amber-600"
+                  iconBg="bg-amber-50"
+                  iconColor="text-amber-500"
                   label="Age range"
                   summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]}` : "Any"}
                   isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
@@ -369,8 +372,8 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
                 <FilterRow
                   icon={<MapPin className="h-3.5 w-3.5" />}
-                  iconBg="bg-rose-100"
-                  iconColor="text-rose-500"
+                  iconBg="bg-rose-50"
+                  iconColor="text-rose-400"
                   label="Distance"
                   summary={distance[0] !== DEFAULTS.distance[0] ? `${distance[0]} km` : "Any"}
                   isModified={distance[0] !== DEFAULTS.distance[0]}
@@ -386,14 +389,14 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                       step={1}
                       className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
                     />
-                    <p className="text-[11px] font-body text-muted-foreground">Expand your discovery radius</p>
+                    <p className="text-[11px] font-body text-muted-foreground/60">Expand your discovery radius</p>
                   </div>
                 </FilterRow>
 
                 <FilterRow
                   icon={<Ruler className="h-3.5 w-3.5" />}
-                  iconBg="bg-slate-100"
-                  iconColor="text-slate-500"
+                  iconBg="bg-slate-50"
+                  iconColor="text-slate-400"
                   label="Height"
                   summary={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] ? `${heightRange[0]} – ${heightRange[1]} cm` : "Any"}
                   isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
@@ -405,8 +408,8 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
                 <FilterRow
                   icon={<Users className="h-3.5 w-3.5" />}
-                  iconBg="bg-violet-100"
-                  iconColor="text-violet-600"
+                  iconBg="bg-violet-50"
+                  iconColor="text-violet-500"
                   label="Gender"
                   summary={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender) ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : "Any"}
                   isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
@@ -420,18 +423,19 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               {/* Apply Filters CTA */}
               <motion.button
                 whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.01 }}
                 onClick={() => {
                   onApply?.(searchTags);
                   setOpen(false);
                 }}
-                className="w-full rounded-xl py-2.5 font-body text-[12px] font-semibold text-primary-foreground transition-opacity"
-                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
+                className="w-full rounded-xl py-2.5 font-body text-[13px] font-semibold text-primary-foreground transition-all duration-300"
+                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
               >
                 <span className="flex items-center justify-center gap-2">
-                  <Search className="h-3 w-3" />
+                  <Search className="h-3.5 w-3.5" />
                   Apply Filters
                   {activeCount > 0 && (
-                    <span className="inline-flex items-center justify-center h-4 min-w-[16px] px-1 rounded-full bg-primary-foreground/20 text-[10px] font-bold text-primary-foreground">
+                    <span className="inline-flex items-center justify-center h-4 min-w-[16px] px-1.5 rounded-full bg-primary-foreground/20 text-[10px] font-bold text-primary-foreground">
                       {activeCount}
                     </span>
                   )}
