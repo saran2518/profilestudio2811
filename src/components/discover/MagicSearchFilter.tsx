@@ -244,7 +244,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-wrap gap-1 px-2.5 pb-2 pt-0.5">
+                              <div className="flex flex-wrap gap-1.5 px-2.5 pb-2 pt-0.5">
                                 {cat.keywords.map((kw) => {
                                   const isActive = searchTags.includes(kw);
                                   return (
