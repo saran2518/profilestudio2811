@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -39,6 +39,7 @@ const Discover = () => {
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [inviteOpen, setInviteOpen] = useState(false);
 
+  // Vibe state
   const [vibedSections, setVibedSections] = useState<Set<string>>(new Set());
   const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
   const [vibeDialogSection, setVibeDialogSection] = useState<VibeSection>("");
@@ -79,27 +80,40 @@ const Discover = () => {
   const handleSendVibe = () => {
     setVibedSections((prev) => new Set(prev).add(vibeDialogSection));
     setVibeDialogOpen(false);
+
+    // Add vibe to store so it appears in Interests page
     if (profile) {
       const originalIndex = PROFILES.indexOf(profile);
       addVibe(
-        profile.name, profile.photos[0],
+        profile.name,
+        profile.photos[0],
         vibeDialogSection === "Picture" ? "picture" : vibeDialogSection.toLowerCase(),
         originalIndex >= 0 ? originalIndex : currentIndex,
         vibeDialogSection === "Picture" ? profile.photos[0] : undefined,
         vibeDialogSection === "My Story" ? profile.bio?.slice(0, 80) : undefined,
       );
     }
+
     goNext();
   };
 
-  const handleVibeToInvite = () => { setVibeDialogOpen(false); setInviteOpen(true); };
+  const handleVibeToInvite = () => {
+    setVibeDialogOpen(false);
+    setInviteOpen(true);
+  };
+
   const handlePass = () => goNext();
   const handleConnect = () => setInviteOpen(true);
+
   const isVibed = (section: string) => vibedSections.has(section);
 
   const buildSections = () => {
+    // Group About + Languages + Intent together so photos don't split them
     const detailsCard = (
-      <ProfileDetailsCard key="details" profile={{ about: profile.about, languages: profile.languages, relationshipIntent: profile.relationshipIntent }} />
+      <ProfileDetailsCard
+        key="details"
+        profile={{ about: profile.about, languages: profile.languages, relationshipIntent: profile.relationshipIntent }}
+      />
     );
 
     const sections = [
@@ -120,6 +134,7 @@ const Discover = () => {
     } else {
       const gap = Math.max(1, Math.floor(contentSections.length / (extraPhotos.length + 1)));
       let photoIdx = 0;
+
       contentSections.forEach((section, i) => {
         result.push(section);
         if (photoIdx < extraPhotos.length && (i + 1) % gap === 0) {
@@ -131,6 +146,7 @@ const Discover = () => {
           photoIdx++;
         }
       });
+
       while (photoIdx < extraPhotos.length) {
         const pIdx = photoIdx;
         const sectionKey = `Photo-${pIdx + 2}`;
@@ -141,27 +157,28 @@ const Discover = () => {
       }
     }
 
+    // Add Report & Block at the very bottom
     result.push(<ProfileActions key="actions" profileName={profile.name} />);
+
     return result;
   };
 
   return (
     <div className="min-h-screen bg-background flex flex-col relative">
       {/* Frosted top bar */}
-      <header className="px-3 pt-2 pb-1.5 sticky top-0 z-30">
+      <header className="px-4 pt-3 pb-2 sticky top-0 z-30">
         <div
-          className="flex items-center justify-between rounded-2xl border border-border/20 bg-card/75 backdrop-blur-2xl px-4 py-2"
-          style={{ boxShadow: "0 4px 24px -6px hsl(var(--foreground) / 0.05)" }}
+          className="flex items-center justify-between rounded-2xl border border-border/30 bg-card/80 backdrop-blur-2xl px-4 py-2.5"
+          style={{ boxShadow: "0 4px 32px -8px hsl(var(--foreground) / 0.06)" }}
         >
           <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
             <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 relative active:scale-95">
-              <SlidersHorizontal className="h-[18px] w-[18px] text-foreground/80" />
+              <SlidersHorizontal className="h-5 w-5 text-foreground" />
               {filterTags.length > 0 && (
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full text-[10px] font-bold text-primary-foreground flex items-center justify-center"
-                  style={{ background: "var(--gradient-warm)" }}
+                  className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center"
                 >
                   {filterTags.length}
                 </motion.span>
@@ -170,18 +187,19 @@ const Discover = () => {
           </MagicSearchFilter>
 
           <MagicSearchFilter onApply={(tags) => { setFilterTags(tags); setCurrentIndex(0); setVibedSections(new Set()); }}>
-            <button className="font-body text-[13px] font-semibold text-muted-foreground/80 flex items-center gap-1.5 hover:text-foreground transition-colors group">
+            <button className="font-body text-sm font-medium text-muted-foreground flex items-center gap-1.5 hover:text-foreground transition-colors group">
               <Wand2 className="h-3.5 w-3.5 text-primary group-hover:rotate-12 transition-transform duration-300" />
               Magic Search
             </button>
           </MagicSearchFilter>
 
-          <div className="flex items-center gap-1">
-            <span className="text-[10px] font-body font-semibold text-muted-foreground/50 tabular-nums">
+          <div className="flex items-center gap-1.5">
+            {/* Profile counter */}
+            <span className="text-[10px] font-body font-medium text-muted-foreground/60 tabular-nums">
               {currentIndex + 1}/{filteredProfiles.length}
             </span>
             <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95" onClick={goPrev}>
-              <Undo2 className="h-[18px] w-[18px] text-foreground/80" />
+              <Undo2 className="h-5 w-5 text-foreground" />
             </button>
           </div>
         </div>
@@ -190,14 +208,22 @@ const Discover = () => {
       {/* Scrollable content */}
       {filteredProfiles.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-4">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="h-16 w-16 rounded-2xl bg-muted/60 flex items-center justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="h-16 w-16 rounded-2xl bg-muted/60 flex items-center justify-center"
+          >
             <Search className="h-7 w-7 text-muted-foreground/40" />
           </motion.div>
           <div className="space-y-1">
             <p className="font-display text-lg font-semibold text-foreground">No profiles found</p>
             <p className="font-body text-sm text-muted-foreground">Try different keywords or reset your filters</p>
           </div>
-          <motion.button whileTap={{ scale: 0.95 }} onClick={() => { setFilterTags([]); setCurrentIndex(0); }} className="px-5 py-2 rounded-full text-[13px] font-body font-medium text-primary border border-primary/30 hover:bg-primary/5 transition-colors">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => { setFilterTags([]); setCurrentIndex(0); }}
+            className="px-5 py-2 rounded-full text-[13px] font-body font-medium text-primary border border-primary/30 hover:bg-primary/5 transition-colors"
+          >
             Clear filters
           </motion.button>
         </div>
@@ -206,11 +232,11 @@ const Discover = () => {
           <motion.main
             key={currentIndex}
             custom={direction}
-            initial={{ opacity: 0, x: direction * 50 }}
+            initial={{ opacity: 0, x: direction * 60 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction * -50 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-1 overflow-y-auto px-3.5 pb-28 space-y-4"
+            exit={{ opacity: 0, x: direction * -60 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 overflow-y-auto px-4 pb-28 space-y-5"
           >
             {buildSections()}
           </motion.main>
@@ -218,42 +244,51 @@ const Discover = () => {
       )}
 
       {/* Floating action buttons */}
-      <div className="fixed bottom-[72px] left-0 right-0 flex items-center justify-center gap-5 pointer-events-none z-20">
+      <div className="fixed bottom-20 left-0 right-0 flex items-center justify-center gap-6 pointer-events-none z-20">
         {/* Pass */}
         <motion.button
-          whileTap={{ scale: 0.82 }}
+          whileTap={{ scale: 0.85 }}
           whileHover={{ scale: 1.08 }}
           onClick={handlePass}
-          className="pointer-events-auto h-[52px] w-[52px] rounded-full border border-border/40 bg-card/90 backdrop-blur-lg flex items-center justify-center group"
-          style={{ boxShadow: "0 6px 24px -4px hsl(var(--foreground) / 0.1)" }}
+          className="pointer-events-auto h-14 w-14 rounded-full border border-border/50 bg-card/95 backdrop-blur-md flex items-center justify-center group"
+          style={{ boxShadow: "0 8px 32px -6px hsl(var(--foreground) / 0.1)" }}
         >
-          <X className="h-5 w-5 text-muted-foreground/70 group-hover:text-destructive transition-colors duration-200" />
+          <X className="h-6 w-6 text-muted-foreground group-hover:text-destructive transition-colors duration-200" />
         </motion.button>
 
         {/* Connect */}
         <motion.button
-          whileTap={{ scale: 0.82 }}
+          whileTap={{ scale: 0.85 }}
           whileHover={{ scale: 1.08 }}
           onClick={handleConnect}
-          className="pointer-events-auto h-[60px] w-[60px] rounded-full flex items-center justify-center relative"
+          className="pointer-events-auto h-16 w-16 rounded-full flex items-center justify-center relative"
           style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
         >
           <motion.div
             className="absolute inset-0 rounded-full"
             style={{ background: "var(--gradient-warm)" }}
-            animate={{ scale: [1, 1.2, 1], opacity: [0.35, 0, 0.35] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0, 0.4] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
-          <Plus className="h-6 w-6 text-primary-foreground relative z-10" strokeWidth={2.5} />
+          <Plus className="h-7 w-7 text-primary-foreground relative z-10" />
         </motion.button>
       </div>
 
-      <VibeDialog open={vibeDialogOpen} sectionName={vibeDialogSection} onSendVibe={handleSendVibe} onCancel={() => setVibeDialogOpen(false)} onSendInvite={handleVibeToInvite} />
+      {/* Vibe Dialog */}
+      <VibeDialog
+        open={vibeDialogOpen}
+        sectionName={vibeDialogSection}
+        onSendVibe={handleSendVibe}
+        onCancel={() => setVibeDialogOpen(false)}
+        onSendInvite={handleVibeToInvite}
+      />
+
+      {/* Invite Dialog */}
       <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} />
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-2xl border-t border-border/15 z-30">
-        <div className="flex items-center justify-around py-2 px-4 max-w-md mx-auto">
+      <nav className="fixed bottom-0 left-0 right-0 bg-card/85 backdrop-blur-2xl border-t border-border/20 z-30">
+        <div className="flex items-center justify-around py-2.5 px-4 max-w-md mx-auto">
           <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
           <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
           <NavItem icon={<InfinityIcon />} label="Discover" active />
@@ -270,17 +305,20 @@ function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode; labe
     <button
       onClick={onClick}
       className={`relative flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all duration-300 ${
-        active ? "text-primary" : "text-muted-foreground/50 hover:text-foreground active:scale-90"
+        active ? "text-primary" : "text-muted-foreground/60 hover:text-foreground active:scale-90"
       }`}
     >
-      <motion.div animate={active ? { scale: 1.1, y: -1 } : { scale: 1, y: 0 }} transition={{ type: "spring", stiffness: 300 }}>
+      <motion.div
+        animate={active ? { scale: 1.1 } : { scale: 1 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
         {icon}
       </motion.div>
-      <span className={`text-[10px] leading-none ${active ? "font-bold" : "font-medium"}`}>{label}</span>
+      <span className={`text-[10px] font-medium leading-none ${active ? "font-semibold" : ""}`}>{label}</span>
       {active && (
         <motion.div
           layoutId="nav-indicator"
-          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-[3px] w-5 rounded-full"
+          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-1 w-5 rounded-full"
           style={{ background: "var(--gradient-warm)" }}
           transition={{ type: "spring", stiffness: 380, damping: 30 }}
         />

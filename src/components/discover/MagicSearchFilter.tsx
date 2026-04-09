@@ -17,9 +17,6 @@ import {
   ChevronDown,
   Lock,
   ArrowUpRight,
-  Palette,
-  Gem,
-  Compass,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
@@ -33,11 +30,11 @@ const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Trav
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
-const SUGGESTION_CATEGORIES: { label: string; iconKey: "interests" | "lifestyle" | "values" | "general"; keywords: string[] }[] = [
-  { label: "Interests", iconKey: "interests", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
-  { label: "Lifestyle", iconKey: "lifestyle", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
-  { label: "Values", iconKey: "values", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
-  { label: "General", iconKey: "general", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
+const SUGGESTION_CATEGORIES: { label: string; icon: string; keywords: string[] }[] = [
+  { label: "Interests", icon: "🎨", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
+  { label: "Lifestyle", icon: "✨", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
+  { label: "Values", icon: "💎", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
+  { label: "General", icon: "🌐", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
 ];
 
 const DEFAULTS = {
@@ -116,18 +113,18 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
         className="w-full sm:max-w-md p-0 flex flex-col bg-background"
       >
         {/* Header */}
-        <div className="px-4 pt-2 pb-1.5 border-b border-border/15">
+        <div className="px-5 pt-5 pb-3 border-b border-border/20">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setOpen(false)}
-              className="p-1 -ml-0.5 rounded-md hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
+              className="p-2 -ml-1 rounded-xl hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
             >
-              <ChevronRight className="h-3.5 w-3.5 rotate-180" />
+              <ChevronRight className="h-5 w-5 rotate-180" />
             </button>
-            <h2 className="font-display text-xs font-semibold text-foreground/80 tracking-wide uppercase">
-              Curate Discovery
+            <h2 className="font-display text-lg font-semibold text-foreground tracking-tight">
+              Refine Search
             </h2>
-            <div className="w-5" />
+            <div className="w-9" />
           </div>
         </div>
 
@@ -226,15 +223,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                           onClick={setCatOpen}
                           className={`w-full flex items-center gap-2.5 px-3 py-2 transition-colors rounded-xl ${catOpen ? 'bg-muted/30' : 'hover:bg-muted/20'}`}
                         >
-{(() => {
-                            const iconClass = "h-3.5 w-3.5 text-muted-foreground";
-                            switch (cat.iconKey) {
-                              case "interests": return <Palette className={iconClass} />;
-                              case "lifestyle": return <Sparkles className={iconClass} />;
-                              case "values": return <Gem className={iconClass} />;
-                              case "general": return <Compass className={iconClass} />;
-                            }
-                          })()}
+                          <span className="text-sm">{cat.icon}</span>
                           <span className="text-[12px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
                           {activeInCat > 0 && (
                             <motion.span
