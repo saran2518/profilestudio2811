@@ -278,22 +278,35 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               </div>
 
               {/* Magic Search CTA */}
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                whileHover={{ scale: 1.01 }}
-                onClick={() => {
-                  onApply?.(searchTags);
-                  setOpen(false);
-                }}
-                disabled={searchTags.length === 0}
-                className="w-full rounded-xl py-2.5 font-body text-[13px] font-semibold text-primary-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
-                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Search{searchTags.length > 0 ? ` · ${searchTags.length} keywords` : ""}
-                </span>
-              </motion.button>
+              <div className="flex items-center gap-2">
+                {searchTags.length > 0 && (
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileTap={{ scale: 0.93 }}
+                    onClick={() => setSearchTags([])}
+                    className="px-3.5 py-2.5 rounded-xl font-body text-[12px] font-semibold text-muted-foreground border border-border/30 hover:bg-muted/30 hover:text-foreground transition-all duration-200"
+                  >
+                    Clear
+                  </motion.button>
+                )}
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  whileHover={{ scale: 1.01 }}
+                  onClick={() => {
+                    onApply?.(searchTags);
+                    setOpen(false);
+                  }}
+                  disabled={searchTags.length === 0}
+                  className="flex-1 rounded-xl py-2.5 font-body text-[13px] font-semibold text-primary-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
+                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    Search{searchTags.length > 0 ? ` · ${searchTags.length} keywords` : ""}
+                  </span>
+                </motion.button>
+              </div>
 
               <a
                 href="#"
