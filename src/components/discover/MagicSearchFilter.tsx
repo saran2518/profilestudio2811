@@ -122,7 +122,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               <ChevronRight className="h-5 w-5 rotate-180" />
             </button>
             <h2 className="font-display text-lg font-semibold text-foreground tracking-tight">
-              Refine Search
+              Curate Discovery
             </h2>
             <div className="w-9" />
           </div>
