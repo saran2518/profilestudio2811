@@ -34,7 +34,7 @@ const SUGGESTION_CATEGORIES: { label: string; icon: string; keywords: string[] }
   { label: "Interests", icon: "🎨", keywords: ["Photography", "Hiking", "Cooking", "Music", "Fitness", "Reading", "Travel", "Art"] },
   { label: "Lifestyle", icon: "✨", keywords: ["Night Owl", "Morning Person", "Startup Founder", "Foodie", "Minimalist", "Adventure Seeker"] },
   { label: "Values", icon: "💎", keywords: ["Empathy", "Authenticity", "Growth Mindset", "Kindness", "Ambition", "Spirituality"] },
-  { label: "General", icon: "🌐", keywords: ["English", "Hindi", "Tamil", "French", "Spanish", "MBA", "Engineering", "Medicine", "Law", "Design", "Software Engineer", "Doctor", "Lawyer", "Teacher", "Designer", "Entrepreneur"] },
+  { label: "General", icon: "🌐", keywords: ["English", "Hindi", "Tamil", "French", "Spanish", "Engineering", "Medicine", "Law", "Design", "Software Engineer", "Doctor", "Lawyer", "Teacher", "Designer", "Entrepreneur"] },
 ];
 
 const DEFAULTS = {
