@@ -293,6 +293,14 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 </span>
               </motion.button>
 
+              <a
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                className="block text-center text-[11px] font-body font-medium text-primary/70 hover:text-primary transition-colors -mt-1"
+              >
+                More about Magic Search
+              </a>
+
               {/* Basic Filters Toggle */}
               <div className="flex items-center justify-between pt-1.5 border-t border-border/20">
                 <div className="flex items-center gap-1.5">
