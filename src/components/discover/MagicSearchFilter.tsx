@@ -17,6 +17,9 @@ import {
   ChevronDown,
   Lock,
   ArrowUpRight,
+  Palette,
+  Gem,
+  Compass,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
@@ -223,7 +226,15 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                           onClick={setCatOpen}
                           className={`w-full flex items-center gap-2.5 px-3 py-2 transition-colors rounded-xl ${catOpen ? 'bg-muted/30' : 'hover:bg-muted/20'}`}
                         >
-                          <span className="text-sm">{cat.icon}</span>
+{(() => {
+                            const iconClass = "h-3.5 w-3.5 text-muted-foreground";
+                            switch (cat.iconKey) {
+                              case "interests": return <Palette className={iconClass} />;
+                              case "lifestyle": return <Sparkles className={iconClass} />;
+                              case "values": return <Gem className={iconClass} />;
+                              case "general": return <Compass className={iconClass} />;
+                            }
+                          })()}
                           <span className="text-[12px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
                           {activeInCat > 0 && (
                             <motion.span
