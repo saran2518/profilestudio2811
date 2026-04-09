@@ -215,9 +215,9 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               )}
 
               {/* Collapsible Suggestions */}
-              <div className="pt-1">
-                <p className="text-[10px] font-body font-semibold text-muted-foreground/50 uppercase tracking-[0.15em] mb-3">Suggestions</p>
-                <div className="space-y-1">
+              <div>
+                <p className="text-[9px] font-body font-semibold text-muted-foreground/50 uppercase tracking-[0.15em] mb-2">Suggestions</p>
+                <div className="space-y-0.5">
                   {SUGGESTION_CATEGORIES.map((cat) => {
                     const [catOpen, setCatOpen] = [
                       expandedSuggestion === cat.label,
@@ -225,19 +225,19 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                     ];
                     const activeInCat = cat.keywords.filter((kw) => searchTags.includes(kw)).length;
                     return (
-                      <div key={cat.label} className="rounded-xl overflow-hidden">
+                      <div key={cat.label} className="rounded-lg overflow-hidden">
                         <button
                           onClick={setCatOpen}
-                          className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-muted/30 transition-colors rounded-xl"
+                          className="w-full flex items-center gap-2 px-2.5 py-2 hover:bg-muted/30 transition-colors rounded-lg"
                         >
-                          <span className="text-base">{cat.icon}</span>
-                          <span className="text-[13px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
+                          <span className="text-sm">{cat.icon}</span>
+                          <span className="text-[12px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
                           {activeInCat > 0 && (
-                            <span className="h-5 min-w-[20px] px-1.5 rounded-full bg-primary/15 text-[10px] font-bold text-primary flex items-center justify-center">
+                            <span className="h-4 min-w-[16px] px-1 rounded-full bg-primary/15 text-[9px] font-bold text-primary flex items-center justify-center">
                               {activeInCat}
                             </span>
                           )}
-                          <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 ${catOpen ? "rotate-180" : ""}`} />
+                          <ChevronDown className={`h-3 w-3 text-muted-foreground transition-transform duration-200 ${catOpen ? "rotate-180" : ""}`} />
                         </button>
                         <AnimatePresence>
                           {catOpen && (
@@ -248,7 +248,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-wrap gap-1.5 px-3 pb-3 pt-1">
+                              <div className="flex flex-wrap gap-1 px-2.5 pb-2 pt-0.5">
                                 {cat.keywords.map((kw) => {
                                   const isActive = searchTags.includes(kw);
                                   return (
@@ -259,13 +259,13 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                                         if (isActive) removeTag(kw);
                                         else setSearchTags((prev) => [...prev, kw]);
                                       }}
-                                      className={`px-3 py-1.5 rounded-full text-[12px] font-body font-medium border transition-all duration-200 ${
+                                      className={`px-2.5 py-1 rounded-full text-[11px] font-body font-medium border transition-all duration-200 ${
                                         isActive
                                           ? "border-primary bg-primary text-primary-foreground shadow-sm"
                                           : "border-border/40 bg-muted/30 text-muted-foreground hover:border-primary/30 hover:text-foreground"
                                       }`}
                                     >
-                                      {isActive && <Check className="h-3 w-3 inline mr-1 -mt-0.5" />}
+                                      {isActive && <Check className="h-2.5 w-2.5 inline mr-0.5 -mt-0.5" />}
                                       {kw}
                                     </motion.button>
                                   );
@@ -288,20 +288,20 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   setOpen(false);
                 }}
                 disabled={searchTags.length === 0}
-                className="w-full rounded-xl py-3 font-body text-[13px] font-semibold text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
+                className="w-full rounded-xl py-2.5 font-body text-[12px] font-semibold text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
                 style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.75))" }}
               >
                 <span className="flex items-center justify-center gap-2">
-                  <Sparkles className="h-3.5 w-3.5" />
+                  <Sparkles className="h-3 w-3" />
                   Search{searchTags.length > 0 ? ` (${searchTags.length})` : ""}
                 </span>
               </motion.button>
 
               {/* Basic Filters Toggle */}
-              <div className="flex items-center justify-between pt-2 border-t border-border/20">
-                <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="text-[12px] font-body font-medium text-muted-foreground">Include Standard Filters</span>
+              <div className="flex items-center justify-between pt-1.5 border-t border-border/20">
+                <div className="flex items-center gap-1.5">
+                  <SlidersHorizontal className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-[11px] font-body font-medium text-muted-foreground">Include Standard Filters</span>
                 </div>
                 <Switch
                   checked={basicFiltersEnabled}
