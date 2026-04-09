@@ -18,26 +18,32 @@ export default function ProfileActions({ profileName }: Props) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.4 }}
-        className="py-8 px-6"
+        className="py-6 px-4"
       >
-        <p className="text-xs text-center text-muted-foreground mb-4 tracking-wide uppercase">
+        {/* Divider with dot */}
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex-1 h-px bg-border/30" />
+          <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/20" />
+          <div className="flex-1 h-px bg-border/30" />
+        </div>
+        <p className="text-[10px] text-center text-muted-foreground/60 mb-3 tracking-[0.15em] uppercase font-medium">
           Something wrong?
         </p>
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-3">
           <motion.button
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.93 }}
             onClick={() => setReportOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-destructive/30 text-destructive text-sm font-semibold hover:bg-destructive/5 active:bg-destructive/10 transition-all duration-200"
+            className="flex items-center gap-2 px-5 py-2 rounded-full border border-destructive/20 text-destructive/70 text-[12px] font-semibold hover:bg-destructive/5 active:bg-destructive/10 transition-all duration-200"
           >
-            <Flag className="h-4 w-4" />
+            <Flag className="h-3.5 w-3.5" />
             Report
           </motion.button>
           <motion.button
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.93 }}
             onClick={() => setBlockOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-primary/30 text-primary text-sm font-semibold hover:bg-primary/5 active:bg-primary/10 transition-all duration-200"
+            className="flex items-center gap-2 px-5 py-2 rounded-full border border-muted-foreground/20 text-muted-foreground/70 text-[12px] font-semibold hover:bg-muted/40 active:bg-muted/60 transition-all duration-200"
           >
-            <ShieldBan className="h-4 w-4" />
+            <ShieldBan className="h-3.5 w-3.5" />
             Block
           </motion.button>
         </div>
