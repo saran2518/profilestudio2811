@@ -244,7 +244,7 @@ const Discover = () => {
       )}
 
       {/* Floating action buttons */}
-      <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-10 pointer-events-none z-20">
+      <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-6 pointer-events-none z-20">
         {/* Pass */}
         <motion.button
           whileTap={{ scale: 0.85 }}
