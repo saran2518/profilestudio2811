@@ -244,7 +244,7 @@ const Discover = () => {
       )}
 
       {/* Floating action buttons */}
-      <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-12 pointer-events-none z-20">
+      <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-10 pointer-events-none z-20">
         {/* Pass */}
         <motion.button
           whileTap={{ scale: 0.85 }}
@@ -261,7 +261,7 @@ const Discover = () => {
           whileTap={{ scale: 0.85 }}
           whileHover={{ scale: 1.08 }}
           onClick={handleConnect}
-          className="pointer-events-auto h-16 w-16 rounded-full flex items-center justify-center relative"
+          className="pointer-events-auto h-14 w-14 rounded-full flex items-center justify-center relative"
           style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
         >
           <motion.div
@@ -270,7 +270,7 @@ const Discover = () => {
             animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0, 0.4] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
-          <Plus className="h-7 w-7 text-primary-foreground relative z-10" />
+          <Plus className="h-6 w-6 text-primary-foreground relative z-10" />
         </motion.button>
       </div>
 
