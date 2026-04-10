@@ -194,10 +194,6 @@ const Discover = () => {
           </MagicSearchFilter>
 
           <div className="flex items-center gap-1.5">
-            {/* Profile counter */}
-            <span className="text-[10px] font-body font-medium text-muted-foreground/60 tabular-nums">
-              {currentIndex + 1}/{filteredProfiles.length}
-            </span>
             <button className="p-1.5 rounded-xl hover:bg-muted/40 hover:scale-105 transition-all duration-200 active:scale-95" onClick={goPrev}>
               <Undo2 className="h-5 w-5 text-foreground" />
             </button>
