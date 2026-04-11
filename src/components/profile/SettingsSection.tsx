@@ -1,46 +1,127 @@
 import { motion } from "framer-motion";
-import { Bell, Moon, Globe, Lock, Shield, Eye, HelpCircle, LogOut, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {
+  Pause,
+  EyeOff,
+  ShieldCheck,
+  HeartHandshake,
+  Phone,
+  Mail,
+  Bell,
+  MailOpen,
+  Globe,
+  Lock,
+  DatabaseZap,
+  FileText,
+  Scale,
+  LogOut,
+  PauseCircle,
+  Trash2,
+  Info,
+  ChevronRight,
+} from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
-interface SettingsSectionProps {
-  darkMode: boolean;
-  setDarkMode: (v: boolean) => void;
-  notifications: boolean;
-  setNotifications: (v: boolean) => void;
-}
+const SettingsSection = () => {
+  const [pauseProfile, setPauseProfile] = useState(false);
+  const [privateBrowsing, setPrivateBrowsing] = useState(false);
+  const [pushNotifications, setPushNotifications] = useState(true);
+  const [emailNotifications, setEmailNotifications] = useState(true);
 
-const SettingsSection = ({ darkMode, setDarkMode, notifications, setNotifications }: SettingsSectionProps) => {
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-      {/* Preferences */}
-      <SettingsGroup title="Preferences">
-        <SettingRow icon={<Bell className="h-4 w-4" />} label="Notifications" action={<Switch checked={notifications} onCheckedChange={setNotifications} />} />
-        <SettingRow icon={<Moon className="h-4 w-4" />} label="Dark Mode" action={<Switch checked={darkMode} onCheckedChange={setDarkMode} />} />
-        <SettingRow icon={<Globe className="h-4 w-4" />} label="Language" value="English" last />
+      {/* Profile & Presence */}
+      <SettingsGroup title="Profile & Presence">
+        <SettingRow
+          icon={<Pause className="h-4 w-4" />}
+          label="Pause Profile"
+          action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+        />
+        <SettingRow
+          icon={<EyeOff className="h-4 w-4" />}
+          label="Private Browsing"
+          badge="Premium"
+          action={<Switch checked={privateBrowsing} onCheckedChange={setPrivateBrowsing} />}
+          last
+        />
       </SettingsGroup>
 
-      {/* Privacy */}
-      <SettingsGroup title="Privacy & Security">
-        <SettingRow icon={<Lock className="h-4 w-4" />} label="Privacy Settings" />
-        <SettingRow icon={<Shield className="h-4 w-4" />} label="Blocked Users" />
-        <SettingRow icon={<Eye className="h-4 w-4" />} label="Profile Visibility" value="Everyone" last />
+      {/* Safety */}
+      <SettingsGroup title="Safety">
+        <SettingRow icon={<ShieldCheck className="h-4 w-4" />} label="Selfie Badge" />
+        <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Safe Dating Tips" last />
       </SettingsGroup>
 
-      {/* Support */}
-      <SettingsGroup title="Support">
-        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" />
-        <SettingRow icon={<Shield className="h-4 w-4" />} label="Terms & Privacy Policy" last />
+      {/* Login & Security */}
+      <SettingsGroup title="Login & Security">
+        <SettingRow icon={<Phone className="h-4 w-4" />} label="Phone Number" />
+        <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" last />
       </SettingsGroup>
 
-      {/* Logout */}
-      <Button
-        variant="outline"
-        className="w-full rounded-2xl gap-2 h-11 text-destructive border-destructive/20 hover:bg-destructive/5 font-medium"
-      >
-        <LogOut className="h-4 w-4" />
-        Log Out
-      </Button>
+      {/* Notifications */}
+      <SettingsGroup title="Notifications">
+        <SettingRow
+          icon={<Bell className="h-4 w-4" />}
+          label="Push Notifications"
+          action={<Switch checked={pushNotifications} onCheckedChange={setPushNotifications} />}
+        />
+        <SettingRow
+          icon={<MailOpen className="h-4 w-4" />}
+          label="Email Notifications"
+          action={<Switch checked={emailNotifications} onCheckedChange={setEmailNotifications} />}
+          last
+        />
+      </SettingsGroup>
+
+      {/* Language */}
+      <SettingsGroup title="Language">
+        <SettingRow icon={<Globe className="h-4 w-4" />} label="App Language" value="English" last />
+      </SettingsGroup>
+
+      {/* Privacy & Data */}
+      <SettingsGroup title="Privacy & Data">
+        <SettingRow icon={<Lock className="h-4 w-4" />} label="Privacy Preferences" />
+        <SettingRow icon={<DatabaseZap className="h-4 w-4" />} label="Request Your Data" last />
+      </SettingsGroup>
+
+      {/* Legal */}
+      <SettingsGroup title="Legal">
+        <SettingRow icon={<FileText className="h-4 w-4" />} label="Privacy Policy" />
+        <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" last />
+      </SettingsGroup>
+
+      {/* Account */}
+      <div className="space-y-2">
+        <Button
+          variant="outline"
+          className="w-full rounded-2xl gap-2 h-11 text-foreground border-border/30 hover:bg-muted/50 font-medium"
+        >
+          <LogOut className="h-4 w-4" />
+          Log Out
+        </Button>
+        <Button
+          variant="outline"
+          className="w-full rounded-2xl gap-2 h-11 text-amber-600 border-amber-200 hover:bg-amber-50 font-medium"
+        >
+          <PauseCircle className="h-4 w-4" />
+          Pause Account
+        </Button>
+        <Button
+          variant="outline"
+          className="w-full rounded-2xl gap-2 h-11 text-destructive border-destructive/20 hover:bg-destructive/5 font-medium"
+        >
+          <Trash2 className="h-4 w-4" />
+          Delete Account
+        </Button>
+      </div>
+
+      {/* App Info */}
+      <div className="flex items-center justify-center gap-2 py-3 text-muted-foreground/50">
+        <Info className="h-3.5 w-3.5" />
+        <span className="text-[11px] font-medium">Version 1.0.0</span>
+      </div>
     </motion.div>
   );
 };
@@ -61,12 +142,14 @@ function SettingRow({
   label,
   value,
   action,
+  badge,
   last,
 }: {
   icon: React.ReactNode;
   label: string;
   value?: string;
   action?: React.ReactNode;
+  badge?: string;
   last?: boolean;
 }) {
   return (
@@ -75,6 +158,11 @@ function SettingRow({
         {icon}
       </div>
       <span className="flex-1 text-[13px] text-foreground font-medium">{label}</span>
+      {badge && (
+        <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5 font-semibold bg-primary/10 text-primary border-0">
+          {badge}
+        </Badge>
+      )}
       {action || (
         <div className="flex items-center gap-1.5 text-muted-foreground">
           {value && <span className="text-[12px]">{value}</span>}
