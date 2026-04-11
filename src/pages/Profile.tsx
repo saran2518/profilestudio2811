@@ -29,8 +29,6 @@ const sections: { key: SectionKey; label: string; icon: React.ReactNode }[] = [
 const Profile = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<SectionKey>("profile");
-  const [darkMode, setDarkMode] = useState(false);
-  const [notifications, setNotifications] = useState(true);
 
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">
@@ -95,12 +93,7 @@ const Profile = () => {
         )}
         {activeSection === "subscriptions" && <SubscriptionsSection />}
         {activeSection === "settings" && (
-          <SettingsSection
-            darkMode={darkMode}
-            setDarkMode={setDarkMode}
-            notifications={notifications}
-            setNotifications={setNotifications}
-          />
+          <SettingsSection />
         )}
       </main>
 
