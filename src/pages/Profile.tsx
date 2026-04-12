@@ -82,7 +82,7 @@ const Profile = () => {
               profession={userProfile.profession}
               location={userProfile.location}
               photoUrl={userProfile.photos[0]}
-              onViewProfile={() => navigate("/preview")}
+              onViewProfile={() => navigate("/preview", { state: { selfView: true } })}
             />
             <QuickActions onEditProfile={() => navigate("/profile-studio-intro")} />
             <ProfileCompleteness
