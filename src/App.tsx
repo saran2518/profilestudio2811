@@ -14,6 +14,7 @@ import Expressions from "./pages/Expressions";
 import Preview from "./pages/Preview";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
+import ManagePhotos from "./pages/ManagePhotos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/preview" element={<Preview />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/manage-photos" element={<ManagePhotos />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
