@@ -17,8 +17,17 @@ const noop = () => {};
 const Preview = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const profile = location.state?.profile as GeneratedProfile | undefined;
+  const generatedProfile = location.state?.profile as GeneratedProfile | undefined;
+  const selfView = location.state?.selfView as boolean | undefined;
   const template = PROFILES[0];
+
+  // Build profile data from either generated profile or user's own data
+  const profile: GeneratedProfile | null = generatedProfile ?? (selfView ? {
+    bio: template.bio,
+    interests: template.interests,
+    narratives: template.narratives,
+    joinMeFor: template.joinMeFor,
+  } as GeneratedProfile : null);
 
   if (!profile) {
     return (
