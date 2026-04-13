@@ -263,23 +263,16 @@ const Discover = () => {
             className="fixed bottom-[72px] left-0 right-0 z-50 pointer-events-none px-3"
           >
             <div
-              className="flex items-center gap-3 px-5 py-3.5 rounded-t-2xl"
-              style={{
-                background:
-                  activeToast === "pass"
-                    ? "linear-gradient(135deg, hsl(var(--foreground) / 0.92), hsl(var(--foreground) / 0.85))"
-                    : activeToast === "vibe"
-                    ? "linear-gradient(135deg, hsl(260 60% 16%), hsl(260 50% 22%))"
-                    : "linear-gradient(135deg, hsl(220 30% 10%), hsl(220 20% 16%))",
-              }}
+              className="flex items-center gap-3 px-5 py-3.5 rounded-t-2xl bg-card/95 backdrop-blur-xl border border-border/30 border-b-0"
+              style={{ boxShadow: "0 -4px 24px -6px hsl(var(--foreground) / 0.08)" }}
             >
               <div
                 className={`h-9 w-9 rounded-xl flex items-center justify-center ${
                   activeToast === "pass"
-                    ? "bg-destructive/20"
+                    ? "bg-destructive/10"
                     : activeToast === "vibe"
-                    ? "bg-primary/20"
-                    : "bg-accent/20"
+                    ? "bg-primary/10"
+                    : "bg-primary/10"
                 }`}
               >
                 {activeToast === "pass" && <X className="h-[18px] w-[18px] text-destructive" strokeWidth={2.5} />}
@@ -287,10 +280,10 @@ const Discover = () => {
                 {activeToast === "invite" && <Send className="h-[18px] w-[18px] text-primary" strokeWidth={2} />}
               </div>
               <div className="flex-1">
-                <p className="font-display text-sm font-semibold text-white">
+                <p className="font-display text-sm font-semibold text-foreground">
                   {activeToast === "pass" ? "Passed" : activeToast === "vibe" ? "Vibe Sent!" : "Invite Sent!"}
                 </p>
-                <p className="font-body text-[11px] text-white/50">
+                <p className="font-body text-[11px] text-muted-foreground">
                   {activeToast === "pass"
                     ? "Swiping to next profile..."
                     : activeToast === "vibe"
@@ -299,7 +292,7 @@ const Discover = () => {
                 </p>
               </div>
               {/* Progress bar */}
-              <div className="h-1 w-12 rounded-full overflow-hidden" style={{ background: "hsl(0 0% 100% / 0.1)" }}>
+              <div className="h-1 w-12 rounded-full overflow-hidden bg-muted/50">
                 <motion.div
                   initial={{ width: "100%" }}
                   animate={{ width: "0%" }}
@@ -308,10 +301,8 @@ const Discover = () => {
                   style={{
                     background:
                       activeToast === "pass"
-                        ? "hsl(var(--destructive) / 0.7)"
-                        : activeToast === "vibe"
-                        ? "hsl(var(--primary) / 0.7)"
-                        : "hsl(var(--accent) / 0.7)",
+                        ? "hsl(var(--destructive) / 0.6)"
+                        : "hsl(var(--primary) / 0.6)",
                   }}
                 />
               </div>
