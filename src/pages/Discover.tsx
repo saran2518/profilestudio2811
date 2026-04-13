@@ -236,14 +236,13 @@ const Discover = () => {
           </motion.button>
         </div>
       ) : (
-        <AnimatePresence mode="wait" custom={direction}>
+        <AnimatePresence mode="wait">
           <motion.main
             key={currentIndex}
-            custom={direction}
-            initial={{ opacity: 0, x: direction * 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction * -60 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, filter: "blur(12px)", scale: 0.97 }}
+            animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+            exit={{ opacity: 0, filter: "blur(12px)", scale: 0.97 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="flex-1 overflow-y-auto px-4 pb-28 space-y-5"
           >
             {buildSections()}
