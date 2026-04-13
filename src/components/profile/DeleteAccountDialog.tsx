@@ -8,10 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 const DELETE_REASONS = [
   { label: "Found someone", emoji: "💑" },
   { label: "Taking a break", emoji: "☕" },
-  { label: "Not enough matches", emoji: "😕" },
   { label: "Privacy concerns", emoji: "🔒" },
-  { label: "Too many notifications", emoji: "🔔" },
-  { label: "App is hard to use", emoji: "😤" },
   { label: "Other", emoji: "✏️" },
 ];
 
