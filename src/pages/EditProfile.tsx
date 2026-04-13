@@ -67,6 +67,11 @@ const EditProfile = () => {
   const [draftValue, setDraftValue] = useState("");
   const [openToAll, setOpenToAll] = useState(fields.datingPreference === "Everyone");
 
+  // Gender identity state
+  const [draftGender, setDraftGender] = useState(fields.gender);
+  const [draftCustomGender, setDraftCustomGender] = useState("");
+  const [draftDisplayGender, setDraftDisplayGender] = useState(fields.gender);
+
   const fieldConfig: EditableField[] = [
     { key: "datingPreference", label: "Dating Preference", icon: <Heart className="h-4.5 w-4.5 text-primary" />, value: fields.datingPreference, placeholder: "e.g. Women, Men, Everyone" },
     { key: "gender", label: "Gender & Identity", icon: <User className="h-4.5 w-4.5 text-primary" />, value: fields.gender, placeholder: "e.g. Female, Male, Non-binary" },
