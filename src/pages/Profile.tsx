@@ -99,22 +99,27 @@ const Profile = () => {
               <motion.div
                 variants={stagger.item}
                 className="relative rounded-[20px] overflow-hidden border border-border/30 bg-card"
-                style={{ boxShadow: "var(--shadow-card)" }}
+                style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.08), 0 2px 8px -2px hsl(var(--foreground) / 0.04)" }}
               >
-                {/* Subtle top accent line */}
-                <div className="h-1 w-full" style={{ background: "var(--gradient-warm)" }} />
+                {/* Accent strip */}
+                <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
 
-                <div className="px-5 py-5">
+                {/* Decorative corner motif */}
+                <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
+                  <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
+                </div>
+
+                <div className="px-5 pt-5 pb-4">
                   {/* Top row: avatar + view button */}
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-[56px] h-[56px] rounded-2xl overflow-hidden shadow-md border border-border/20">
+                    <div className="w-[58px] h-[58px] rounded-2xl overflow-hidden ring-2 ring-primary/10 ring-offset-2 ring-offset-card shadow-lg">
                       <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
                     </div>
                     <Button
                       onClick={() => navigate("/preview", { state: { selfView: true } })}
                       size="sm"
                       variant="outline"
-                      className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/50 hover:bg-primary/5 hover:border-primary/30 shrink-0"
+                      className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/40 hover:bg-primary/5 hover:border-primary/30 shrink-0 shadow-sm"
                     >
                       <Eye className="h-3.5 w-3.5 text-primary" />
                       View
@@ -122,24 +127,28 @@ const Profile = () => {
                   </div>
 
                   {/* Name & age */}
-                  <h2 className="text-[18px] font-display font-bold text-foreground tracking-tight leading-tight">
+                  <h2 className="text-[19px] font-display font-bold text-foreground tracking-tight leading-tight">
                     {userProfile.name}, {userProfile.age}
                   </h2>
 
                   {/* Profession & Specialization */}
-                  <p className="text-[13px] text-foreground/80 mt-1 font-medium">
+                  <p className="text-[13px] text-foreground/70 mt-1 font-medium tracking-tight">
                     {userProfile.profession} · {userProfile.specialization}
                   </p>
+                </div>
 
-                  {/* Divider */}
-                  <div className="h-px bg-border/20 my-3" />
+                {/* Divider with dot accent */}
+                <div className="mx-5 flex items-center gap-2">
+                  <div className="flex-1 h-px bg-border/25" />
+                  <div className="h-1 w-1 rounded-full bg-primary/30" />
+                  <div className="flex-1 h-px bg-border/25" />
+                </div>
 
-                  {/* Detail chips */}
-                  <div className="flex flex-wrap gap-2">
-                    <DetailChip icon={<MapPin className="h-3 w-3" />} label={userProfile.location} />
-                    <DetailChip icon={<GraduationCap className="h-3 w-3" />} label={userProfile.about.education} />
-                    <DetailChip icon={<Globe className="h-3 w-3" />} label={userProfile.languages.slice(0, 3).join(", ")} />
-                  </div>
+                {/* Detail chips */}
+                <div className="px-5 pt-3 pb-4 flex flex-wrap gap-1.5">
+                  <DetailChip icon={<MapPin className="h-3 w-3 text-primary/60" />} label={userProfile.location} />
+                  <DetailChip icon={<GraduationCap className="h-3 w-3 text-primary/60" />} label={userProfile.about.education} />
+                  <DetailChip icon={<Globe className="h-3 w-3 text-primary/60" />} label={userProfile.languages.slice(0, 3).join(", ")} />
                 </div>
               </motion.div>
 
