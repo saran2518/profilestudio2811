@@ -37,6 +37,13 @@ interface EditableField {
   placeholder: string;
 }
 
+const DATING_PREFERENCE_OPTIONS = [
+  { value: "Men", label: "Men", emoji: "👨" },
+  { value: "Women", label: "Women", emoji: "👩" },
+  { value: "Non-Binary", label: "Non-Binary", emoji: "🌈" },
+  { value: "All of the above", label: "All of the above", emoji: "✨" },
+];
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const template = PROFILES[0];
@@ -176,13 +183,43 @@ const EditProfile = () => {
           </SheetHeader>
 
           <div className="py-4">
-            <Input
-              value={draftValue}
-              onChange={(e) => setDraftValue(e.target.value)}
-              placeholder={currentField?.placeholder}
-              className="rounded-xl text-sm"
-              autoFocus
-            />
+            {editTarget === "datingPreference" ? (
+              <div className="space-y-2">
+                {DATING_PREFERENCE_OPTIONS.map((option) => (
+                  <motion.button
+                    key={option.value}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    onClick={() => setDraftValue(option.value)}
+                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border transition-all text-left ${
+                      draftValue === option.value
+                        ? "border-primary bg-primary/8 ring-1 ring-primary/20"
+                        : "border-border/40 bg-muted/20 hover:bg-muted/40"
+                    }`}
+                  >
+                    <span className="text-lg">{option.emoji}</span>
+                    <span className="flex-1 text-sm font-medium text-foreground">{option.label}</span>
+                    {draftValue === option.value && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="h-5 w-5 rounded-full bg-primary flex items-center justify-center"
+                      >
+                        <Check className="h-3 w-3 text-primary-foreground" />
+                      </motion.div>
+                    )}
+                  </motion.button>
+                ))}
+              </div>
+            ) : (
+              <Input
+                value={draftValue}
+                onChange={(e) => setDraftValue(e.target.value)}
+                placeholder={currentField?.placeholder}
+                className="rounded-xl text-sm"
+                autoFocus
+              />
+            )}
           </div>
 
           <SheetFooter className="flex-row gap-3 pt-2">
