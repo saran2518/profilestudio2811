@@ -92,50 +92,49 @@ const Profile = () => {
               animate="animate"
               className="flex flex-col gap-4"
             >
-              {/* Hero Card - Photo + Name + View */}
+              {/* Visiting Card */}
               <motion.div
                 variants={stagger.item}
-                className="relative rounded-[20px] overflow-hidden border border-border/30"
+                className="relative rounded-[20px] overflow-hidden border border-border/30 bg-card"
                 style={{ boxShadow: "var(--shadow-card)" }}
               >
-                {/* Gradient banner */}
-                <div className="h-24 relative overflow-hidden">
-                  <div className="absolute inset-0" style={{ background: "var(--gradient-warm)", opacity: 0.15 }} />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,hsl(var(--primary)/0.18),transparent_65%)]" />
-                  <motion.div
-                    className="absolute -top-6 -right-6 w-28 h-28 rounded-full blur-2xl"
-                    style={{ background: "hsl(var(--primary) / 0.12)" }}
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.65, 0.4] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                </div>
+                {/* Subtle top accent line */}
+                <div className="h-1 w-full" style={{ background: "var(--gradient-warm)" }} />
 
-                <div className="px-5 pb-5 -mt-10 flex items-end gap-4">
-                  <div className="relative shrink-0">
-                    <div className="w-[72px] h-[72px] rounded-full border-[3px] border-card overflow-hidden shadow-lg">
+                <div className="px-5 py-5">
+                  {/* Top row: avatar + view button */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-[56px] h-[56px] rounded-2xl overflow-hidden shadow-md border border-border/20">
                       <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
                     </div>
-                    <div className="absolute -bottom-0.5 -right-0.5 h-6 w-6 rounded-full bg-primary flex items-center justify-center shadow-sm border-2 border-card">
-                      <Camera className="h-3 w-3 text-primary-foreground" />
-                    </div>
+                    <Button
+                      onClick={() => navigate("/preview", { state: { selfView: true } })}
+                      size="sm"
+                      variant="outline"
+                      className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/50 hover:bg-primary/5 hover:border-primary/30 shrink-0"
+                    >
+                      <Eye className="h-3.5 w-3.5 text-primary" />
+                      View
+                    </Button>
                   </div>
-                  <div className="flex-1 min-w-0 pb-0.5">
-                    <h2 className="text-[17px] font-display font-semibold text-foreground tracking-tight leading-tight truncate">
-                      {userProfile.name}, {userProfile.age}
-                    </h2>
-                    <p className="text-[12px] text-muted-foreground truncate mt-0.5">
-                      {userProfile.profession} · {userProfile.location}
-                    </p>
-                  </div>
-                  <Button
-                    onClick={() => navigate("/preview", { state: { selfView: true } })}
-                    size="sm"
-                    variant="outline"
-                    className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/50 hover:bg-primary/5 hover:border-primary/30 shrink-0 mb-0.5"
-                  >
-                    <Eye className="h-3.5 w-3.5 text-primary" />
-                    View
-                  </Button>
+
+                  {/* Name & age */}
+                  <h2 className="text-[18px] font-display font-bold text-foreground tracking-tight leading-tight">
+                    {userProfile.name}, {userProfile.age}
+                  </h2>
+
+                  {/* Profession */}
+                  <p className="text-[13px] text-foreground/80 mt-1 font-medium">
+                    {userProfile.profession}
+                  </p>
+
+                  {/* Divider */}
+                  <div className="h-px bg-border/20 my-3" />
+
+                  {/* Location */}
+                  <p className="text-[11px] text-muted-foreground tracking-wide uppercase">
+                    {userProfile.location}
+                  </p>
                 </div>
               </motion.div>
 
