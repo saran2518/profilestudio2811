@@ -67,8 +67,8 @@ const SettingsSection = () => {
 
       {/* Login & Security */}
       <SettingsGroup title="Login & Security" icon="🔐">
-        <SettingRow icon={<Phone className="h-4 w-4" />} label="Phone Number" subtitle="Manage your number" />
-        <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Update your email" last />
+        <SettingRow icon={<Phone className="h-4 w-4" />} label="Phone Number" subtitle="+91 •••• ••• 890" value="Verified" noChevron />
+        <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Add or update your email" onClick={() => {}} last />
       </SettingsGroup>
 
       {/* Notifications */}
@@ -168,6 +168,7 @@ function SettingRow({
   badge,
   last,
   onClick,
+  noChevron,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -177,6 +178,7 @@ function SettingRow({
   badge?: string;
   last?: boolean;
   onClick?: () => void;
+  noChevron?: boolean;
 }) {
   const Wrapper = onClick ? "button" : "div";
   return (
@@ -202,7 +204,9 @@ function SettingRow({
           <span className="text-[11.5px] text-muted-foreground/70 leading-tight block mt-0.5 truncate">{subtitle}</span>
         )}
       </div>
-      {action || (
+      {action ? action : noChevron ? (
+        value ? <span className="text-[11px] font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">{value}</span> : null
+      ) : (
         <div className="flex items-center gap-1.5 text-muted-foreground shrink-0">
           {value && <span className="text-[12px] font-medium text-muted-foreground/70">{value}</span>}
           <ChevronRight className="h-4 w-4 opacity-30" />
