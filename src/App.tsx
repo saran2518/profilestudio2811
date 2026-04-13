@@ -16,6 +16,8 @@ import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 import EditCurrentProfile from "./pages/EditCurrentProfile";
 import ManagePhotos from "./pages/ManagePhotos";
+import DatingTips from "./pages/DatingTips";
+import HelpFAQ from "./pages/HelpFAQ";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +43,8 @@ const App = () => (
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/edit-current-profile" element={<EditCurrentProfile />} />
           <Route path="/manage-photos" element={<ManagePhotos />} />
+          <Route path="/dating-tips" element={<DatingTips />} />
+          <Route path="/help-faq" element={<HelpFAQ />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

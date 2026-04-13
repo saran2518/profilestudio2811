@@ -87,69 +87,46 @@ const Profile = () => {
             />
             <QuickActions onEditProfile={() => navigate("/edit-profile")} onManagePhotos={() => navigate("/manage-photos")} />
             {/* Dating Tips */}
-            <motion.div
+            <motion.button
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.4 }}
-              className="rounded-2xl border border-border/30 bg-card p-4"
+              onClick={() => navigate("/dating-tips")}
+              className="w-full rounded-2xl border border-border/30 bg-card p-4 text-left group hover:border-primary/20 transition-all"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
-              <div className="flex items-center gap-2 mb-3">
-                <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Heart className="h-3.5 w-3.5 text-primary" />
-                </div>
-                <span className="text-sm font-medium text-foreground">Dating Tips</span>
-              </div>
-              <div className="space-y-2.5">
-                {[
-                  { title: "First Impressions Matter", desc: "Choose a clear, smiling photo as your main picture" },
-                  { title: "Be Authentic", desc: "Share genuine interests to attract the right matches" },
-                  { title: "Start Conversations", desc: "Reference something specific from their profile" },
-                ].map((tip, i) => (
-                  <div key={i} className="flex items-start gap-2.5">
-                    <div className="h-5 w-5 rounded-full bg-accent/60 flex items-center justify-center mt-0.5 shrink-0">
-                      <Sparkles className="h-3 w-3 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-[13px] font-medium text-foreground leading-tight">{tip.title}</p>
-                      <p className="text-[11px] text-muted-foreground leading-relaxed">{tip.desc}</p>
-                    </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Heart className="h-3.5 w-3.5 text-primary" />
                   </div>
-                ))}
+                  <span className="text-sm font-medium text-foreground">Dating Tips</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary/50 transition-colors" />
               </div>
-            </motion.div>
+              <p className="text-[11px] text-muted-foreground mt-2 ml-9 leading-relaxed">Boost your profile and get more matches</p>
+            </motion.button>
 
             {/* Help & FAQ */}
-            <motion.div
+            <motion.button
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.4 }}
-              className="rounded-2xl border border-border/30 bg-card p-4"
+              onClick={() => navigate("/help-faq")}
+              className="w-full rounded-2xl border border-border/30 bg-card p-4 text-left group hover:border-primary/20 transition-all"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
-              <div className="flex items-center gap-2 mb-3">
-                <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <MessageCircle className="h-3.5 w-3.5 text-primary" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-7 w-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <MessageCircle className="h-3.5 w-3.5 text-primary" />
+                  </div>
+                  <span className="text-sm font-medium text-foreground">Help & FAQ</span>
                 </div>
-                <span className="text-sm font-medium text-foreground">Help & FAQ</span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary/50 transition-colors" />
               </div>
-              <div className="space-y-1">
-                {[
-                  "How do I improve my profile?",
-                  "How does matching work?",
-                  "How to manage my subscription?",
-                  "Safety & privacy tips",
-                ].map((q, i) => (
-                  <button
-                    key={i}
-                    className="w-full flex items-center justify-between py-2.5 px-1 text-left border-b border-border/20 last:border-0 group"
-                  >
-                    <span className="text-[13px] text-foreground group-hover:text-primary transition-colors">{q}</span>
-                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </button>
-                ))}
-              </div>
-            </motion.div>
+              <p className="text-[11px] text-muted-foreground mt-2 ml-9 leading-relaxed">Find answers to common questions</p>
+            </motion.button>
           </div>
         )}
         {activeSection === "subscriptions" && <SubscriptionsSection />}
