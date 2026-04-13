@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Plus, CheckCircle, Paperclip, Send } from "lucide-react";
+import { ArrowLeft, Plus, CheckCircle, Paperclip, Send, X, FileText, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -21,7 +21,34 @@ const ContactSupport = () => {
   const navigate = useNavigate();
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [attachments, setAttachments] = useState<File[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    const newFiles = Array.from(files);
+    const total = attachments.length + newFiles.length;
+    if (total > 5) {
+      toast.error("You can attach up to 5 files");
+      return;
+    }
+    for (const file of newFiles) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error(`${file.name} exceeds 10MB limit`);
+        return;
+      }
+    }
+    setAttachments((prev) => [...prev, ...newFiles]);
+    e.target.value = "";
+  };
+
+  const removeAttachment = (index: number) => {
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const isImage = (file: File) => file.type.startsWith("image/");
 
   const handleSend = () => {
     if (!subject || !message.trim()) {
@@ -111,7 +138,18 @@ const ContactSupport = () => {
             <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60 px-1">
               Attachment <span className="normal-case font-normal">(optional)</span>
             </label>
-            <button className="flex items-center gap-3 px-4 py-3.5 rounded-2xl border border-dashed border-border/30 bg-card/50 hover:border-primary/25 hover:bg-card transition-all group">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*,.pdf,.doc,.docx,.txt"
+              multiple
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-3 px-4 py-3.5 rounded-2xl border border-dashed border-border/30 bg-card/50 hover:border-primary/25 hover:bg-card transition-all group"
+            >
               <div className="h-8 w-8 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
                 <Paperclip className="h-4 w-4 text-primary/60 group-hover:text-primary transition-colors" />
               </div>
@@ -119,6 +157,45 @@ const ContactSupport = () => {
                 Add a screenshot or file
               </span>
             </button>
+
+            {/* Attached files */}
+            {attachments.length > 0 && (
+              <div className="flex flex-col gap-2 mt-1">
+                {attachments.map((file, i) => (
+                  <motion.div
+                    key={`${file.name}-${i}`}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-border/20 bg-card"
+                    style={{ boxShadow: "var(--shadow-card)" }}
+                  >
+                    <div className="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 overflow-hidden">
+                      {isImage(file) ? (
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={file.name}
+                          className="h-full w-full object-cover rounded-lg"
+                        />
+                      ) : (
+                        <FileText className="h-4 w-4 text-muted-foreground/60" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[12px] font-medium text-foreground truncate">{file.name}</p>
+                      <p className="text-[10px] text-muted-foreground/50">
+                        {(file.size / 1024).toFixed(0)} KB
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => removeAttachment(i)}
+                      className="h-6 w-6 rounded-full flex items-center justify-center hover:bg-destructive/10 transition-colors"
+                    >
+                      <X className="h-3.5 w-3.5 text-muted-foreground/50 hover:text-destructive" />
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
         </motion.div>
       </main>
