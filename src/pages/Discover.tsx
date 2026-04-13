@@ -102,7 +102,13 @@ const Discover = () => {
     setInviteOpen(true);
   };
 
-  const handlePass = () => goNext();
+  const [showPassIndicator, setShowPassIndicator] = useState(false);
+
+  const handlePass = () => {
+    setShowPassIndicator(true);
+    setTimeout(() => setShowPassIndicator(false), 600);
+    goNext();
+  };
   const handleConnect = () => setInviteOpen(true);
 
   const isVibed = (section: string) => vibedSections.has(section);
