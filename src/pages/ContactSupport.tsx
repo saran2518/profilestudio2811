@@ -98,15 +98,19 @@ const ContactSupport = () => {
             </button>
           </div>
 
-          {/* Confirmation message */}
-          <div
-            className="flex items-start gap-3 rounded-xl border border-border/20 bg-muted/30 px-4 py-3.5"
-          >
-            <MessageSquare className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-            <p className="text-[11px] text-muted-foreground leading-relaxed">
-              We have received your message.{"\n"}We will get back to you shortly.
-            </p>
-          </div>
+          {/* Confirmation message - shown after submit */}
+          {submitted && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-start gap-3 rounded-xl border border-border/20 bg-muted/30 px-4 py-3.5"
+            >
+              <MessageSquare className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                We have received your message.{"\n"}We will get back to you shortly.
+              </p>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Send Button */}
