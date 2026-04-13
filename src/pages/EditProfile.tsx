@@ -81,12 +81,17 @@ const EditProfile = () => {
 
   const openEdit = (key: string) => {
     setEditTarget(key);
-    setDraftValue(fields[key as keyof typeof fields]);
+    const val = fields[key as keyof typeof fields];
+    setDraftValue(val);
+    if (key === "datingPreference") {
+      setOpenToAll(val === "Everyone");
+    }
   };
 
   const saveEdit = () => {
     if (editTarget) {
-      setFields((prev) => ({ ...prev, [editTarget]: draftValue }));
+      const finalValue = editTarget === "datingPreference" && openToAll ? "Everyone" : draftValue;
+      setFields((prev) => ({ ...prev, [editTarget]: finalValue }));
     }
     setEditTarget(null);
   };
