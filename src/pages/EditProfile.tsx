@@ -64,6 +64,7 @@ const EditProfile = () => {
 
   const [editTarget, setEditTarget] = useState<string | null>(null);
   const [draftValue, setDraftValue] = useState("");
+  const [openToAll, setOpenToAll] = useState(fields.datingPreference === "Everyone");
 
   const fieldConfig: EditableField[] = [
     { key: "datingPreference", label: "Dating Preference", icon: <Heart className="h-4.5 w-4.5 text-primary" />, value: fields.datingPreference, placeholder: "e.g. Women, Men, Everyone" },
