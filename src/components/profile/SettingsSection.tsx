@@ -22,6 +22,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import DeleteAccountDialog from "./DeleteAccountDialog";
+import UpdateEmailDialog from "./UpdateEmailDialog";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -39,6 +40,7 @@ const SettingsSection = () => {
   const [pushNotifications, setPushNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showEmailDialog, setShowEmailDialog] = useState(false);
 
   return (
     <motion.div
@@ -68,7 +70,7 @@ const SettingsSection = () => {
       {/* Login & Security */}
       <SettingsGroup title="Login & Security" icon="🔐">
         <SettingRow icon={<Phone className="h-4 w-4" />} label="Phone Number" subtitle="+91 •••• ••• 890" value="Verified" noChevron />
-        <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Add or update your email" onClick={() => {}} last />
+        <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Add or update your email" onClick={() => setShowEmailDialog(true)} last />
       </SettingsGroup>
 
       {/* Notifications */}
@@ -129,6 +131,7 @@ const SettingsSection = () => {
       </motion.div>
 
       <DeleteAccountDialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
+      <UpdateEmailDialog open={showEmailDialog} onClose={() => setShowEmailDialog(false)} />
 
       {/* App Info */}
       <motion.div variants={fadeUp} className="flex flex-col items-center gap-1 pt-2 pb-2">
