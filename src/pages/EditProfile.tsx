@@ -249,6 +249,15 @@ const EditProfile = () => {
                   </motion.button>
                 ))}
               </div>
+            ) : editTarget === "gender" ? (
+              <GenderIdentityEditor
+                selectedGender={draftGender}
+                customGender={draftCustomGender}
+                displayOnProfile={draftDisplayGender}
+                onGenderChange={setDraftGender}
+                onCustomGenderChange={setDraftCustomGender}
+                onDisplayOnProfileChange={setDraftDisplayGender}
+              />
             ) : (
               <Input
                 value={draftValue}
