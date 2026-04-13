@@ -192,6 +192,20 @@ const EditProfile = () => {
           <div className="py-4">
             {editTarget === "datingPreference" ? (
               <div className="space-y-3">
+                <div className="flex items-center justify-between py-1">
+                  <Label htmlFor="open-to-all" className="text-sm font-medium text-foreground cursor-pointer">
+                    Open to dating everyone
+                  </Label>
+                  <Switch
+                    id="open-to-all"
+                    checked={openToAll}
+                    onCheckedChange={(checked) => {
+                      setOpenToAll(checked);
+                      if (checked) setDraftValue("Everyone");
+                    }}
+                  />
+                </div>
+
                 {DATING_PREFERENCE_OPTIONS.map((option) => (
                   <motion.button
                     key={option.value}
@@ -219,20 +233,6 @@ const EditProfile = () => {
                     )}
                   </motion.button>
                 ))}
-
-                <div className="flex items-center justify-between px-4 py-3.5 rounded-xl border border-border/40 bg-muted/20 mt-1">
-                  <Label htmlFor="open-to-all" className="text-sm font-medium text-foreground cursor-pointer">
-                    Open to dating everyone
-                  </Label>
-                  <Switch
-                    id="open-to-all"
-                    checked={openToAll}
-                    onCheckedChange={(checked) => {
-                      setOpenToAll(checked);
-                      if (checked) setDraftValue("Everyone");
-                    }}
-                  />
-                </div>
               </div>
             ) : (
               <Input
