@@ -8,6 +8,7 @@ import {
   Compass,
   Users,
   Shield,
+  Sparkles,
   CreditCard,
   ChevronRight,
 } from "lucide-react";
@@ -20,6 +21,7 @@ const categories = [
   { icon: <Users className="h-5 w-5" />, label: "Invites &\nConnections" },
   { icon: <Shield className="h-5 w-5" />, label: "Safety &\nPrivacy" },
   { icon: <CreditCard className="h-5 w-5" />, label: "Payments" },
+  { icon: <Sparkles className="h-5 w-5" />, label: "Profile\nStudio" },
 ];
 
 const stagger = {
