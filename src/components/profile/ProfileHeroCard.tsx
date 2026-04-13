@@ -14,47 +14,29 @@ interface ProfileHeroCardProps {
 const ProfileHeroCard = ({ name, age, profession, location, photoUrl, onViewProfile }: ProfileHeroCardProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="relative rounded-3xl overflow-hidden bg-card border border-border/30"
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="relative rounded-2xl overflow-hidden bg-card border border-border/30 p-4"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      {/* Gradient Banner */}
-      <div className="h-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/25 via-accent/15 to-primary/10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--primary)/0.2),transparent_60%)]" />
-        <motion.div
-          className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-primary/10 blur-2xl"
-          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.7, 0.5] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
-
-      {/* Avatar */}
-      <div className="px-5 pb-5 -mt-14">
-        <div className="relative w-[88px] h-[88px] mx-auto">
-          <motion.div
-            whileHover={{ scale: 1.04 }}
-            className="w-full h-full rounded-full border-[3px] border-card overflow-hidden shadow-lg"
-          >
+      <div className="flex items-center gap-3">
+        {/* Avatar */}
+        <div className="relative shrink-0">
+          <div className="w-14 h-14 rounded-full border-2 border-primary/20 overflow-hidden">
             <img src={photoUrl} alt={name} className="w-full h-full object-cover" />
-          </motion.div>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary flex items-center justify-center shadow-md"
-          >
-            <Camera className="h-3.5 w-3.5 text-primary-foreground" />
-          </motion.button>
+          </div>
+          <button className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full bg-primary flex items-center justify-center shadow-sm">
+            <Camera className="h-2.5 w-2.5 text-primary-foreground" />
+          </button>
         </div>
 
         {/* Info */}
-        <div className="text-center mt-3 space-y-0.5">
-          <h2 className="text-lg font-display font-semibold text-foreground tracking-tight">
+        <div className="flex-1 min-w-0">
+          <h2 className="text-[15px] font-display font-semibold text-foreground tracking-tight leading-tight">
             {name}, {age}
           </h2>
-          <p className="text-[13px] text-muted-foreground">
+          <p className="text-[12px] text-muted-foreground truncate">
             {profession} · {location}
           </p>
         </div>
@@ -63,10 +45,11 @@ const ProfileHeroCard = ({ name, age, profession, location, photoUrl, onViewProf
         <Button
           onClick={onViewProfile}
           variant="outline"
-          className="w-full mt-4 rounded-2xl gap-2 h-11 text-[13px] font-medium border-border/50 hover:bg-primary/5 hover:border-primary/30 transition-all duration-200"
+          size="sm"
+          className="rounded-xl gap-1.5 h-8 text-[12px] font-medium border-border/50 hover:bg-primary/5 hover:border-primary/30 shrink-0"
         >
-          <Eye className="h-4 w-4 text-primary" />
-          View My Profile
+          <Eye className="h-3.5 w-3.5 text-primary" />
+          View
         </Button>
       </div>
     </motion.div>
