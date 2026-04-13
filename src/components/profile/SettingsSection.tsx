@@ -111,13 +111,6 @@ const SettingsSection = () => {
         </Button>
         <Button
           variant="outline"
-          className="w-full rounded-2xl gap-2 h-11 text-amber-600 border-amber-200 hover:bg-amber-50 font-medium"
-        >
-          <PauseCircle className="h-4 w-4" />
-          Pause Account
-        </Button>
-        <Button
-          variant="outline"
           className="w-full rounded-2xl gap-2 h-11 text-destructive border-destructive/20 hover:bg-destructive/5 font-medium"
         >
           <Trash2 className="h-4 w-4" />
