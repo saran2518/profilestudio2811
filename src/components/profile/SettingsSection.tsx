@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Pause,
   EyeOff,
@@ -16,6 +17,7 @@ import {
   LogOut,
   PauseCircle,
   Trash2,
+  HelpCircle,
   Info,
   ChevronRight,
 } from "lucide-react";
@@ -25,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const SettingsSection = () => {
+  const navigate = useNavigate();
   const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -92,6 +95,11 @@ const SettingsSection = () => {
         <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" last />
       </SettingsGroup>
 
+      {/* Help & Support */}
+      <SettingsGroup title="Help & Support">
+        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" onClick={() => navigate("/help-faq")} last />
+      </SettingsGroup>
+
       {/* Account */}
       <div className="space-y-2">
         <Button
@@ -144,6 +152,7 @@ function SettingRow({
   action,
   badge,
   last,
+  onClick,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -151,9 +160,11 @@ function SettingRow({
   action?: React.ReactNode;
   badge?: string;
   last?: boolean;
+  onClick?: () => void;
 }) {
+  const Wrapper = onClick ? "button" : "div";
   return (
-    <div className={`flex items-center gap-3 px-4 py-3 ${last ? "" : "border-b border-border/15"}`}>
+    <Wrapper onClick={onClick} className={`flex items-center gap-3 px-4 py-3 w-full text-left ${last ? "" : "border-b border-border/15"} ${onClick ? "hover:bg-muted/20 transition-colors" : ""}`}>
       <div className="h-8 w-8 rounded-lg bg-muted/50 flex items-center justify-center text-muted-foreground">
         {icon}
       </div>
@@ -169,7 +180,7 @@ function SettingRow({
           <ChevronRight className="h-4 w-4 opacity-40" />
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 }
 
