@@ -12,6 +12,7 @@ import {
   MessageCircle,
   Search,
   Wand2,
+  Send,
 } from "lucide-react";
 
 import { PROFILES } from "@/lib/profilesData";
