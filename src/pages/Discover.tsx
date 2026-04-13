@@ -103,6 +103,8 @@ const Discover = () => {
   };
 
   const [showPassIndicator, setShowPassIndicator] = useState(false);
+  const [showVibeIndicator, setShowVibeIndicator] = useState(false);
+  const [showInviteIndicator, setShowInviteIndicator] = useState(false);
 
   const handlePass = () => {
     setShowPassIndicator(true);
