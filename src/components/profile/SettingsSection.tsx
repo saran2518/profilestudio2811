@@ -152,6 +152,7 @@ function SettingRow({
   action,
   badge,
   last,
+  onClick,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -159,9 +160,11 @@ function SettingRow({
   action?: React.ReactNode;
   badge?: string;
   last?: boolean;
+  onClick?: () => void;
 }) {
+  const Wrapper = onClick ? "button" : "div";
   return (
-    <div className={`flex items-center gap-3 px-4 py-3 ${last ? "" : "border-b border-border/15"}`}>
+    <Wrapper onClick={onClick} className={`flex items-center gap-3 px-4 py-3 w-full text-left ${last ? "" : "border-b border-border/15"} ${onClick ? "hover:bg-muted/20 transition-colors" : ""}`}>
       <div className="h-8 w-8 rounded-lg bg-muted/50 flex items-center justify-center text-muted-foreground">
         {icon}
       </div>
