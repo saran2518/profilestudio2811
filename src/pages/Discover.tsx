@@ -251,62 +251,71 @@ const Discover = () => {
         </AnimatePresence>
       )}
 
-      {/* Edge Color Swipe Indicator */}
+      {/* Slim Bottom Banner Indicator */}
       <AnimatePresence>
         {activeToast && (
           <motion.div
             key={activeToast}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center"
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-[72px] left-0 right-0 z-50 pointer-events-none px-3"
           >
-            {/* Left edge glow */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 0.7, x: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="absolute left-0 top-0 bottom-0 w-24"
+            <div
+              className="flex items-center gap-3 px-5 py-3.5 rounded-t-2xl"
               style={{
-                background: `linear-gradient(90deg, ${
+                background:
                   activeToast === "pass"
-                    ? "hsl(var(--destructive) / 0.35)"
-                    : "hsl(var(--primary) / 0.35)"
-                } 0%, transparent 100%)`,
+                    ? "linear-gradient(135deg, hsl(var(--foreground) / 0.92), hsl(var(--foreground) / 0.85))"
+                    : activeToast === "vibe"
+                    ? "linear-gradient(135deg, hsl(260 60% 16%), hsl(260 50% 22%))"
+                    : "linear-gradient(135deg, hsl(220 30% 10%), hsl(220 20% 16%))",
               }}
-            />
-            {/* Right edge glow */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 0.7, x: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="absolute right-0 top-0 bottom-0 w-24"
-              style={{
-                background: `linear-gradient(-90deg, ${
-                  activeToast === "pass"
-                    ? "hsl(var(--destructive) / 0.35)"
-                    : "hsl(var(--primary) / 0.35)"
-                } 0%, transparent 100%)`,
-              }}
-            />
-            {/* Centered label */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, delay: 0.1 }}
-              className="flex flex-col items-center gap-1.5"
             >
-              {activeToast === "pass" && <X className="h-8 w-8 text-white drop-shadow-lg" strokeWidth={2.5} />}
-              {activeToast === "vibe" && <Heart className="h-8 w-8 text-white fill-white drop-shadow-lg" strokeWidth={2} />}
-              {activeToast === "invite" && <Send className="h-8 w-8 text-white drop-shadow-lg" strokeWidth={2} />}
-              <span className="text-white text-lg font-bold tracking-wider drop-shadow-lg font-display">
-                {activeToast === "pass" ? "PASSED" : activeToast === "vibe" ? "VIBE SENT!" : "INVITE SENT!"}
-              </span>
-            </motion.div>
+              <div
+                className={`h-9 w-9 rounded-xl flex items-center justify-center ${
+                  activeToast === "pass"
+                    ? "bg-destructive/20"
+                    : activeToast === "vibe"
+                    ? "bg-primary/20"
+                    : "bg-accent/20"
+                }`}
+              >
+                {activeToast === "pass" && <X className="h-[18px] w-[18px] text-destructive" strokeWidth={2.5} />}
+                {activeToast === "vibe" && <Heart className="h-[18px] w-[18px] text-primary fill-primary" strokeWidth={2} />}
+                {activeToast === "invite" && <Send className="h-[18px] w-[18px] text-primary" strokeWidth={2} />}
+              </div>
+              <div className="flex-1">
+                <p className="font-display text-sm font-semibold text-white">
+                  {activeToast === "pass" ? "Passed" : activeToast === "vibe" ? "Vibe Sent!" : "Invite Sent!"}
+                </p>
+                <p className="font-body text-[11px] text-white/50">
+                  {activeToast === "pass"
+                    ? "Swiping to next profile..."
+                    : activeToast === "vibe"
+                    ? "They'll know you're interested"
+                    : "Waiting for their response"}
+                </p>
+              </div>
+              {/* Progress bar */}
+              <div className="h-1 w-12 rounded-full overflow-hidden" style={{ background: "hsl(0 0% 100% / 0.1)" }}>
+                <motion.div
+                  initial={{ width: "100%" }}
+                  animate={{ width: "0%" }}
+                  transition={{ duration: 1.2, ease: "linear" }}
+                  className="h-full rounded-full"
+                  style={{
+                    background:
+                      activeToast === "pass"
+                        ? "hsl(var(--destructive) / 0.7)"
+                        : activeToast === "vibe"
+                        ? "hsl(var(--primary) / 0.7)"
+                        : "hsl(var(--accent) / 0.7)",
+                  }}
+                />
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
