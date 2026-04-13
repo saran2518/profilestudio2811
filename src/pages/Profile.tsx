@@ -91,7 +91,7 @@ const Profile = () => {
               initial="initial"
               animate="animate"
               className="flex flex-col gap-4 flex-1"
-              style={{ minHeight: "calc(100vh - 200px - env(safe-area-inset-bottom, 0px))" }}
+              style={{ minHeight: "calc(100vh - 180px - env(safe-area-inset-bottom, 0px))" }}
             >
               {/* Hero Card - Photo + Name + View */}
               <motion.div
@@ -208,15 +208,15 @@ function QuickActionCard({ icon, title, subtitle, onClick }: { icon: React.React
     <motion.button
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className="rounded-[16px] border border-border/30 bg-card px-3.5 py-3 text-left group hover:border-primary/20 transition-all flex flex-col gap-2.5 h-full"
+      className="rounded-[16px] border border-border/30 bg-card px-4 py-4 text-left group hover:border-primary/20 transition-all flex flex-col gap-3 h-full"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center shrink-0 group-hover:from-primary/15 group-hover:to-accent/10 transition-all">
+      <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center shrink-0 group-hover:from-primary/15 group-hover:to-accent/10 transition-all">
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-[13px] font-semibold text-foreground leading-tight">{title}</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">{subtitle}</p>
+        <p className="text-[14px] font-semibold text-foreground leading-tight">{title}</p>
+        <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
       </div>
     </motion.button>
   );
@@ -226,14 +226,14 @@ function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-4 py-4 text-left group hover:bg-muted/20 transition-colors flex-1"
+      className="w-full flex items-center gap-3.5 px-5 py-5 text-left group hover:bg-muted/20 transition-colors flex-1"
     >
-      <div className={`h-10 w-10 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 text-primary`}>
+      <div className={`h-11 w-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 text-primary`}>
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5 leading-relaxed">{subtitle}</p>
+        <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
+        <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
       </div>
       <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
     </button>
