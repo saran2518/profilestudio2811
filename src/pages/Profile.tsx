@@ -126,18 +126,20 @@ const Profile = () => {
                     {userProfile.name}, {userProfile.age}
                   </h2>
 
-                  {/* Profession */}
+                  {/* Profession & Specialization */}
                   <p className="text-[13px] text-foreground/80 mt-1 font-medium">
-                    {userProfile.profession}
+                    {userProfile.profession} · {userProfile.specialization}
                   </p>
 
                   {/* Divider */}
                   <div className="h-px bg-border/20 my-3" />
 
-                  {/* Location */}
-                  <p className="text-[11px] text-muted-foreground tracking-wide uppercase">
-                    {userProfile.location}
-                  </p>
+                  {/* Detail chips */}
+                  <div className="flex flex-wrap gap-2">
+                    <DetailChip icon={<MapPin className="h-3 w-3" />} label={userProfile.location} />
+                    <DetailChip icon={<GraduationCap className="h-3 w-3" />} label={userProfile.about.education} />
+                    <DetailChip icon={<Globe className="h-3 w-3" />} label={userProfile.languages.slice(0, 3).join(", ")} />
+                  </div>
                 </div>
               </motion.div>
 
@@ -152,7 +154,7 @@ const Profile = () => {
                     onClick={() => navigate("/edit-profile")}
                   />
                   <QuickActionCard
-                    icon={<Camera className="h-5 w-5 text-primary" />}
+                    icon={<Eye className="h-5 w-5 text-primary" />}
                     title="Photos"
                     subtitle="Manage your photo grid"
                     onClick={() => navigate("/manage-photos")}
