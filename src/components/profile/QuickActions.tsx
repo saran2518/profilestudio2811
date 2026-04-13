@@ -12,53 +12,36 @@ const QuickActions = ({ onEditProfile, onManagePhotos }: QuickActionsProps) => {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15, duration: 0.4 }}
-      className="grid grid-cols-2 gap-3"
+      className="rounded-2xl border border-border/30 bg-card overflow-hidden"
+      style={{ boxShadow: "var(--shadow-card)" }}
     >
-      <ActionCard
-        icon={<Edit3 className="h-[18px] w-[18px] text-primary" />}
-        title="Edit Profile"
-        subtitle="Update your info"
+      <button
         onClick={onEditProfile}
-      />
-      <ActionCard
-        icon={<Camera className="h-[18px] w-[18px] text-primary" />}
-        title="Photos"
-        subtitle="Manage photos"
+        className="w-full flex items-center gap-3 px-4 py-3 text-left group hover:bg-muted/30 transition-colors"
+      >
+        <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <Edit3 className="h-4 w-4 text-primary" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-medium text-foreground">Edit Profile</p>
+        </div>
+        <ChevronRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary/50 transition-colors shrink-0" />
+      </button>
+      <div className="h-px bg-border/20 mx-4" />
+      <button
         onClick={onManagePhotos}
-      />
+        className="w-full flex items-center gap-3 px-4 py-3 text-left group hover:bg-muted/30 transition-colors"
+      >
+        <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+          <Camera className="h-4 w-4 text-primary" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-medium text-foreground">Photos</p>
+        </div>
+        <ChevronRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary/50 transition-colors shrink-0" />
+      </button>
     </motion.div>
   );
 };
-
-function ActionCard({
-  icon,
-  title,
-  subtitle,
-  onClick,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  subtitle: string;
-  onClick?: () => void;
-}) {
-  return (
-    <motion.button
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      className="rounded-2xl border border-border/30 bg-card p-4 text-left transition-all duration-200 hover:border-primary/20 group"
-      style={{ boxShadow: "var(--shadow-card)" }}
-    >
-      <div className="flex items-center justify-between mb-2.5">
-        <div className="h-10 w-10 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">
-          {icon}
-        </div>
-        <ChevronRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-primary/50 transition-colors" />
-      </div>
-      <p className="text-sm font-medium text-foreground">{title}</p>
-      <p className="text-[11px] text-muted-foreground mt-0.5">{subtitle}</p>
-    </motion.button>
-  );
-}
 
 export default QuickActions;
