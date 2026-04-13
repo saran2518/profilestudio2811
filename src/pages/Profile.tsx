@@ -8,6 +8,7 @@ import {
   MessageCircle,
   Crown,
   Settings,
+  ChevronRight,
 } from "lucide-react";
 import { PROFILES } from "@/lib/profilesData";
 import ProfileHeroCard from "@/components/profile/ProfileHeroCard";
