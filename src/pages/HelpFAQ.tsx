@@ -16,12 +16,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const categories = [
-  { icon: <User className="h-5 w-5" />, label: "Profile &\nAccount" },
-  { icon: <Compass className="h-5 w-5" />, label: "Discovery\nPreferences" },
-  { icon: <Users className="h-5 w-5" />, label: "Invites &\nConnections" },
-  { icon: <Shield className="h-5 w-5" />, label: "Safety &\nPrivacy" },
-  { icon: <CreditCard className="h-5 w-5" />, label: "Payments" },
-  { icon: <Sparkles className="h-5 w-5" />, label: "Profile\nStudio" },
+  { icon: <User className="h-5 w-5" />, label: "Profile &\nAccount", slug: "profile-account" },
+  { icon: <Compass className="h-5 w-5" />, label: "Discovery\nPreferences", slug: "discovery-preferences" },
+  { icon: <Users className="h-5 w-5" />, label: "Invites &\nConnections", slug: "invites-connections" },
+  { icon: <Shield className="h-5 w-5" />, label: "Safety &\nPrivacy", slug: "safety-privacy" },
+  { icon: <CreditCard className="h-5 w-5" />, label: "Payments", slug: "payments" },
+  { icon: <Sparkles className="h-5 w-5" />, label: "Profile\nStudio", slug: "profile-studio" },
 ];
 
 const stagger = {
@@ -72,6 +72,7 @@ const HelpFAQ = () => {
               <motion.button
                 key={i}
                 whileTap={{ scale: 0.96 }}
+                onClick={() => navigate(`/help-faq/${cat.slug}`)}
                 className="rounded-2xl border border-border/30 bg-card px-4 py-4 flex flex-col items-center gap-2.5 hover:border-primary/20 transition-all group"
                 style={{ boxShadow: "var(--shadow-card)" }}
               >
