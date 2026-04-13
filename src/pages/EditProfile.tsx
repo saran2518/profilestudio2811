@@ -191,21 +191,24 @@ const EditProfile = () => {
 
           <div className="py-4">
             {editTarget === "datingPreference" ? (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {DATING_PREFERENCE_OPTIONS.map((option) => (
                   <motion.button
                     key={option.value}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    onClick={() => setDraftValue(option.value)}
+                    onClick={() => { setDraftValue(option.value); setOpenToAll(false); }}
+                    disabled={openToAll}
                     className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border transition-all text-left ${
-                      draftValue === option.value
-                        ? "border-primary bg-primary/8 ring-1 ring-primary/20"
-                        : "border-border/40 bg-muted/20 hover:bg-muted/40"
+                      openToAll
+                        ? "border-border/20 bg-muted/10 opacity-50"
+                        : draftValue === option.value
+                          ? "border-primary bg-primary/8 ring-1 ring-primary/20"
+                          : "border-border/40 bg-muted/20 hover:bg-muted/40"
                     }`}
                   >
                     <span className="flex-1 text-sm font-medium text-foreground">{option.label}</span>
-                    {draftValue === option.value && (
+                    {!openToAll && draftValue === option.value && (
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
@@ -216,6 +219,20 @@ const EditProfile = () => {
                     )}
                   </motion.button>
                 ))}
+
+                <div className="flex items-center justify-between px-4 py-3.5 rounded-xl border border-border/40 bg-muted/20 mt-1">
+                  <Label htmlFor="open-to-all" className="text-sm font-medium text-foreground cursor-pointer">
+                    Open to dating everyone
+                  </Label>
+                  <Switch
+                    id="open-to-all"
+                    checked={openToAll}
+                    onCheckedChange={(checked) => {
+                      setOpenToAll(checked);
+                      if (checked) setDraftValue("Everyone");
+                    }}
+                  />
+                </div>
               </div>
             ) : (
               <Input
