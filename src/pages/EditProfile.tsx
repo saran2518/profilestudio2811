@@ -41,7 +41,6 @@ const DATING_PREFERENCE_OPTIONS = [
   { value: "Men", label: "Men" },
   { value: "Women", label: "Women" },
   { value: "Non-Binary", label: "Non-Binary" },
-  { value: "All of the above", label: "All of the above" },
 ];
 
 const EditProfile = () => {
