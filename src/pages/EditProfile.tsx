@@ -14,6 +14,9 @@ import {
   Languages,
   ChevronRight,
   Check,
+  Sparkles,
+  Pencil,
+  Plus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,29 +99,69 @@ const EditProfile = () => {
         </div>
       </header>
 
-      <main className="flex-1 px-4 pb-8 mt-2">
-        <div className="rounded-2xl border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
-          {fieldConfig.map((field, index) => (
+      <main className="flex-1 px-4 pb-8 mt-2 space-y-5">
+        {/* Profile Studio Section */}
+        <div>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1 mb-2">Profile Studio</h2>
+          <div className="rounded-2xl border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
             <motion.button
-              key={field.key}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.04 }}
-              onClick={() => openEdit(field.key)}
-              className={`w-full flex items-center gap-3.5 px-4 py-3.5 text-left hover:bg-muted/30 active:bg-muted/50 transition-colors ${
-                index < fieldConfig.length - 1 ? "border-b border-border/20" : ""
-              }`}
+              onClick={() => navigate("/edit-profile")}
+              className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left hover:bg-muted/30 active:bg-muted/50 transition-colors border-b border-border/20"
             >
               <div className="shrink-0 w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center">
-                {field.icon}
+                <Pencil className="h-4.5 w-4.5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-muted-foreground">{field.label}</p>
-                <p className="text-sm font-medium text-foreground truncate">{field.value || "Not set"}</p>
+                <p className="text-sm font-medium text-foreground">Edit Current Profile</p>
               </div>
               <ChevronRight className="h-4 w-4 text-muted-foreground/50 shrink-0" />
             </motion.button>
-          ))}
+            <motion.button
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.04 }}
+              onClick={() => navigate("/profile-studio-intro")}
+              className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left hover:bg-muted/30 active:bg-muted/50 transition-colors"
+            >
+              <div className="shrink-0 w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center">
+                <Sparkles className="h-4.5 w-4.5 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground">Create New Profile</p>
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground/50 shrink-0" />
+            </motion.button>
+          </div>
+        </div>
+
+        {/* About You Section */}
+        <div>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-1 mb-2">About You</h2>
+          <div className="rounded-2xl border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+            {fieldConfig.map((field, index) => (
+              <motion.button
+                key={field.key}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.04 }}
+                onClick={() => openEdit(field.key)}
+                className={`w-full flex items-center gap-3.5 px-4 py-3.5 text-left hover:bg-muted/30 active:bg-muted/50 transition-colors ${
+                  index < fieldConfig.length - 1 ? "border-b border-border/20" : ""
+                }`}
+              >
+                <div className="shrink-0 w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center">
+                  {field.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-muted-foreground">{field.label}</p>
+                  <p className="text-sm font-medium text-foreground truncate">{field.value || "Not set"}</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground/50 shrink-0" />
+              </motion.button>
+            ))}
+          </div>
         </div>
       </main>
 
