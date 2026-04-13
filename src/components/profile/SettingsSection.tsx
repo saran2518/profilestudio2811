@@ -180,7 +180,7 @@ function SettingRow({
           <ChevronRight className="h-4 w-4 opacity-40" />
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 }
 
