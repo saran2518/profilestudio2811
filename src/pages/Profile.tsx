@@ -104,6 +104,9 @@ const Profile = () => {
                 {/* Accent strip */}
                 <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
 
+                {/* Light tinted upper half */}
+                <div className="absolute top-0 left-0 right-0 h-1/2 bg-primary/[0.04] pointer-events-none" />
+
                 {/* Decorative corner motif */}
                 <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
                   <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle, hsl(var(--primary)), transparent 70%)" }} />
