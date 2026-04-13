@@ -33,6 +33,7 @@ const SettingsSection = () => {
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
