@@ -25,6 +25,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import DeleteAccountDialog from "./DeleteAccountDialog";
 
 const SettingsSection = () => {
   const navigate = useNavigate();
