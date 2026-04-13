@@ -1,16 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Heart, Sparkles, Camera, MessageSquare, Shield, Star } from "lucide-react";
+import { ArrowLeft, Shield, Eye, MessageSquare, Heart, Sparkles, Star, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { datingTopics } from "@/lib/datingTipsData";
 
-const tips = [
-  { icon: <Camera className="h-4 w-4 text-primary" />, title: "First Impressions Matter", desc: "Choose a clear, smiling photo as your main picture. Natural lighting and genuine expressions attract more interest." },
-  { icon: <Sparkles className="h-4 w-4 text-primary" />, title: "Be Authentic", desc: "Share genuine interests and hobbies to attract the right matches. Authenticity builds stronger connections." },
-  { icon: <MessageSquare className="h-4 w-4 text-primary" />, title: "Start Conversations", desc: "Reference something specific from their profile. Personalized openers get 3x more responses than generic greetings." },
-  { icon: <Star className="h-4 w-4 text-primary" />, title: "Show Your Personality", desc: "Use narratives and prompts to reveal your unique character. Profiles with completed narratives get 40% more engagement." },
-  { icon: <Shield className="h-4 w-4 text-primary" />, title: "Stay Safe", desc: "Always meet in public places for the first few dates. Trust your instincts and take your time getting to know someone." },
-  { icon: <Heart className="h-4 w-4 text-primary" />, title: "Be Open-Minded", desc: "Don't limit yourself to a narrow checklist. Some of the best connections happen when you least expect them." },
-];
+const iconMap: Record<string, React.ReactNode> = {
+  Shield: <Shield className="h-5 w-5 text-primary" />,
+  Eye: <Eye className="h-5 w-5 text-primary" />,
+  MessageSquare: <MessageSquare className="h-5 w-5 text-primary" />,
+  Heart: <Heart className="h-5 w-5 text-primary" />,
+  Sparkles: <Sparkles className="h-5 w-5 text-primary" />,
+  Star: <Star className="h-5 w-5 text-primary" />,
+};
 
 const DatingTips = () => {
   const navigate = useNavigate();
@@ -27,25 +28,30 @@ const DatingTips = () => {
       </header>
 
       <main className="flex-1 px-4 mt-2 space-y-3">
-        {tips.map((tip, i) => (
-          <motion.div
-            key={i}
+        {datingTopics.map((topic, i) => (
+          <motion.button
+            key={topic.slug}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.06, duration: 0.35 }}
-            className="rounded-2xl border border-border/30 bg-card p-4"
+            whileTap={{ scale: 0.98 }}
+            onClick={() => navigate(`/dating-tips/${topic.slug}`)}
+            className="w-full rounded-2xl border border-border/30 bg-card p-4 text-left group hover:border-primary/20 transition-all"
             style={{ boxShadow: "var(--shadow-card)" }}
           >
-            <div className="flex items-start gap-3">
-              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                {tip.icon}
+            <div className="flex items-center gap-3.5">
+              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
+                {iconMap[topic.icon]}
               </div>
-              <div>
-                <p className="text-[14px] font-medium text-foreground leading-tight">{tip.title}</p>
-                <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed">{tip.desc}</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">
+                  {topic.title}
+                </p>
+                <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">{topic.subtitle}</p>
               </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
             </div>
-          </motion.div>
+          </motion.button>
         ))}
       </main>
     </div>
