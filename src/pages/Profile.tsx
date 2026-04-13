@@ -32,7 +32,7 @@ const sections: { key: SectionKey; label: string; icon: React.ReactNode }[] = [
 
 const stagger = {
   container: { animate: { transition: { staggerChildren: 0.07 } } },
-  item: { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } } },
+  item: { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } } },
 };
 
 const Profile = () => {
