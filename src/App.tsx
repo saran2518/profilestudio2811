@@ -18,6 +18,8 @@ import EditCurrentProfile from "./pages/EditCurrentProfile";
 import ManagePhotos from "./pages/ManagePhotos";
 import DatingTips from "./pages/DatingTips";
 import HelpFAQ from "./pages/HelpFAQ";
+import HelpCategory from "./pages/HelpCategory";
+import HelpQuestion from "./pages/HelpQuestion";
 import ContactSupport from "./pages/ContactSupport";
 import NotFound from "./pages/NotFound";
 
@@ -46,6 +48,8 @@ const App = () => (
           <Route path="/manage-photos" element={<ManagePhotos />} />
           <Route path="/dating-tips" element={<DatingTips />} />
           <Route path="/help-faq" element={<HelpFAQ />} />
+          <Route path="/help-faq/:slug" element={<HelpCategory />} />
+          <Route path="/help-faq/:slug/:questionIndex" element={<HelpQuestion />} />
           <Route path="/contact-support" element={<ContactSupport />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
