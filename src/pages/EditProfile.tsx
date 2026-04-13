@@ -38,10 +38,10 @@ interface EditableField {
 }
 
 const DATING_PREFERENCE_OPTIONS = [
-  { value: "Men", label: "Men", emoji: "👨" },
-  { value: "Women", label: "Women", emoji: "👩" },
-  { value: "Non-Binary", label: "Non-Binary", emoji: "🌈" },
-  { value: "All of the above", label: "All of the above", emoji: "✨" },
+  { value: "Men", label: "Men" },
+  { value: "Women", label: "Women" },
+  { value: "Non-Binary", label: "Non-Binary" },
+  { value: "All of the above", label: "All of the above" },
 ];
 
 const EditProfile = () => {
@@ -197,7 +197,6 @@ const EditProfile = () => {
                         : "border-border/40 bg-muted/20 hover:bg-muted/40"
                     }`}
                   >
-                    <span className="text-lg">{option.emoji}</span>
                     <span className="flex-1 text-sm font-medium text-foreground">{option.label}</span>
                     {draftValue === option.value && (
                       <motion.div
