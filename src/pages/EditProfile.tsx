@@ -37,6 +37,13 @@ interface EditableField {
   placeholder: string;
 }
 
+const DATING_PREFERENCE_OPTIONS = [
+  { value: "Men", label: "Men", emoji: "👨" },
+  { value: "Women", label: "Women", emoji: "👩" },
+  { value: "Non-Binary", label: "Non-Binary", emoji: "🌈" },
+  { value: "All of the above", label: "All of the above", emoji: "✨" },
+];
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const template = PROFILES[0];
