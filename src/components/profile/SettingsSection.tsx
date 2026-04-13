@@ -67,8 +67,8 @@ const SettingsSection = () => {
 
       {/* Login & Security */}
       <SettingsGroup title="Login & Security" icon="🔐">
-        <SettingRow icon={<Phone className="h-4 w-4" />} label="Phone Number" subtitle="Manage your number" />
-        <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Update your email" last />
+        <SettingRow icon={<Phone className="h-4 w-4" />} label="Phone Number" subtitle="+91 •••• ••• 890" value="Verified" noChevron />
+        <SettingRow icon={<Mail className="h-4 w-4" />} label="Email Address" subtitle="Add or update your email" onClick={() => {}} last />
       </SettingsGroup>
 
       {/* Notifications */}
