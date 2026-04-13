@@ -251,53 +251,62 @@ const Discover = () => {
         </AnimatePresence>
       )}
 
-      {/* Toast Slide Indicator */}
+      {/* Edge Color Swipe Indicator */}
       <AnimatePresence>
         {activeToast && (
           <motion.div
             key={activeToast}
-            initial={{ opacity: 0, y: -30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center"
           >
-            <div
-              className={`flex items-center gap-3 px-5 py-3 rounded-2xl bg-card/95 backdrop-blur-xl border shadow-lg ${
-                activeToast === "pass"
-                  ? "border-destructive/20"
-                  : activeToast === "vibe"
-                  ? "border-primary/20"
-                  : "border-accent/30"
-              }`}
-              style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.12)" }}
-            >
-              <div
-                className={`h-8 w-8 rounded-full flex items-center justify-center ${
+            {/* Left edge glow */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 0.7, x: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute left-0 top-0 bottom-0 w-24"
+              style={{
+                background: `linear-gradient(90deg, ${
                   activeToast === "pass"
-                    ? "bg-destructive/10"
-                    : activeToast === "vibe"
-                    ? "bg-primary/10"
-                    : "bg-accent/20"
-                }`}
-              >
-                {activeToast === "pass" && <X className="h-4 w-4 text-destructive" strokeWidth={2.5} />}
-                {activeToast === "vibe" && <Heart className="h-4 w-4 text-primary fill-primary" strokeWidth={2} />}
-                {activeToast === "invite" && <Send className="h-4 w-4 text-primary" strokeWidth={2} />}
-              </div>
-              <div>
-                <p className="font-display text-sm font-semibold text-foreground">
-                  {activeToast === "pass" ? "Passed" : activeToast === "vibe" ? "Vibe Sent!" : "Invite Sent!"}
-                </p>
-                <p className="font-body text-[11px] text-muted-foreground">
-                  {activeToast === "pass"
-                    ? "Moving to next profile"
-                    : activeToast === "vibe"
-                    ? "They'll know you're interested"
-                    : "Waiting for their response"}
-                </p>
-              </div>
-            </div>
+                    ? "hsl(var(--destructive) / 0.35)"
+                    : "hsl(var(--primary) / 0.35)"
+                } 0%, transparent 100%)`,
+              }}
+            />
+            {/* Right edge glow */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 0.7, x: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute right-0 top-0 bottom-0 w-24"
+              style={{
+                background: `linear-gradient(-90deg, ${
+                  activeToast === "pass"
+                    ? "hsl(var(--destructive) / 0.35)"
+                    : "hsl(var(--primary) / 0.35)"
+                } 0%, transparent 100%)`,
+              }}
+            />
+            {/* Centered label */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, delay: 0.1 }}
+              className="flex flex-col items-center gap-1.5"
+            >
+              {activeToast === "pass" && <X className="h-8 w-8 text-white drop-shadow-lg" strokeWidth={2.5} />}
+              {activeToast === "vibe" && <Heart className="h-8 w-8 text-white fill-white drop-shadow-lg" strokeWidth={2} />}
+              {activeToast === "invite" && <Send className="h-8 w-8 text-white drop-shadow-lg" strokeWidth={2} />}
+              <span className="text-white text-lg font-bold tracking-wider drop-shadow-lg font-display">
+                {activeToast === "pass" ? "PASSED" : activeToast === "vibe" ? "VIBE SENT!" : "INVITE SENT!"}
+              </span>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
