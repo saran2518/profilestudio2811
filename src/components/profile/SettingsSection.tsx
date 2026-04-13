@@ -54,7 +54,7 @@ const SettingsSection = () => {
       {/* Safety */}
       <SettingsGroup title="Safety">
         <SettingRow icon={<ShieldCheck className="h-4 w-4" />} label="Selfie Badge" />
-        <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Safe Dating Tips" last />
+        <SettingRow icon={<HeartHandshake className="h-4 w-4" />} label="Safe Dating Tips" onClick={() => navigate("/dating-tips")} last />
       </SettingsGroup>
 
       {/* Login & Security */}
