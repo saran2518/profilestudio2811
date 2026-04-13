@@ -114,11 +114,14 @@ const SettingsSection = () => {
         <Button
           variant="outline"
           className="w-full rounded-2xl gap-2 h-11 text-destructive border-destructive/20 hover:bg-destructive/5 font-medium"
+          onClick={() => setShowDeleteDialog(true)}
         >
           <Trash2 className="h-4 w-4" />
           Delete Account
         </Button>
       </div>
+
+      <DeleteAccountDialog open={showDeleteDialog} onClose={() => setShowDeleteDialog(false)} />
 
       {/* App Info */}
       <div className="flex items-center justify-center gap-2 py-3 text-muted-foreground/50">
