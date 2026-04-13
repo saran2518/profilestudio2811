@@ -245,6 +245,23 @@ const Discover = () => {
         </AnimatePresence>
       )}
 
+      {/* Pass indicator */}
+      <AnimatePresence>
+        {showPassIndicator && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed inset-0 flex items-center justify-center z-40 pointer-events-none"
+          >
+            <div className="h-24 w-24 rounded-full bg-destructive/15 backdrop-blur-sm flex items-center justify-center">
+              <X className="h-12 w-12 text-destructive" strokeWidth={2.5} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Floating action buttons */}
       <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-6 pointer-events-none z-20">
         {/* Pass */}
