@@ -48,6 +48,7 @@ const App = () => (
           <Route path="/edit-current-profile" element={<EditCurrentProfile />} />
           <Route path="/manage-photos" element={<ManagePhotos />} />
           <Route path="/dating-tips" element={<DatingTips />} />
+          <Route path="/dating-tips/:slug" element={<DatingTipDetail />} />
           <Route path="/help-faq" element={<HelpFAQ />} />
           <Route path="/help-faq/:slug" element={<HelpCategory />} />
           <Route path="/help-faq/:slug/:questionIndex" element={<HelpQuestion />} />
