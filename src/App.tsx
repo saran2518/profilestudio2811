@@ -18,6 +18,7 @@ import EditCurrentProfile from "./pages/EditCurrentProfile";
 import ManagePhotos from "./pages/ManagePhotos";
 import DatingTips from "./pages/DatingTips";
 import HelpFAQ from "./pages/HelpFAQ";
+import ContactSupport from "./pages/ContactSupport";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
