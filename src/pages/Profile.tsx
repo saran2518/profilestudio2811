@@ -10,10 +10,13 @@ import {
   Settings,
   ChevronRight,
   Edit3,
-  Camera,
   Eye,
   BookOpen,
   HelpCircle,
+  MapPin,
+  GraduationCap,
+  Globe,
+  Briefcase,
 } from "lucide-react";
 import { PROFILES } from "@/lib/profilesData";
 import SubscriptionsSection from "@/components/profile/SubscriptionsSection";
