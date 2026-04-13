@@ -89,6 +89,7 @@ const HelpFAQ = () => {
           <motion.div variants={stagger.item} className="flex flex-col gap-2.5">
             <p className="text-[15px] font-display font-semibold text-foreground px-1">Need help?</p>
             <button
+              onClick={() => navigate("/contact-support")}
               className="w-full flex items-center justify-between rounded-2xl border border-border/30 bg-card px-5 py-4 hover:border-primary/20 transition-all group"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
