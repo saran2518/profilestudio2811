@@ -17,6 +17,7 @@ import {
   LogOut,
   PauseCircle,
   Trash2,
+  HelpCircle,
   Info,
   ChevronRight,
 } from "lucide-react";
