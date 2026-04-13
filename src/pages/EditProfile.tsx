@@ -30,6 +30,7 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { PROFILES } from "@/lib/profilesData";
+import GenderIdentityEditor from "@/components/edit-profile/GenderIdentityEditor";
 
 interface EditableField {
   key: string;
