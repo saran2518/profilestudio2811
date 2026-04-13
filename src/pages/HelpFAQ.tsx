@@ -56,7 +56,7 @@ const HelpFAQ = () => {
       {/* Header */}
       <header className="sticky top-0 z-30 px-4 pt-3 pb-2">
         <div className="flex items-center gap-3 rounded-full border border-border/30 bg-card/80 backdrop-blur-xl px-4 py-2.5">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(-1)}>
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate("/profile")}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <span className="font-display text-base font-semibold text-foreground tracking-tight">Help</span>
