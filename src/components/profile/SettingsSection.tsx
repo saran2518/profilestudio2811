@@ -95,6 +95,11 @@ const SettingsSection = () => {
         <SettingRow icon={<Scale className="h-4 w-4" />} label="Terms of Service" last />
       </SettingsGroup>
 
+      {/* Help & Support */}
+      <SettingsGroup title="Help & Support">
+        <SettingRow icon={<HelpCircle className="h-4 w-4" />} label="Help & FAQ" onClick={() => navigate("/help-faq")} last />
+      </SettingsGroup>
+
       {/* Account */}
       <div className="space-y-2">
         <Button
