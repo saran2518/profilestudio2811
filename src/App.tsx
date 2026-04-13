@@ -17,6 +17,7 @@ import EditProfile from "./pages/EditProfile";
 import EditCurrentProfile from "./pages/EditCurrentProfile";
 import ManagePhotos from "./pages/ManagePhotos";
 import DatingTips from "./pages/DatingTips";
+import DatingTipDetail from "./pages/DatingTipDetail";
 import HelpFAQ from "./pages/HelpFAQ";
 import HelpCategory from "./pages/HelpCategory";
 import HelpQuestion from "./pages/HelpQuestion";
