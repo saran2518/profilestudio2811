@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowLeft, ChevronDown, Plus, MessageSquare } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -29,7 +29,6 @@ const ContactSupport = () => {
       return;
     }
     setSubmitted(true);
-    toast.success("Message sent successfully!");
   };
 
   return (
@@ -98,33 +97,56 @@ const ContactSupport = () => {
             </button>
           </div>
 
-          {/* Confirmation message - shown after submit */}
-          {submitted && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-3 rounded-xl border border-border/20 bg-muted/30 px-4 py-3.5"
-            >
-              <MessageSquare className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-              <p className="text-[11px] text-muted-foreground leading-relaxed">
-                We have received your message.{"\n"}We will get back to you shortly.
-              </p>
-            </motion.div>
-          )}
         </motion.div>
 
-        {/* Send Button */}
-        <div className="mt-auto pt-4">
-          <Button
-            onClick={handleSend}
-            disabled={submitted}
-            className="w-full h-12 rounded-2xl text-[15px] font-semibold text-primary-foreground"
-            style={{ background: "var(--gradient-warm)" }}
+      {/* Submit Button */}
+      <div className="px-4 mt-auto pt-4 pb-8">
+        <Button
+          onClick={handleSend}
+          disabled={submitted}
+          className="w-full h-12 rounded-2xl text-[15px] font-semibold text-primary-foreground"
+          style={{ background: "var(--gradient-warm)" }}
+        >
+          {submitted ? "Submitted" : "Submit"}
+        </Button>
+      </div>
+
+      {/* Success Popup */}
+      <AnimatePresence>
+        {submitted && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/30 backdrop-blur-sm px-8"
+            onClick={() => navigate(-1)}
           >
-            {submitted ? "Submitted" : "Submit"}
-          </Button>
-        </div>
-      </main>
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+              className="bg-card rounded-2xl border border-border/30 px-8 py-10 flex flex-col items-center gap-4 shadow-xl max-w-[280px] w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center">
+                <CheckCircle className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-[18px] font-display font-semibold text-foreground">Submitted</h3>
+              <p className="text-[12px] text-muted-foreground text-center leading-relaxed">
+                We have received your message. We will get back to you shortly.
+              </p>
+              <Button
+                onClick={() => navigate(-1)}
+                variant="outline"
+                className="mt-2 rounded-xl text-[13px] px-6"
+              >
+                Done
+              </Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
