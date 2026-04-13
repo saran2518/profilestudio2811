@@ -266,6 +266,46 @@ const Discover = () => {
         )}
       </AnimatePresence>
 
+      {/* Vibe Sent indicator */}
+      <AnimatePresence>
+        {showVibeIndicator && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed inset-0 flex items-center justify-center z-40 pointer-events-none"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <div className="h-24 w-24 rounded-full bg-primary/15 backdrop-blur-sm flex items-center justify-center">
+                <Heart className="h-12 w-12 text-primary fill-primary" strokeWidth={2} />
+              </div>
+              <span className="font-display text-sm font-semibold text-primary">Vibe Sent!</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Invite Sent indicator */}
+      <AnimatePresence>
+        {showInviteIndicator && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed inset-0 flex items-center justify-center z-40 pointer-events-none"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <div className="h-24 w-24 rounded-full bg-primary/15 backdrop-blur-sm flex items-center justify-center">
+                <Sparkles className="h-12 w-12 text-primary" strokeWidth={2} />
+              </div>
+              <span className="font-display text-sm font-semibold text-primary">Invite Sent!</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Floating action buttons */}
       <div className="fixed bottom-20 left-0 right-0 flex items-center justify-between px-6 pointer-events-none z-20">
         {/* Pass */}
