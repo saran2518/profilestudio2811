@@ -92,12 +92,21 @@ const EditProfile = () => {
     if (key === "datingPreference") {
       setOpenToAll(val === "Everyone");
     }
+    if (key === "gender") {
+      setDraftGender(fields.gender);
+      setDraftDisplayGender(fields.gender);
+      setDraftCustomGender("");
+    }
   };
 
   const saveEdit = () => {
     if (editTarget) {
-      const finalValue = editTarget === "datingPreference" && openToAll ? "Everyone" : draftValue;
-      setFields((prev) => ({ ...prev, [editTarget]: finalValue }));
+      if (editTarget === "gender") {
+        setFields((prev) => ({ ...prev, gender: draftDisplayGender || draftGender }));
+      } else {
+        const finalValue = editTarget === "datingPreference" && openToAll ? "Everyone" : draftValue;
+        setFields((prev) => ({ ...prev, [editTarget]: finalValue }));
+      }
     }
     setEditTarget(null);
   };
