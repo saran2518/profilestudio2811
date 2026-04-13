@@ -98,6 +98,7 @@ const ContactSupport = () => {
           </div>
 
         </motion.div>
+      </main>
 
       {/* Submit Button */}
       <div className="px-4 mt-auto pt-4 pb-8">
