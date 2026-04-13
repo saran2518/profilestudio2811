@@ -105,9 +105,12 @@ const Discover = () => {
     setInviteOpen(true);
   };
 
-  const [showPassIndicator, setShowPassIndicator] = useState(false);
-  const [showVibeIndicator, setShowVibeIndicator] = useState(false);
-  const [showInviteIndicator, setShowInviteIndicator] = useState(false);
+  const [activeToast, setActiveToast] = useState<"pass" | "vibe" | "invite" | null>(null);
+
+  const showToast = (type: "pass" | "vibe" | "invite") => {
+    setActiveToast(type);
+    setTimeout(() => setActiveToast(null), 1200);
+  };
 
   const handlePass = () => {
     setShowPassIndicator(true);
