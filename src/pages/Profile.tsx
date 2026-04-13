@@ -90,7 +90,8 @@ const Profile = () => {
               variants={stagger.container}
               initial="initial"
               animate="animate"
-              className="space-y-5"
+              className="flex flex-col gap-4 flex-1"
+              style={{ minHeight: "calc(100vh - 180px - env(safe-area-inset-bottom, 0px))" }}
             >
               {/* Hero Card - Photo + Name + View */}
               <motion.div
@@ -111,7 +112,6 @@ const Profile = () => {
                 </div>
 
                 <div className="px-5 pb-5 -mt-10 flex items-end gap-4">
-                  {/* Avatar */}
                   <div className="relative shrink-0">
                     <div className="w-[72px] h-[72px] rounded-full border-[3px] border-card overflow-hidden shadow-lg">
                       <img src={userProfile.photos[0]} alt={userProfile.name} className="w-full h-full object-cover" />
@@ -120,8 +120,6 @@ const Profile = () => {
                       <Camera className="h-3 w-3 text-primary-foreground" />
                     </div>
                   </div>
-
-                  {/* Info + CTA */}
                   <div className="flex-1 min-w-0 pb-0.5">
                     <h2 className="text-[17px] font-display font-semibold text-foreground tracking-tight leading-tight truncate">
                       {userProfile.name}, {userProfile.age}
@@ -130,7 +128,6 @@ const Profile = () => {
                       {userProfile.profession} · {userProfile.location}
                     </p>
                   </div>
-
                   <Button
                     onClick={() => navigate("/preview", { state: { selfView: true } })}
                     size="sm"
@@ -143,31 +140,31 @@ const Profile = () => {
                 </div>
               </motion.div>
 
-              {/* Quick Actions Grid */}
-              <motion.div variants={stagger.item}>
+              {/* Quick Actions Grid - expanded */}
+              <motion.div variants={stagger.item} className="flex-1 flex flex-col">
                 <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Quick Actions</p>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-2 gap-3 flex-1">
                   <QuickActionCard
-                    icon={<Edit3 className="h-4 w-4 text-primary" />}
+                    icon={<Edit3 className="h-5 w-5 text-primary" />}
                     title="Edit Profile"
-                    subtitle="Update your info"
+                    subtitle="Update your info & preferences"
                     onClick={() => navigate("/edit-profile")}
                   />
                   <QuickActionCard
-                    icon={<Camera className="h-4 w-4 text-primary" />}
+                    icon={<Camera className="h-5 w-5 text-primary" />}
                     title="Photos"
-                    subtitle="Manage photos"
+                    subtitle="Manage your photo grid"
                     onClick={() => navigate("/manage-photos")}
                   />
                 </div>
               </motion.div>
 
-              {/* Resources */}
-              <motion.div variants={stagger.item}>
+              {/* Resources - expanded */}
+              <motion.div variants={stagger.item} className="flex-1 flex flex-col">
                 <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2.5 px-1">Resources</p>
-                <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+                <div className="rounded-[20px] border border-border/30 bg-card overflow-hidden flex-1 flex flex-col" style={{ boxShadow: "var(--shadow-card)" }}>
                   <ResourceRow
-                    icon={<BookOpen className="h-4 w-4" />}
+                    icon={<BookOpen className="h-5 w-5" />}
                     title="Dating Tips"
                     subtitle="Boost your profile and get more matches"
                     gradient="from-primary/12 to-accent/8"
@@ -175,7 +172,7 @@ const Profile = () => {
                   />
                   <div className="h-px bg-border/15 mx-4" />
                   <ResourceRow
-                    icon={<HelpCircle className="h-4 w-4" />}
+                    icon={<HelpCircle className="h-5 w-5" />}
                     title="Help & FAQ"
                     subtitle="Find answers to common questions"
                     gradient="from-accent/12 to-primary/8"
@@ -211,15 +208,15 @@ function QuickActionCard({ icon, title, subtitle, onClick }: { icon: React.React
     <motion.button
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className="rounded-[16px] border border-border/30 bg-card px-3.5 py-3 text-left group hover:border-primary/20 transition-all flex items-center gap-3"
+      className="rounded-[16px] border border-border/30 bg-card px-4 py-4 text-left group hover:border-primary/20 transition-all flex flex-col gap-3 h-full"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center shrink-0 group-hover:from-primary/15 group-hover:to-accent/10 transition-all">
+      <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 flex items-center justify-center shrink-0 group-hover:from-primary/15 group-hover:to-accent/10 transition-all">
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-[13px] font-semibold text-foreground leading-tight">{title}</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5">{subtitle}</p>
+        <p className="text-[14px] font-semibold text-foreground leading-tight">{title}</p>
+        <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
       </div>
     </motion.button>
   );
@@ -229,14 +226,14 @@ function ResourceRow({ icon, title, subtitle, gradient, onClick }: { icon: React
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-4 py-3.5 text-left group hover:bg-muted/20 transition-colors"
+      className="w-full flex items-center gap-3.5 px-5 py-5 text-left group hover:bg-muted/20 transition-colors flex-1"
     >
-      <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 text-primary`}>
+      <div className={`h-11 w-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shrink-0 text-primary`}>
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5">{subtitle}</p>
+        <p className="text-[14px] font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">{title}</p>
+        <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{subtitle}</p>
       </div>
       <ChevronRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors shrink-0" />
     </button>
