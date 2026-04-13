@@ -94,6 +94,8 @@ const Discover = () => {
       );
     }
 
+    setShowVibeIndicator(true);
+    setTimeout(() => setShowVibeIndicator(false), 800);
     goNext();
   };
 
