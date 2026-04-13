@@ -107,7 +107,7 @@ const EditProfile = () => {
             <motion.button
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              onClick={() => navigate("/edit-profile")}
+              onClick={() => navigate("/edit-current-profile")}
               className="w-full flex items-center gap-3.5 px-4 py-3.5 text-left hover:bg-muted/30 active:bg-muted/50 transition-colors border-b border-border/20"
             >
               <div className="shrink-0 w-9 h-9 rounded-xl bg-primary/8 flex items-center justify-center">
