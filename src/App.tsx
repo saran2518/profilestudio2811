@@ -17,6 +17,7 @@ import EditProfile from "./pages/EditProfile";
 import EditCurrentProfile from "./pages/EditCurrentProfile";
 import ManagePhotos from "./pages/ManagePhotos";
 import DatingTips from "./pages/DatingTips";
+import DatingTipDetail from "./pages/DatingTipDetail";
 import HelpFAQ from "./pages/HelpFAQ";
 import HelpCategory from "./pages/HelpCategory";
 import HelpQuestion from "./pages/HelpQuestion";
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/edit-current-profile" element={<EditCurrentProfile />} />
           <Route path="/manage-photos" element={<ManagePhotos />} />
           <Route path="/dating-tips" element={<DatingTips />} />
+          <Route path="/dating-tips/:slug" element={<DatingTipDetail />} />
           <Route path="/help-faq" element={<HelpFAQ />} />
           <Route path="/help-faq/:slug" element={<HelpCategory />} />
           <Route path="/help-faq/:slug/:questionIndex" element={<HelpQuestion />} />
