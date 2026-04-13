@@ -291,21 +291,6 @@ const Discover = () => {
                     : "Waiting for their response"}
                 </p>
               </div>
-              {/* Progress bar */}
-              <div className="h-1 w-12 rounded-full overflow-hidden bg-muted/50">
-                <motion.div
-                  initial={{ width: "100%" }}
-                  animate={{ width: "0%" }}
-                  transition={{ duration: 1.2, ease: "linear" }}
-                  className="h-full rounded-full"
-                  style={{
-                    background:
-                      activeToast === "pass"
-                        ? "hsl(var(--destructive) / 0.6)"
-                        : "hsl(var(--primary) / 0.6)",
-                  }}
-                />
-              </div>
             </div>
           </motion.div>
         )}
