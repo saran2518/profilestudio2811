@@ -104,8 +104,8 @@ const Profile = () => {
                 {/* Accent strip */}
                 <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
 
-                {/* Light tinted upper half */}
-                <div className="absolute top-0 left-0 right-0 h-1/2 bg-primary/[0.04] pointer-events-none" />
+                {/* Light tinted upper section – covers through profession */}
+                <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: "calc(3px + 5*4px + 58px + 16px + 24px + 4px + 18px + 16px)", background: "linear-gradient(to bottom, hsl(var(--primary) / 0.05), hsl(var(--primary) / 0.02))" }} />
 
                 {/* Decorative corner motif */}
                 <div className="absolute top-3 right-0 w-24 h-24 opacity-[0.035] pointer-events-none">
