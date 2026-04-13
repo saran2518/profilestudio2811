@@ -95,8 +95,7 @@ const Discover = () => {
       );
     }
 
-    setShowVibeIndicator(true);
-    setTimeout(() => setShowVibeIndicator(false), 800);
+    showToast("vibe");
     goNext();
   };
 
@@ -113,8 +112,7 @@ const Discover = () => {
   };
 
   const handlePass = () => {
-    setShowPassIndicator(true);
-    setTimeout(() => setShowPassIndicator(false), 600);
+    showToast("pass");
     goNext();
   };
   const handleConnect = () => setInviteOpen(true);
@@ -253,58 +251,52 @@ const Discover = () => {
         </AnimatePresence>
       )}
 
-      {/* Pass indicator */}
+      {/* Toast Slide Indicator */}
       <AnimatePresence>
-        {showPassIndicator && (
+        {activeToast && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-0 flex items-center justify-center z-40 pointer-events-none"
+            key={activeToast}
+            initial={{ opacity: 0, y: -30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
           >
-            <div className="h-24 w-24 rounded-full bg-destructive/15 backdrop-blur-sm flex items-center justify-center">
-              <X className="h-12 w-12 text-destructive" strokeWidth={2.5} />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Vibe Sent indicator */}
-      <AnimatePresence>
-        {showVibeIndicator && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-0 flex items-center justify-center z-40 pointer-events-none"
-          >
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-24 w-24 rounded-full bg-primary/15 backdrop-blur-sm flex items-center justify-center">
-                <Heart className="h-12 w-12 text-primary fill-primary" strokeWidth={2} />
+            <div
+              className={`flex items-center gap-3 px-5 py-3 rounded-2xl bg-card/95 backdrop-blur-xl border shadow-lg ${
+                activeToast === "pass"
+                  ? "border-destructive/20"
+                  : activeToast === "vibe"
+                  ? "border-primary/20"
+                  : "border-accent/30"
+              }`}
+              style={{ boxShadow: "0 8px 32px -8px hsl(var(--foreground) / 0.12)" }}
+            >
+              <div
+                className={`h-8 w-8 rounded-full flex items-center justify-center ${
+                  activeToast === "pass"
+                    ? "bg-destructive/10"
+                    : activeToast === "vibe"
+                    ? "bg-primary/10"
+                    : "bg-accent/20"
+                }`}
+              >
+                {activeToast === "pass" && <X className="h-4 w-4 text-destructive" strokeWidth={2.5} />}
+                {activeToast === "vibe" && <Heart className="h-4 w-4 text-primary fill-primary" strokeWidth={2} />}
+                {activeToast === "invite" && <Send className="h-4 w-4 text-primary" strokeWidth={2} />}
               </div>
-              <span className="font-display text-sm font-semibold text-primary">Vibe Sent!</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Invite Sent indicator */}
-      <AnimatePresence>
-        {showInviteIndicator && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-0 flex items-center justify-center z-40 pointer-events-none"
-          >
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-24 w-24 rounded-full bg-primary/15 backdrop-blur-sm flex items-center justify-center">
-                <Sparkles className="h-12 w-12 text-primary" strokeWidth={2} />
+              <div>
+                <p className="font-display text-sm font-semibold text-foreground">
+                  {activeToast === "pass" ? "Passed" : activeToast === "vibe" ? "Vibe Sent!" : "Invite Sent!"}
+                </p>
+                <p className="font-body text-[11px] text-muted-foreground">
+                  {activeToast === "pass"
+                    ? "Moving to next profile"
+                    : activeToast === "vibe"
+                    ? "They'll know you're interested"
+                    : "Waiting for their response"}
+                </p>
               </div>
-              <span className="font-display text-sm font-semibold text-primary">Invite Sent!</span>
             </div>
           </motion.div>
         )}
@@ -351,7 +343,7 @@ const Discover = () => {
       />
 
       {/* Invite Dialog */}
-      <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); setShowInviteIndicator(true); setTimeout(() => setShowInviteIndicator(false), 800); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} />
+      <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} onSent={() => { setInviteOpen(false); showToast("invite"); goNext(); }} profileName={profile?.name} profilePhoto={profile?.photos[0]} profileIndex={PROFILES.indexOf(profile)} />
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/85 backdrop-blur-2xl border-t border-border/20 z-30">
