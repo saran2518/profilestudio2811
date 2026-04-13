@@ -117,7 +117,7 @@ const ContactSupport = () => {
             className="w-full h-12 rounded-2xl text-[15px] font-semibold text-primary-foreground"
             style={{ background: "var(--gradient-warm)" }}
           >
-            {submitted ? "Message Sent" : "Send Message"}
+            {submitted ? "Submitted" : "Submit"}
           </Button>
         </div>
       </main>
