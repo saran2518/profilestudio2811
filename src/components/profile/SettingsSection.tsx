@@ -36,6 +36,7 @@ const fadeUp = {
 
 const SettingsSection = () => {
   const navigate = useNavigate();
+  const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -51,6 +52,12 @@ const SettingsSection = () => {
     >
       {/* Profile & Presence */}
       <SettingsGroup title="Profile & Presence" icon="👤">
+        <SettingRow
+          icon={<EyeOff className="h-4 w-4" />}
+          label="Pause Profile"
+          subtitle="Temporarily hide from discovery"
+          action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+        />
         <SettingRow
           icon={<EyeOff className="h-4 w-4" />}
           label="Private Browsing"
