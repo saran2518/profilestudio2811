@@ -67,13 +67,13 @@ export default function ChatHeader({
             onClick={onDateRoom}
             className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-2xl transition-all hover:bg-primary/5"
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
               <rect x="2" y="4" width="14" height="16" rx="3" />
               <line x1="9" y1="9" x2="9" y2="15" />
               <line x1="6" y1="12" x2="12" y2="12" />
               <path d="M16 8.5l4.5-2.5v12L16 15.5" />
             </svg>
-            <span className="text-[8px] font-semibold text-primary leading-tight">Virtual Date Room</span>
+            <span className="text-[10px] font-semibold text-primary leading-tight">Virtual Date Room</span>
           </motion.button>
 
           {/* 3-dot menu */}
