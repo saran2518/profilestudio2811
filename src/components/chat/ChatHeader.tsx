@@ -44,15 +44,12 @@ export default function ChatHeader({
             alt={thread.name}
             className="h-10 w-10 rounded-full object-cover ring-2 ring-primary/15 ring-offset-2 ring-offset-background"
           />
-          <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-card" />
+          
         </div>
 
-        <div className="flex flex-col min-w-0">
-          <p className="font-display text-[15px] font-bold text-foreground truncate">
-            {thread.name}
-          </p>
-          <span className="text-[10px] text-muted-foreground font-medium">Online now</span>
-        </div>
+        <p className="font-display text-[15px] font-bold text-foreground truncate min-w-0">
+          {thread.name}
+        </p>
 
         <span
           className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider text-primary-foreground shrink-0"
