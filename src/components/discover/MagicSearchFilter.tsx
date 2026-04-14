@@ -211,6 +211,12 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   whileTap={{ scale: 0.8 }}
                   onClick={() => {
                     if (searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
+                      if (isBlockedKeyword(searchQuery.trim())) {
+                        setBlockedWarning(true);
+                        setSearchQuery("");
+                        setTimeout(() => setBlockedWarning(false), 2500);
+                        return;
+                      }
                       setSearchTags([...searchTags, searchQuery.trim()]);
                       setSearchQuery("");
                     }
@@ -221,6 +227,20 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   <span className="text-primary-foreground text-xs font-bold leading-none">+</span>
                 </motion.button>
               </div>
+
+              {/* Blocked keyword warning */}
+              <AnimatePresence>
+                {blockedWarning && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    className="text-[11px] font-body text-destructive px-1"
+                  >
+                    This keyword is not allowed. Please use respectful search terms.
+                  </motion.p>
+                )}
+              </AnimatePresence>
 
               {/* Active tags */}
               {searchTags.length > 0 && (
