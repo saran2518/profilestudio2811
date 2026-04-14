@@ -95,8 +95,17 @@ export default function ChatDetail({
           {thread.source}
         </span>
 
+        {/* Virtual date button */}
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setDateInviteOpen(true)}
+          className="ml-auto p-2 rounded-xl hover:bg-muted/40 transition-colors"
+        >
+          <Video className="h-5 w-5 text-primary" />
+        </motion.button>
+
         {/* 3-dot menu */}
-        <div className="ml-auto relative">
+        <div className="relative">
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setMenuOpen((v) => !v)}
