@@ -197,6 +197,11 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
               {/* Active tags */}
               {searchTags.length > 0 && (
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-body font-semibold text-muted-foreground/70 uppercase tracking-wider">Keywords</span>
+                    <span className="h-4 min-w-[16px] px-1.5 rounded-full bg-primary/15 text-[10px] font-bold text-primary flex items-center justify-center">{searchTags.length}</span>
+                  </div>
                 <div className="flex flex-wrap gap-1.5">
                   {searchTags.map((tag) => (
                     <motion.span
@@ -214,6 +219,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                       </button>
                     </motion.span>
                   ))}
+                </div>
                 </div>
               )}
 
@@ -313,7 +319,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 >
                   <span className="flex items-center justify-center gap-2">
                     <Sparkles className="h-3.5 w-3.5" />
-                    Search{searchTags.length > 0 ? ` · ${searchTags.length} keywords` : ""}
+                    Search
                   </span>
                 </motion.button>
               </div>
