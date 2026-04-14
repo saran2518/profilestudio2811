@@ -34,6 +34,7 @@ export default function VirtualDateRoom({
   partnerPhoto,
   onEnd,
 }: VirtualDateRoomProps) {
+  const DURATION = 10 * 60; // 10 minutes in seconds
   const [videoOn, setVideoOn] = useState(true);
   const [micOn, setMicOn] = useState(true);
   const [elapsed, setElapsed] = useState(0);
@@ -45,6 +46,13 @@ export default function VirtualDateRoom({
     const interval = setInterval(() => setElapsed((e) => e + 1), 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-disconnect after 10 minutes
+  useEffect(() => {
+    if (elapsed >= DURATION) {
+      onEnd();
+    }
+  }, [elapsed, DURATION, onEnd]);
 
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60);
@@ -84,7 +92,7 @@ export default function VirtualDateRoom({
               {partnerName}
             </p>
             <span className="font-body text-xs text-primary-foreground/60">
-              Virtual Date • {formatTime(elapsed)}
+              Virtual Date • {formatTime(DURATION - elapsed > 0 ? DURATION - elapsed : 0)} remaining
             </span>
           </div>
         </div>
