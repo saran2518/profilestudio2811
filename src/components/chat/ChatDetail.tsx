@@ -102,7 +102,7 @@ export default function ChatDetail({
           className="ml-auto flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl hover:bg-muted/40 transition-colors"
         >
           <Video className="h-5 w-5 text-primary" />
-          <span className="text-[8px] font-semibold text-primary leading-none">Virtual Date</span>
+          <span className="text-[8px] font-semibold text-primary leading-none">Date Room</span>
         </motion.button>
 
         {/* 3-dot menu */}
