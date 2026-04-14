@@ -23,7 +23,7 @@ function ChatList({
   onOpenThread: (id: string) => void;
 }) {
   return (
-    <div className="space-y-1 px-4">
+    <div className="flex-1 min-h-0 overflow-y-auto space-y-1 px-4 pb-4">
       {threads.length === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -136,7 +136,7 @@ export default function Chat() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 60, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="flex-1 flex flex-col"
+            className="flex-1 min-h-0 flex flex-col"
           >
             <ChatDetail
               thread={activeThread}
@@ -150,9 +150,9 @@ export default function Chat() {
             animate={{ opacity: 1 }}
             exit={{ x: -60, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="flex-1 flex flex-col"
+            className="flex-1 min-h-0 flex flex-col"
           >
-            <header className="pt-12 pb-4 px-5">
+            <header className="pt-12 pb-4 px-5 shrink-0">
               <h1 className="font-display text-2xl font-bold text-foreground">
                 Chat
               </h1>
@@ -163,7 +163,7 @@ export default function Chat() {
 
             {/* Connections Row */}
             {connections.length > 0 && (
-              <div className="px-5 pb-3">
+              <div className="px-5 pb-3 shrink-0">
                 <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-3">
                   Connections
                 </h2>
@@ -209,7 +209,7 @@ export default function Chat() {
 
             {/* Conversations Section */}
             {conversations.length > 0 && (
-              <div className="px-5 pb-3">
+              <div className="px-5 pb-3 shrink-0">
                 <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Conversations
                 </h2>
@@ -223,26 +223,23 @@ export default function Chat() {
         )}
       </AnimatePresence>
 
-      {/* Bottom Navigation - hidden when in chat detail */}
-      {!activeThread && (
-        <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
-          <div className="flex items-center justify-around py-3 px-2">
-            <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
-            <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
-            <NavItem
-              icon={<InfinityIcon />}
-              label="Discover"
-              onClick={() => navigate("/discover")}
-            />
-            <NavItem
-              icon={<Heart className="h-5 w-5" />}
-              label="Interests"
-              onClick={() => navigate("/interests")}
-            />
-            <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" active />
-          </div>
-        </nav>
-      )}
+      <nav className="shrink-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
+        <div className="flex items-center justify-around py-3 px-2">
+          <NavItem icon={<Users className="h-5 w-5" />} label="Profile" onClick={() => navigate("/profile")} />
+          <NavItem icon={<Sparkles className="h-5 w-5" />} label="Moments" onClick={() => navigate("/moments")} />
+          <NavItem
+            icon={<InfinityIcon />}
+            label="Discover"
+            onClick={() => navigate("/discover")}
+          />
+          <NavItem
+            icon={<Heart className="h-5 w-5" />}
+            label="Interests"
+            onClick={() => navigate("/interests")}
+          />
+          <NavItem icon={<MessageCircle className="h-5 w-5" />} label="Chat" active />
+        </div>
+      </nav>
     </div>
   );
 }
