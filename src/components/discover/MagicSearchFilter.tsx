@@ -46,6 +46,25 @@ const SUGGESTION_CATEGORIES: { label: string; keywords: string[] }[] = [
   { label: "General", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
 ];
 
+// Blocked keyword patterns for content safety (abusive, racist, sexual, violent, drug-related)
+const BLOCKED_PATTERNS = [
+  // Profanity & slurs
+  /\b(f+u+c+k+|sh[i1]+t+|a+ss+h+o+l+e|b[i1]+t+c+h|d[i1]+c+k|c+u+n+t|p+[i1]+s+s+|d+a+m+n+|w+h+o+r+e|s+l+u+t+|b+a+s+t+a+r+d+)\b/i,
+  // Racist & hate speech
+  /\b(n[i1]+g+[e3]+r|n[i1]+g+a|ch[i1]+n+k|sp[i1]+c|k[i1]+k+e|w+[e3]+t+b+a+c+k|g+o+o+k|r+a+g+h+e+a+d|t+o+w+e+l+h+e+a+d|c+o+o+n|d+a+r+k+[i1]+e|c+r+a+c+k+e+r)\b/i,
+  // Sexual content
+  /\b(p+o+r+n|s+e+x+|n+u+d+e+s*|b+o+o+b+s*|p+e+n+[i1]+s|v+a+g+[i1]+n+a|d+[i1]+l+d+o|o+r+g+a+s+m|m+a+s+t+u+r+b+|e+r+o+t+[i1]+c|h+e+n+t+a+[i1]|x+x+x+|f+e+t+[i1]+s+h|b+l+o+w+j+o+b|h+a+n+d+j+o+b|b+d+s+m)\b/i,
+  // Violence
+  /\b(k+[i1]+l+l+|m+u+r+d+e+r|r+a+p+[e3]|s+t+a+b|s+h+o+o+t|b+o+m+b+|t+e+r+r+o+r|a+s+s+a+u+l+t|a+b+u+s+e|t+o+r+t+u+r+e|b+e+a+t+[i1]+n+g|s+u+[i1]+c+[i1]+d+e|g+e+n+o+c+[i1]+d+e)\b/i,
+  // Drugs
+  /\b(c+o+c+a+[i1]+n+e|h+e+r+o+[i1]+n|m+e+t+h|w+e+e+d|m+a+r+[i1]+j+u+a+n+a|l+s+d|e+c+s+t+a+s+y|m+o+l+l+y|k+e+t+a+m+[i1]+n+e|o+p+[i1]+u+m|f+e+n+t+a+n+y+l|c+r+a+c+k)\b/i,
+];
+
+const isBlockedKeyword = (keyword: string): boolean => {
+  const cleaned = keyword.trim().toLowerCase();
+  return BLOCKED_PATTERNS.some((pattern) => pattern.test(cleaned));
+};
+
 const DEFAULTS = {
   ageRange: [18, 50],
   distance: [50],
