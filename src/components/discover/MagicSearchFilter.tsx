@@ -28,7 +28,7 @@ import {
 
 const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Travel Buddy", "Shared Experiences", "Discovery Mode"];
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
-const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
+const GENDER_OPTIONS = ["Women", "Men", "Non-binary"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
 import { Palette, Zap, Diamond } from "lucide-react";
 
