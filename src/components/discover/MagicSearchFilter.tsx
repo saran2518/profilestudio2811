@@ -306,17 +306,6 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
               {/* Magic Search CTA */}
               <div className="flex items-center gap-2">
-                {searchTags.length > 0 && (
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileTap={{ scale: 0.93 }}
-                    onClick={() => setSearchTags([])}
-                    className="px-3.5 py-2.5 rounded-xl font-body text-[12px] font-semibold text-muted-foreground border border-border/30 hover:bg-muted/30 hover:text-foreground transition-all duration-200"
-                  >
-                    Clear
-                  </motion.button>
-                )}
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   whileHover={{ scale: 1.01 }}
