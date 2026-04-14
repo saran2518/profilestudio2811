@@ -111,8 +111,16 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
     return count;
   }, [searchTags, ageRange, distance, heightRange, relationship, education, gender, languages]);
 
+  const [blockedWarning, setBlockedWarning] = useState(false);
+
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
+      if (isBlockedKeyword(searchQuery.trim())) {
+        setBlockedWarning(true);
+        setSearchQuery("");
+        setTimeout(() => setBlockedWarning(false), 2500);
+        return;
+      }
       setSearchTags([...searchTags, searchQuery.trim()]);
       setSearchQuery("");
     }
