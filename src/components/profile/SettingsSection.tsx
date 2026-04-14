@@ -53,6 +53,12 @@ const SettingsSection = () => {
       <SettingsGroup title="Profile & Presence" icon="👤">
         <SettingRow
           icon={<EyeOff className="h-4 w-4" />}
+          label="Pause Profile"
+          subtitle="Temporarily hide from discovery"
+          action={<Switch checked={pauseProfile} onCheckedChange={setPauseProfile} />}
+        />
+        <SettingRow
+          icon={<EyeOff className="h-4 w-4" />}
           label="Private Browsing"
           subtitle="Browse without being seen"
           badge="Premium"
