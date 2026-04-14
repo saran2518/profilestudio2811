@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Send, Paperclip, X, Mic } from "lucide-react";
+import { Send, Paperclip, X } from "lucide-react";
 import EmojiPicker from "./EmojiPicker";
 
 interface ChatInputProps {
