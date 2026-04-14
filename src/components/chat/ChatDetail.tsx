@@ -258,6 +258,31 @@ export default function ChatDetail({
 
       <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} profileName={thread.name} />
       <BlockDialog open={blockOpen} onClose={() => setBlockOpen(false)} profileName={thread.name} />
+
+      <VirtualDateInvite
+        open={dateInviteOpen}
+        partnerName={thread.name}
+        onCancel={() => setDateInviteOpen(false)}
+        onConfirm={() => {
+          setDateInviteOpen(false);
+          setDateRoomOpen(true);
+          addMessage(thread.id, "📹 Started a Virtual Date", "me");
+        }}
+      />
+
+      <AnimatePresence>
+        {dateRoomOpen && (
+          <VirtualDateRoom
+            partnerName={thread.name}
+            partnerPhoto={thread.photo}
+            onEnd={() => {
+              setDateRoomOpen(false);
+              addMessage(thread.id, "Virtual date ended. Hope you had fun! 💫", "me");
+              toast.success("Virtual date ended");
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
