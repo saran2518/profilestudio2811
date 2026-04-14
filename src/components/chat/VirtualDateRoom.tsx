@@ -6,7 +6,6 @@ import {
   Mic,
   MicOff,
   Phone,
-  MessageCircle,
   Sparkles,
   X,
 } from "lucide-react";
