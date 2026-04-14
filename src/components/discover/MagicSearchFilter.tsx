@@ -319,7 +319,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                 >
                   <span className="flex items-center justify-center gap-2">
                     <Sparkles className="h-3.5 w-3.5" />
-                    Search{searchTags.length > 0 ? ` · ${searchTags.length} keywords` : ""}
+                    Search
                   </span>
                 </motion.button>
               </div>
