@@ -57,28 +57,12 @@ export default function ChatDetail({
 
   const handleVirtualDateConfirm = () => {
     setDateInviteOpen(false);
-    // Add a special invite message from "me"
-    const inviteId = `vd-invite-${Date.now()}`;
-    addMessage(thread.id, "📹 Virtual Date Invite", "me");
-    // Replace the last message with the invite type
-    const updatedThread = fresh || thread;
-    const lastMsg = updatedThread.messages[updatedThread.messages.length - 1];
-    if (lastMsg) {
-      lastMsg.type = "virtual-date-invite";
-      lastMsg.dateInviteStatus = "pending";
-    }
+    // Add invite message from "me"
+    addVirtualDateInvite(thread.id, "me");
 
-    // Simulate partner receiving and sending back an invite bubble after delay
+    // Simulate partner receiving the invite after a delay
     setTimeout(() => {
-      addMessage(thread.id, "📹 Virtual Date Invite", "them");
-      // Mark the partner's message as invite type
-      const currentThread = fresh || thread;
-      const msgs = currentThread.messages;
-      const partnerMsg = msgs[msgs.length - 1];
-      if (partnerMsg) {
-        partnerMsg.type = "virtual-date-invite";
-        partnerMsg.dateInviteStatus = "pending";
-      }
+      addVirtualDateInvite(thread.id, "them");
       toast(`${thread.name} received your Virtual Date invite! 🎥`, {
         duration: 3000,
       });
