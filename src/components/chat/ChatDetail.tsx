@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useChatThread } from "@/hooks/useChatStore";
-import { addMessage, removeThread, ChatThread } from "@/lib/chatStore";
+import { addMessage, removeThread, updateMessageInviteStatus, ChatThread } from "@/lib/chatStore";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
 import VirtualDateInvite from "./VirtualDateInvite";
 import VirtualDateRoom from "./VirtualDateRoom";
+import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import MessageBubble from "./MessageBubble";
@@ -54,6 +55,46 @@ export default function ChatDetail({
     addMessage(thread.id, text, "me", image);
   };
 
+  const handleVirtualDateConfirm = () => {
+    setDateInviteOpen(false);
+    // Add a special invite message from "me"
+    const inviteId = `vd-invite-${Date.now()}`;
+    addMessage(thread.id, "📹 Virtual Date Invite", "me");
+    // Replace the last message with the invite type
+    const updatedThread = fresh || thread;
+    const lastMsg = updatedThread.messages[updatedThread.messages.length - 1];
+    if (lastMsg) {
+      lastMsg.type = "virtual-date-invite";
+      lastMsg.dateInviteStatus = "pending";
+    }
+
+    // Simulate partner receiving and sending back an invite bubble after delay
+    setTimeout(() => {
+      addMessage(thread.id, "📹 Virtual Date Invite", "them");
+      // Mark the partner's message as invite type
+      const currentThread = fresh || thread;
+      const msgs = currentThread.messages;
+      const partnerMsg = msgs[msgs.length - 1];
+      if (partnerMsg) {
+        partnerMsg.type = "virtual-date-invite";
+        partnerMsg.dateInviteStatus = "pending";
+      }
+      toast(`${thread.name} received your Virtual Date invite! 🎥`, {
+        duration: 3000,
+      });
+    }, 1500);
+  };
+
+  const handleInviteJoin = (msgId: string) => {
+    updateMessageInviteStatus(thread.id, msgId, "accepted");
+    setDateRoomOpen(true);
+  };
+
+  const handleInviteDecline = (msgId: string) => {
+    updateMessageInviteStatus(thread.id, msgId, "declined");
+    addMessage(thread.id, "Maybe next time! 😊", "them");
+  };
+
   return (
     <div className="flex flex-col h-full bg-background">
       <ChatHeader
@@ -83,6 +124,23 @@ export default function ChatDetail({
         {messages.map((msg, i) => {
           const prevMsg = messages[i - 1];
           const showAvatar = !prevMsg || prevMsg.sender !== msg.sender;
+
+          // Render special Virtual Date invite bubble
+          if (msg.type === "virtual-date-invite") {
+            return (
+              <VirtualDateInviteBubble
+                key={msg.id}
+                msg={msg}
+                isMe={msg.sender === "me"}
+                partnerName={thread.name}
+                showAvatar={showAvatar}
+                partnerPhoto={thread.photo}
+                onJoin={() => handleInviteJoin(msg.id)}
+                onDecline={() => handleInviteDecline(msg.id)}
+              />
+            );
+          }
+
           return (
             <MessageBubble
               key={msg.id}
@@ -108,11 +166,7 @@ export default function ChatDetail({
         open={dateInviteOpen}
         partnerName={thread.name}
         onCancel={() => setDateInviteOpen(false)}
-        onConfirm={() => {
-          setDateInviteOpen(false);
-          setDateRoomOpen(true);
-          addMessage(thread.id, "📹 Started a Virtual Date", "me");
-        }}
+        onConfirm={handleVirtualDateConfirm}
       />
 
       <AnimatePresence>
