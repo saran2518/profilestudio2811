@@ -22,19 +22,18 @@ export default function ChatHeader({
   return (
     <div className="relative z-10">
       <div
-        className="px-5 pt-12 pb-4"
+        className="px-4 pt-12 pb-3"
         style={{
           background: "linear-gradient(180deg, hsl(var(--card)) 70%, transparent)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
         }}
       >
-        {/* Top row: back, avatar, name, badge, menu */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <motion.button
             whileTap={{ scale: 0.85 }}
             onClick={onBack}
-            className="p-2.5 -ml-2 rounded-2xl hover:bg-muted/50 transition-all active:bg-muted/70"
+            className="p-2 -ml-2 rounded-2xl hover:bg-muted/50 transition-all active:bg-muted/70"
           >
             <ArrowLeft className="h-5 w-5 text-foreground" />
           </motion.button>
@@ -42,15 +41,15 @@ export default function ChatHeader({
           <img
             src={thread.photo}
             alt={thread.name}
-            className="h-11 w-11 rounded-full object-cover ring-2 ring-primary/15 ring-offset-2 ring-offset-background"
+            className="h-10 w-10 rounded-full object-cover ring-2 ring-primary/15 ring-offset-2 ring-offset-background"
           />
 
-          <div className="flex flex-col gap-1 min-w-0 flex-1">
-            <p className="font-display text-base font-bold text-foreground truncate">
+          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+            <p className="font-display text-[15px] font-bold text-foreground truncate">
               {thread.name}
             </p>
             <span
-              className="self-start flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider text-primary-foreground"
+              className="self-start flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider text-primary-foreground"
               style={{ background: "var(--gradient-warm)" }}
             >
               {thread.source === "vibe" ? (
@@ -62,12 +61,27 @@ export default function ChatHeader({
             </span>
           </div>
 
+          {/* Virtual Date Room */}
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={onDateRoom}
+            className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-2xl transition-all hover:bg-primary/5"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+              <rect x="2" y="4" width="14" height="16" rx="3" />
+              <line x1="9" y1="9" x2="9" y2="15" />
+              <line x1="6" y1="12" x2="12" y2="12" />
+              <path d="M16 8.5l4.5-2.5v12L16 15.5" />
+            </svg>
+            <span className="text-[8px] font-semibold text-primary leading-tight">Virtual Date Room</span>
+          </motion.button>
+
           {/* 3-dot menu */}
           <div className="relative">
             <motion.button
               whileTap={{ scale: 0.85 }}
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2.5 rounded-2xl hover:bg-muted/50 transition-all"
+              className="p-2 rounded-2xl hover:bg-muted/50 transition-all"
             >
               <MoreHorizontal className="h-5 w-5 text-muted-foreground" />
             </motion.button>
@@ -111,25 +125,6 @@ export default function ChatHeader({
               )}
             </AnimatePresence>
           </div>
-        </div>
-
-        {/* Bottom row: Virtual Date Room button */}
-        {/* Virtual Date Room - vertical layout */}
-        <div className="mt-3 flex justify-end">
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.02 }}
-            onClick={onDateRoom}
-            className="flex flex-col items-center gap-1 px-4 py-2 rounded-2xl transition-all hover:bg-primary/5"
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-              <rect x="2" y="4" width="14" height="16" rx="3" />
-              <line x1="9" y1="9" x2="9" y2="15" />
-              <line x1="6" y1="12" x2="12" y2="12" />
-              <path d="M16 8.5l4.5-2.5v12L16 15.5" />
-            </svg>
-            <span className="text-[10px] font-semibold text-primary">Virtual Date Room</span>
-          </motion.button>
         </div>
       </div>
 
