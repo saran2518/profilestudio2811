@@ -86,6 +86,32 @@ export function addMessage(threadId: string, text: string, sender: "me" | "them"
   notify();
 }
 
+export function addVirtualDateInvite(threadId: string, sender: "me" | "them"): string {
+  const msgId = `vd-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+  threads = threads.map((t) =>
+    t.id === threadId
+      ? {
+          ...t,
+          lastMessage: "📹 Virtual Date Invite",
+          time: "Just now",
+          messages: [
+            ...t.messages,
+            {
+              id: msgId,
+              sender,
+              text: "📹 Virtual Date Invite",
+              time: "Just now",
+              type: "virtual-date-invite" as const,
+              dateInviteStatus: "pending" as const,
+            },
+          ],
+        }
+      : t
+  );
+  notify();
+  return msgId;
+}
+
 export function updateMessageInviteStatus(threadId: string, messageId: string, status: "accepted" | "declined") {
   threads = threads.map((t) =>
     t.id === threadId
