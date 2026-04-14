@@ -36,6 +36,7 @@ const fadeUp = {
 
 const SettingsSection = () => {
   const navigate = useNavigate();
+  const [pauseProfile, setPauseProfile] = useState(false);
   const [privateBrowsing, setPrivateBrowsing] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
