@@ -15,6 +15,8 @@ export interface ChatMessage {
   text: string;
   time: string;
   image?: string; // data URL for in-memory image attachments
+  type?: "text" | "virtual-date-invite" | "virtual-date-response";
+  dateInviteStatus?: "pending" | "accepted" | "declined";
 }
 
 let threads: ChatThread[] = [];
