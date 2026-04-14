@@ -30,11 +30,20 @@ const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Trav
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
 const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
-const SUGGESTION_CATEGORIES: { label: string; icon: string; keywords: string[] }[] = [
-  { label: "Interests", icon: "🎨", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
-  { label: "Lifestyle", icon: "✨", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
-  { label: "Values", icon: "💎", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
-  { label: "General", icon: "🌐", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
+import { Palette, Zap, Diamond } from "lucide-react";
+
+const SUGGESTION_CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  Interests: <Palette className="h-3.5 w-3.5 text-muted-foreground" />,
+  Lifestyle: <Zap className="h-3.5 w-3.5 text-muted-foreground" />,
+  Values: <Diamond className="h-3.5 w-3.5 text-muted-foreground" />,
+  General: <Globe className="h-3.5 w-3.5 text-muted-foreground" />,
+};
+
+const SUGGESTION_CATEGORIES: { label: string; keywords: string[] }[] = [
+  { label: "Interests", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
+  { label: "Lifestyle", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
+  { label: "Values", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
+  { label: "General", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
 ];
 
 const DEFAULTS = {
