@@ -439,7 +439,18 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   expanded={expandedFilter === "gender"}
                   onToggle={() => toggleFilter("gender")}
                 >
-                  <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-body text-[12px] font-medium text-muted-foreground">Open to everyone</span>
+                      <Switch checked={openToEveryone} onCheckedChange={(checked) => {
+                        setOpenToEveryone(checked);
+                        if (checked) setGender([]);
+                      }} />
+                    </div>
+                    {!openToEveryone && (
+                      <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+                    )}
+                  </div>
                 </FilterRow>
               </div>
 
