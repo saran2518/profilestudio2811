@@ -80,7 +80,7 @@ export default function VirtualDateInvite({
                     boxShadow: "var(--shadow-warm)",
                   }}
                 >
-                  Start Date
+                  Start a Virtual Date
                 </motion.button>
               </div>
             </div>
