@@ -28,7 +28,7 @@ import {
 
 const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Travel Buddy", "Shared Experiences", "Discovery Mode"];
 const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
-const GENDER_OPTIONS = ["Women", "Men", "Non-binary", "Everyone"];
+const GENDER_OPTIONS = ["Women", "Men", "Non-binary"];
 const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
 import { Palette, Zap, Diamond } from "lucide-react";
 
@@ -70,6 +70,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [relationship, setRelationship] = useState<string[]>(["Long-term"]);
   const [education, setEducation] = useState<string[]>(["Masters"]);
   const [gender, setGender] = useState<string[]>(["Women"]);
+  const [openToEveryone, setOpenToEveryone] = useState(false);
   const [languages, setLanguages] = useState<string[]>([]);
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
   const [expandedSuggestion, setExpandedSuggestion] = useState<string | null>(null);
@@ -433,12 +434,23 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-violet-50"
                   iconColor="text-violet-500"
                   label="Gender"
-                  summary={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender) ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : "Any"}
+                  summary={openToEveryone ? "Everyone" : (gender.length > 0 ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : "Any")}
                   isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
                   expanded={expandedFilter === "gender"}
                   onToggle={() => toggleFilter("gender")}
                 >
-                  <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-body text-[12px] font-medium text-muted-foreground">Open to everyone</span>
+                      <Switch checked={openToEveryone} onCheckedChange={(checked) => {
+                        setOpenToEveryone(checked);
+                        if (checked) setGender([]);
+                      }} />
+                    </div>
+                    {!openToEveryone && (
+                      <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
+                    )}
+                  </div>
                 </FilterRow>
               </div>
 
