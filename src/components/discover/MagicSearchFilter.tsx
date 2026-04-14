@@ -220,6 +220,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                     </motion.span>
                   ))}
                 </div>
+                </div>
               )}
 
               {/* Collapsible Suggestions */}
