@@ -81,19 +81,21 @@ export default function ChatDetail({
 
   return (
     <div className="flex flex-col h-full bg-background overflow-hidden">
+      {/* Fixed header */}
       <div className="shrink-0">
         <ChatHeader
-        thread={thread}
-        onBack={onBack}
-        onDateRoom={() => setDateInviteOpen(true)}
-        onMenuAction={handleMenuAction}
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-      />
+          thread={thread}
+          onBack={onBack}
+          onDateRoom={() => setDateInviteOpen(true)}
+          onMenuAction={handleMenuAction}
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+        />
+      </div>
 
-      {/* Messages area with subtle pattern */}
+      {/* Scrollable messages area */}
       <div
-        className="flex-1 overflow-y-auto px-4 py-4 space-y-2.5"
+        className="flex-1 min-h-0 overflow-y-auto px-4 py-4 space-y-2.5"
         style={{
           backgroundImage: `radial-gradient(circle at 20% 50%, hsl(var(--primary) / 0.02) 0%, transparent 50%),
                            radial-gradient(circle at 80% 20%, hsl(var(--accent) / 0.02) 0%, transparent 50%)`,
@@ -110,7 +112,6 @@ export default function ChatDetail({
           const prevMsg = messages[i - 1];
           const showAvatar = !prevMsg || prevMsg.sender !== msg.sender;
 
-          // Render special Virtual Date invite bubble
           if (msg.type === "virtual-date-invite") {
             return (
               <VirtualDateInviteBubble
@@ -139,8 +140,8 @@ export default function ChatDetail({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input */}
-      <div className="border-t border-border/20 bg-card/50 backdrop-blur-sm">
+      {/* Fixed input */}
+      <div className="shrink-0 border-t border-border/20 bg-card/50 backdrop-blur-sm">
         <ChatInput onSend={handleSend} />
       </div>
 
