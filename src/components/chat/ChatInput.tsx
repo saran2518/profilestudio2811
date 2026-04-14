@@ -84,26 +84,20 @@ export default function ChatInput({ onSend }: ChatInputProps) {
           className="flex-1 px-2 py-2.5 bg-transparent font-body text-[14px] text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
         />
 
-        <motion.button
-          whileTap={{ scale: 0.85 }}
-          onClick={hasContent ? handleSend : undefined}
-          className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 transition-all"
-          style={
-            hasContent
-              ? {
-                  background: "var(--gradient-warm)",
-                  boxShadow: "var(--shadow-warm)",
-                }
-              : undefined
-          }
-          animate={hasContent ? { scale: [0.9, 1] } : { scale: 1 }}
-        >
-          {hasContent ? (
+        {hasContent && (
+          <motion.button
+            whileTap={{ scale: 0.85 }}
+            onClick={handleSend}
+            className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 transition-all"
+            style={{
+              background: "var(--gradient-warm)",
+              boxShadow: "var(--shadow-warm)",
+            }}
+            animate={{ scale: [0.9, 1] }}
+          >
             <Send className="h-4 w-4 text-primary-foreground" />
-          ) : (
-            <Mic className="h-5 w-5 text-muted-foreground" />
-          )}
-        </motion.button>
+          </motion.button>
+        )}
       </div>
     </div>
   );
