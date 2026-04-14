@@ -70,6 +70,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [relationship, setRelationship] = useState<string[]>(["Long-term"]);
   const [education, setEducation] = useState<string[]>(["Masters"]);
   const [gender, setGender] = useState<string[]>(["Women"]);
+  const [openToEveryone, setOpenToEveryone] = useState(false);
   const [languages, setLanguages] = useState<string[]>([]);
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
   const [expandedSuggestion, setExpandedSuggestion] = useState<string | null>(null);
