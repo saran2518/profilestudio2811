@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag, Video } from "lucide-react";
+import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag, Video, Plus } from "lucide-react";
 import { useChatThread } from "@/hooks/useChatStore";
 import { addMessage, removeThread, ChatThread } from "@/lib/chatStore";
 import EmojiPicker from "./EmojiPicker";
@@ -99,10 +99,11 @@ export default function ChatDetail({
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => setDateInviteOpen(true)}
-          className="ml-auto flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl hover:bg-muted/40 transition-colors"
+          className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-2xl hover:bg-muted/40 transition-colors border border-primary/20"
         >
-          <Video className="h-5 w-5 text-primary" />
-          <span className="text-[8px] font-semibold text-primary leading-none">Date Room</span>
+          <Video className="h-4 w-4 text-primary" />
+          <span className="text-[10px] font-semibold text-primary leading-none">Virtual Date Room</span>
+          <Plus className="h-3.5 w-3.5 text-primary" />
         </motion.button>
 
         {/* 3-dot menu */}
