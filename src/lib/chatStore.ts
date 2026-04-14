@@ -85,3 +85,17 @@ export function addMessage(threadId: string, text: string, sender: "me" | "them"
   );
   notify();
 }
+
+export function updateMessageInviteStatus(threadId: string, messageId: string, status: "accepted" | "declined") {
+  threads = threads.map((t) =>
+    t.id === threadId
+      ? {
+          ...t,
+          messages: t.messages.map((m) =>
+            m.id === messageId ? { ...m, dateInviteStatus: status } : m
+          ),
+        }
+      : t
+  );
+  notify();
+}
