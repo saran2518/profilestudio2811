@@ -198,9 +198,20 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
               {/* Active tags */}
               {searchTags.length > 0 && (
                 <div className="space-y-1.5">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-body font-semibold text-muted-foreground/70 uppercase tracking-wider">Keywords</span>
-                    <span className="h-4 min-w-[16px] px-1.5 rounded-full bg-primary/15 text-[10px] font-bold text-primary flex items-center justify-center">{searchTags.length}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-body font-semibold text-muted-foreground/70 uppercase tracking-wider">Keywords</span>
+                      <span className="h-4 min-w-[16px] px-1.5 rounded-full bg-primary/15 text-[10px] font-bold text-primary flex items-center justify-center">{searchTags.length}</span>
+                    </div>
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      whileTap={{ scale: 0.93 }}
+                      onClick={() => setSearchTags([])}
+                      className="text-[10px] font-body font-semibold text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      Clear all
+                    </motion.button>
                   </div>
                 <div className="flex flex-wrap gap-1.5">
                   {searchTags.map((tag) => (
@@ -295,17 +306,6 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
 
               {/* Magic Search CTA */}
               <div className="flex items-center gap-2">
-                {searchTags.length > 0 && (
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileTap={{ scale: 0.93 }}
-                    onClick={() => setSearchTags([])}
-                    className="px-3.5 py-2.5 rounded-xl font-body text-[12px] font-semibold text-muted-foreground border border-border/30 hover:bg-muted/30 hover:text-foreground transition-all duration-200"
-                  >
-                    Clear
-                  </motion.button>
-                )}
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   whileHover={{ scale: 1.01 }}
