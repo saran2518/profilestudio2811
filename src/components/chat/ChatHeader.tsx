@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, MoreHorizontal, X, ShieldBan, Flag, Video, Plus } from "lucide-react";
+import { ArrowLeft, HeartPulse, Coffee, MoreHorizontal, X, ShieldBan, Flag, Plus } from "lucide-react";
 import { ChatThread } from "@/lib/chatStore";
 
 interface ChatHeaderProps {
