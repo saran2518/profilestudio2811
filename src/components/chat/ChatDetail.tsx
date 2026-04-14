@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag, Video } from "lucide-react";
+import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag, Video, Plus } from "lucide-react";
 import { useChatThread } from "@/hooks/useChatStore";
 import { addMessage, removeThread, ChatThread } from "@/lib/chatStore";
 import EmojiPicker from "./EmojiPicker";
