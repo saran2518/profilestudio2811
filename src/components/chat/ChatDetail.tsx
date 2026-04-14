@@ -80,7 +80,7 @@ export default function ChatDetail({
   };
 
   return (
-    <div className="flex flex-col h-full bg-background overflow-hidden">
+    <div className="flex h-full min-h-0 flex-col bg-background overflow-hidden">
       {/* Fixed header */}
       <div className="shrink-0">
         <ChatHeader
