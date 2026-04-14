@@ -40,11 +40,6 @@ export default function VirtualDateRoom({
   const [currentIcebreaker, setCurrentIcebreaker] = useState(0);
   const [showIcebreaker, setShowIcebreaker] = useState(false);
   const [showEndConfirm, setShowEndConfirm] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
-  const [chatInput, setChatInput] = useState("");
-  const [chatMessages, setChatMessages] = useState<
-    { text: string; sender: "me" | "them"; id: string }[]
-  >([]);
 
   // Timer
   useEffect(() => {
