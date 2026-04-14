@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useChatThread } from "@/hooks/useChatStore";
-import { addMessage, removeThread, updateMessageInviteStatus, ChatThread } from "@/lib/chatStore";
+import { addMessage, removeThread, updateMessageInviteStatus, addVirtualDateInvite, ChatThread } from "@/lib/chatStore";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
