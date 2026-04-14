@@ -101,9 +101,11 @@ export default function ChatDetail({
           onClick={() => setDateInviteOpen(true)}
           className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-2xl hover:bg-muted/40 transition-colors border border-primary/20"
         >
-          <Video className="h-4 w-4 text-primary" />
+          <div className="relative">
+            <Video className="h-4 w-4 text-primary" />
+            <Plus className="h-2.5 w-2.5 text-primary-foreground bg-primary rounded-full absolute -top-1 -right-1.5" />
+          </div>
           <span className="text-[10px] font-semibold text-primary leading-none">Virtual Date Room</span>
-          <Plus className="h-3.5 w-3.5 text-primary" />
         </motion.button>
 
         {/* 3-dot menu */}
