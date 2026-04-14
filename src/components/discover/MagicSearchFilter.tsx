@@ -232,7 +232,7 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                           onClick={setCatOpen}
                           className={`w-full flex items-center gap-2.5 px-3 py-2 transition-colors rounded-xl ${catOpen ? 'bg-muted/30' : 'hover:bg-muted/20'}`}
                         >
-                          <span className="text-sm">{cat.icon}</span>
+                          {SUGGESTION_CATEGORY_ICONS[cat.label]}
                           <span className="text-[12px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
                           {activeInCat > 0 && (
                             <motion.span
