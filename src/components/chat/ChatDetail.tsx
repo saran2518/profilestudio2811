@@ -1,12 +1,14 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag } from "lucide-react";
+import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag, Video } from "lucide-react";
 import { useChatThread } from "@/hooks/useChatStore";
 import { addMessage, removeThread, ChatThread } from "@/lib/chatStore";
 import EmojiPicker from "./EmojiPicker";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
+import VirtualDateInvite from "./VirtualDateInvite";
+import VirtualDateRoom from "./VirtualDateRoom";
 
 export default function ChatDetail({
   thread,
@@ -20,6 +22,8 @@ export default function ChatDetail({
   const [menuOpen, setMenuOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
+  const [dateInviteOpen, setDateInviteOpen] = useState(false);
+  const [dateRoomOpen, setDateRoomOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
