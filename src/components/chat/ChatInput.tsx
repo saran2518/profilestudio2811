@@ -31,7 +31,7 @@ export default function ChatInput({ onSend }: ChatInputProps) {
   const hasContent = input.trim().length > 0 || !!imagePreview;
 
   return (
-    <div className="px-4 pb-24 pt-2">
+    <div className="px-4 pb-2 pt-2">
       {/* Image preview */}
       {imagePreview && (
         <motion.div
