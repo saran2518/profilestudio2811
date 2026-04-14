@@ -80,8 +80,9 @@ export default function ChatDetail({
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
-      <ChatHeader
+    <div className="flex flex-col h-full bg-background overflow-hidden">
+      <div className="shrink-0">
+        <ChatHeader
         thread={thread}
         onBack={onBack}
         onDateRoom={() => setDateInviteOpen(true)}
