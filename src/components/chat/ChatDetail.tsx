@@ -1,12 +1,14 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag } from "lucide-react";
+import { ArrowLeft, HeartPulse, Coffee, Send, Paperclip, X, MoreHorizontal, ShieldBan, Flag, Video } from "lucide-react";
 import { useChatThread } from "@/hooks/useChatStore";
 import { addMessage, removeThread, ChatThread } from "@/lib/chatStore";
 import EmojiPicker from "./EmojiPicker";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
+import VirtualDateInvite from "./VirtualDateInvite";
+import VirtualDateRoom from "./VirtualDateRoom";
 
 export default function ChatDetail({
   thread,
@@ -20,6 +22,8 @@ export default function ChatDetail({
   const [menuOpen, setMenuOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
+  const [dateInviteOpen, setDateInviteOpen] = useState(false);
+  const [dateRoomOpen, setDateRoomOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
@@ -91,8 +95,17 @@ export default function ChatDetail({
           {thread.source}
         </span>
 
+        {/* Virtual date button */}
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setDateInviteOpen(true)}
+          className="ml-auto p-2 rounded-xl hover:bg-muted/40 transition-colors"
+        >
+          <Video className="h-5 w-5 text-primary" />
+        </motion.button>
+
         {/* 3-dot menu */}
-        <div className="ml-auto relative">
+        <div className="relative">
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setMenuOpen((v) => !v)}
@@ -245,6 +258,31 @@ export default function ChatDetail({
 
       <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} profileName={thread.name} />
       <BlockDialog open={blockOpen} onClose={() => setBlockOpen(false)} profileName={thread.name} />
+
+      <VirtualDateInvite
+        open={dateInviteOpen}
+        partnerName={thread.name}
+        onCancel={() => setDateInviteOpen(false)}
+        onConfirm={() => {
+          setDateInviteOpen(false);
+          setDateRoomOpen(true);
+          addMessage(thread.id, "📹 Started a Virtual Date", "me");
+        }}
+      />
+
+      <AnimatePresence>
+        {dateRoomOpen && (
+          <VirtualDateRoom
+            partnerName={thread.name}
+            partnerPhoto={thread.photo}
+            onEnd={() => {
+              setDateRoomOpen(false);
+              addMessage(thread.id, "Virtual date ended. Hope you had fun! 💫", "me");
+              toast.success("Virtual date ended");
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
