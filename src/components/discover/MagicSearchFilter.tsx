@@ -438,12 +438,12 @@ const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
                   iconBg="bg-amber-50"
                   iconColor="text-amber-500"
                   label="Age range"
-                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]}` : "Any"}
+                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]} years` : "Any"}
                   isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
                   expanded={expandedFilter === "age"}
                   onToggle={() => toggleFilter("age")}
                 >
-                  <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]}`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
+                  <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]} years`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
                 </FilterRow>
 
                 <FilterRow
