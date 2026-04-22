@@ -284,23 +284,23 @@ const HubScreen = (p: HubProps) => {
           onClick={p.onOpenMagic}
           className="w-full text-left rounded-2xl px-4 py-4 group transition-all active:scale-[0.99]"
           style={{
-            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            background: "var(--gradient-gold)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-              <Star className="h-4 w-4 text-primary-glow" fill="currentColor" />
+          <div className="h-9 w-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
+              <Star className="h-4 w-4 text-white" fill="currentColor" />
             </div>
-            <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
-            <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/70 border border-white/15">
+          <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
+            <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/85 border border-white/30 bg-white/10">
               Pro
             </span>
-            <div className="h-7 w-7 rounded-full border border-white/15 flex items-center justify-center text-white/60">
+            <div className="h-7 w-7 rounded-full border border-white/25 flex items-center justify-center text-white/85">
               <ChevronRight className="h-3.5 w-3.5" />
             </div>
           </div>
-          <p className="mt-2.5 font-body text-[12px] text-white/50 leading-relaxed pl-12">
+          <p className="mt-2.5 font-body text-[12px] text-white/75 leading-relaxed pl-12">
             Describe who you're looking for in your own words. AI does the rest.
           </p>
         </button>
