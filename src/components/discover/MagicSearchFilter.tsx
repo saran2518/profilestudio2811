@@ -1,842 +1,773 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  ChevronLeft,
   ChevronRight,
-  SlidersHorizontal,
-  Search,
-  X,
-  Calendar,
-  Ruler,
-  MapPin,
-  Heart,
-  GraduationCap,
-  Users,
-  Globe,
-  Sparkles,
-  Check,
   ChevronDown,
-  Lock,
-  ArrowUpRight,
+  Star,
+  Calendar,
+  MapPin,
+  User,
+  Ruler,
+  Check,
+  X,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-const RELATIONSHIP_OPTIONS = ["Meaningful Connection", "Keeping it Light", "Travel Buddy", "Shared Experiences", "Discovery Mode"];
-const EDUCATION_OPTIONS = ["High School", "Bachelors", "Masters", "PhD"];
-const GENDER_OPTIONS = ["Women", "Men", "Non-binary"];
-const COMMON_LANGUAGES = ["English", "Hindi", "Kannada", "Marathi", "Punjabi", "Bengali", "Tamil", "Telugu", "Gujarati", "Malayalam", "Urdu", "Odia", "Assamese", "Sanskrit", "French", "Spanish", "German", "Japanese", "Korean", "Mandarin", "Arabic", "Portuguese", "Russian", "Italian"];
-import { Palette, Zap, Diamond } from "lucide-react";
-
-const SUGGESTION_CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  Interests: <Palette className="h-3.5 w-3.5 text-muted-foreground" />,
-  Lifestyle: <Zap className="h-3.5 w-3.5 text-muted-foreground" />,
-  Values: <Diamond className="h-3.5 w-3.5 text-muted-foreground" />,
-  General: <Globe className="h-3.5 w-3.5 text-muted-foreground" />,
-};
-
-const SUGGESTION_CATEGORIES: { label: string; keywords: string[] }[] = [
-  { label: "Interests", keywords: ["Street Photography", "Trail Running", "Wine Tasting", "Jazz", "Pilates", "Poetry", "Scuba Diving", "Ceramics"] },
-  { label: "Lifestyle", keywords: ["Early Riser", "Digital Nomad", "Plant Parent", "Café Hopper", "Slow Living", "Wellness Enthusiast"] },
-  { label: "Values", keywords: ["Deep Conversations", "Self-Awareness", "Intentional Living", "Compassion", "Curiosity", "Gratitude"] },
-  { label: "General", keywords: ["Multilingual", "Hindi", "Tamil", "Creative Pro", "Tech Savvy", "Kannada", "Globetrotter", "Old Soul", "Telugu"] },
-];
-
-// Blocked keyword patterns for content safety (abusive, racist, sexual, violent, drug-related)
-const BLOCKED_PATTERNS = [
-  // Profanity & slurs
-  /\b(f+u+c+k+|sh[i1]+t+|a+ss+h+o+l+e|b[i1]+t+c+h|d[i1]+c+k|c+u+n+t|p+[i1]+s+s+|d+a+m+n+|w+h+o+r+e|s+l+u+t+|b+a+s+t+a+r+d+)\b/i,
-  // Racist & hate speech
-  /\b(n[i1]+g+[e3]+r|n[i1]+g+a|ch[i1]+n+k|sp[i1]+c|k[i1]+k+e|w+[e3]+t+b+a+c+k|g+o+o+k|r+a+g+h+e+a+d|t+o+w+e+l+h+e+a+d|c+o+o+n|d+a+r+k+[i1]+e|c+r+a+c+k+e+r)\b/i,
-  // Sexual content
-  /\b(p+o+r+n|s+e+x+|n+u+d+e+s*|b+o+o+b+s*|p+e+n+[i1]+s|v+a+g+[i1]+n+a|d+[i1]+l+d+o|o+r+g+a+s+m|m+a+s+t+u+r+b+|e+r+o+t+[i1]+c|h+e+n+t+a+[i1]|x+x+x+|f+e+t+[i1]+s+h|b+l+o+w+j+o+b|h+a+n+d+j+o+b|b+d+s+m)\b/i,
-  // Violence
-  /\b(k+[i1]+l+l+|m+u+r+d+e+r|r+a+p+[e3]|s+t+a+b|s+h+o+o+t|b+o+m+b+|t+e+r+r+o+r|a+s+s+a+u+l+t|a+b+u+s+e|t+o+r+t+u+r+e|b+e+a+t+[i1]+n+g|s+u+[i1]+c+[i1]+d+e|g+e+n+o+c+[i1]+d+e)\b/i,
-  // Drugs
-  /\b(c+o+c+a+[i1]+n+e|h+e+r+o+[i1]+n|m+e+t+h|w+e+e+d|m+a+r+[i1]+j+u+a+n+a|l+s+d|e+c+s+t+a+s+y|m+o+l+l+y|k+e+t+a+m+[i1]+n+e|o+p+[i1]+u+m|f+e+n+t+a+n+y+l|c+r+a+c+k)\b/i,
-];
-
-const isBlockedKeyword = (keyword: string): boolean => {
-  const cleaned = keyword.trim().toLowerCase();
-  return BLOCKED_PATTERNS.some((pattern) => pattern.test(cleaned));
-};
+// ─── Constants ──────────────────────────────────────────────────────────────
+const GENDER_OPTIONS = ["Man", "Woman", "Non-binary"];
 
 const DEFAULTS = {
-  ageRange: [18, 50],
-  distance: [50],
-  heightRange: [150, 200],
-  relationship: ["Long-term"],
-  education: ["Masters"],
-  gender: ["Women"],
+  ageRange: [18, 60] as [number, number],
+  distance: [0, 200] as [number, number],
+  heightRange: [140, 220] as [number, number],
+  gender: [] as string[],
 };
 
+const INSPIRATIONS: { quote: string; tag: string; intent?: boolean }[] = [
+  { quote: "A startup founder who reads and loves indie films", tag: "CAREER · CULTURE · PERSONALITY" },
+  { quote: "Someone adventurous, dog lover, early riser", tag: "LIFESTYLE · PERSONALITY" },
+  { quote: "Ready to settle down, looking for something real and lasting", tag: "RELATIONSHIP INTENT", intent: true },
+  { quote: "A creative soul who loves the outdoors and morning coffee", tag: "LIFESTYLE · CREATIVITY" },
+  { quote: "Bookworm, tea drinker, weekend hiker", tag: "INTERESTS · LIFESTYLE" },
+  { quote: "Looking for a deep, meaningful connection", tag: "RELATIONSHIP INTENT", intent: true },
+  { quote: "Loves art galleries, jazz nights and slow Sundays", tag: "CULTURE · LIFESTYLE" },
+  { quote: "Multilingual traveller, foodie, curious mind", tag: "LIFESTYLE · PERSONALITY" },
+  { quote: "Wants a partner to build a quiet, intentional life with", tag: "RELATIONSHIP INTENT", intent: true },
+  { quote: "Pilates in the morning, wine and poetry by night", tag: "LIFESTYLE · INTERESTS" },
+  { quote: "Engineer by day, vinyl collector by night", tag: "CAREER · INTERESTS" },
+  { quote: "Open to something casual that could grow into more", tag: "RELATIONSHIP INTENT", intent: true },
+  { quote: "Trail runner, plant parent, café hopper", tag: "LIFESTYLE · INTERESTS" },
+  { quote: "A curious traveller who values deep conversation", tag: "PERSONALITY · LIFESTYLE" },
+  { quote: "Looking for a travel buddy first, anything else second", tag: "RELATIONSHIP INTENT", intent: true },
+  { quote: "Designer who loves ceramics and ocean swims", tag: "CAREER · INTERESTS" },
+  { quote: "Calm, kind, into wellness and slow living", tag: "PERSONALITY · LIFESTYLE" },
+  { quote: "Open to wherever this goes — no pressure", tag: "RELATIONSHIP INTENT", intent: true },
+];
+
+// 6 pages × 3 cards
+const PAGES: typeof INSPIRATIONS[] = Array.from({ length: 6 }, (_, i) =>
+  INSPIRATIONS.slice(i * 3, i * 3 + 3),
+);
+
+// Blocked keyword patterns (kept from prior implementation)
+const BLOCKED_PATTERNS = [
+  /\b(f+u+c+k+|sh[i1]+t+|a+ss+h+o+l+e|b[i1]+t+c+h|d[i1]+c+k|c+u+n+t)\b/i,
+  /\b(n[i1]+g+[e3]+r|n[i1]+g+a|ch[i1]+n+k|sp[i1]+c|k[i1]+k+e)\b/i,
+  /\b(p+o+r+n|s+e+x+|n+u+d+e+s*|p+e+n+[i1]+s|v+a+g+[i1]+n+a|x+x+x+)\b/i,
+  /\b(k+[i1]+l+l+|m+u+r+d+e+r|r+a+p+[e3]|s+h+o+o+t|b+o+m+b+|s+u+[i1]+c+[i1]+d+e)\b/i,
+  /\b(c+o+c+a+[i1]+n+e|h+e+r+o+[i1]+n|m+e+t+h|w+e+e+d|l+s+d|m+o+l+l+y)\b/i,
+];
+const isBlocked = (s: string) => BLOCKED_PATTERNS.some((r) => r.test(s.trim().toLowerCase()));
+
+// ─── Component ──────────────────────────────────────────────────────────────
 interface MagicSearchFilterProps {
   children: React.ReactNode;
   onApply?: (tags: string[]) => void;
 }
 
+type Screen = "hub" | "magic";
+type FilterKey = "age" | "distance" | "gender" | "height";
+
 const MagicSearchFilter = ({ children, onApply }: MagicSearchFilterProps) => {
   const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchTags, setSearchTags] = useState<string[]>(["Photography", "Architecture"]);
-  const [ageRange, setAgeRange] = useState([25, 35]);
-  const [distance, setDistance] = useState([45]);
-  const [heightRange, setHeightRange] = useState([160, 185]);
-  const [relationship, setRelationship] = useState<string[]>(["Long-term"]);
-  const [education, setEducation] = useState<string[]>(["Masters"]);
-  const [gender, setGender] = useState<string[]>(["Women"]);
-  const [openToEveryone, setOpenToEveryone] = useState(false);
-  const [languages, setLanguages] = useState<string[]>([]);
-  const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
-  const [expandedSuggestion, setExpandedSuggestion] = useState<string | null>(null);
-  const [basicFiltersEnabled, setBasicFiltersEnabled] = useState(true);
+  const [screen, setScreen] = useState<Screen>("hub");
 
-  const toggleFilter = useCallback((key: string) => {
-    setExpandedFilter((prev) => (prev === key ? null : key));
-  }, []);
+  // Shared filter state
+  const [ageRange, setAgeRange] = useState<[number, number]>([...DEFAULTS.ageRange]);
+  const [distance, setDistance] = useState<[number, number]>([...DEFAULTS.distance]);
+  const [heightRange, setHeightRange] = useState<[number, number]>([...DEFAULTS.heightRange]);
+  const [gender, setGender] = useState<string[]>([...DEFAULTS.gender]);
+  const [openToEveryone, setOpenToEveryone] = useState(true);
 
-  const activeCount = useMemo(() => {
-    let count = searchTags.length;
-    if (ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]) count++;
-    if (distance[0] !== DEFAULTS.distance[0]) count++;
-    if (heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]) count++;
-    if (JSON.stringify(relationship) !== JSON.stringify(DEFAULTS.relationship)) count++;
-    if (JSON.stringify(education) !== JSON.stringify(DEFAULTS.education)) count++;
-    if (JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)) count++;
-    if (languages.length > 0) count++;
-    return count;
-  }, [searchTags, ageRange, distance, heightRange, relationship, education, gender, languages]);
+  // Hub UI
+  const [expanded, setExpanded] = useState<FilterKey | null>(null);
 
-  const [blockedWarning, setBlockedWarning] = useState(false);
+  // Magic Search UI
+  const [prompt, setPrompt] = useState("");
+  const [page, setPage] = useState(0);
+  const [pageVisible, setPageVisible] = useState(true);
+  const [blockedWarn, setBlockedWarn] = useState(false);
 
-  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
-      if (isBlockedKeyword(searchQuery.trim())) {
-        setBlockedWarning(true);
-        setSearchQuery("");
-        setTimeout(() => setBlockedWarning(false), 2500);
-        return;
-      }
-      setSearchTags([...searchTags, searchQuery.trim()]);
-      setSearchQuery("");
-    }
-  };
+  // ─── Derived: which filters are non-default ──────────────────────────────
+  const isAgeSet = ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1];
+  const isDistSet = distance[0] !== DEFAULTS.distance[0] || distance[1] !== DEFAULTS.distance[1];
+  const isHeightSet = heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1];
+  const isGenderSet = gender.length > 0;
+  const anyFilter = isAgeSet || isDistSet || isHeightSet || isGenderSet;
 
-  const removeTag = (tag: string) => {
-    setSearchTags(searchTags.filter((t) => t !== tag));
-  };
-
-  const handleReset = () => {
-    setSearchTags([]);
-    setSearchQuery("");
+  const handleClearAll = useCallback(() => {
     setAgeRange([...DEFAULTS.ageRange]);
     setDistance([...DEFAULTS.distance]);
     setHeightRange([...DEFAULTS.heightRange]);
-    setRelationship([...DEFAULTS.relationship]);
-    setEducation([...DEFAULTS.education]);
     setGender([...DEFAULTS.gender]);
-    setLanguages([]);
+  }, []);
+
+  const toggleGender = (g: string) => {
+    setGender((prev) => (prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g]));
   };
 
+  const handleApply = () => {
+    setExpanded(null);
+    const tags: string[] = [];
+    if (prompt.trim()) tags.push(prompt.trim());
+    if (isGenderSet) tags.push(...gender);
+    onApply?.(tags);
+    setOpen(false);
+  };
+
+  const goToPage = (next: number) => {
+    if (next === page) return;
+    setPageVisible(false);
+    setTimeout(() => {
+      setPage(next);
+      setPageVisible(true);
+    }, 180);
+  };
+
+  // Reset screen when sheet closes
+  useEffect(() => {
+    if (!open) {
+      setScreen("hub");
+      setExpanded(null);
+    }
+  }, [open]);
+
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-md p-0 flex flex-col bg-background"
+        className="w-full sm:max-w-md p-0 flex flex-col bg-background overflow-hidden"
       >
-        {/* Header */}
-        <div className="px-4 py-2 border-b border-border/20">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => setOpen(false)}
-              className="p-1 -ml-0.5 rounded-lg hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
-            >
-              <ChevronRight className="h-4 w-4 rotate-180" />
-            </button>
-            <h2 className="font-display text-sm font-semibold text-foreground tracking-tight">
-              Curate Discovery
-            </h2>
-            <div className="w-6" />
-          </div>
-        </div>
-
-        {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-4 pb-4 pt-3 space-y-3">
-
-          {/* ── Magic Search Card ── */}
-          <div
-            className="rounded-2xl p-[1.5px] overflow-hidden"
-            style={{ background: "linear-gradient(160deg, hsl(var(--primary) / 0.5), hsl(var(--primary) / 0.05) 50%, hsl(var(--primary) / 0.35))" }}
-          >
-            <div className="rounded-2xl bg-card px-4 py-4 space-y-3.5">
-              {/* Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="h-8 w-8 rounded-xl flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.65))" }}
-                  >
-                    <Sparkles className="h-4 w-4 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Magic Search</span>
-                    <span className="text-[10px] font-body text-muted-foreground/70">AI-powered discovery</span>
-                  </div>
-                </div>
-                <span
-                  className="px-2.5 py-0.5 rounded-full text-[8px] font-bold font-body uppercase tracking-wider text-primary-foreground"
-                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
-                >
-                  Pro
-                </span>
-              </div>
-
-              {/* Search input */}
-              <div className="rounded-xl bg-muted/30 px-3.5 py-2.5 flex items-center gap-2.5 focus-within:bg-muted/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all duration-300">
-                <Search className="h-4 w-4 text-muted-foreground/50 shrink-0" />
-                <input
-                  type="text"
-                  placeholder="loves hiking, startup founder…"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={handleAddTag}
-                  className="flex-1 bg-transparent text-[13px] font-body text-foreground placeholder:text-muted-foreground/40 outline-none"
-                />
-                <motion.button
-                  whileTap={{ scale: 0.8 }}
-                  onClick={() => {
-                    if (searchQuery.trim() && !searchTags.includes(searchQuery.trim())) {
-                      if (isBlockedKeyword(searchQuery.trim())) {
-                        setBlockedWarning(true);
-                        setSearchQuery("");
-                        setTimeout(() => setBlockedWarning(false), 2500);
-                        return;
-                      }
-                      setSearchTags([...searchTags, searchQuery.trim()]);
-                      setSearchQuery("");
-                    }
-                  }}
-                  className="h-7 w-7 rounded-lg flex items-center justify-center shrink-0 transition-all"
-                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
-                >
-                  <span className="text-primary-foreground text-xs font-bold leading-none">+</span>
-                </motion.button>
-              </div>
-
-              {/* Blocked keyword warning */}
-              <AnimatePresence>
-                {blockedWarning && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    className="text-[11px] font-body text-destructive px-1"
-                  >
-                    This keyword is not allowed. Please use respectful search terms.
-                  </motion.p>
-                )}
-              </AnimatePresence>
-
-              {/* Active tags */}
-              {searchTags.length > 0 && (
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] font-body font-semibold text-muted-foreground/70 uppercase tracking-wider">Keywords</span>
-                      <span className="h-4 min-w-[16px] px-1.5 rounded-full bg-primary/15 text-[10px] font-bold text-primary flex items-center justify-center">{searchTags.length}</span>
-                    </div>
-                    <motion.button
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      whileTap={{ scale: 0.93 }}
-                      onClick={() => setSearchTags([])}
-                      className="text-[10px] font-body font-semibold text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      Clear all
-                    </motion.button>
-                  </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {searchTags.map((tag) => (
-                    <motion.span
-                      key={tag}
-                      layout
-                      initial={{ opacity: 0, scale: 0.85 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.85 }}
-                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-body font-semibold text-primary-foreground"
-                      style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8))" }}
-                    >
-                      {tag}
-                      <button onClick={() => removeTag(tag)} className="opacity-70 hover:opacity-100 transition-opacity">
-                        <X className="h-2.5 w-2.5" />
-                      </button>
-                    </motion.span>
-                  ))}
-                </div>
-                </div>
-              )}
-
-              {/* Collapsible Suggestions */}
-              <div>
-                <p className="text-[9px] font-body font-semibold text-muted-foreground/40 uppercase tracking-[0.18em] mb-2">Suggestions</p>
-                <div className="space-y-0.5">
-                  {SUGGESTION_CATEGORIES.map((cat) => {
-                    const [catOpen, setCatOpen] = [
-                      expandedSuggestion === cat.label,
-                      () => setExpandedSuggestion((prev: string | null) => prev === cat.label ? null : cat.label),
-                    ];
-                    const activeInCat = cat.keywords.filter((kw) => searchTags.includes(kw)).length;
-                    return (
-                      <div key={cat.label} className="rounded-xl overflow-hidden">
-                        <button
-                          onClick={setCatOpen}
-                          className={`w-full flex items-center gap-2.5 px-3 py-2 transition-colors rounded-xl ${catOpen ? 'bg-muted/30' : 'hover:bg-muted/20'}`}
-                        >
-                          {SUGGESTION_CATEGORY_ICONS[cat.label]}
-                          <span className="text-[12px] font-body font-semibold text-foreground flex-1 text-left">{cat.label}</span>
-                          {activeInCat > 0 && (
-                            <motion.span
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              className="h-4 min-w-[16px] px-1 rounded-full bg-primary/15 text-[9px] font-bold text-primary flex items-center justify-center"
-                            >
-                              {activeInCat}
-                            </motion.span>
-                          )}
-                          <ChevronDown className={`h-3 w-3 text-muted-foreground/50 transition-transform duration-300 ${catOpen ? "rotate-180" : ""}`} />
-                        </button>
-                        <AnimatePresence>
-                          {catOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                              className="overflow-hidden"
-                            >
-                              <div className="grid grid-cols-3 gap-1.5 px-3 pb-2.5 pt-1">
-                                {cat.keywords.map((kw) => {
-                                  const isActive = searchTags.includes(kw);
-                                  return (
-                                    <motion.button
-                                      key={kw}
-                                      whileTap={{ scale: 0.92 }}
-                                      onClick={() => {
-                                        if (isActive) removeTag(kw);
-                                        else setSearchTags((prev) => [...prev, kw]);
-                                      }}
-                                      className={`px-2 py-1.5 rounded-lg text-[10px] font-body font-medium border transition-all duration-200 text-center truncate ${
-                                        isActive
-                                          ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                                          : "border-border/30 bg-muted/20 text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
-                                      }`}
-                                    >
-                                      {isActive && <Check className="h-2.5 w-2.5 inline mr-0.5 -mt-0.5" />}
-                                      {kw}
-                                    </motion.button>
-                                  );
-                                })}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Magic Search CTA */}
-              <div className="flex items-center gap-2">
-                <motion.button
-                  whileTap={{ scale: 0.97 }}
-                  whileHover={{ scale: 1.01 }}
-                  onClick={() => {
-                    onApply?.(searchTags);
-                    setOpen(false);
-                  }}
-                  disabled={searchTags.length === 0}
-                  className="flex-1 rounded-xl py-2.5 font-body text-[13px] font-semibold text-primary-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300"
-                  style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    Search
-                  </span>
-                </motion.button>
-              </div>
-
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                className="flex items-center justify-center gap-1 text-[11px] font-body font-medium text-primary/60 hover:text-primary transition-colors -mt-1"
+        <div className="relative flex-1 overflow-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            {screen === "hub" ? (
+              <motion.div
+                key="hub"
+                initial={{ x: -40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -40, opacity: 0 }}
+                transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 flex flex-col"
               >
-                More about Magic Search
-                <ArrowUpRight className="h-3 w-3" />
-              </a>
-
-              {/* Standard Filters Toggle */}
-              <div className="flex items-center justify-between pt-2 border-t border-border/15">
-                <div className="flex items-center gap-1.5">
-                  <SlidersHorizontal className="h-3 w-3 text-muted-foreground/60" />
-                  <span className="text-[11px] font-body font-medium text-muted-foreground">Include Standard Filters</span>
-                </div>
-                <Switch
-                  checked={basicFiltersEnabled}
-                  onCheckedChange={setBasicFiltersEnabled}
+                <HubScreen
+                  onClose={() => setOpen(false)}
+                  onOpenMagic={() => setScreen("magic")}
+                  ageRange={ageRange}
+                  setAgeRange={setAgeRange}
+                  distance={distance}
+                  setDistance={setDistance}
+                  heightRange={heightRange}
+                  setHeightRange={setHeightRange}
+                  gender={gender}
+                  toggleGender={toggleGender}
+                  openToEveryone={openToEveryone}
+                  setOpenToEveryone={setOpenToEveryone}
+                  expanded={expanded}
+                  setExpanded={setExpanded}
+                  isAgeSet={isAgeSet}
+                  isDistSet={isDistSet}
+                  isHeightSet={isHeightSet}
+                  isGenderSet={isGenderSet}
+                  anyFilter={anyFilter}
+                  handleClearAll={handleClearAll}
+                  handleApply={handleApply}
                 />
-              </div>
-            </div>
-          </div>
-
-          {/* ── STANDARD FILTERS ── */}
-          <div className="space-y-2">
-            <div className={`rounded-2xl bg-card border border-border/15 px-4 py-4 space-y-3.5 transition-all duration-400 ${!basicFiltersEnabled ? 'opacity-35 pointer-events-none grayscale blur-[0.5px]' : ''}`}>
-              {/* Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-300"
-                    style={{ background: basicFiltersEnabled ? "linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.65))" : "hsl(var(--muted))" }}
-                  >
-                    <SlidersHorizontal className="h-4 w-4 text-accent-foreground" />
-                  </div>
-                  <div>
-                    <span className="font-display text-[15px] font-bold text-foreground block leading-tight">Standard Filters</span>
-                    <span className="text-[10px] font-body text-muted-foreground/70">{basicFiltersEnabled ? 'Narrow down preferences' : 'Toggle to enable'}</span>
-                  </div>
-                </div>
-                {(() => {
-                  const hasChanges = ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] || distance[0] !== DEFAULTS.distance[0] || heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] || JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender);
-                  return (
-                    <button
-                      disabled={!hasChanges}
-                      onClick={() => {
-                        setAgeRange([...DEFAULTS.ageRange]);
-                        setDistance([...DEFAULTS.distance]);
-                        setHeightRange([...DEFAULTS.heightRange]);
-                        setGender([...DEFAULTS.gender]);
-                        setExpandedFilter(null);
-                      }}
-                      className={`text-[11px] font-body font-semibold rounded-lg px-2.5 py-1 transition-all ${hasChanges ? 'text-primary hover:bg-primary/5 cursor-pointer' : 'text-muted-foreground/30 cursor-not-allowed'}`}
-                    >
-                      Clear
-                    </button>
-                  );
-                })()}
-              </div>
-
-              {/* Filter rows */}
-              <div className="rounded-xl border border-border/20 overflow-hidden divide-y divide-border/15">
-                <FilterRow
-                  icon={<Calendar className="h-3.5 w-3.5" />}
-                  iconBg="bg-amber-50"
-                  iconColor="text-amber-500"
-                  label="Age range"
-                  summary={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1] ? `${ageRange[0]} – ${ageRange[1]} years` : "Any"}
-                  isModified={ageRange[0] !== DEFAULTS.ageRange[0] || ageRange[1] !== DEFAULTS.ageRange[1]}
-                  expanded={expandedFilter === "age"}
-                  onToggle={() => toggleFilter("age")}
-                >
-                  <SliderField label="Age Range" valueLabel={`${ageRange[0]} – ${ageRange[1]} years`} value={ageRange} onChange={setAgeRange} min={18} max={60} step={1} />
-                </FilterRow>
-
-                <FilterRow
-                  icon={<MapPin className="h-3.5 w-3.5" />}
-                  iconBg="bg-rose-50"
-                  iconColor="text-rose-400"
-                  label="Distance"
-                  summary={distance[0] !== DEFAULTS.distance[0] ? `${distance[0]} km` : "Any"}
-                  isModified={distance[0] !== DEFAULTS.distance[0]}
-                  expanded={expandedFilter === "distance"}
-                  onToggle={() => toggleFilter("distance")}
-                >
-                  <div className="space-y-2">
-                    <Slider
-                      value={distance}
-                      onValueChange={setDistance}
-                      min={1}
-                      max={200}
-                      step={1}
-                      className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
-                    />
-                    <p className="text-[11px] font-body text-muted-foreground/60">Expand your discovery radius</p>
-                  </div>
-                </FilterRow>
-
-                <FilterRow
-                  icon={<Ruler className="h-3.5 w-3.5" />}
-                  iconBg="bg-slate-50"
-                  iconColor="text-slate-400"
-                  label="Height"
-                  summary={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1] ? `${heightRange[0]} – ${heightRange[1]} cm` : "Any"}
-                  isModified={heightRange[0] !== DEFAULTS.heightRange[0] || heightRange[1] !== DEFAULTS.heightRange[1]}
-                  expanded={expandedFilter === "height"}
-                  onToggle={() => toggleFilter("height")}
-                >
-                  <SliderField label="Height" valueLabel={`${heightRange[0]} – ${heightRange[1]} cm`} value={heightRange} onChange={setHeightRange} min={140} max={220} step={1} />
-                </FilterRow>
-
-                <FilterRow
-                  icon={<Users className="h-3.5 w-3.5" />}
-                  iconBg="bg-violet-50"
-                  iconColor="text-violet-500"
-                  label="Gender"
-                  summary={openToEveryone ? "Everyone" : (gender.length > 0 ? (gender.length <= 2 ? gender.join(", ") : `${gender.length} selected`) : "Any")}
-                  isModified={JSON.stringify(gender) !== JSON.stringify(DEFAULTS.gender)}
-                  expanded={expandedFilter === "gender"}
-                  onToggle={() => toggleFilter("gender")}
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="font-body text-[12px] font-medium text-muted-foreground">Open to everyone</span>
-                      <Switch checked={openToEveryone} onCheckedChange={(checked) => {
-                        setOpenToEveryone(checked);
-                        if (checked) setGender([]);
-                      }} />
-                    </div>
-                    {!openToEveryone && (
-                      <InlineSelectableOptions value={gender} options={GENDER_OPTIONS} onChange={setGender} />
-                    )}
-                  </div>
-                </FilterRow>
-              </div>
-
-              {/* Apply Filters CTA */}
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                whileHover={{ scale: 1.01 }}
-                onClick={() => {
-                  onApply?.(searchTags);
-                  setOpen(false);
-                }}
-                className="w-full rounded-xl py-2.5 font-body text-[13px] font-semibold text-primary-foreground transition-all duration-300"
-                style={{ background: "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7))" }}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="magic"
+                initial={{ x: 40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: 40, opacity: 0 }}
+                transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 flex flex-col"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <Search className="h-3.5 w-3.5" />
-                  Apply Filters
-                  {activeCount > 0 && (
-                    <span className="inline-flex items-center justify-center h-4 min-w-[16px] px-1.5 rounded-full bg-primary-foreground/20 text-[10px] font-bold text-primary-foreground">
-                      {activeCount}
-                    </span>
-                  )}
-                </span>
-              </motion.button>
-            </div>
-          </div>
+                <MagicScreen
+                  onBack={() => setScreen("hub")}
+                  prompt={prompt}
+                  setPrompt={setPrompt}
+                  blockedWarn={blockedWarn}
+                  setBlockedWarn={setBlockedWarn}
+                  page={page}
+                  pageVisible={pageVisible}
+                  goToPage={goToPage}
+                  ageRange={ageRange}
+                  distance={distance}
+                  heightRange={heightRange}
+                  gender={gender}
+                  isAgeSet={isAgeSet}
+                  isDistSet={isDistSet}
+                  isHeightSet={isHeightSet}
+                  isGenderSet={isGenderSet}
+                  anyFilter={anyFilter}
+                  handleClearAll={handleClearAll}
+                  openToEveryone={openToEveryone}
+                  setOpenToEveryone={setOpenToEveryone}
+                  handleApply={handleApply}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </SheetContent>
     </Sheet>
   );
 };
 
-/* ── Filter Row ─────────────────────────────────────────── */
+export default MagicSearchFilter;
 
-function FilterRow({
-  icon,
-  iconBg,
-  iconColor,
-  label,
-  summary,
-  isModified,
-  expanded,
-  onToggle,
-  locked,
-  children,
-}: {
+// ════════════════════════════════════════════════════════════════════════════
+// HUB SCREEN
+// ════════════════════════════════════════════════════════════════════════════
+interface HubProps {
+  onClose: () => void;
+  onOpenMagic: () => void;
+  ageRange: [number, number];
+  setAgeRange: (v: [number, number]) => void;
+  distance: [number, number];
+  setDistance: (v: [number, number]) => void;
+  heightRange: [number, number];
+  setHeightRange: (v: [number, number]) => void;
+  gender: string[];
+  toggleGender: (g: string) => void;
+  openToEveryone: boolean;
+  setOpenToEveryone: (v: boolean) => void;
+  expanded: FilterKey | null;
+  setExpanded: (k: FilterKey | null) => void;
+  isAgeSet: boolean;
+  isDistSet: boolean;
+  isHeightSet: boolean;
+  isGenderSet: boolean;
+  anyFilter: boolean;
+  handleClearAll: () => void;
+  handleApply: () => void;
+}
+
+const HubScreen = (p: HubProps) => {
+  const toggle = (k: FilterKey) => p.setExpanded(p.expanded === k ? null : k);
+
+  return (
+    <>
+      {/* Header */}
+      <div className="px-5 pt-4 pb-2 flex items-center justify-between">
+        <button
+          onClick={p.onClose}
+          className="h-9 w-9 rounded-full bg-card border border-border/50 flex items-center justify-center text-foreground/70 hover:text-foreground transition-all active:scale-90"
+          style={{ boxShadow: "var(--shadow-card)" }}
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <h2 className="font-display text-[21px] text-foreground tracking-tight">Refine Discovery</h2>
+        <div className="w-9" />
+      </div>
+
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto px-5 pt-3 pb-4 space-y-4">
+        {/* Eyebrow + heading */}
+        <div className="space-y-1.5 pb-1">
+          <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-accent/80">
+            Find someone who
+          </p>
+          <h3 className="font-display text-[28px] leading-tight text-foreground">
+            matches your{" "}
+            <span className="italic text-accent">world.</span>
+          </h3>
+        </div>
+
+        {/* Magic Search entry card */}
+        <button
+          onClick={p.onOpenMagic}
+          className="w-full text-left rounded-2xl px-4 py-4 group transition-all active:scale-[0.99]"
+          style={{
+            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            boxShadow: "var(--shadow-elegant)",
+          }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+              <Star className="h-4 w-4 text-primary-glow" fill="currentColor" />
+            </div>
+            <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
+            <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/70 border border-white/15">
+              Pro
+            </span>
+            <div className="h-7 w-7 rounded-full border border-white/15 flex items-center justify-center text-white/60">
+              <ChevronRight className="h-3.5 w-3.5" />
+            </div>
+          </div>
+          <p className="mt-2.5 font-body text-[12px] text-white/50 leading-relaxed pl-12">
+            Describe who you're looking for in your own words. AI does the rest.
+          </p>
+        </button>
+
+        {/* Standard Filters card */}
+        <div
+          className="rounded-2xl bg-card border border-border/40 overflow-hidden"
+          style={{ boxShadow: "var(--shadow-card)" }}
+        >
+          {/* Card header */}
+          <div className="px-4 py-3.5 flex items-center justify-between border-b border-border/40">
+            <div className="flex items-center gap-2.5">
+              <div className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 text-accent" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="4" y1="6" x2="20" y2="6" />
+                  <line x1="4" y1="12" x2="14" y2="12" />
+                  <line x1="4" y1="18" x2="18" y2="18" />
+                  <circle cx="17" cy="6" r="2" fill="currentColor" />
+                  <circle cx="11" cy="12" r="2" fill="currentColor" />
+                  <circle cx="15" cy="18" r="2" fill="currentColor" />
+                </svg>
+              </div>
+              <h4 className="font-display text-[17px] text-foreground">Standard Filters</h4>
+            </div>
+            <button
+              onClick={p.handleClearAll}
+              className="px-3 py-1 rounded-full text-[11px] font-body font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all border border-border/50"
+            >
+              Clear all
+            </button>
+          </div>
+
+          {/* Show others toggle */}
+          <div className="px-4 py-3.5 flex items-center justify-between border-b border-border/40">
+            <div>
+              <p className="font-body text-[13px] font-semibold text-foreground">Show others if I run out</p>
+              <p className="font-body text-[11px] text-muted-foreground/80 mt-0.5">Relax filters when results are limited</p>
+            </div>
+            <Switch checked={p.openToEveryone} onCheckedChange={p.setOpenToEveryone} />
+          </div>
+
+          {/* Filter rows */}
+          <FilterRow
+            icon={<Calendar className="h-4 w-4" />}
+            iconBg="bg-[hsl(36_70%_92%)]"
+            iconColor="text-accent"
+            label="Age range"
+            value={p.isAgeSet ? `${p.ageRange[0]} – ${p.ageRange[1]}` : "Any"}
+            active={p.isAgeSet}
+            open={p.expanded === "age"}
+            onToggle={() => toggle("age")}
+          >
+            <SliderField
+              min={18}
+              max={60}
+              value={p.ageRange}
+              onChange={(v) => p.setAgeRange(v as [number, number])}
+              format={(v) => `${v}`}
+              suffix=" yrs"
+            />
+          </FilterRow>
+
+          <FilterRow
+            icon={<MapPin className="h-4 w-4" />}
+            iconBg="bg-[hsl(210_60%_94%)]"
+            iconColor="text-[hsl(210_55%_45%)]"
+            label="Distance"
+            value={p.isDistSet ? `${p.distance[0]} – ${p.distance[1]} km` : "Any"}
+            active={p.isDistSet}
+            open={p.expanded === "distance"}
+            onToggle={() => toggle("distance")}
+          >
+            <SliderField
+              min={0}
+              max={200}
+              value={p.distance}
+              onChange={(v) => p.setDistance(v as [number, number])}
+              format={(v) => `${v}`}
+              suffix=" km"
+            />
+          </FilterRow>
+
+          <FilterRow
+            icon={<User className="h-4 w-4" />}
+            iconBg="bg-[hsl(285_55%_94%)]"
+            iconColor="text-[hsl(285_45%_50%)]"
+            label="Gender"
+            value={p.isGenderSet ? p.gender.join(" · ") : "Any"}
+            active={p.isGenderSet}
+            open={p.expanded === "gender"}
+            onToggle={() => toggle("gender")}
+          >
+            <div className="space-y-1.5 pt-1">
+              {GENDER_OPTIONS.map((g) => {
+                const checked = p.gender.includes(g);
+                return (
+                  <button
+                    key={g}
+                    onClick={() => p.toggleGender(g)}
+                    className="w-full flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted/40 transition-colors"
+                  >
+                    <span
+                      className={`h-5 w-5 rounded-md border flex items-center justify-center transition-all ${
+                        checked
+                          ? "bg-foreground border-foreground"
+                          : "border-border bg-card"
+                      }`}
+                    >
+                      {checked && <Check className="h-3 w-3 text-background" strokeWidth={3} />}
+                    </span>
+                    <span className="font-body text-[13px] text-foreground">{g}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </FilterRow>
+
+          <FilterRow
+            icon={<Ruler className="h-4 w-4" />}
+            iconBg="bg-[hsl(150_45%_92%)]"
+            iconColor="text-[hsl(150_40%_38%)]"
+            label="Height"
+            value={p.isHeightSet ? `${p.heightRange[0]} – ${p.heightRange[1]} cm` : "Any"}
+            active={p.isHeightSet}
+            open={p.expanded === "height"}
+            onToggle={() => toggle("height")}
+            isLast
+          >
+            <SliderField
+              min={140}
+              max={220}
+              value={p.heightRange}
+              onChange={(v) => p.setHeightRange(v as [number, number])}
+              format={(v) => `${v}`}
+              suffix=" cm"
+            />
+          </FilterRow>
+        </div>
+      </div>
+
+      {/* Sticky footer */}
+      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
+        <button
+          onClick={p.handleApply}
+          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-white transition-all active:scale-[0.98]"
+          style={{
+            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            boxShadow: "var(--shadow-elegant)",
+          }}
+        >
+          Apply filters
+        </button>
+      </div>
+    </>
+  );
+};
+
+// ─── FilterRow ──────────────────────────────────────────────────────────────
+interface FilterRowProps {
   icon: React.ReactNode;
   iconBg: string;
   iconColor: string;
   label: string;
-  summary: string;
-  isModified: boolean;
-  expanded: boolean;
+  value: string;
+  active: boolean;
+  open: boolean;
   onToggle: () => void;
-  locked?: boolean;
+  isLast?: boolean;
   children: React.ReactNode;
-}) {
+}
+
+const FilterRow = ({ icon, iconBg, iconColor, label, value, active, open, onToggle, isLast, children }: FilterRowProps) => {
   return (
-    <div>
+    <div className={isLast ? "" : "border-b border-border/40"}>
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-muted/20 transition-colors"
+        className="w-full px-4 py-3.5 flex items-center gap-3 hover:bg-muted/30 transition-colors"
       >
-        <div className={`h-6 w-6 rounded-md ${iconBg} flex items-center justify-center shrink-0`}>
-          <div className={iconColor}>{icon}</div>
+        <div className={`h-8 w-8 rounded-lg ${iconBg} ${iconColor} flex items-center justify-center shrink-0`}>
+          {icon}
         </div>
-        <span className="font-body font-medium text-foreground text-[13px] flex-1 text-left">{label}</span>
-        <span className="font-body text-[11px] font-medium text-muted-foreground max-w-[100px] truncate text-right">
-          {summary}
-        </span>
-        {isModified && (
-          <div className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+        <span className="flex-1 text-left font-body text-[14px] font-medium text-foreground">{label}</span>
+        {active && (
+          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
         )}
-        {locked ? (
-          <Lock className="h-3 w-3 text-amber-400 shrink-0" />
-        ) : (
-          <ChevronDown className={`h-3 w-3 text-muted-foreground shrink-0 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
-        )}
+        <span className="font-body text-[12px] text-muted-foreground/80">{value}</span>
+        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
+          <ChevronDown className="h-4 w-4 text-muted-foreground/60" />
+        </motion.div>
       </button>
-      <AnimatePresence>
-        {expanded && (
+      <AnimatePresence initial={false}>
+        {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className="px-3 pb-3 pt-1">{children}</div>
+            <div className="px-4 pb-4 pt-1">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-}
+};
 
-/* ── Slider Field ───────────────────────────────────────── */
-
-function SliderField({
-  label,
-  valueLabel,
-  value,
-  onChange,
-  min,
-  max,
-  step,
-}: {
-  label: string;
-  valueLabel: string;
-  value: number[];
-  onChange: (v: number[]) => void;
+// ─── SliderField (dual-handle) ──────────────────────────────────────────────
+interface SliderFieldProps {
   min: number;
   max: number;
-  step: number;
-}) {
-  return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="font-body text-sm text-muted-foreground">{label}</span>
-        <span className="font-body text-sm font-medium text-primary">{valueLabel}</span>
-      </div>
-      <Slider
-        value={value}
-        onValueChange={onChange}
-        min={min}
-        max={max}
-        step={step}
-        className="[&_[data-slot=track]]:bg-secondary [&_[data-slot=range]]:bg-primary [&_[data-slot=thumb]]:border-primary [&_[data-slot=thumb]]:bg-background"
-      />
+  value: number[];
+  onChange: (v: number[]) => void;
+  format: (v: number) => string;
+  suffix?: string;
+}
+const SliderField = ({ min, max, value, onChange, format, suffix = "" }: SliderFieldProps) => (
+  <div className="space-y-3">
+    <div className="flex items-center justify-between font-body text-[12px] text-muted-foreground">
+      <span>{format(min)}{suffix}</span>
+      <span className="text-foreground font-semibold">
+        {format(value[0])} – {format(value[1])}{suffix}
+      </span>
+      <span>{format(max)}{suffix}</span>
     </div>
-  );
+    <Slider min={min} max={max} step={1} value={value} onValueChange={onChange} />
+  </div>
+);
+
+// ════════════════════════════════════════════════════════════════════════════
+// MAGIC SEARCH SCREEN
+// ════════════════════════════════════════════════════════════════════════════
+interface MagicProps {
+  onBack: () => void;
+  prompt: string;
+  setPrompt: (s: string) => void;
+  blockedWarn: boolean;
+  setBlockedWarn: (b: boolean) => void;
+  page: number;
+  pageVisible: boolean;
+  goToPage: (n: number) => void;
+  ageRange: [number, number];
+  distance: [number, number];
+  heightRange: [number, number];
+  gender: string[];
+  isAgeSet: boolean;
+  isDistSet: boolean;
+  isHeightSet: boolean;
+  isGenderSet: boolean;
+  anyFilter: boolean;
+  handleClearAll: () => void;
+  openToEveryone: boolean;
+  setOpenToEveryone: (v: boolean) => void;
+  handleApply: () => void;
 }
 
-/* ── Inline Selectable Options ──────────────────────────── */
+const MagicScreen = (p: MagicProps) => {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-function InlineSelectableOptions({
-  value,
-  options,
-  onChange,
-}: {
-  value: string[];
-  options: string[];
-  onChange: (v: string[]) => void;
-}) {
-  const toggleOption = (opt: string) => {
-    if (value.includes(opt)) {
-      onChange(value.filter((v) => v !== opt));
-    } else {
-      onChange([...value, opt]);
+  const handlePromptChange = (val: string) => {
+    if (isBlocked(val)) {
+      p.setBlockedWarn(true);
+      setTimeout(() => p.setBlockedWarn(false), 2200);
+      return;
     }
+    p.setPrompt(val);
   };
-
-  return (
-    <div className="space-y-1">
-      {options.map((opt) => (
-        <motion.button
-          key={opt}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => toggleOption(opt)}
-          className={`w-full flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[13px] font-body font-medium transition-all duration-150 ${
-            value.includes(opt)
-              ? "bg-primary/10 text-primary"
-              : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
-          }`}
-        >
-          <span>{opt}</span>
-          <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all duration-150 ${
-            value.includes(opt)
-              ? "border-primary bg-primary"
-              : "border-border"
-          }`}>
-            {value.includes(opt) && <Check className="h-3 w-3 text-primary-foreground" />}
-          </div>
-        </motion.button>
-      ))}
-    </div>
-  );
-}
-
-/* ── Language Inline Row ────────────────────────────────── */
-
-function LanguageInlineRow({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [query, setQuery] = useState("");
-
-  const filtered = query.trim()
-    ? COMMON_LANGUAGES.filter(
-        (l) => l.toLowerCase().includes(query.toLowerCase()) && !value.includes(l)
-      )
-    : COMMON_LANGUAGES.filter((l) => !value.includes(l));
-
-  const addLanguage = (lang: string) => {
-    if (!value.includes(lang)) onChange([...value, lang]);
-    setQuery("");
-  };
-
-  const addCustom = () => {
-    const trimmed = query.trim();
-    if (trimmed && !value.includes(trimmed)) {
-      onChange([...value, trimmed]);
-      setQuery("");
-    }
-  };
-
-  const remove = (lang: string) => onChange(value.filter((v) => v !== lang));
 
   return (
     <>
-      <div className="space-y-2">
-        {value.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {value.map((lang) => (
-              <span key={lang} className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-body font-medium text-primary">
-                {lang}
-                <button onClick={() => remove(lang)}>
-                  <X className="h-3 w-3" />
-                </button>
-              </span>
-            ))}
-          </div>
+      {/* Filter status bar */}
+      <div className="px-4 py-2.5 bg-card border-b border-border/30 flex items-center gap-2 overflow-x-auto">
+        <svg viewBox="0 0 24 24" className="h-4 w-4 text-muted-foreground/60 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="14" y2="12" />
+          <line x1="4" y1="18" x2="18" y2="18" />
+          <circle cx="17" cy="6" r="1.6" fill="currentColor" />
+          <circle cx="11" cy="12" r="1.6" fill="currentColor" />
+          <circle cx="15" cy="18" r="1.6" fill="currentColor" />
+        </svg>
+        {p.anyFilter ? (
+          <>
+            <div className="flex items-center gap-1.5 flex-1 overflow-x-auto">
+              {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
+              {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
+              {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
+              {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
+            </div>
+            <button
+              onClick={p.handleClearAll}
+              className="text-[11px] font-body font-medium text-muted-foreground hover:text-foreground transition-colors shrink-0"
+            >
+              Clear all
+            </button>
+          </>
+        ) : (
+          <span className="font-display italic text-[12px] text-muted-foreground/70">No filters applied</span>
         )}
-        <button
-          onClick={() => setSheetOpen(true)}
-          className="text-sm font-body font-medium text-primary hover:underline"
-        >
-          {value.length === 0 ? "Select languages" : "+ Add more"}
-        </button>
       </div>
 
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-md p-0 flex flex-col bg-background">
-          <div className="px-5 pt-5 pb-3 border-b border-border/30">
-            <div className="flex items-center justify-between mb-4">
-              <button
-                onClick={() => setSheetOpen(false)}
-                className="p-1 rounded-full hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-all active:scale-90"
-              >
-                <ChevronRight className="h-5 w-5 rotate-180" />
-              </button>
-              <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4 text-primary" />
-                <h2 className="font-display text-lg font-semibold text-foreground">Languages</h2>
-              </div>
-              <button
-                onClick={() => { onChange([]); setQuery(""); }}
-                className="text-xs font-body font-medium text-destructive hover:underline"
-              >
-                Clear
-              </button>
-            </div>
-            <div className="rounded-xl border border-border/60 bg-card px-3 py-2.5 flex items-center gap-2 focus-within:border-primary/40 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
-              <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-              <input
-                type="text"
-                placeholder="Search languages…"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    if (filtered.length > 0) addLanguage(filtered[0]);
-                    else addCustom();
-                  }
-                }}
-                className="flex-1 bg-transparent text-sm font-body text-foreground placeholder:text-muted-foreground outline-none"
-              />
-            </div>
-          </div>
+      {/* Dark header block */}
+      <div
+        className="px-5 pt-4 pb-5"
+        style={{ background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))" }}
+      >
+        <div className="flex items-center justify-between">
+          <button
+            onClick={p.onBack}
+            className="h-9 w-9 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-white/15 transition-all active:scale-90"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <h2 className="font-display text-[21px] text-white">Magic Search</h2>
+          <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/70 border border-white/15">
+            Pro
+          </span>
+        </div>
 
-          {value.length > 0 && (
-            <div className="px-5 pt-3 pb-2">
-              <span className="text-[11px] font-body font-semibold tracking-widest text-muted-foreground uppercase">
-                Selected ({value.length})
-              </span>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {value.map((lang) => (
-                  <motion.span
-                    key={lang}
-                    layout
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-body font-medium text-primary"
-                  >
-                    {lang}
-                    <motion.button whileTap={{ scale: 0.8 }} onClick={() => remove(lang)}>
-                      <X className="h-3 w-3" />
-                    </motion.button>
-                  </motion.span>
+        <p className="mt-5 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/50">
+          Who are you looking for?
+        </p>
+
+        <div className="mt-2 rounded-xl bg-black/30 border border-white/8 px-4 py-3.5 relative">
+          <textarea
+            ref={inputRef}
+            value={p.prompt}
+            onChange={(e) => handlePromptChange(e.target.value)}
+            placeholder="A creative soul who loves the outdoors and morning coffee…"
+            rows={2}
+            className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-white placeholder:text-white/35 leading-relaxed"
+          />
+          {/* Blinking cursor at end when empty */}
+          {p.prompt.length === 0 && (
+            <motion.span
+              animate={{ opacity: [1, 0] }}
+              transition={{ duration: 0.7, repeat: Infinity, repeatType: "reverse" }}
+              className="absolute bottom-3.5 left-4 inline-block w-[2px] h-4 bg-primary"
+              style={{ marginLeft: 0 }}
+            />
+          )}
+        </div>
+
+        <AnimatePresence>
+          {p.blockedWarn && (
+            <motion.p
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mt-2 text-[11px] font-body text-destructive-foreground bg-destructive/80 px-3 py-1.5 rounded-lg"
+            >
+              That phrase is not allowed. Please rephrase respectfully.
+            </motion.p>
+          )}
+        </AnimatePresence>
+
+        <div className="mt-3 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <Star className="h-3 w-3 text-primary-glow" fill="currentColor" />
+            <span className="text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-primary-glow/90">
+              AI interprets your intent
+            </span>
+          </div>
+          {p.prompt.length > 0 && (
+            <button
+              onClick={() => p.setPrompt("")}
+              className="text-[11px] font-body text-white/60 hover:text-white transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto px-5 pt-4 pb-4 space-y-4">
+        {/* Search Inspirations */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="font-display italic text-[15px] text-foreground">Search Inspirations</h4>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => p.goToPage((p.page - 1 + PAGES.length) % PAGES.length)}
+                className="h-7 w-7 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all active:scale-90"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </button>
+              <div className="flex items-center gap-1">
+                {PAGES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => p.goToPage(i)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      i === p.page ? "w-4 bg-accent" : "w-1.5 bg-border"
+                    }`}
+                  />
                 ))}
               </div>
-            </div>
-          )}
-
-          <div className="flex-1 overflow-y-auto px-5 pb-4">
-            <span className="text-[11px] font-body font-semibold tracking-widest text-muted-foreground uppercase block pt-3 pb-2">
-              {query.trim() ? "Results" : "All Languages"}
-            </span>
-            <div className="space-y-0.5">
-              {filtered.map((lang) => (
-                <motion.button
-                  key={lang}
-                  whileTap={{ scale: 0.98, backgroundColor: "hsl(var(--primary) / 0.08)" }}
-                  onClick={() => addLanguage(lang)}
-                  className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-body text-foreground hover:bg-primary/5 transition-colors flex items-center justify-between"
-                >
-                  {lang}
-                  <span className="text-primary text-xs font-medium">+ Add</span>
-                </motion.button>
-              ))}
-              {query.trim() && filtered.length === 0 && (
-                <button
-                  onClick={addCustom}
-                  className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-body text-primary hover:bg-primary/5 transition-colors"
-                >
-                  + Add "{query.trim()}"
-                </button>
-              )}
+              <button
+                onClick={() => p.goToPage((p.page + 1) % PAGES.length)}
+                className="h-7 w-7 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all active:scale-90"
+              >
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
             </div>
           </div>
 
-          <div className="px-5 py-4 border-t border-border/30">
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              onClick={() => setSheetOpen(false)}
-              className="w-full rounded-full py-3 font-body text-sm font-semibold text-primary-foreground"
-              style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-            >
-              Done{value.length > 0 ? ` (${value.length})` : ""}
-            </motion.button>
+          <motion.div
+            animate={{ opacity: p.pageVisible ? 1 : 0 }}
+            transition={{ duration: 0.18 }}
+            className="space-y-2"
+          >
+            {PAGES[p.page].map((item, i) => (
+              <button
+                key={`${p.page}-${i}`}
+                onClick={() => p.setPrompt(item.quote)}
+                className={`w-full text-left rounded-2xl bg-card border px-4 py-3 transition-all active:scale-[0.99] hover:border-border ${
+                  item.intent ? "border-[hsl(285_40%_85%)]" : "border-border/50"
+                }`}
+                style={{ boxShadow: "var(--shadow-card)" }}
+              >
+                <p className="font-display italic text-[14px] text-foreground leading-snug">
+                  &ldquo;{item.quote}&rdquo;
+                </p>
+                <p className="mt-1.5 text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-muted-foreground/70">
+                  {item.tag}
+                </p>
+              </button>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Show others toggle */}
+        <div
+          className="rounded-2xl bg-card border border-border/40 px-4 py-3.5 flex items-center justify-between"
+          style={{ boxShadow: "var(--shadow-card)" }}
+        >
+          <div>
+            <p className="font-body text-[13px] font-semibold text-foreground">Show others if I run out</p>
+            <p className="font-body text-[11px] text-muted-foreground/80 mt-0.5">Relax filters when results are limited</p>
           </div>
-        </SheetContent>
-      </Sheet>
+          <Switch checked={p.openToEveryone} onCheckedChange={p.setOpenToEveryone} />
+        </div>
+      </div>
+
+      {/* Sticky footer */}
+      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
+        <button
+          onClick={p.handleApply}
+          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-white transition-all active:scale-[0.98]"
+          style={{
+            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            boxShadow: "var(--shadow-elegant)",
+          }}
+        >
+          Discover people
+        </button>
+      </div>
     </>
   );
-}
+};
 
-export default MagicSearchFilter;
+// ─── Pill ───────────────────────────────────────────────────────────────────
+const Pill = ({ children }: { children: React.ReactNode }) => (
+  <span
+    className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-body font-semibold whitespace-nowrap text-accent border border-primary/30"
+    style={{ background: "hsl(36 70% 94%)" }}
+  >
+    {children}
+  </span>
+);
