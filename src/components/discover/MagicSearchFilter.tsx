@@ -284,23 +284,23 @@ const HubScreen = (p: HubProps) => {
           onClick={p.onOpenMagic}
           className="w-full text-left rounded-2xl px-4 py-4 group transition-all active:scale-[0.99]"
           style={{
-            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            background: "var(--gradient-gold)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-              <Star className="h-4 w-4 text-primary-glow" fill="currentColor" />
+          <div className="h-9 w-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
+              <Star className="h-4 w-4 text-white" fill="currentColor" />
             </div>
-            <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
-            <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/70 border border-white/15">
+          <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
+            <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/85 border border-white/30 bg-white/10">
               Pro
             </span>
-            <div className="h-7 w-7 rounded-full border border-white/15 flex items-center justify-center text-white/60">
+            <div className="h-7 w-7 rounded-full border border-white/25 flex items-center justify-center text-white/85">
               <ChevronRight className="h-3.5 w-3.5" />
             </div>
           </div>
-          <p className="mt-2.5 font-body text-[12px] text-white/50 leading-relaxed pl-12">
+          <p className="mt-2.5 font-body text-[12px] text-white/75 leading-relaxed pl-12">
             Describe who you're looking for in your own words. AI does the rest.
           </p>
         </button>
@@ -345,7 +345,7 @@ const HubScreen = (p: HubProps) => {
           {/* Filter rows */}
           <FilterRow
             icon={<Calendar className="h-4 w-4" />}
-            iconBg="bg-[hsl(36_70%_92%)]"
+            iconBg="bg-secondary"
             iconColor="text-accent"
             label="Age range"
             value={p.isAgeSet ? `${p.ageRange[0]} – ${p.ageRange[1]}` : "Any"}
@@ -365,8 +365,8 @@ const HubScreen = (p: HubProps) => {
 
           <FilterRow
             icon={<MapPin className="h-4 w-4" />}
-            iconBg="bg-[hsl(210_60%_94%)]"
-            iconColor="text-[hsl(210_55%_45%)]"
+            iconBg="bg-muted"
+            iconColor="text-primary"
             label="Distance"
             value={p.isDistSet ? `${p.distance[0]} – ${p.distance[1]} km` : "Any"}
             active={p.isDistSet}
@@ -385,8 +385,8 @@ const HubScreen = (p: HubProps) => {
 
           <FilterRow
             icon={<User className="h-4 w-4" />}
-            iconBg="bg-[hsl(285_55%_94%)]"
-            iconColor="text-[hsl(285_45%_50%)]"
+            iconBg="bg-secondary"
+            iconColor="text-accent"
             label="Gender"
             value={p.isGenderSet ? p.gender.join(" · ") : "Any"}
             active={p.isGenderSet}
@@ -420,8 +420,8 @@ const HubScreen = (p: HubProps) => {
 
           <FilterRow
             icon={<Ruler className="h-4 w-4" />}
-            iconBg="bg-[hsl(150_45%_92%)]"
-            iconColor="text-[hsl(150_40%_38%)]"
+            iconBg="bg-muted"
+            iconColor="text-primary"
             label="Height"
             value={p.isHeightSet ? `${p.heightRange[0]} – ${p.heightRange[1]} cm` : "Any"}
             active={p.isHeightSet}
@@ -445,9 +445,9 @@ const HubScreen = (p: HubProps) => {
       <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
         <button
           onClick={p.handleApply}
-          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-white transition-all active:scale-[0.98]"
+          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
           style={{
-            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            background: "var(--gradient-warm)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
@@ -601,43 +601,43 @@ const MagicScreen = (p: MagicProps) => {
         )}
       </div>
 
-      {/* Dark header block */}
+      {/* Warm gradient header block */}
       <div
         className="px-5 pt-4 pb-5"
-        style={{ background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))" }}
+        style={{ background: "var(--gradient-gold)" }}
       >
         <div className="flex items-center justify-between">
           <button
             onClick={p.onBack}
-            className="h-9 w-9 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-white/80 hover:bg-white/15 transition-all active:scale-90"
+            className="h-9 w-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center text-white hover:bg-white/25 transition-all active:scale-90"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <h2 className="font-display text-[21px] text-white">Magic Search</h2>
-          <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/70 border border-white/15">
+          <h2 className="font-display text-[21px] text-primary-foreground">Magic Search</h2>
+          <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/90 border border-white/30 bg-white/10">
             Pro
           </span>
         </div>
 
-        <p className="mt-5 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/50">
+        <p className="mt-5 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/75">
           Who are you looking for?
         </p>
 
-        <div className="mt-2 rounded-xl bg-black/30 border border-white/8 px-4 py-3.5 relative">
+        <div className="mt-2 rounded-xl bg-white/15 border border-white/20 px-4 py-3.5 relative backdrop-blur-sm">
           <textarea
             ref={inputRef}
             value={p.prompt}
             onChange={(e) => handlePromptChange(e.target.value)}
             placeholder="A creative soul who loves the outdoors and morning coffee…"
             rows={2}
-            className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-white placeholder:text-white/35 leading-relaxed"
+            className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-white placeholder:text-white/55 leading-relaxed"
           />
           {/* Blinking cursor at end when empty */}
           {p.prompt.length === 0 && (
             <motion.span
               animate={{ opacity: [1, 0] }}
               transition={{ duration: 0.7, repeat: Infinity, repeatType: "reverse" }}
-              className="absolute bottom-3.5 left-4 inline-block w-[2px] h-4 bg-primary"
+              className="absolute bottom-3.5 left-4 inline-block w-[2px] h-4 bg-white"
               style={{ marginLeft: 0 }}
             />
           )}
@@ -658,15 +658,15 @@ const MagicScreen = (p: MagicProps) => {
 
         <div className="mt-3 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <Star className="h-3 w-3 text-primary-glow" fill="currentColor" />
-            <span className="text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-primary-glow/90">
+            <Star className="h-3 w-3 text-white" fill="currentColor" />
+            <span className="text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-white/85">
               AI interprets your intent
             </span>
           </div>
           {p.prompt.length > 0 && (
             <button
               onClick={() => p.setPrompt("")}
-              className="text-[11px] font-body text-white/60 hover:text-white transition-colors"
+              className="text-[11px] font-body text-white/80 hover:text-white transition-colors"
             >
               Clear
             </button>
@@ -716,8 +716,8 @@ const MagicScreen = (p: MagicProps) => {
               <button
                 key={`${p.page}-${i}`}
                 onClick={() => p.setPrompt(item.quote)}
-                className={`w-full text-left rounded-2xl bg-card border px-4 py-3 transition-all active:scale-[0.99] hover:border-border ${
-                  item.intent ? "border-[hsl(285_40%_85%)]" : "border-border/50"
+                className={`w-full text-left rounded-2xl bg-card border px-4 py-3 transition-all active:scale-[0.99] hover:border-primary/40 ${
+                  item.intent ? "border-primary/40" : "border-border/50"
                 }`}
                 style={{ boxShadow: "var(--shadow-card)" }}
               >
@@ -749,9 +749,9 @@ const MagicScreen = (p: MagicProps) => {
       <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
         <button
           onClick={p.handleApply}
-          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-white transition-all active:scale-[0.98]"
+          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
           style={{
-            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            background: "var(--gradient-warm)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
@@ -765,8 +765,7 @@ const MagicScreen = (p: MagicProps) => {
 // ─── Pill ───────────────────────────────────────────────────────────────────
 const Pill = ({ children }: { children: React.ReactNode }) => (
   <span
-    className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-body font-semibold whitespace-nowrap text-accent border border-primary/30"
-    style={{ background: "hsl(36 70% 94%)" }}
+    className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-body font-semibold whitespace-nowrap text-accent border border-primary/30 bg-secondary"
   >
     {children}
   </span>
