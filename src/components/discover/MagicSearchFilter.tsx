@@ -345,7 +345,7 @@ const HubScreen = (p: HubProps) => {
           {/* Filter rows */}
           <FilterRow
             icon={<Calendar className="h-4 w-4" />}
-            iconBg="bg-[hsl(36_70%_92%)]"
+            iconBg="bg-secondary"
             iconColor="text-accent"
             label="Age range"
             value={p.isAgeSet ? `${p.ageRange[0]} – ${p.ageRange[1]}` : "Any"}
@@ -365,8 +365,8 @@ const HubScreen = (p: HubProps) => {
 
           <FilterRow
             icon={<MapPin className="h-4 w-4" />}
-            iconBg="bg-[hsl(210_60%_94%)]"
-            iconColor="text-[hsl(210_55%_45%)]"
+            iconBg="bg-muted"
+            iconColor="text-primary"
             label="Distance"
             value={p.isDistSet ? `${p.distance[0]} – ${p.distance[1]} km` : "Any"}
             active={p.isDistSet}
@@ -385,8 +385,8 @@ const HubScreen = (p: HubProps) => {
 
           <FilterRow
             icon={<User className="h-4 w-4" />}
-            iconBg="bg-[hsl(285_55%_94%)]"
-            iconColor="text-[hsl(285_45%_50%)]"
+            iconBg="bg-secondary"
+            iconColor="text-accent"
             label="Gender"
             value={p.isGenderSet ? p.gender.join(" · ") : "Any"}
             active={p.isGenderSet}
@@ -420,8 +420,8 @@ const HubScreen = (p: HubProps) => {
 
           <FilterRow
             icon={<Ruler className="h-4 w-4" />}
-            iconBg="bg-[hsl(150_45%_92%)]"
-            iconColor="text-[hsl(150_40%_38%)]"
+            iconBg="bg-muted"
+            iconColor="text-primary"
             label="Height"
             value={p.isHeightSet ? `${p.heightRange[0]} – ${p.heightRange[1]} cm` : "Any"}
             active={p.isHeightSet}
@@ -445,9 +445,9 @@ const HubScreen = (p: HubProps) => {
       <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
         <button
           onClick={p.handleApply}
-          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-white transition-all active:scale-[0.98]"
+          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
           style={{
-            background: "linear-gradient(135deg, hsl(30 15% 10%), hsl(28 18% 14%))",
+            background: "var(--gradient-warm)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
