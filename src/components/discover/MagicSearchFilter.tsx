@@ -298,7 +298,7 @@ const HubScreen = (p: HubProps) => {
             </div>
           </div>
           <p className="mt-2.5 font-body text-[12px] text-white/75 leading-relaxed pl-12">
-            Describe who you're looking for in your own words. AI does the rest.
+            Explore profiles that feel right.
           </p>
         </button>
 
