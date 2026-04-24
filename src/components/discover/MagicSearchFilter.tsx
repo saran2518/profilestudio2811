@@ -703,7 +703,33 @@ const MagicScreen = (p: MagicProps) => {
       </div>
 
       {/* Sticky footer */}
-      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
+      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl space-y-3">
+        <AnimatePresence initial={false}>
+          {p.anyFilter && (
+            <motion.div
+              initial={{ opacity: 0, y: 6, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: 6, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
+            >
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-none">
+                  {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
+                  {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
+                  {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
+                  {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
+                </div>
+                <button
+                  onClick={p.handleClearAll}
+                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                >
+                  Reset
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <button
           onClick={p.handleApply}
           className="w-full py-4 rounded-2xl font-display text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
