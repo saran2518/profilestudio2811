@@ -439,7 +439,7 @@ const HubScreen = (p: HubProps) => {
       <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
         <button
           onClick={p.handleApply}
-          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
+          className="w-full py-4 rounded-2xl font-display text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
           style={{
             background: "var(--gradient-warm)",
             boxShadow: "var(--shadow-elegant)",
