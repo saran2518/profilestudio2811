@@ -273,7 +273,7 @@ const HubScreen = (p: HubProps) => {
         {/* Eyebrow + heading */}
         <div className="space-y-1.5 pb-1">
           <h3 className="font-display text-[28px] leading-tight text-foreground">
-            Find someone who feels like your{" "}
+            Find someone who aligns with your{" "}
             <span className="italic text-accent">world.</span>
           </h3>
         </div>
