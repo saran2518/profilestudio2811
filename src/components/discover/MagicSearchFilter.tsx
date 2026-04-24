@@ -565,19 +565,14 @@ const MagicScreen = (p: MagicProps) => {
 
   return (
     <>
-      {/* Filter status bar */}
-      <div className="px-4 py-2.5 bg-card border-b border-border/30 flex items-center gap-2 overflow-x-auto">
-        <svg viewBox="0 0 24 24" className="h-4 w-4 text-muted-foreground/60 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-          <line x1="4" y1="6" x2="20" y2="6" />
-          <line x1="4" y1="12" x2="14" y2="12" />
-          <line x1="4" y1="18" x2="18" y2="18" />
-          <circle cx="17" cy="6" r="1.6" fill="currentColor" />
-          <circle cx="11" cy="12" r="1.6" fill="currentColor" />
-          <circle cx="15" cy="18" r="1.6" fill="currentColor" />
-        </svg>
+      {/* Active filters bar */}
+      <div className="px-5 py-3 bg-card border-b border-border/30">
         {p.anyFilter ? (
-          <>
-            <div className="flex items-center gap-1.5 flex-1 overflow-x-auto">
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/70 shrink-0">
+              Active
+            </span>
+            <div className="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-none">
               {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
               {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
               {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
@@ -589,9 +584,14 @@ const MagicScreen = (p: MagicProps) => {
             >
               Clear all
             </button>
-          </>
+          </div>
         ) : (
-          <span className="font-display italic text-[12px] text-muted-foreground/70">No filters applied</span>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/70">
+              Active filters
+            </span>
+            <span className="font-display italic text-[12px] text-muted-foreground/70">None yet</span>
+          </div>
         )}
       </div>
 
@@ -608,9 +608,7 @@ const MagicScreen = (p: MagicProps) => {
             <ChevronLeft className="h-4 w-4" />
           </button>
           <h2 className="font-display text-[21px] text-primary-foreground">Magic Search</h2>
-          <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/90 border border-white/30 bg-white/10">
-            Pro
-          </span>
+          <span className="h-9 w-9" />
         </div>
 
         <p className="mt-5 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/75">
