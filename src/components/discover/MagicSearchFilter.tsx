@@ -11,6 +11,8 @@ import {
   Ruler,
   Check,
   X,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
@@ -565,44 +567,68 @@ const MagicScreen = (p: MagicProps) => {
 
   return (
     <>
-      {/* Warm gradient header block (filters merged in) */}
+      {/* Warm gradient header block */}
       <div
-        className="px-5 pt-4 pb-5"
+        className="relative px-5 pt-4 pb-7 overflow-hidden"
         style={{ background: "var(--gradient-gold)" }}
       >
-        <div className="flex items-center justify-between">
+        {/* Decorative soft glow */}
+        <div className="pointer-events-none absolute -top-20 -right-16 h-48 w-48 rounded-full bg-white/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+
+        <div className="relative flex items-center justify-between">
           <button
             onClick={p.onBack}
             className="h-9 w-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center text-white hover:bg-white/25 transition-all active:scale-90"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <h2 className="font-display text-[21px] text-primary-foreground">Magic Search</h2>
+          <div className="flex items-center gap-1.5">
+            <Sparkles className="h-4 w-4 text-white" fill="currentColor" />
+            <h2 className="font-display text-[21px] text-primary-foreground">Magic Search</h2>
+          </div>
           <span className="h-9 w-9" />
         </div>
 
-        <p className="mt-5 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/75">
+        <p className="relative mt-6 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/80">
           Describe your kind of person
         </p>
 
-        <div className="mt-2 rounded-xl bg-white/15 border border-white/20 px-4 py-3.5 relative backdrop-blur-sm">
-          <textarea
-            ref={inputRef}
-            value={p.prompt}
-            onChange={(e) => handlePromptChange(e.target.value)}
-            placeholder="A creative soul who loves the outdoors and morning coffee…"
-            rows={2}
-            className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-white placeholder:text-white/55 leading-relaxed"
-          />
-          {/* Blinking cursor at end when empty */}
-          {p.prompt.length === 0 && (
-            <motion.span
-              animate={{ opacity: [1, 0] }}
-              transition={{ duration: 0.7, repeat: Infinity, repeatType: "reverse" }}
-              className="absolute bottom-3.5 left-4 inline-block w-[2px] h-4 bg-white"
-              style={{ marginLeft: 0 }}
+        {/* Input with soft halo */}
+        <div className="relative mt-2">
+          <div className="absolute -inset-px rounded-2xl bg-white/10 blur-md" />
+          <div className="relative rounded-2xl bg-white/18 border border-white/30 px-4 pt-3.5 pb-2.5 backdrop-blur-md">
+            <textarea
+              ref={inputRef}
+              value={p.prompt}
+              onChange={(e) => handlePromptChange(e.target.value)}
+              placeholder="A creative soul who loves the outdoors and morning coffee…"
+              rows={2}
+              maxLength={140}
+              className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-white placeholder:text-white/55 leading-relaxed"
             />
-          )}
+            {/* Blinking cursor when empty */}
+            {p.prompt.length === 0 && (
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.7, repeat: Infinity, repeatType: "reverse" }}
+                className="absolute top-3.5 left-4 inline-block w-[2px] h-4 bg-white"
+              />
+            )}
+            <div className="flex items-center justify-between pt-1">
+              <span className="text-[10px] font-body text-white/60 tabular-nums">
+                {p.prompt.length}/140
+              </span>
+              {p.prompt.length > 0 && (
+                <button
+                  onClick={() => p.setPrompt("")}
+                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-white/80 hover:text-white transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -611,32 +637,25 @@ const MagicScreen = (p: MagicProps) => {
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-2 text-[11px] font-body text-destructive-foreground bg-destructive/80 px-3 py-1.5 rounded-lg"
+              className="relative mt-2 text-[11px] font-body text-destructive-foreground bg-destructive/80 px-3 py-1.5 rounded-lg"
             >
               That phrase is not allowed. Please rephrase respectfully.
             </motion.p>
           )}
         </AnimatePresence>
-
-        <div className="mt-3 flex items-center justify-end">
-          {p.prompt.length > 0 && (
-            <button
-              onClick={() => p.setPrompt("")}
-              className="text-[11px] font-body text-white/80 hover:text-white transition-colors"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-
       </div>
 
       {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto px-5 pt-4 pb-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-5 pt-5 pb-4 space-y-5">
         {/* Search Inspirations */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-display italic text-[15px] text-foreground">Search Inspirations</h4>
+            <div>
+              <p className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/70">
+                Need a spark
+              </p>
+              <h4 className="font-display italic text-[16px] text-foreground mt-0.5">Search Inspirations</h4>
+            </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => p.goToPage((p.page - 1 + PAGES.length) % PAGES.length)}
@@ -669,23 +688,33 @@ const MagicScreen = (p: MagicProps) => {
             transition={{ duration: 0.18 }}
             className="space-y-2"
           >
-            {PAGES[p.page].map((item, i) => (
-              <button
-                key={`${p.page}-${i}`}
-                onClick={() => p.setPrompt(item.quote)}
-                className={`w-full text-left rounded-2xl bg-card border px-4 py-3 transition-all active:scale-[0.99] ${
-                  p.prompt === item.quote ? "border-accent" : "border-border/50"
-                }`}
-                style={{ boxShadow: "var(--shadow-card)" }}
-              >
-                <p className="font-display italic text-[14px] text-foreground leading-snug">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-                <p className="mt-1.5 text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-muted-foreground/70">
-                  {item.tag}
-                </p>
-              </button>
-            ))}
+            {PAGES[p.page].map((item, i) => {
+              const selected = p.prompt === item.quote;
+              return (
+                <button
+                  key={`${p.page}-${i}`}
+                  onClick={() => p.setPrompt(item.quote)}
+                  className={`w-full text-left rounded-2xl bg-card border px-4 py-3.5 transition-all active:scale-[0.99] flex items-start gap-3 ${
+                    selected ? "border-accent" : "border-border/50 hover:border-border"
+                  }`}
+                  style={{ boxShadow: "var(--shadow-card)" }}
+                >
+                  <div className={`mt-0.5 h-5 w-5 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                    selected ? "bg-accent text-accent-foreground" : "bg-secondary text-muted-foreground/60"
+                  }`}>
+                    {selected ? <Check className="h-3 w-3" strokeWidth={3} /> : <Sparkles className="h-2.5 w-2.5" />}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-display italic text-[14px] text-foreground leading-snug">
+                      &ldquo;{item.quote}&rdquo;
+                    </p>
+                    <p className="mt-1.5 text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-muted-foreground/70">
+                      {item.tag}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
           </motion.div>
         </div>
 
@@ -694,7 +723,7 @@ const MagicScreen = (p: MagicProps) => {
           className="rounded-2xl bg-card border border-border/40 px-4 py-3.5 flex items-center justify-between"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          <div>
+          <div className="pr-4">
             <p className="font-body text-[13px] font-semibold text-foreground">Show others if I run out</p>
             <p className="font-body text-[11px] text-muted-foreground/80 mt-0.5">Relax filters when results are limited</p>
           </div>
@@ -711,22 +740,24 @@ const MagicScreen = (p: MagicProps) => {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/80">
-                  Active filters
-                </h4>
-                <button
-                  onClick={p.handleClearAll}
-                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Reset
-                </button>
-              </div>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
-                {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
-                {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
-                {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
+              <div className="rounded-2xl border border-border/40 bg-secondary/40 px-4 py-3.5">
+                <div className="flex items-center justify-between mb-2.5">
+                  <h4 className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/80">
+                    Active filters
+                  </h4>
+                  <button
+                    onClick={p.handleClearAll}
+                    className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Reset
+                  </button>
+                </div>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
+                  {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
+                  {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
+                  {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
+                </div>
               </div>
             </motion.div>
           )}
@@ -734,16 +765,18 @@ const MagicScreen = (p: MagicProps) => {
       </div>
 
       {/* Sticky footer */}
-      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
+      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/85 backdrop-blur-xl">
         <button
           onClick={p.handleApply}
-          className="w-full py-4 rounded-2xl font-display text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
+          className="group w-full py-4 rounded-2xl font-display text-[17px] text-primary-foreground transition-all active:scale-[0.98] flex items-center justify-center gap-2"
           style={{
             background: "var(--gradient-warm)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
-          Discover
+          <Sparkles className="h-4 w-4" fill="currentColor" />
+          <span>Discover</span>
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </button>
       </div>
     </>
