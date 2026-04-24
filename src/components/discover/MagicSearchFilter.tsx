@@ -49,9 +49,9 @@ const INSPIRATIONS: { quote: string; tag: string; intent?: boolean }[] = [
   { quote: "Open to wherever this goes — no pressure", tag: "RELATIONSHIP INTENT", intent: true },
 ];
 
-// 6 pages × 3 cards
-const PAGES: typeof INSPIRATIONS[] = Array.from({ length: 6 }, (_, i) =>
-  INSPIRATIONS.slice(i * 3, i * 3 + 3),
+// 9 pages × 2 cards — fewer per page so the screen breathes
+const PAGES: typeof INSPIRATIONS[] = Array.from({ length: Math.ceil(INSPIRATIONS.length / 2) }, (_, i) =>
+  INSPIRATIONS.slice(i * 2, i * 2 + 2),
 );
 
 // Blocked keyword patterns (kept from prior implementation)
