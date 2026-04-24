@@ -290,9 +290,6 @@ const HubScreen = (p: HubProps) => {
               <Star className="h-4 w-4 text-white" fill="currentColor" />
             </div>
           <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
-            <span className="px-2.5 py-0.5 rounded-full text-[9px] font-body font-bold uppercase tracking-[0.14em] text-white/85 border border-white/30 bg-white/10">
-              Pro
-            </span>
             <div className="h-7 w-7 rounded-full border border-white/25 flex items-center justify-center text-white/85">
               <ChevronRight className="h-3.5 w-3.5" />
             </div>
