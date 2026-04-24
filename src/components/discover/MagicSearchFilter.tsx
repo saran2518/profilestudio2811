@@ -614,7 +614,7 @@ const MagicScreen = (p: MagicProps) => {
         </div>
 
         <p className="mt-5 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/75">
-          Who are you looking for?
+          Describe your kind of person
         </p>
 
         <div className="mt-2 rounded-xl bg-white/15 border border-white/20 px-4 py-3.5 relative backdrop-blur-sm">
@@ -650,13 +650,7 @@ const MagicScreen = (p: MagicProps) => {
           )}
         </AnimatePresence>
 
-        <div className="mt-3 flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <Star className="h-3 w-3 text-white" fill="currentColor" />
-            <span className="text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-white/85">
-              AI interprets your intent
-            </span>
-          </div>
+        <div className="mt-3 flex items-center justify-end">
           {p.prompt.length > 0 && (
             <button
               onClick={() => p.setPrompt("")}
@@ -743,13 +737,13 @@ const MagicScreen = (p: MagicProps) => {
       <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
         <button
           onClick={p.handleApply}
-          className="w-full py-4 rounded-2xl font-display italic text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
+          className="w-full py-4 rounded-2xl font-display text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
           style={{
             background: "var(--gradient-warm)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
-          Discover people
+          Discover
         </button>
       </div>
     </>
