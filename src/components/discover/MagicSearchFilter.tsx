@@ -649,6 +649,7 @@ const MagicScreen = (p: MagicProps) => {
       <div className="flex-1 overflow-y-auto px-5 pt-5 pb-4 space-y-5">
         {/* Search Inspirations */}
         <div>
+          <p className="text-[12px] text-muted-foreground mb-2">Tap an inspiration or write in your own words</p>
           <div className="flex items-center justify-between mb-3">
             <h4 className="font-display italic text-[16px] text-foreground">Search Inspirations</h4>
             <div className="flex items-center gap-2">
