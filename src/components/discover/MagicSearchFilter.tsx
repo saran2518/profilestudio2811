@@ -629,33 +629,6 @@ const MagicScreen = (p: MagicProps) => {
           )}
         </div>
 
-        {/* Inline frosted filter chips */}
-        <AnimatePresence initial={false}>
-          {p.anyFilter && (
-            <motion.div
-              initial={{ opacity: 0, y: -4, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: "auto" }}
-              exit={{ opacity: 0, y: -4, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="overflow-hidden"
-            >
-              <div className="mt-4 flex items-center gap-2">
-                <div className="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-none">
-                  {p.isAgeSet && <FrostedChip>{p.ageRange[0]}–{p.ageRange[1]} yrs</FrostedChip>}
-                  {p.isDistSet && <FrostedChip>{p.distance[0]}–{p.distance[1]} km</FrostedChip>}
-                  {p.isGenderSet && <FrostedChip>{p.gender.join(" · ")}</FrostedChip>}
-                  {p.isHeightSet && <FrostedChip>{p.heightRange[0]}–{p.heightRange[1]} cm</FrostedChip>}
-                </div>
-                <button
-                  onClick={p.handleClearAll}
-                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-white/80 hover:text-white transition-colors shrink-0"
-                >
-                  Reset
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       {/* Scrollable body */}
