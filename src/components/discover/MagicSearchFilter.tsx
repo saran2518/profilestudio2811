@@ -704,8 +704,8 @@ const MagicScreen = (p: MagicProps) => {
               <button
                 key={`${p.page}-${i}`}
                 onClick={() => p.setPrompt(item.quote)}
-                className={`w-full text-left rounded-2xl bg-card border px-4 py-3 transition-all active:scale-[0.99] hover:border-primary/40 ${
-                  item.intent ? "border-primary/40" : "border-border/50"
+                className={`w-full text-left rounded-2xl bg-card border px-4 py-3 transition-all active:scale-[0.99] ${
+                  p.prompt === item.quote ? "border-accent" : "border-border/50"
                 }`}
                 style={{ boxShadow: "var(--shadow-card)" }}
               >
