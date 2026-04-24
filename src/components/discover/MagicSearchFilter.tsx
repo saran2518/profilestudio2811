@@ -700,10 +700,8 @@ const MagicScreen = (p: MagicProps) => {
           </div>
           <Switch checked={p.openToEveryone} onCheckedChange={p.setOpenToEveryone} />
         </div>
-      </div>
 
-      {/* Sticky footer */}
-      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl space-y-3">
+        {/* Active filters section */}
         <AnimatePresence initial={false}>
           {p.anyFilter && (
             <motion.div
@@ -713,23 +711,30 @@ const MagicScreen = (p: MagicProps) => {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-none">
-                  {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
-                  {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
-                  {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
-                  {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
-                </div>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/80">
+                  Active filters
+                </h4>
                 <button
                   onClick={p.handleClearAll}
-                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Reset
                 </button>
               </div>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
+                {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
+                {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
+                {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+
+      {/* Sticky footer */}
+      <div className="px-5 pt-3 pb-5 border-t border-border/30 bg-background/80 backdrop-blur-xl">
         <button
           onClick={p.handleApply}
           className="w-full py-4 rounded-2xl font-display text-[17px] text-primary-foreground transition-all active:scale-[0.98]"
