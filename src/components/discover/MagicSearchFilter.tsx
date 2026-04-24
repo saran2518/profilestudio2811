@@ -744,7 +744,7 @@ const MagicScreen = (p: MagicProps) => {
                     onClick={p.handleClearAll}
                     className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Reset
+                    Clear all
                   </button>
                 </div>
                 <div className="flex items-center gap-1.5 flex-wrap">
