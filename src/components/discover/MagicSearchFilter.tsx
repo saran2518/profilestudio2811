@@ -565,37 +565,7 @@ const MagicScreen = (p: MagicProps) => {
 
   return (
     <>
-      {/* Active filters bar */}
-      <div className="px-5 py-3 bg-card border-b border-border/30">
-        {p.anyFilter ? (
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/70 shrink-0">
-              Active
-            </span>
-            <div className="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-none">
-              {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
-              {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
-              {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
-              {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
-            </div>
-            <button
-              onClick={p.handleClearAll}
-              className="text-[11px] font-body font-medium text-muted-foreground hover:text-foreground transition-colors shrink-0"
-            >
-              Clear all
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/70">
-              Active filters
-            </span>
-            <span className="font-display italic text-[12px] text-muted-foreground/70">None yet</span>
-          </div>
-        )}
-      </div>
-
-      {/* Warm gradient header block */}
+      {/* Warm gradient header block (filters merged in) */}
       <div
         className="px-5 pt-4 pb-5"
         style={{ background: "var(--gradient-gold)" }}
@@ -658,6 +628,34 @@ const MagicScreen = (p: MagicProps) => {
             </button>
           )}
         </div>
+
+        {/* Inline frosted filter chips */}
+        <AnimatePresence initial={false}>
+          {p.anyFilter && (
+            <motion.div
+              initial={{ opacity: 0, y: -4, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -4, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
+            >
+              <div className="mt-4 flex items-center gap-2">
+                <div className="flex items-center gap-1.5 flex-1 overflow-x-auto scrollbar-none">
+                  {p.isAgeSet && <FrostedChip>{p.ageRange[0]}–{p.ageRange[1]} yrs</FrostedChip>}
+                  {p.isDistSet && <FrostedChip>{p.distance[0]}–{p.distance[1]} km</FrostedChip>}
+                  {p.isGenderSet && <FrostedChip>{p.gender.join(" · ")}</FrostedChip>}
+                  {p.isHeightSet && <FrostedChip>{p.heightRange[0]}–{p.heightRange[1]} cm</FrostedChip>}
+                </div>
+                <button
+                  onClick={p.handleClearAll}
+                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-white/80 hover:text-white transition-colors shrink-0"
+                >
+                  Reset
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Scrollable body */}
@@ -752,6 +750,15 @@ const MagicScreen = (p: MagicProps) => {
 const Pill = ({ children }: { children: React.ReactNode }) => (
   <span
     className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-body font-semibold whitespace-nowrap text-accent border border-primary/30 bg-secondary"
+  >
+    {children}
+  </span>
+);
+
+// ─── FrostedChip (used on gradient header) ─────────────────────────────────
+const FrostedChip = ({ children }: { children: React.ReactNode }) => (
+  <span
+    className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-body font-semibold whitespace-nowrap text-white border border-white/30 bg-white/15 backdrop-blur-sm"
   >
     {children}
   </span>
