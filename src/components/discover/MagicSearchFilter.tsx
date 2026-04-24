@@ -650,12 +650,7 @@ const MagicScreen = (p: MagicProps) => {
         {/* Search Inspirations */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <div>
-              <p className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/70">
-                Need a spark
-              </p>
-              <h4 className="font-display italic text-[16px] text-foreground mt-0.5">Search Inspirations</h4>
-            </div>
+            <h4 className="font-display italic text-[16px] text-foreground">Search Inspirations</h4>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => p.goToPage((p.page - 1 + PAGES.length) % PAGES.length)}
