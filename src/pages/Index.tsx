@@ -11,7 +11,7 @@ type Inspiration = {
   tags: string[];
 };
 
-const INSPIRATIONS: Inspiration[] = [
+const INSPIRATION_POOL: Inspiration[] = [
   {
     text: "Weekends on trail, chai in hand. I sketch, I cook, I get lost in flea markets. Looking for someone who finds magic in the ordinary.",
     tags: ["HOBBIES", "LIFESTYLE", "INTENT"],
@@ -44,7 +44,48 @@ const INSPIRATIONS: Inspiration[] = [
     text: "I love road trips with no plan, neighborhood bookstores, and people who can hold a real conversation.",
     tags: ["HOBBIES", "INTENT"],
   },
+  {
+    text: "Equal parts dreamer and doer. I journal at sunrise, lift heavy by evening, and cook dinner like it's a ritual.",
+    tags: ["LIFESTYLE", "PERSONALITY"],
+  },
+  {
+    text: "Music is my second language. Vinyl nights, acoustic sets, and dancing badly in the kitchen are non-negotiable.",
+    tags: ["HOBBIES", "PERSONALITY"],
+  },
+  {
+    text: "I am drawn to people who care deeply, laugh loudly, and ask better questions than they give answers.",
+    tags: ["VALUES", "INTENT"],
+  },
+  {
+    text: "Most days you'll find me with a camera, a coffee, and a quiet plan to get pleasantly lost in the city.",
+    tags: ["HOBBIES", "LIFESTYLE"],
+  },
+  {
+    text: "Building a life that feels light. Travel without itineraries, friendships without scorekeeping, love without performance.",
+    tags: ["VALUES", "LIFESTYLE", "INTENT"],
+  },
+  {
+    text: "Therapist by training, comedian by accident. I take feelings seriously and almost nothing else.",
+    tags: ["WORK", "PERSONALITY"],
+  },
+  {
+    text: "I am the friend who plans the trip, picks the playlist, and still cries at the airport goodbye.",
+    tags: ["PERSONALITY", "VALUES"],
+  },
+  {
+    text: "Ocean over mountains, mornings over nights, real conversation over small talk. Looking for my favorite person.",
+    tags: ["LIFESTYLE", "INTENT"],
+  },
 ];
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 const Index = () => {
   const location = useLocation();
