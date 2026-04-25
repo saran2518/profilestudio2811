@@ -1,19 +1,49 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Sparkles, PenLine } from "lucide-react";
+import { ArrowRight, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-const PROMPT_STARTERS = [
-  "My work is about… and I approach life with…",
-  "A weekend that feels right to me includes…",
-  "One quality people notice about me is…",
-  "I value connections that are…",
-  "When I truly switch off, you will find me…",
-  "Right now, I am focused on…",
+type Inspiration = {
+  text: string;
+  tags: string[];
+};
+
+const INSPIRATIONS: Inspiration[] = [
+  {
+    text: "Weekends on trail, chai in hand. I sketch, I cook, I get lost in flea markets. Looking for someone who finds magic in the ordinary.",
+    tags: ["HOBBIES", "LIFESTYLE", "INTENT"],
+  },
+  {
+    text: "My work is about building things that matter, and I approach life with quiet curiosity and a soft sense of humor.",
+    tags: ["WORK", "PERSONALITY"],
+  },
+  {
+    text: "A weekend that feels right includes long walks, a great book, and slow conversations over coffee with someone thoughtful.",
+    tags: ["LIFESTYLE", "INTENT"],
+  },
+  {
+    text: "One quality people notice about me is the way I listen, fully and without rushing. I value depth over noise.",
+    tags: ["PERSONALITY", "VALUES"],
+  },
+  {
+    text: "I value connections that are honest, playful, and unafraid of stillness. Less performance, more presence.",
+    tags: ["VALUES", "INTENT"],
+  },
+  {
+    text: "When I truly switch off, you will find me on a quiet trail, in a noisy kitchen, or watching old films.",
+    tags: ["HOBBIES", "LIFESTYLE"],
+  },
+  {
+    text: "Right now, I am focused on creative work, slow mornings, and learning to keep plants alive on my balcony.",
+    tags: ["WORK", "LIFESTYLE"],
+  },
+  {
+    text: "I love road trips with no plan, neighborhood bookstores, and people who can hold a real conversation.",
+    tags: ["HOBBIES", "INTENT"],
+  },
 ];
 
 const Index = () => {
@@ -22,6 +52,7 @@ const Index = () => {
   const [input, setInput] = useState(restoredInput);
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -51,10 +82,16 @@ const Index = () => {
     }
   };
 
-  const handleStarterClick = (starter: string) => {
-    setInput((prev) => (prev ? prev.trimEnd() + " " + starter : starter));
-    // Focus textarea after adding starter
+  const handleInspirationClick = (idx: number) => {
+    setSelectedIdx(idx);
+    setInput(INSPIRATIONS[idx].text);
     setTimeout(() => textareaRef.current?.focus(), 50);
+  };
+
+  const handleClear = () => {
+    setInput("");
+    setSelectedIdx(null);
+    textareaRef.current?.focus();
   };
 
   // Track scroll position for dot indicators
@@ -63,130 +100,150 @@ const Index = () => {
     if (!el) return;
     const handleScroll = () => {
       const scrollLeft = el.scrollLeft;
-      const itemWidth = 180;
-      const idx = Math.round(scrollLeft / itemWidth);
-      setActiveIndex(Math.min(idx, PROMPT_STARTERS.length - 1));
+      // Each card ~ 85% viewport width + gap; use container width as step
+      const step = el.clientWidth * 0.88;
+      const idx = Math.round(scrollLeft / step);
+      setActiveIndex(Math.min(Math.max(idx, 0), INSPIRATIONS.length - 1));
     };
     el.addEventListener("scroll", handleScroll, { passive: true });
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const totalDots = Math.min(5, PROMPT_STARTERS.length);
-  const dotIndex = Math.min(
-    Math.floor(activeIndex / (PROMPT_STARTERS.length / totalDots)),
-    totalDots - 1
-  );
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="pt-10 pb-6">
-        <div className="container max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
-              Profile <span className="text-primary italic">Studio</span>
-            </h1>
-            <p className="mt-2 font-body text-muted-foreground text-sm">
-              Lets craft a perfect dating profile
-            </p>
-          </motion.div>
-        </div>
-      </header>
+      <main className="flex-1 flex flex-col px-5 pt-10 pb-6">
+        {/* Title */}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <h1 className="font-display text-[28px] leading-tight font-bold text-foreground tracking-tight">
+            Profile <span className="italic font-semibold text-primary">Studio</span>
+          </h1>
 
-      <main className="container max-w-2xl pb-16 flex-1 space-y-6">
-        {/* Prompt starters */}
+          {/* Subtitle row + Clear pill */}
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <p className="font-body text-[14px] text-foreground/70">
+              Your words will be shaped into your story.
+            </p>
+            <button
+              onClick={handleClear}
+              className="shrink-0 rounded-full border border-border px-3.5 py-1 font-body text-[12px] text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+            >
+              Clear
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Input card */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="space-y-3"
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="relative mt-4 rounded-2xl border border-border bg-card p-4 pb-10"
+          style={{ boxShadow: "var(--shadow-card)" }}
         >
-          <p className="font-body text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
-            Tap a prompt to get started 💫
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Tap an inspiration below or write in your own words…"
+            className="w-full min-h-[160px] resize-none bg-transparent border-0 outline-none font-display italic text-[17px] leading-relaxed text-foreground placeholder:text-muted-foreground/50 placeholder:not-italic placeholder:font-body"
+          />
+          <div className="absolute bottom-3 right-3 text-primary/80">
+            <Pencil className="h-4 w-4" />
+          </div>
+        </motion.div>
+
+        {/* Inspirations section */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.18 }}
+          className="mt-7"
+        >
+          <p className="font-body text-[11px] font-bold uppercase tracking-[0.18em] text-accent">
+            Input Inspirations
           </p>
+          <p className="mt-1.5 font-body text-[13.5px] text-muted-foreground">
+            Tap an inspiration or write in your own words
+          </p>
+
           <div
             ref={scrollRef}
-            className="flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory -mx-2 px-2"
+            className="mt-4 flex gap-3 overflow-x-auto snap-x snap-mandatory -mx-5 px-5 pb-1"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {PROMPT_STARTERS.map((starter, idx) => (
-              <motion.button
-                key={idx}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + idx * 0.03, duration: 0.3 }}
-                onClick={() => handleStarterClick(starter)}
-                className="snap-start shrink-0 rounded-full border border-border/80 bg-card px-4 py-2 font-body text-[13px] text-muted-foreground hover:text-foreground hover:border-primary/30 hover:bg-primary/5 hover:shadow-sm transition-all duration-200 cursor-pointer whitespace-nowrap"
-              >
-                {starter}
-              </motion.button>
-            ))}
+            {INSPIRATIONS.map((insp, idx) => {
+              const isActive = selectedIdx === idx;
+              return (
+                <motion.button
+                  key={idx}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.22 + idx * 0.03, duration: 0.3 }}
+                  onClick={() => handleInspirationClick(idx)}
+                  className={`relative snap-start shrink-0 w-[82%] text-left rounded-2xl bg-card p-4 pl-5 transition-all duration-200 overflow-hidden ${
+                    isActive
+                      ? "border-2 border-primary shadow-[0_4px_18px_-6px_hsl(36_53%_51%/0.35)]"
+                      : "border border-border"
+                  }`}
+                  style={!isActive ? { boxShadow: "var(--shadow-card)" } : undefined}
+                >
+                  {/* Gold left accent */}
+                  <span
+                    className="absolute left-0 top-0 bottom-0 w-[3px]"
+                    style={{ background: "var(--gradient-warm)" }}
+                  />
+                  <p className="font-display italic text-[15px] leading-snug text-foreground">
+                    {insp.text}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {insp.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full border border-primary/40 px-2.5 py-0.5 font-body text-[10px] font-medium tracking-wider text-accent"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </motion.button>
+              );
+            })}
           </div>
-          {/* Scroll indicator dots */}
-          <div className="flex justify-center gap-1.5 pt-1">
-            {Array.from({ length: totalDots }).map((_, i) => (
+
+          {/* Pagination dots */}
+          <div className="mt-3 flex justify-center gap-1.5">
+            {INSPIRATIONS.map((_, i) => (
               <span
                 key={i}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === dotIndex
-                    ? "w-5 bg-primary/70"
-                    : "w-1.5 bg-muted-foreground/20"
+                  i === activeIndex
+                    ? "w-5 bg-primary"
+                    : "w-1.5 bg-primary/20"
                 }`}
               />
             ))}
           </div>
         </motion.div>
 
-        {/* Input card */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="rounded-2xl border border-border/60 bg-card p-5 sm:p-6 space-y-4"
-          style={{ boxShadow: "var(--shadow-card)" }}
-        >
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-              <PenLine className="h-4 w-4 text-primary" />
-            </div>
-            <label className="font-display text-lg font-semibold text-foreground">
-              Tell us about yourself
-            </label>
-          </div>
-
-          <Textarea
-            ref={textareaRef}
-            placeholder="Start typing or tap a prompt above... Describe your personality, hobbies, what you're looking for, and your ideal date."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="min-h-[280px] resize-none font-body text-[15px] leading-relaxed bg-background/50 border-border/50 rounded-xl focus:ring-primary/20 focus:border-primary/30 placeholder:text-muted-foreground/40 transition-colors"
-          />
-
-          <span className="font-body text-xs text-muted-foreground/50 block">
-            {input.length > 0
-              ? `${input.trim().split(/\s+/).filter(Boolean).length} words`
-              : "The more you share, the better your profile"}
-          </span>
-        </motion.div>
-
-        {/* Generate button outside the card */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.25 }}
+          transition={{ duration: 0.4, delay: 0.28 }}
+          className="mt-auto pt-8"
         >
           <Button
             onClick={handleGenerate}
             disabled={!input.trim() || isGenerating}
             size="lg"
-            className="w-full font-body font-medium rounded-xl text-[15px] h-12"
+            className="w-full font-body font-medium rounded-full text-[16px] h-14 text-primary-foreground"
             style={{
-              background: input.trim() ? "var(--gradient-warm)" : undefined,
-              boxShadow: input.trim() ? "var(--shadow-warm)" : "none",
+              background: "var(--gradient-gold)",
+              boxShadow: "var(--shadow-warm)",
             }}
           >
             {isGenerating ? (
@@ -196,19 +253,19 @@ const Index = () => {
               </span>
             ) : (
               <span className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4" />
                 Create My Profile
+                <ArrowRight className="h-4 w-4" />
               </span>
             )}
           </Button>
         </motion.div>
 
-        {/* Loading skeleton */}
+        {/* Loading skeleton (s-loading) — untouched */}
         {isGenerating && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="space-y-4"
+            className="mt-6 space-y-4"
           >
             {[1, 2, 3, 4].map((i) => (
               <div
