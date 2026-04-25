@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Pencil } from "lucide-react";
@@ -11,7 +11,7 @@ type Inspiration = {
   tags: string[];
 };
 
-const INSPIRATIONS: Inspiration[] = [
+const INSPIRATION_POOL: Inspiration[] = [
   {
     text: "Weekends on trail, chai in hand. I sketch, I cook, I get lost in flea markets. Looking for someone who finds magic in the ordinary.",
     tags: ["HOBBIES", "LIFESTYLE", "INTENT"],
@@ -44,7 +44,48 @@ const INSPIRATIONS: Inspiration[] = [
     text: "I love road trips with no plan, neighborhood bookstores, and people who can hold a real conversation.",
     tags: ["HOBBIES", "INTENT"],
   },
+  {
+    text: "Equal parts dreamer and doer. I journal at sunrise, lift heavy by evening, and cook dinner like it's a ritual.",
+    tags: ["LIFESTYLE", "PERSONALITY"],
+  },
+  {
+    text: "Music is my second language. Vinyl nights, acoustic sets, and dancing badly in the kitchen are non-negotiable.",
+    tags: ["HOBBIES", "PERSONALITY"],
+  },
+  {
+    text: "I am drawn to people who care deeply, laugh loudly, and ask better questions than they give answers.",
+    tags: ["VALUES", "INTENT"],
+  },
+  {
+    text: "Most days you'll find me with a camera, a coffee, and a quiet plan to get pleasantly lost in the city.",
+    tags: ["HOBBIES", "LIFESTYLE"],
+  },
+  {
+    text: "Building a life that feels light. Travel without itineraries, friendships without scorekeeping, love without performance.",
+    tags: ["VALUES", "LIFESTYLE", "INTENT"],
+  },
+  {
+    text: "Therapist by training, comedian by accident. I take feelings seriously and almost nothing else.",
+    tags: ["WORK", "PERSONALITY"],
+  },
+  {
+    text: "I am the friend who plans the trip, picks the playlist, and still cries at the airport goodbye.",
+    tags: ["PERSONALITY", "VALUES"],
+  },
+  {
+    text: "Ocean over mountains, mornings over nights, real conversation over small talk. Looking for my favorite person.",
+    tags: ["LIFESTYLE", "INTENT"],
+  },
 ];
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 const Index = () => {
   const location = useLocation();
@@ -57,6 +98,9 @@ const Index = () => {
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Pick 10 random inspirations per visit
+  const INSPIRATIONS = useMemo(() => shuffle(INSPIRATION_POOL).slice(0, 10), []);
 
   const handleGenerate = async () => {
     if (!input.trim()) return;
@@ -107,6 +151,52 @@ const Index = () => {
     };
     el.addEventListener("scroll", handleScroll, { passive: true });
     return () => el.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Mouse drag-to-scroll for desktop (touch swipe works natively)
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    const onDown = (e: MouseEvent) => {
+      isDown = true;
+      moved = false;
+      startX = e.pageX;
+      startScroll = el.scrollLeft;
+      el.style.cursor = "grabbing";
+    };
+    const onMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      el.scrollLeft = startScroll - dx;
+    };
+    const onUp = () => {
+      isDown = false;
+      el.style.cursor = "grab";
+    };
+    const onClickCapture = (e: MouseEvent) => {
+      if (moved) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    };
+
+    el.style.cursor = "grab";
+    el.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    el.addEventListener("click", onClickCapture, true);
+    return () => {
+      el.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      el.removeEventListener("click", onClickCapture, true);
+    };
   }, []);
 
   return (
