@@ -153,6 +153,52 @@ const Index = () => {
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Mouse drag-to-scroll for desktop (touch swipe works natively)
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    const onDown = (e: MouseEvent) => {
+      isDown = true;
+      moved = false;
+      startX = e.pageX;
+      startScroll = el.scrollLeft;
+      el.style.cursor = "grabbing";
+    };
+    const onMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      el.scrollLeft = startScroll - dx;
+    };
+    const onUp = () => {
+      isDown = false;
+      el.style.cursor = "grab";
+    };
+    const onClickCapture = (e: MouseEvent) => {
+      if (moved) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    };
+
+    el.style.cursor = "grab";
+    el.addEventListener("mousedown", onDown);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    el.addEventListener("click", onClickCapture, true);
+    return () => {
+      el.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      el.removeEventListener("click", onClickCapture, true);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <main className="flex-1 flex flex-col px-5 pt-10 pb-6">
