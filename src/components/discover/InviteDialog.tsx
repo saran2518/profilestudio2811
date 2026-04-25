@@ -11,6 +11,7 @@ const INVITE_TYPES = [
   { label: "Virtual Date", icon: Video, emoji: "💻" },
   { label: "A Long Walk", icon: Footprints, emoji: "🌿" },
   { label: "Travel", icon: Plane, emoji: "✈️" },
+  { label: "Pet Play Date", icon: PawPrint, emoji: "🐾" },
   { label: "Other", icon: MoreHorizontal, emoji: "✨" },
 ] as const;
 
