@@ -33,6 +33,7 @@ const CATEGORY_EMOJIS: Record<string, string> = {
   "Virtual Date": "💻",
   "A Long Walk": "🌿",
   Travel: "✈️",
+  "Pet Play Date": "🐾",
   Other: "✨",
 };
 
