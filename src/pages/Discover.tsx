@@ -45,15 +45,69 @@ const Discover = () => {
   const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
   const [vibeDialogSection, setVibeDialogSection] = useState<VibeSection>("");
 
-  const filteredProfiles = filterTags.length === 0
-    ? PROFILES
-    : PROFILES.filter((p) => {
-        const searchable = [
-          p.bio, p.profession, p.specialization, ...p.relationshipIntent,
-          ...p.interests, ...p.narratives.map((n) => n.content), ...p.joinMeFor,
-        ].join(" ").toLowerCase();
-        return filterTags.some((tag) => searchable.includes(tag.toLowerCase()));
-      });
+  const filteredProfiles = useMemo(() => {
+    if (filterTags.length === 0) return PROFILES;
+
+    // First tag = free-text magic prompt; rest = structured tags (e.g. gender)
+    const [promptRaw, ...structuredTags] = filterTags;
+    const STOPWORDS = new Set([
+      "a","an","the","and","or","but","is","are","was","were","be","been","being",
+      "of","to","in","on","for","with","at","by","from","as","that","this","these",
+      "those","i","me","my","you","your","he","she","they","we","it","someone",
+      "who","whom","whose","like","loves","love","into","really","very","just","also",
+      "want","wants","looking","find","feels","feel","life","person","people",
+    ]);
+    const tokenize = (s: string) =>
+      s.toLowerCase().match(/[a-z][a-z'-]{1,}/g)?.filter((t) => !STOPWORDS.has(t)) ?? [];
+
+    const promptTokens = tokenize(promptRaw || "");
+    const structuredLower = structuredTags.map((t) => t.toLowerCase());
+
+    const scored = PROFILES.map((p, idx) => {
+      const haystackParts = [
+        p.bio, p.profession, p.specialization, ...p.relationshipIntent,
+        ...p.interests, ...p.narratives.map((n) => n.title),
+        ...p.narratives.map((n) => n.content), ...p.joinMeFor,
+        ...p.languages, p.about.gender, p.about.orientation, p.location,
+      ];
+      const haystack = haystackParts.join(" ").toLowerCase();
+      const haystackTokens = new Set(tokenize(haystack));
+
+      // Hard filter: structured tags (e.g. gender) must match
+      const passesStructured = structuredLower.every((tag) => haystack.includes(tag));
+      if (!passesStructured) return null;
+
+      // Score: token overlap + phrase bonus + interest exact bonus
+      let score = 0;
+      const matched = new Set<string>();
+      for (const tok of promptTokens) {
+        if (haystackTokens.has(tok)) {
+          if (!matched.has(tok)) score += 1;
+          matched.add(tok);
+        } else if (haystack.includes(tok)) {
+          if (!matched.has(tok)) score += 0.5;
+          matched.add(tok);
+        }
+      }
+      // Phrase bonus
+      const phrase = (promptRaw || "").trim().toLowerCase();
+      if (phrase && haystack.includes(phrase)) score += 3;
+      // Interest exact-match bonus
+      const interestsLower = p.interests.map((i) => i.toLowerCase());
+      for (const tok of promptTokens) {
+        if (interestsLower.some((i) => i.includes(tok))) score += 0.5;
+      }
+
+      return { profile: p, score, idx };
+    }).filter((x): x is { profile: typeof PROFILES[number]; score: number; idx: number } => x !== null);
+
+    // If no prompt tokens, just keep structured-filtered order
+    if (promptTokens.length === 0) return scored.map((s) => s.profile);
+
+    // Sort by score desc; keep all profiles (best → next best → ...)
+    scored.sort((a, b) => b.score - a.score || a.idx - b.idx);
+    return scored.map((s) => s.profile);
+  }, [filterTags]);
 
   const profile = filteredProfiles[currentIndex] || filteredProfiles[0];
 
