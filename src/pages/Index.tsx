@@ -99,6 +99,9 @@ const Index = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Pick 10 random inspirations per visit
+  const INSPIRATIONS = useMemo(() => shuffle(INSPIRATION_POOL).slice(0, 10), []);
+
   const handleGenerate = async () => {
     if (!input.trim()) return;
     setIsGenerating(true);
