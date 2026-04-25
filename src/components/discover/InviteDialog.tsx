@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Coffee, UtensilsCrossed, Film, Video, Footprints, Plane, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
+import { Coffee, UtensilsCrossed, Film, Video, Footprints, Plane, PawPrint, MoreHorizontal, X, Send, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { addInvite } from "@/lib/inviteStore";
 
