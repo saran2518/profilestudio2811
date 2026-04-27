@@ -535,8 +535,34 @@ function ComposeSheet({
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoUploading, setPhotoUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [showAllMoods, setShowAllMoods] = useState(false);
-  const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
+  const MOOD_GROUPS: { key: string; label: string; icon: string; tags: string[] }[] = [
+    { key: "vibe", label: "Vibe", icon: "✨", tags: ["✨ Little joys", "🔥 Spontaneous", "💫 Late night thoughts", "🌙 Can't sleep"] },
+    { key: "feels", label: "Feels", icon: "🥰", tags: ["😊 Feeling good", "🥰 In my feels", "🙏 Grateful today", "💪 Personal win"] },
+    { key: "creative", label: "Creative", icon: "🎨", tags: ["🎨 Creative spark", "📸 Captured a moment", "🎵 Lost in music", "📚 Currently reading"] },
+    { key: "cozy", label: "Cozy", icon: "☕", tags: ["☕ Coffee & thoughts", "🌧️ Rainy day mood", "🍷 Cozy evening", "🌸 Self-care moment"] },
+    { key: "life", label: "Life", icon: "🌅", tags: ["💭 Random thoughts", "🌅 Golden hour", "✈️ On the move", "🧘 Finding calm"] },
+  ];
+  const [moodGroup, setMoodGroup] = useState<string>(MOOD_GROUPS[0].key);
+  const activeGroup = MOOD_GROUPS.find((g) => g.key === moodGroup) ?? MOOD_GROUPS[0];
+
+  // Auto-switch to the group containing the externally selected mood (e.g. when editing)
+  React.useEffect(() => {
+    if (!mood) return;
+    const found = MOOD_GROUPS.find((g) => g.tags.includes(mood));
+    if (found && found.key !== moodGroup) setMoodGroup(found.key);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mood]);
+
+  const pickRandomMood = () => {
+    const all = MOOD_GROUPS.flatMap((g) => g.tags);
+    const next = all[Math.floor(Math.random() * all.length)];
+    onMoodChange(next);
+  };
+
+  const splitMood = (tag: string) => {
+    const idx = tag.indexOf(" ");
+    return idx === -1 ? { emoji: "", label: tag } : { emoji: tag.slice(0, idx), label: tag.slice(idx + 1) };
+  };
 
   return (
     <AnimatePresence>
