@@ -155,7 +155,7 @@ export default function Chat() {
                 Chat
               </h1>
               <p className="font-body text-[13px] text-muted-foreground mt-1">
-                Your conversations
+                Click on a connection to start chatting
               </p>
             </header>
 
