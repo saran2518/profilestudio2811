@@ -83,7 +83,15 @@ export default function ChatDetail({
   };
 
   const handleSend = (text: string, image?: string) => {
-    addMessage(thread.id, text, "me", image);
+    const id = addMessage(thread.id, text, "me", image);
+    // ~10% chance the message "fails" so users can experience the retry state
+    const willFail = Math.random() < 0.1;
+    simulateLifecycle(id, willFail);
+  };
+
+  const handleRetry = (msg: ChatMessage) => {
+    updateMessageStatus(thread.id, msg.id, "sending");
+    simulateLifecycle(msg.id, false);
   };
 
   const handleVirtualDateConfirm = () => {
