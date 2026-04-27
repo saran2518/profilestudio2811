@@ -10,8 +10,8 @@ import {
   Coffee,
   Send,
 } from "lucide-react";
-import { useChatThreads } from "@/hooks/useChatStore";
-import { ChatThread } from "@/lib/chatStore";
+import { useChatThreads, useChatLoaded } from "@/hooks/useChatStore";
+import { ChatThread, markLoaded } from "@/lib/chatStore";
 import ChatDetail from "@/components/chat/ChatDetail";
 
 /* ─── Chat List ──────────────────────────────────────── */
