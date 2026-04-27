@@ -40,9 +40,6 @@ function ChatList({
           <p className="font-display text-base font-semibold text-foreground/70">
             No chats yet
           </p>
-          <p className="font-body text-[13px] text-muted-foreground mt-1 max-w-[240px]">
-            Vibe back or accept invites from the Interests tab to start conversations
-          </p>
         </motion.div>
       )}
       {threads.map((thread, i) => (
