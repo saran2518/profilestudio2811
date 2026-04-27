@@ -1,3 +1,18 @@
+import {
+  Sparkles,
+  Smile,
+  HeartHandshake,
+  HandHeart,
+  Palette,
+  Music,
+  Coffee,
+  CloudRain,
+  MessageCircle,
+  Sunrise,
+  Leaf,
+  Camera,
+  type LucideIcon,
+} from "lucide-react";
 import { PROFILES } from "@/lib/profilesData";
 import momentCoffee from "@/assets/moment-coffee.jpg";
 import momentTypewriter from "@/assets/moment-typewriter.jpg";
@@ -18,11 +33,30 @@ export interface MomentData {
   profileIndex?: number;
 }
 
-export const MOOD_TAGS = [
-  "✨ Little joys", "😊 Feeling good", "🥰 In my feels", "🙏 Grateful today",
-  "🎨 Creative spark", "🎵 Lost in music", "☕ Coffee & thoughts", "🌧️ Rainy day mood",
-  "💭 Random thoughts", "🌅 Golden hour", "🧘 Finding calm", "📸 Captured a moment",
-] as const;
+export interface MoodTag {
+  label: string;
+  icon: LucideIcon;
+}
+
+export const MOOD_TAGS: MoodTag[] = [
+  { label: "Little joys", icon: Sparkles },
+  { label: "Feeling good", icon: Smile },
+  { label: "In my feels", icon: HeartHandshake },
+  { label: "Grateful today", icon: HandHeart },
+  { label: "Creative spark", icon: Palette },
+  { label: "Lost in music", icon: Music },
+  { label: "Coffee & thoughts", icon: Coffee },
+  { label: "Rainy day mood", icon: CloudRain },
+  { label: "Random thoughts", icon: MessageCircle },
+  { label: "Golden hour", icon: Sunrise },
+  { label: "Finding calm", icon: Leaf },
+  { label: "Captured a moment", icon: Camera },
+];
+
+export function getMoodIcon(label: string): LucideIcon | null {
+  const found = MOOD_TAGS.find((m) => m.label === label);
+  return found?.icon ?? null;
+}
 
 export const MOMENTS: MomentData[] = [
   {
@@ -33,7 +67,7 @@ export const MOMENTS: MomentData[] = [
     location: PROFILES[0].location,
     avatar: PROFILES[0].photos[0],
     text: "Finding beauty in the quiet moments. Looking for someone who appreciates early morning coffee and late-night architecture talks just as much as I do.",
-    moodTag: "Quiet evening",
+    moodTag: "Finding calm",
     timestamp: "2h ago",
     profileIndex: 0,
   },
@@ -46,7 +80,7 @@ export const MOMENTS: MomentData[] = [
     avatar: PROFILES[1]?.photos[0] || PROFILES[0].photos[0],
     text: "Lost in the words today. The right ambiance changes everything.",
     photo: momentTypewriter,
-    moodTag: "Creative moment",
+    moodTag: "Creative spark",
     timestamp: "4h ago",
     profileIndex: 1,
   },
@@ -59,7 +93,7 @@ export const MOMENTS: MomentData[] = [
     avatar: PROFILES[2]?.photos[0] || PROFILES[0].photos[0],
     text: "There is nothing quite like the silence that fills the room just before the first note is played. A moment of pure anticipation.",
     photo: momentPiano,
-    moodTag: "Artistic soul",
+    moodTag: "Lost in music",
     timestamp: "6h ago",
     profileIndex: 2,
   },
@@ -72,7 +106,7 @@ export const MOMENTS: MomentData[] = [
     avatar: PROFILES[3]?.photos[0] || PROFILES[0].photos[0],
     text: "Sketched the sunrise from my balcony this morning. Some mornings just demand to be captured.",
     photo: momentSketch,
-    moodTag: "Morning energy",
+    moodTag: "Golden hour",
     timestamp: "8h ago",
     profileIndex: 3,
   },
@@ -85,7 +119,7 @@ export const MOMENTS: MomentData[] = [
     avatar: PROFILES[4]?.photos[0] || PROFILES[0].photos[0],
     text: "Tried a new recipe today — cardamom rose latte. The kitchen smells like a garden now.",
     photo: momentCoffee,
-    moodTag: "Coffee thoughts",
+    moodTag: "Coffee & thoughts",
     timestamp: "12h ago",
     profileIndex: 4,
   },
