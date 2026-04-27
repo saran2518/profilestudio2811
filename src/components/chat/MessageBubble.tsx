@@ -76,10 +76,6 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, o
                 <Loader2 className="h-3 w-3 text-muted-foreground/50 animate-spin" />
               )}
               {status === "sent" && <Check className="h-3 w-3 text-muted-foreground/60" />}
-              {status === "delivered" && (
-                <CheckCheck className="h-3 w-3 text-muted-foreground/60" />
-              )}
-              {status === "read" && <CheckCheck className="h-3 w-3 text-primary" />}
               {status === "failed" && (
                 <AlertCircle className="h-3 w-3 text-destructive" />
               )}
