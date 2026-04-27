@@ -102,8 +102,16 @@ export default function Chat() {
   const navigate = useNavigate();
   const location = useLocation();
   const threads = useChatThreads();
+  const loaded = useChatLoaded();
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const activeThread = threads.find((t) => t.id === activeThreadId);
+
+  // Simulate initial load so the user briefly sees a skeleton state.
+  useEffect(() => {
+    if (loaded) return;
+    const t = window.setTimeout(() => markLoaded(), 500);
+    return () => window.clearTimeout(t);
+  }, [loaded]);
 
   // Auto-open thread if navigated with state
   useEffect(() => {
