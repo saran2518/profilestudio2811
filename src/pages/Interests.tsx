@@ -876,7 +876,7 @@ export default function Interests() {
                       className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 font-body"
                       style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
                     >
-                      <Coffee className="h-4 w-4" />
+                      <Send className="h-4 w-4" />
                       Accept
                     </motion.button>
                   </div>
@@ -1013,7 +1013,7 @@ export default function Interests() {
                     className="h-20 w-20 rounded-full flex items-center justify-center"
                     style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.2))" }}
                   >
-                    <Coffee className="h-10 w-10 text-primary" />
+                    <Send className="h-10 w-10 text-primary" />
                   </motion.div>
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
