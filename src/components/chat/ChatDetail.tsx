@@ -173,9 +173,13 @@ export default function ChatDetail({
               isLast={i === messages.length - 1}
               showAvatar={showAvatar}
               partnerPhoto={thread.photo}
+              onRetry={handleRetry}
             />
           );
         })}
+        <AnimatePresence>
+          {fresh?.typing && <TypingIndicator key="typing" partnerPhoto={thread.photo} />}
+        </AnimatePresence>
         <div ref={messagesEndRef} />
       </div>
 
