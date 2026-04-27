@@ -47,11 +47,14 @@ import {
 
 const Expressions = () => {
   const navigate = useNavigate();
-  const [moments, setMoments] = useState<MomentData[]>(MOMENTS);
+  const [loading, setLoading] = useState(true);
+  const [moments, setMoments] = useState<MomentData[]>([]);
   const [showCompose, setShowCompose] = useState(false);
   const [composeDraft, setComposeDraft] = useState("");
   const [composeMood, setComposeMood] = useState<string | null>(null);
   const [vibed, setVibed] = useState<Set<string>>(new Set());
+  const [submitting, setSubmitting] = useState(false);
+  const [justSharedId, setJustSharedId] = useState<string | null>(null);
 
   // Vibe dialog state
   const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
@@ -66,8 +69,25 @@ const Expressions = () => {
   const [editDraft, setEditDraft] = useState("");
   const [editMood, setEditMood] = useState<string | null>(null);
 
-  const handleDelete = (momentId: string) => {
-    setMoments((prev) => prev.filter((m) => m.id !== momentId));
+  // Delete confirmation state
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+  // Initial load simulation
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setMoments(MOMENTS);
+      setLoading(false);
+    }, 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  const requestDelete = (momentId: string) => setDeleteTargetId(momentId);
+
+  const confirmDelete = () => {
+    if (!deleteTargetId) return;
+    setMoments((prev) => prev.filter((m) => m.id !== deleteTargetId));
+    toast.success("Moment deleted");
+    setDeleteTargetId(null);
   };
 
   const handleEditStart = (moment: MomentData) => {
@@ -77,8 +97,10 @@ const Expressions = () => {
     setShowCompose(false);
   };
 
-  const handleEditSave = () => {
+  const handleEditSave = async () => {
     if (!editingMoment || !editDraft.trim() || !editMood) return;
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 500));
     setMoments((prev) =>
       prev.map((m) =>
         m.id === editingMoment.id
@@ -86,9 +108,11 @@ const Expressions = () => {
           : m
       )
     );
+    setSubmitting(false);
     setEditingMoment(null);
     setEditDraft("");
     setEditMood(null);
+    toast.success("Moment updated");
   };
 
   const [reportOpen, setReportOpen] = useState(false);
@@ -106,6 +130,7 @@ const Expressions = () => {
         next.add(vibeTarget.id);
         return next;
       });
+      toast.success(`Vibe sent to ${vibeTarget.name}`);
     }
     setVibeDialogOpen(false);
     setVibeTarget(null);
@@ -130,8 +155,10 @@ const Expressions = () => {
     setInviteOpen(true);
   };
 
-  const handleShareMoment = () => {
+  const handleShareMoment = async () => {
     if (!composeDraft.trim() || !composeMood) return;
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 600));
     const newMoment: MomentData = {
       id: `m-${Date.now()}`,
       name: "You",
@@ -147,6 +174,10 @@ const Expressions = () => {
     setComposeDraft("");
     setComposeMood(null);
     setShowCompose(false);
+    setSubmitting(false);
+    setJustSharedId(newMoment.id);
+    toast.success("Moment shared");
+    setTimeout(() => setJustSharedId(null), 2000);
   };
 
   return (
