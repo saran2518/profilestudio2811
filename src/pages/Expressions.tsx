@@ -483,7 +483,7 @@ function MomentCard({
       )}
 
       {/* Mood tag */}
-      {(() => {
+      {moment.moodTag && (() => {
         const MoodIcon = getMoodIcon(moment.moodTag);
         return (
           <div className="mb-1">
