@@ -34,7 +34,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { MOMENTS, MOOD_TAGS, type MomentData } from "@/lib/expressionsData";
+import { MOMENTS, MOOD_TAGS, getMoodIcon, type MomentData } from "@/lib/expressionsData";
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
 import ReportDialog from "@/components/discover/ReportDialog";
