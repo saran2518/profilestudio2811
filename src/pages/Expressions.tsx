@@ -520,6 +520,7 @@ function ComposeSheet({
   onMoodChange,
   onSubmit,
   isEdit,
+  submitting,
 }: {
   open: boolean;
   onClose: () => void;
@@ -529,8 +530,10 @@ function ComposeSheet({
   onMoodChange: (v: string | null) => void;
   onSubmit: () => void;
   isEdit?: boolean;
+  submitting?: boolean;
 }) {
   const [photo, setPhoto] = useState<string | null>(null);
+  const [photoUploading, setPhotoUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
