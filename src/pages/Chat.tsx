@@ -167,48 +167,97 @@ export default function Chat() {
               </p>
             </header>
 
+            {/* Loading skeleton */}
+            {!loaded && (
+              <div className="px-5 pb-3 shrink-0">
+                <div className="h-3 w-24 rounded bg-muted/60 animate-pulse mb-3" />
+                <div className="flex gap-3 pb-2">
+                  {[0, 1, 2, 3].map((i) => (
+                    <div key={i} className="flex flex-col items-center gap-1.5">
+                      <div className="h-16 w-16 rounded-full bg-muted/60 animate-pulse" />
+                      <div className="h-2 w-10 rounded bg-muted/50 animate-pulse" />
+                    </div>
+                  ))}
+                </div>
+                <div className="h-px bg-border/30 mt-2" />
+                <div className="space-y-3 mt-4">
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="h-12 w-12 rounded-full bg-muted/60 animate-pulse" />
+                      <div className="flex-1 space-y-2">
+                        <div className="h-3 w-24 rounded bg-muted/60 animate-pulse" />
+                        <div className="h-2.5 w-40 rounded bg-muted/40 animate-pulse" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Connections Row */}
-            {connections.length > 0 && (
+            {loaded && (
               <div className="px-5 pb-3 shrink-0">
                 <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-3">
                   Connections
                 </h2>
-                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                  {connections.map((thread, i) => (
-                    <motion.button
-                      key={thread.id}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.05, duration: 0.3 }}
-                      onClick={() => setActiveThreadId(thread.id)}
-                      className="flex flex-col items-center gap-1.5 shrink-0"
-                    >
-                      <div
-                        className="relative rounded-full p-[2px]"
-                        style={{ background: "var(--gradient-warm)" }}
+                {connections.length > 0 ? (
+                  <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                    {connections.map((thread, i) => (
+                      <motion.button
+                        key={thread.id}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.05, duration: 0.3 }}
+                        onClick={() => setActiveThreadId(thread.id)}
+                        className="flex flex-col items-center gap-1.5 shrink-0"
                       >
-                        <img
-                          src={thread.photo}
-                          alt={thread.name}
-                          className="h-16 w-16 rounded-full object-cover border-2 border-background"
-                        />
                         <div
-                          className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full border-2 border-background flex items-center justify-center"
+                          className="relative rounded-full p-[2px]"
                           style={{ background: "var(--gradient-warm)" }}
                         >
-                          {thread.source === "vibe" ? (
-                            <HeartPulse className="h-2.5 w-2.5 text-primary-foreground" />
-                          ) : (
-                            <Send className="h-2.5 w-2.5 text-primary-foreground" />
-                          )}
+                          <img
+                            src={thread.photo}
+                            alt={thread.name}
+                            className="h-16 w-16 rounded-full object-cover border-2 border-background"
+                          />
+                          <div
+                            className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full border-2 border-background flex items-center justify-center"
+                            style={{ background: "var(--gradient-warm)" }}
+                          >
+                            {thread.source === "vibe" ? (
+                              <HeartPulse className="h-2.5 w-2.5 text-primary-foreground" />
+                            ) : (
+                              <Send className="h-2.5 w-2.5 text-primary-foreground" />
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <span className="font-body text-[11px] text-muted-foreground max-w-[64px] truncate">
-                        {thread.name.split(" ")[0]}
-                      </span>
-                    </motion.button>
-                  ))}
-                </div>
+                        <span className="font-body text-[11px] text-muted-foreground max-w-[64px] truncate">
+                          {thread.name.split(" ")[0]}
+                        </span>
+                      </motion.button>
+                    ))}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => navigate("/discover")}
+                    className="w-full rounded-2xl border border-dashed border-border/60 bg-muted/20 px-4 py-3 flex items-center gap-3 text-left hover:bg-muted/30 transition-colors"
+                  >
+                    <div
+                      className="h-10 w-10 rounded-full flex items-center justify-center shrink-0"
+                      style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.15))" }}
+                    >
+                      <Send className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-body text-[13px] font-semibold text-foreground/80">
+                        No connections yet
+                      </p>
+                      <p className="font-body text-[11px] text-muted-foreground">
+                        Vibe or invite someone from Discover
+                      </p>
+                    </div>
+                  </button>
+                )}
                 <div className="h-px bg-border/30 mt-2" />
               </div>
             )}
