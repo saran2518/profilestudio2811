@@ -216,22 +216,29 @@ const Expressions = () => {
           </div>
         </motion.button>
 
-        {/* Moments Feed */}
-        {moments.map((moment, idx) => (
-          <MomentCard
-            key={moment.id}
-            moment={moment}
-            index={idx}
-            isVibed={vibed.has(moment.id)}
-            isOwn={moment.name === "You"}
-            onVibe={() => handleVibeClick(moment)}
-            onInvite={() => handleInvite(moment)}
-            onReport={() => setReportOpen(true)}
-            onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
-            onEdit={() => handleEditStart(moment)}
-            onDelete={() => handleDelete(moment.id)}
-          />
-        ))}
+        {/* Moments Feed: Loading / Empty / List */}
+        {loading ? (
+          <MomentsSkeleton />
+        ) : moments.length === 0 ? (
+          <EmptyMoments onShare={() => setShowCompose(true)} />
+        ) : (
+          moments.map((moment, idx) => (
+            <MomentCard
+              key={moment.id}
+              moment={moment}
+              index={idx}
+              isVibed={vibed.has(moment.id)}
+              isOwn={moment.name === "You"}
+              isJustShared={justSharedId === moment.id}
+              onVibe={() => handleVibeClick(moment)}
+              onInvite={() => handleInvite(moment)}
+              onReport={() => setReportOpen(true)}
+              onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
+              onEdit={() => handleEditStart(moment)}
+              onDelete={() => requestDelete(moment.id)}
+            />
+          ))
+        )}
       </div>
 
       {/* Compose Sheet */}
