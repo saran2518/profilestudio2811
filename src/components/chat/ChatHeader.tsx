@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, HeartPulse, Coffee, MoreHorizontal, X, ShieldBan, Flag, Plus } from "lucide-react";
+import { ArrowLeft, HeartPulse, Send, MoreHorizontal, X, ShieldBan, Flag, Plus } from "lucide-react";
 import { ChatThread } from "@/lib/chatStore";
 
 interface ChatHeaderProps {
@@ -55,7 +55,7 @@ export default function ChatHeader({
               {thread.source === "vibe" ? (
                 <HeartPulse className="h-2.5 w-2.5" />
               ) : (
-                <Coffee className="h-2.5 w-2.5" />
+                <Send className="h-2.5 w-2.5" />
               )}
               {thread.source}
             </span>
