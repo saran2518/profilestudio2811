@@ -182,7 +182,7 @@ export default function Chat() {
                         <img
                           src={thread.photo}
                           alt={thread.name}
-                          className="h-14 w-14 rounded-full object-cover border-2 border-background"
+                          className="h-16 w-16 rounded-full object-cover border-2 border-background"
                         />
                         <div
                           className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full border-2 border-background flex items-center justify-center"
@@ -195,7 +195,7 @@ export default function Chat() {
                           )}
                         </div>
                       </div>
-                      <span className="font-body text-[11px] text-muted-foreground max-w-[56px] truncate">
+                      <span className="font-body text-[11px] text-muted-foreground max-w-[64px] truncate">
                         {thread.name.split(" ")[0]}
                       </span>
                     </motion.button>
