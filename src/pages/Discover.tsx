@@ -304,44 +304,72 @@ const Discover = () => {
         </AnimatePresence>
       )}
 
-      {/* Slim Bottom Banner Indicator */}
+      {/* Floating Pill Toast */}
       <AnimatePresence>
         {activeToast && (
           <motion.div
             key={activeToast}
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "100%", opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-[72px] left-0 right-0 z-50 pointer-events-none px-3"
+            initial={{ y: 24, opacity: 0, scale: 0.9 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 12, opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-[150px] left-0 right-0 z-50 pointer-events-none flex justify-center px-4"
           >
             <div
-              className="flex items-center gap-3 px-5 py-3.5 rounded-t-2xl bg-card/95 backdrop-blur-xl border border-border/30 border-b-0"
-              style={{ boxShadow: "0 -4px 24px -6px hsl(var(--foreground) / 0.08)" }}
-            >
-              <div
-                className={`h-9 w-9 rounded-xl flex items-center justify-center ${
+              className="flex items-center gap-3 pl-2 pr-5 py-2 rounded-full bg-card/95 backdrop-blur-xl border border-border/40"
+              style={{
+                boxShadow:
                   activeToast === "pass"
-                    ? "bg-destructive/10"
-                    : activeToast === "vibe"
-                    ? "bg-primary/10"
-                    : "bg-primary/10"
-                }`}
-              >
-                {activeToast === "pass" && <X className="h-[18px] w-[18px] text-destructive" strokeWidth={2.5} />}
-                {activeToast === "vibe" && <Heart className="h-[18px] w-[18px] text-primary fill-primary" strokeWidth={2} />}
-                {activeToast === "invite" && <Send className="h-[18px] w-[18px] text-primary" strokeWidth={2} />}
+                    ? "0 12px 40px -8px hsl(var(--destructive) / 0.25)"
+                    : "0 12px 40px -8px hsl(var(--primary) / 0.35)",
+              }}
+            >
+              <div className="relative h-10 w-10 flex items-center justify-center">
+                <div
+                  className={`absolute inset-0 rounded-full ${
+                    activeToast === "pass"
+                      ? "bg-gradient-to-br from-destructive/80 to-destructive"
+                      : "bg-gradient-to-br from-primary/80 to-primary"
+                  }`}
+                />
+                <div className="relative">
+                  {activeToast === "pass" && <X className="h-[18px] w-[18px] text-destructive-foreground" strokeWidth={3} />}
+                  {activeToast === "vibe" && (
+                    <Heart className="h-[18px] w-[18px] text-primary-foreground fill-primary-foreground" strokeWidth={2} />
+                  )}
+                  {activeToast === "invite" && <Send className="h-[18px] w-[18px] text-primary-foreground" strokeWidth={2.5} />}
+                </div>
+                <svg className="absolute inset-0 h-10 w-10 -rotate-90 pointer-events-none" viewBox="0 0 40 40">
+                  <motion.circle
+                    cx="20"
+                    cy="20"
+                    r="18"
+                    fill="none"
+                    stroke="hsl(var(--card))"
+                    strokeOpacity="0.55"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray={2 * Math.PI * 18}
+                    initial={{ strokeDashoffset: 0 }}
+                    animate={{ strokeDashoffset: 2 * Math.PI * 18 }}
+                    transition={{ duration: 1.2, ease: "linear" }}
+                  />
+                </svg>
               </div>
-              <div className="flex-1">
-                <p className="font-display text-sm font-semibold text-foreground">
-                  {activeToast === "pass" ? "Passed" : activeToast === "vibe" ? "Vibe Sent!" : "Invite Sent!"}
-                </p>
-                <p className="font-body text-[11px] text-muted-foreground">
+              <div className="pr-1">
+                <p className="font-display text-[13px] font-semibold text-foreground leading-tight">
                   {activeToast === "pass"
-                    ? "Swiping to next profile..."
+                    ? "Passed"
                     : activeToast === "vibe"
-                    ? "They'll know you're interested"
-                    : "Waiting for their response"}
+                    ? "Vibe sent ✨"
+                    : "Invite sent 💌"}
+                </p>
+                <p className="font-body text-[10.5px] text-muted-foreground leading-tight mt-0.5">
+                  {activeToast === "pass"
+                    ? "Onto the next"
+                    : activeToast === "vibe"
+                    ? "They'll feel it"
+                    : "Awaiting reply"}
                 </p>
               </div>
             </div>
