@@ -263,17 +263,34 @@ export default function Chat() {
             )}
 
             {/* Conversations Section */}
-            {conversations.length > 0 && (
-              <div className="px-5 pb-3 shrink-0">
-                <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
-                  Conversations
-                </h2>
-              </div>
+            {loaded && (
+              <>
+                {conversations.length > 0 && (
+                  <div className="px-5 pb-3 shrink-0">
+                    <h2 className="font-display text-[13px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
+                      Conversations
+                    </h2>
+                  </div>
+                )}
+                {conversations.length === 0 && connections.length > 0 ? (
+                  <div className="px-5 pt-2">
+                    <div className="rounded-2xl bg-muted/20 border border-border/40 px-4 py-5 text-center">
+                      <p className="font-body text-[13px] font-semibold text-foreground/80">
+                        No conversations yet
+                      </p>
+                      <p className="font-body text-[12px] text-muted-foreground mt-1">
+                        Tap a connection above to say hi 👋
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <ChatList
+                    threads={conversations}
+                    onOpenThread={(id) => setActiveThreadId(id)}
+                  />
+                )}
+              </>
             )}
-            <ChatList
-              threads={conversations}
-              onOpenThread={(id) => setActiveThreadId(id)}
-            />
           </motion.div>
         )}
       </AnimatePresence>
