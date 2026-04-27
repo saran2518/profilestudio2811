@@ -600,8 +600,14 @@ function ComposeSheet({
                   />
                 </div>
 
-                {/* Photo preview */}
-                {photo && (
+                {/* Photo preview / uploading */}
+                {photoUploading && (
+                  <div className="rounded-2xl border border-border/30 bg-muted/10 h-36 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Uploading photo…
+                  </div>
+                )}
+                {photo && !photoUploading && (
                   <div className="relative rounded-2xl overflow-hidden">
                     <img src={photo} alt="Attached" className="w-full h-36 object-cover rounded-2xl" />
                     <button
