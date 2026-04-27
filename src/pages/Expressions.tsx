@@ -701,16 +701,25 @@ function ComposeSheet({
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   onClick={onSubmit}
-                  disabled={!draft.trim() || !mood}
-                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-body mt-1"
+                  disabled={!draft.trim() || !mood || submitting || photoUploading}
+                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body mt-1"
                   style={{
                     background: draft.trim() && mood ? "var(--gradient-warm)" : "hsl(var(--muted))",
                     boxShadow: draft.trim() && mood ? "var(--shadow-warm)" : "none",
                     color: draft.trim() && mood ? undefined : "hsl(var(--muted-foreground))",
                   }}
                 >
-                  <Send className="h-4 w-4" />
-                  {isEdit ? "Save Changes" : "Share Moment"}
+                  {submitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      {isEdit ? "Saving…" : "Sharing…"}
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      {isEdit ? "Save Changes" : "Share Moment"}
+                    </>
+                  )}
                 </motion.button>
               </div>
             </div>
