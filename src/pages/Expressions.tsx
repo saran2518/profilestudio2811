@@ -156,7 +156,7 @@ const Expressions = () => {
   };
 
   const handleShareMoment = async () => {
-    if (!composeDraft.trim() || !composeMood) return;
+    if (!composeDraft.trim()) return;
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 600));
     const newMoment: MomentData = {
@@ -167,7 +167,7 @@ const Expressions = () => {
       location: "Here",
       avatar: "",
       text: composeDraft.trim(),
-      moodTag: composeMood,
+      moodTag: composeMood ?? "",
       timestamp: "Just now",
     };
     setMoments([newMoment, ...moments]);
@@ -483,7 +483,7 @@ function MomentCard({
       )}
 
       {/* Mood tag */}
-      {(() => {
+      {moment.moodTag && (() => {
         const MoodIcon = getMoodIcon(moment.moodTag);
         return (
           <div className="mb-1">
@@ -712,12 +712,12 @@ function ComposeSheet({
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   onClick={onSubmit}
-                  disabled={!draft.trim() || !mood || submitting || photoUploading}
+                  disabled={!draft.trim() || submitting || photoUploading}
                   className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body mt-1"
                   style={{
-                    background: draft.trim() && mood ? "var(--gradient-warm)" : "hsl(var(--muted))",
-                    boxShadow: draft.trim() && mood ? "var(--shadow-warm)" : "none",
-                    color: draft.trim() && mood ? undefined : "hsl(var(--muted-foreground))",
+                    background: draft.trim() ? "var(--gradient-warm)" : "hsl(var(--muted))",
+                    boxShadow: draft.trim() ? "var(--shadow-warm)" : "none",
+                    color: draft.trim() ? undefined : "hsl(var(--muted-foreground))",
                   }}
                 >
                   {submitting ? (
