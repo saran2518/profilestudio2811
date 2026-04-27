@@ -733,9 +733,37 @@ function ComposeSheet({
                     )}
                   </AnimatePresence>
 
-                  {/* Top 5 moods */}
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {TOP_MOODS.map((tag, i) => {
+                  {/* Category tabs */}
+                  <div className="flex gap-1 mb-2.5 overflow-x-auto scrollbar-none -mx-1 px-1 pb-1">
+                    {MOOD_GROUPS.map((g) => {
+                      const active = g.key === moodGroup;
+                      return (
+                        <button
+                          key={g.key}
+                          type="button"
+                          onClick={() => setMoodGroup(g.key)}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium font-body whitespace-nowrap transition-all duration-200 border ${
+                            active
+                              ? "bg-foreground text-background border-foreground shadow-sm"
+                              : "bg-transparent text-muted-foreground border-border/40 hover:border-border/70 hover:text-foreground"
+                          }`}
+                        >
+                          <span className="text-sm leading-none">{g.icon}</span>
+                          {g.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Mood grid for active group */}
+                  <motion.div
+                    key={activeGroup.key}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="grid grid-cols-2 gap-1.5"
+                  >
+                    {activeGroup.tags.map((tag, i) => {
                       const { emoji, label } = splitMood(tag);
                       const selected = mood === tag;
                       return (
@@ -759,92 +787,7 @@ function ComposeSheet({
                         </motion.button>
                       );
                     })}
-                  </div>
-
-                  {/* Expand toggle */}
-                  <button
-                    type="button"
-                    onClick={() => setMoreOpen((v) => !v)}
-                    className="mt-2 w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-[11px] font-medium text-muted-foreground hover:text-foreground font-body transition-colors"
-                    aria-expanded={moreOpen}
-                  >
-                    {moreOpen ? "Hide more moods" : "More moods"}
-                    <motion.span animate={{ rotate: moreOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                      <ChevronDown className="h-3.5 w-3.5" />
-                    </motion.span>
-                  </button>
-
-                  {/* Expanded categorized moods */}
-                  <AnimatePresence initial={false}>
-                    {moreOpen && (
-                      <motion.div
-                        key="more-moods"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.22 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="pt-2.5">
-                          {/* Category tabs */}
-                          <div className="flex gap-1 mb-2.5 overflow-x-auto scrollbar-none -mx-1 px-1 pb-1">
-                            {MOOD_GROUPS.map((g) => {
-                              const active = g.key === moodGroup;
-                              return (
-                                <button
-                                  key={g.key}
-                                  type="button"
-                                  onClick={() => setMoodGroup(g.key)}
-                                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium font-body whitespace-nowrap transition-all duration-200 border ${
-                                    active
-                                      ? "bg-foreground text-background border-foreground shadow-sm"
-                                      : "bg-transparent text-muted-foreground border-border/40 hover:border-border/70 hover:text-foreground"
-                                  }`}
-                                >
-                                  <span className="text-sm leading-none">{g.icon}</span>
-                                  {g.label}
-                                </button>
-                              );
-                            })}
-                          </div>
-
-                          {/* Mood grid for active group */}
-                          <motion.div
-                            key={activeGroup.key}
-                            initial={{ opacity: 0, y: 4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.18 }}
-                            className="grid grid-cols-2 gap-1.5"
-                          >
-                            {activeGroup.tags.map((tag, i) => {
-                              const { emoji, label } = splitMood(tag);
-                              const selected = mood === tag;
-                              return (
-                                <motion.button
-                                  key={tag}
-                                  initial={{ opacity: 0, scale: 0.95 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{ delay: i * 0.03 }}
-                                  whileTap={{ scale: 0.96 }}
-                                  onClick={() => onMoodChange(selected ? null : tag)}
-                                  className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all duration-200 font-body ${
-                                    selected
-                                      ? "border-primary/50 bg-primary/10 shadow-sm shadow-primary/10"
-                                      : "border-border/30 bg-muted/10 hover:border-border/60 hover:bg-muted/30"
-                                  }`}
-                                >
-                                  <span className="text-base leading-none shrink-0">{emoji}</span>
-                                  <span className={`text-[11px] font-medium truncate ${selected ? "text-foreground" : "text-muted-foreground"}`}>
-                                    {label}
-                                  </span>
-                                </motion.button>
-                              );
-                            })}
-                          </motion.div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  </motion.div>
                 </div>
 
                 {/* Submit */}
