@@ -54,13 +54,12 @@ export default function ChatDetail({
     }
     window.setTimeout(() => {
       updateMessageStatus(thread.id, msgId, "sent");
-      // Then simulate partner typing + a friendly auto-reply
       setTyping(thread.id, true);
       window.setTimeout(() => {
         setTyping(thread.id, false);
         addMessage(thread.id, "Got it! 🙂", "them");
-      }, 1800);
-    }, 600);
+      }, 6000);
+    }, 8000);
   };
 
   const handleMenuAction = (action: "disconnect" | "block" | "report") => {
