@@ -323,12 +323,63 @@ const Expressions = () => {
   );
 };
 
+/* ── Moments Loading Skeleton ── */
+function MomentsSkeleton() {
+  return (
+    <div className="space-y-4" aria-label="Loading moments">
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="rounded-2xl border border-border/40 bg-card p-4 space-y-3">
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <div className="space-y-2 flex-1">
+              <Skeleton className="h-3 w-32" />
+              <Skeleton className="h-2.5 w-24" />
+            </div>
+          </div>
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-5/6" />
+          <Skeleton className="h-3 w-2/3" />
+          <Skeleton className="h-6 w-28 rounded-full" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Empty Moments State ── */
+function EmptyMoments({ onShare }: { onShare: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-2xl border border-border/40 bg-card/60 p-8 text-center"
+    >
+      <div className="mx-auto h-14 w-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: "var(--gradient-warm)" }}>
+        <Inbox className="h-6 w-6 text-primary-foreground" />
+      </div>
+      <h3 className="font-display text-base font-semibold text-foreground mb-1">No moments yet</h3>
+      <p className="text-xs text-muted-foreground font-body mb-5 leading-relaxed">
+        When you or others share something present, it'll appear here. Start by sharing a thought, photo, or mood.
+      </p>
+      <button
+        onClick={onShare}
+        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-semibold text-primary-foreground"
+        style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+      >
+        <Plus className="h-4 w-4" />
+        Share your first moment
+      </button>
+    </motion.div>
+  );
+}
+
 /* ── Moment Card ── */
 function MomentCard({
   moment,
   index,
   isVibed,
   isOwn,
+  isJustShared,
   onVibe,
   onInvite,
   onReport,
@@ -340,6 +391,7 @@ function MomentCard({
   index: number;
   isVibed: boolean;
   isOwn?: boolean;
+  isJustShared?: boolean;
   onVibe: () => void;
   onInvite: () => void;
   onReport: () => void;
@@ -352,7 +404,9 @@ function MomentCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
-      className="relative rounded-2xl border border-border/40 bg-card p-4"
+      className={`relative rounded-2xl border bg-card p-4 transition-colors ${
+        isJustShared ? "border-primary/60 ring-2 ring-primary/30" : "border-border/40"
+      }`}
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       {/* User info + actions */}
