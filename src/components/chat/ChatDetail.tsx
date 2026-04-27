@@ -82,7 +82,7 @@ export default function ChatDetail({
   const handleSend = (text: string, image?: string) => {
     const id = addMessage(thread.id, text, "me", image);
     // ~10% chance the message "fails" so users can experience the retry state
-    const willFail = Math.random() < 0.1;
+    const willFail = false; // TEMP for screenshots
     simulateLifecycle(id, willFail);
   };
 
