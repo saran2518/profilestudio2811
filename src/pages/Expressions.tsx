@@ -156,7 +156,7 @@ const Expressions = () => {
   };
 
   const handleShareMoment = async () => {
-    if (!composeDraft.trim() || !composeMood) return;
+    if (!composeDraft.trim()) return;
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 600));
     const newMoment: MomentData = {
@@ -167,7 +167,7 @@ const Expressions = () => {
       location: "Here",
       avatar: "",
       text: composeDraft.trim(),
-      moodTag: composeMood,
+      moodTag: composeMood ?? "",
       timestamp: "Just now",
     };
     setMoments([newMoment, ...moments]);
