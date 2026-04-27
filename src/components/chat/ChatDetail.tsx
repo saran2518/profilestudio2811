@@ -58,7 +58,7 @@ export default function ChatDetail({
       window.setTimeout(() => {
         setTyping(thread.id, false);
         addMessage(thread.id, "Got it! 🙂", "them");
-      }, 6000);
+      }, 30000);
     }, 8000);
   };
 
