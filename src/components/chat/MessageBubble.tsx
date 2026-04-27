@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, CheckCheck } from "lucide-react";
+import { Check, CheckCheck, Loader2, AlertCircle, RotateCw } from "lucide-react";
 import { ChatMessage } from "@/lib/chatStore";
 
 interface MessageBubbleProps {
@@ -7,10 +7,13 @@ interface MessageBubbleProps {
   isLast: boolean;
   showAvatar?: boolean;
   partnerPhoto?: string;
+  onRetry?: (msg: ChatMessage) => void;
 }
 
-export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto }: MessageBubbleProps) {
+export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto, onRetry }: MessageBubbleProps) {
   const isMe = msg.sender === "me";
+  const status = msg.status;
+  const failed = status === "failed";
 
   return (
     <motion.div
@@ -34,11 +37,11 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto }:
 
       <div className={`max-w-[75%] ${isMe ? "items-end" : "items-start"} flex flex-col`}>
         <div
-          className={`rounded-2xl font-body text-[14px] leading-relaxed overflow-hidden transition-shadow ${
+          className={`rounded-2xl font-body text-[14px] leading-relaxed overflow-hidden transition-all ${
             isMe
               ? "rounded-br-sm text-primary-foreground shadow-md"
               : "rounded-bl-sm bg-card text-foreground border border-border/30 shadow-sm"
-          }`}
+          } ${status === "sending" ? "opacity-70" : ""} ${failed ? "ring-1 ring-destructive/40" : ""}`}
           style={
             isMe
               ? {
@@ -64,17 +67,32 @@ export default function MessageBubble({ msg, isLast, showAvatar, partnerPhoto }:
           )}
         </div>
 
-        {/* Timestamp + read receipt */}
+        {/* Timestamp + status */}
         <div className={`flex items-center gap-1 mt-1 px-1 ${isMe ? "flex-row-reverse" : ""}`}>
           <span className="text-[10px] text-muted-foreground/60 font-medium">{msg.time}</span>
-          {isMe && (
-            <span className="text-primary/60">
-              {isLast ? (
-                <CheckCheck className="h-3 w-3" />
-              ) : (
-                <Check className="h-3 w-3" />
+          {isMe && status && (
+            <span className="flex items-center" aria-label={`Message ${status}`}>
+              {status === "sending" && (
+                <Loader2 className="h-3 w-3 text-muted-foreground/50 animate-spin" />
+              )}
+              {status === "sent" && <Check className="h-3 w-3 text-muted-foreground/60" />}
+              {status === "delivered" && (
+                <CheckCheck className="h-3 w-3 text-muted-foreground/60" />
+              )}
+              {status === "read" && <CheckCheck className="h-3 w-3 text-primary" />}
+              {status === "failed" && (
+                <AlertCircle className="h-3 w-3 text-destructive" />
               )}
             </span>
+          )}
+          {isMe && failed && onRetry && (
+            <button
+              onClick={() => onRetry(msg)}
+              className="flex items-center gap-1 text-[10px] font-medium text-destructive hover:text-destructive/80"
+            >
+              <RotateCw className="h-2.5 w-2.5" />
+              Retry
+            </button>
           )}
         </div>
       </div>
