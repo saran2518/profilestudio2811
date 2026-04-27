@@ -182,7 +182,7 @@ export default function Chat() {
                         <img
                           src={thread.photo}
                           alt={thread.name}
-                          className="h-14 w-14 rounded-full object-cover border-2 border-background"
+                          className="h-16 w-16 rounded-full object-cover border-2 border-background"
                         />
                         <div
                           className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full border-2 border-background flex items-center justify-center"
