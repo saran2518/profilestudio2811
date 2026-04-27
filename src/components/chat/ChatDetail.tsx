@@ -58,8 +58,8 @@ export default function ChatDetail({
       window.setTimeout(() => {
         setTyping(thread.id, false);
         addMessage(thread.id, "Got it! 🙂", "them");
-      }, 30000);
-    }, 8000);
+      }, 1800);
+    }, 600);
   };
 
   const handleMenuAction = (action: "disconnect" | "block" | "report") => {
