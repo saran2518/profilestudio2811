@@ -483,11 +483,17 @@ function MomentCard({
       )}
 
       {/* Mood tag */}
-      <div className="mb-1">
-        <span className="inline-block px-3 py-1 rounded-full text-xs font-medium border border-primary/30 text-primary bg-primary/5 font-body">
-          {moment.moodTag}
-        </span>
-      </div>
+      {(() => {
+        const MoodIcon = getMoodIcon(moment.moodTag);
+        return (
+          <div className="mb-1">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border border-primary/30 text-primary bg-primary/5 font-body">
+              {MoodIcon && <MoodIcon className="h-3.5 w-3.5" />}
+              {moment.moodTag}
+            </span>
+          </div>
+        );
+      })()}
 
       {/* HeartPulse - only for other people's moments */}
       {!isOwn && (
