@@ -553,11 +553,14 @@ function ComposeSheet({
   const [moreOpen, setMoreOpen] = useState(false);
   const activeGroup = MOOD_GROUPS.find((g) => g.key === moodGroup) ?? MOOD_GROUPS[0];
 
-  // Auto-switch to the group containing the externally selected mood (e.g. when editing)
+  // Auto-expand "more" + select category when an external mood is set (e.g. editing)
   useEffect(() => {
     if (!mood) return;
-    const found = MOOD_GROUPS.find((g) => g.tags.includes(mood));
-    if (found && found.key !== moodGroup) setMoodGroup(found.key);
+    if (!TOP_MOODS.includes(mood)) {
+      setMoreOpen(true);
+      const found = MOOD_GROUPS.find((g) => g.tags.includes(mood));
+      if (found && found.key !== moodGroup) setMoodGroup(found.key);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mood]);
 
