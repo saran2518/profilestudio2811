@@ -1,7 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useChatThread } from "@/hooks/useChatStore";
-import { addMessage, removeThread, updateMessageInviteStatus, addVirtualDateInvite, ChatThread } from "@/lib/chatStore";
+import {
+  addMessage,
+  removeThread,
+  updateMessageInviteStatus,
+  addVirtualDateInvite,
+  updateMessageStatus,
+  setTyping,
+  ChatThread,
+  ChatMessage,
+} from "@/lib/chatStore";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
@@ -11,6 +20,8 @@ import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import MessageBubble from "./MessageBubble";
+import TypingIndicator from "./TypingIndicator";
+
 
 export default function ChatDetail({
   thread,
@@ -29,10 +40,30 @@ export default function ChatDetail({
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
 
-  // Auto-scroll to bottom on new messages
+  // Auto-scroll to bottom on new messages or typing indicator
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length]);
+  }, [messages.length, fresh?.typing]);
+
+  // Simulate the full send lifecycle: sending → sent → delivered → read,
+  // with a small chance of failure so users can hit retry.
+  const simulateLifecycle = (msgId: string, willFail = false) => {
+    if (willFail) {
+      window.setTimeout(() => updateMessageStatus(thread.id, msgId, "failed"), 900);
+      return;
+    }
+    window.setTimeout(() => updateMessageStatus(thread.id, msgId, "sent"), 450);
+    window.setTimeout(() => updateMessageStatus(thread.id, msgId, "delivered"), 1100);
+    window.setTimeout(() => {
+      updateMessageStatus(thread.id, msgId, "read");
+      // Then simulate partner typing + a friendly auto-reply
+      setTyping(thread.id, true);
+      window.setTimeout(() => {
+        setTyping(thread.id, false);
+        addMessage(thread.id, "Got it! 🙂", "them");
+      }, 1800);
+    }, 2200);
+  };
 
   const handleMenuAction = (action: "disconnect" | "block" | "report") => {
     setMenuOpen(false);
@@ -52,7 +83,15 @@ export default function ChatDetail({
   };
 
   const handleSend = (text: string, image?: string) => {
-    addMessage(thread.id, text, "me", image);
+    const id = addMessage(thread.id, text, "me", image);
+    // ~10% chance the message "fails" so users can experience the retry state
+    const willFail = Math.random() < 0.1;
+    simulateLifecycle(id, willFail);
+  };
+
+  const handleRetry = (msg: ChatMessage) => {
+    updateMessageStatus(thread.id, msg.id, "sending");
+    simulateLifecycle(msg.id, false);
   };
 
   const handleVirtualDateConfirm = () => {
@@ -134,9 +173,13 @@ export default function ChatDetail({
               isLast={i === messages.length - 1}
               showAvatar={showAvatar}
               partnerPhoto={thread.photo}
+              onRetry={handleRetry}
             />
           );
         })}
+        <AnimatePresence>
+          {fresh?.typing && <TypingIndicator key="typing" partnerPhoto={thread.photo} />}
+        </AnimatePresence>
         <div ref={messagesEndRef} />
       </div>
 

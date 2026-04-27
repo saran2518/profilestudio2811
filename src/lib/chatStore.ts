@@ -7,7 +7,10 @@ export interface ChatThread {
   unread?: boolean;
   source: "vibe" | "invite";
   messages: ChatMessage[];
+  typing?: boolean;
 }
+
+export type MessageStatus = "sending" | "sent" | "delivered" | "read" | "failed";
 
 export interface ChatMessage {
   id: string;
@@ -17,9 +20,11 @@ export interface ChatMessage {
   image?: string; // data URL for in-memory image attachments
   type?: "text" | "virtual-date-invite" | "virtual-date-response";
   dateInviteStatus?: "pending" | "accepted" | "declined";
+  status?: MessageStatus;
 }
 
 let threads: ChatThread[] = [];
+let loaded = false;
 const listeners = new Set<() => void>();
 
 function notify() {
@@ -34,6 +39,16 @@ export function subscribe(listener: () => void) {
 // Return the same reference — only mutated via createThread/addMessage which reassign `threads`
 export function getThreads(): ChatThread[] {
   return threads;
+}
+
+export function isLoaded(): boolean {
+  return loaded;
+}
+
+export function markLoaded() {
+  if (loaded) return;
+  loaded = true;
+  notify();
 }
 
 export function createThread(name: string, photo: string, source: "vibe" | "invite"): ChatThread {
@@ -68,8 +83,17 @@ export function removeThread(threadId: string) {
   notify();
 }
 
-export function addMessage(threadId: string, text: string, sender: "me" | "them", image?: string) {
+export function addMessage(
+  threadId: string,
+  text: string,
+  sender: "me" | "them",
+  image?: string,
+  status?: MessageStatus,
+): string {
   const displayText = image ? (text || "📷 Photo") : text;
+  const id = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+  const initialStatus: MessageStatus | undefined =
+    sender === "me" ? status ?? "sending" : undefined;
   threads = threads.map((t) =>
     t.id === threadId
       ? {
@@ -78,12 +102,38 @@ export function addMessage(threadId: string, text: string, sender: "me" | "them"
           time: "Just now",
           messages: [
             ...t.messages,
-            { id: `msg-${Date.now()}`, sender, text, time: "Just now", image },
+            { id, sender, text, time: "Just now", image, status: initialStatus },
           ],
         }
       : t
   );
   notify();
+  return id;
+}
+
+export function updateMessageStatus(threadId: string, messageId: string, status: MessageStatus) {
+  threads = threads.map((t) =>
+    t.id === threadId
+      ? {
+          ...t,
+          messages: t.messages.map((m) =>
+            m.id === messageId ? { ...m, status } : m
+          ),
+        }
+      : t
+  );
+  notify();
+}
+
+export function setTyping(threadId: string, typing: boolean) {
+  let changed = false;
+  threads = threads.map((t) => {
+    if (t.id !== threadId) return t;
+    if (!!t.typing === typing) return t;
+    changed = true;
+    return { ...t, typing };
+  });
+  if (changed) notify();
 }
 
 export function addVirtualDateInvite(threadId: string, sender: "me" | "them"): string {
