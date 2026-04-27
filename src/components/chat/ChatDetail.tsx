@@ -45,24 +45,22 @@ export default function ChatDetail({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length, fresh?.typing]);
 
-  // Simulate the full send lifecycle: sending → sent → delivered → read,
-  // with a small chance of failure so users can hit retry.
+  // Simulate send lifecycle: sending → sent (with a small chance of failure
+  // so users can hit retry). Then trigger partner typing + auto-reply.
   const simulateLifecycle = (msgId: string, willFail = false) => {
     if (willFail) {
       window.setTimeout(() => updateMessageStatus(thread.id, msgId, "failed"), 900);
       return;
     }
-    window.setTimeout(() => updateMessageStatus(thread.id, msgId, "sent"), 450);
-    window.setTimeout(() => updateMessageStatus(thread.id, msgId, "delivered"), 1100);
     window.setTimeout(() => {
-      updateMessageStatus(thread.id, msgId, "read");
+      updateMessageStatus(thread.id, msgId, "sent");
       // Then simulate partner typing + a friendly auto-reply
       setTyping(thread.id, true);
       window.setTimeout(() => {
         setTyping(thread.id, false);
         addMessage(thread.id, "Got it! 🙂", "them");
       }, 1800);
-    }, 2200);
+    }, 600);
   };
 
   const handleMenuAction = (action: "disconnect" | "block" | "report") => {
