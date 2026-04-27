@@ -535,8 +535,34 @@ function ComposeSheet({
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoUploading, setPhotoUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [showAllMoods, setShowAllMoods] = useState(false);
-  const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
+  const MOOD_GROUPS: { key: string; label: string; icon: string; tags: string[] }[] = [
+    { key: "vibe", label: "Vibe", icon: "✨", tags: ["✨ Little joys", "🔥 Spontaneous", "💫 Late night thoughts", "🌙 Can't sleep"] },
+    { key: "feels", label: "Feels", icon: "🥰", tags: ["😊 Feeling good", "🥰 In my feels", "🙏 Grateful today", "💪 Personal win"] },
+    { key: "creative", label: "Creative", icon: "🎨", tags: ["🎨 Creative spark", "📸 Captured a moment", "🎵 Lost in music", "📚 Currently reading"] },
+    { key: "cozy", label: "Cozy", icon: "☕", tags: ["☕ Coffee & thoughts", "🌧️ Rainy day mood", "🍷 Cozy evening", "🌸 Self-care moment"] },
+    { key: "life", label: "Life", icon: "🌅", tags: ["💭 Random thoughts", "🌅 Golden hour", "✈️ On the move", "🧘 Finding calm"] },
+  ];
+  const [moodGroup, setMoodGroup] = useState<string>(MOOD_GROUPS[0].key);
+  const activeGroup = MOOD_GROUPS.find((g) => g.key === moodGroup) ?? MOOD_GROUPS[0];
+
+  // Auto-switch to the group containing the externally selected mood (e.g. when editing)
+  useEffect(() => {
+    if (!mood) return;
+    const found = MOOD_GROUPS.find((g) => g.tags.includes(mood));
+    if (found && found.key !== moodGroup) setMoodGroup(found.key);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mood]);
+
+  const pickRandomMood = () => {
+    const all = MOOD_GROUPS.flatMap((g) => g.tags);
+    const next = all[Math.floor(Math.random() * all.length)];
+    onMoodChange(next);
+  };
+
+  const splitMood = (tag: string) => {
+    const idx = tag.indexOf(" ");
+    return idx === -1 ? { emoji: "", label: tag } : { emoji: tag.slice(0, idx), label: tag.slice(idx + 1) };
+  };
 
   return (
     <AnimatePresence>
@@ -656,44 +682,99 @@ function ComposeSheet({
                 {/* Mood tags */}
                 <div>
                   <div className="flex items-center justify-between mb-2.5">
-                    <p className="text-[11px] font-medium text-muted-foreground font-body uppercase tracking-wider">Tag your mood</p>
-                    {mood && (
-                      <motion.span
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="text-[10px] text-primary font-medium font-body"
-                      >
-                        ✓ Selected
-                      </motion.span>
-                    )}
+                    <div className="flex items-baseline gap-2">
+                      <p className="text-[11px] font-medium text-muted-foreground font-body uppercase tracking-wider">Tag your mood</p>
+                      {!mood && (
+                        <span className="text-[10px] text-muted-foreground/60 font-body">Pick one</span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={pickRandomMood}
+                      className="text-[10px] font-medium text-primary/80 hover:text-primary font-body flex items-center gap-1 transition-colors"
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      Surprise me
+                    </button>
                   </div>
-                  <motion.div layout className="flex flex-wrap gap-1.5">
-                    {visibleMoods.map((tag, i) => (
-                      <motion.button
-                        key={tag}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: i * 0.02 }}
-                        whileTap={{ scale: 0.92 }}
-                        onClick={() => onMoodChange(mood === tag ? null : tag)}
-                        className={`px-2.5 py-1.5 rounded-xl text-[11px] font-medium border transition-all duration-200 font-body ${
-                          mood === tag
-                            ? "border-primary/40 text-primary bg-primary/10 shadow-sm shadow-primary/10"
-                            : "border-border/30 text-muted-foreground bg-muted/10 hover:border-border/50 hover:bg-muted/30"
-                        }`}
+
+                  {/* Selected mood preview */}
+                  <AnimatePresence mode="wait">
+                    {mood && (
+                      <motion.div
+                        key={mood}
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="mb-2.5 flex items-center gap-2 px-3 py-2 rounded-xl bg-primary/8 border border-primary/25"
                       >
-                        {tag}
-                      </motion.button>
-                    ))}
-                    {!showAllMoods && (
-                      <motion.button
-                        whileTap={{ scale: 0.92 }}
-                        onClick={() => setShowAllMoods(true)}
-                        className="px-2.5 py-1.5 rounded-xl text-[11px] font-medium border border-dashed border-border/40 text-muted-foreground hover:text-foreground hover:border-border/60 transition-colors font-body"
-                      >
-                        +{MOOD_TAGS.length - 8} more
-                      </motion.button>
+                        <span className="text-base leading-none">{splitMood(mood).emoji}</span>
+                        <span className="text-xs font-medium text-foreground font-body flex-1">{splitMood(mood).label}</span>
+                        <button
+                          type="button"
+                          onClick={() => onMoodChange(null)}
+                          className="text-[10px] text-muted-foreground hover:text-foreground font-body"
+                        >
+                          Clear
+                        </button>
+                      </motion.div>
                     )}
+                  </AnimatePresence>
+
+                  {/* Category tabs */}
+                  <div className="flex gap-1 mb-2.5 overflow-x-auto scrollbar-none -mx-1 px-1 pb-1">
+                    {MOOD_GROUPS.map((g) => {
+                      const active = g.key === moodGroup;
+                      return (
+                        <button
+                          key={g.key}
+                          type="button"
+                          onClick={() => setMoodGroup(g.key)}
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium font-body whitespace-nowrap transition-all duration-200 border ${
+                            active
+                              ? "bg-foreground text-background border-foreground shadow-sm"
+                              : "bg-transparent text-muted-foreground border-border/40 hover:border-border/70 hover:text-foreground"
+                          }`}
+                        >
+                          <span className="text-sm leading-none">{g.icon}</span>
+                          {g.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Mood grid for active group */}
+                  <motion.div
+                    key={activeGroup.key}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="grid grid-cols-2 gap-1.5"
+                  >
+                    {activeGroup.tags.map((tag, i) => {
+                      const { emoji, label } = splitMood(tag);
+                      const selected = mood === tag;
+                      return (
+                        <motion.button
+                          key={tag}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: i * 0.03 }}
+                          whileTap={{ scale: 0.96 }}
+                          onClick={() => onMoodChange(selected ? null : tag)}
+                          className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all duration-200 font-body ${
+                            selected
+                              ? "border-primary/50 bg-primary/10 shadow-sm shadow-primary/10"
+                              : "border-border/30 bg-muted/10 hover:border-border/60 hover:bg-muted/30"
+                          }`}
+                        >
+                          <span className="text-base leading-none shrink-0">{emoji}</span>
+                          <span className={`text-[11px] font-medium truncate ${selected ? "text-foreground" : "text-muted-foreground"}`}>
+                            {label}
+                          </span>
+                        </motion.button>
+                      );
+                    })}
                   </motion.div>
                 </div>
 
