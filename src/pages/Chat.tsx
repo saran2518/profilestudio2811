@@ -195,7 +195,7 @@ export default function Chat() {
                           )}
                         </div>
                       </div>
-                      <span className="font-body text-[11px] text-muted-foreground max-w-[56px] truncate">
+                      <span className="font-body text-[11px] text-muted-foreground max-w-[64px] truncate">
                         {thread.name.split(" ")[0]}
                       </span>
                     </motion.button>
