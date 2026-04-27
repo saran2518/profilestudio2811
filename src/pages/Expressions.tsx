@@ -628,8 +628,14 @@ function ComposeSheet({
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
+                        setPhotoUploading(true);
                         const reader = new FileReader();
-                        reader.onload = (ev) => setPhoto(ev.target?.result as string);
+                        reader.onload = (ev) => {
+                          setTimeout(() => {
+                            setPhoto(ev.target?.result as string);
+                            setPhotoUploading(false);
+                          }, 600);
+                        };
                         reader.readAsDataURL(file);
                       }
                       e.target.value = "";
