@@ -1,7 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useChatThread } from "@/hooks/useChatStore";
-import { addMessage, removeThread, updateMessageInviteStatus, addVirtualDateInvite, ChatThread } from "@/lib/chatStore";
+import {
+  addMessage,
+  removeThread,
+  updateMessageInviteStatus,
+  addVirtualDateInvite,
+  updateMessageStatus,
+  setTyping,
+  ChatThread,
+  ChatMessage,
+} from "@/lib/chatStore";
 import { toast } from "sonner";
 import ReportDialog from "@/components/discover/ReportDialog";
 import BlockDialog from "@/components/discover/BlockDialog";
@@ -11,6 +20,8 @@ import VirtualDateInviteBubble from "./VirtualDateInviteBubble";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import MessageBubble from "./MessageBubble";
+import TypingIndicator from "./TypingIndicator";
+
 
 export default function ChatDetail({
   thread,
