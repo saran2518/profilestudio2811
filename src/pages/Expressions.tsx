@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -16,10 +16,24 @@ import {
   MoreVertical,
   Pencil,
   Trash2,
+  Loader2,
+  Inbox,
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { MOMENTS, MOOD_TAGS, type MomentData } from "@/lib/expressionsData";
 import InviteDialog from "@/components/discover/InviteDialog";
 import VibeDialog from "@/components/discover/VibeDialog";
@@ -33,11 +47,14 @@ import {
 
 const Expressions = () => {
   const navigate = useNavigate();
-  const [moments, setMoments] = useState<MomentData[]>(MOMENTS);
+  const [loading, setLoading] = useState(true);
+  const [moments, setMoments] = useState<MomentData[]>([]);
   const [showCompose, setShowCompose] = useState(false);
   const [composeDraft, setComposeDraft] = useState("");
   const [composeMood, setComposeMood] = useState<string | null>(null);
   const [vibed, setVibed] = useState<Set<string>>(new Set());
+  const [submitting, setSubmitting] = useState(false);
+  const [justSharedId, setJustSharedId] = useState<string | null>(null);
 
   // Vibe dialog state
   const [vibeDialogOpen, setVibeDialogOpen] = useState(false);
@@ -52,8 +69,25 @@ const Expressions = () => {
   const [editDraft, setEditDraft] = useState("");
   const [editMood, setEditMood] = useState<string | null>(null);
 
-  const handleDelete = (momentId: string) => {
-    setMoments((prev) => prev.filter((m) => m.id !== momentId));
+  // Delete confirmation state
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+  // Initial load simulation
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setMoments(MOMENTS);
+      setLoading(false);
+    }, 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  const requestDelete = (momentId: string) => setDeleteTargetId(momentId);
+
+  const confirmDelete = () => {
+    if (!deleteTargetId) return;
+    setMoments((prev) => prev.filter((m) => m.id !== deleteTargetId));
+    toast.success("Moment deleted");
+    setDeleteTargetId(null);
   };
 
   const handleEditStart = (moment: MomentData) => {
@@ -63,8 +97,10 @@ const Expressions = () => {
     setShowCompose(false);
   };
 
-  const handleEditSave = () => {
+  const handleEditSave = async () => {
     if (!editingMoment || !editDraft.trim() || !editMood) return;
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 500));
     setMoments((prev) =>
       prev.map((m) =>
         m.id === editingMoment.id
@@ -72,9 +108,11 @@ const Expressions = () => {
           : m
       )
     );
+    setSubmitting(false);
     setEditingMoment(null);
     setEditDraft("");
     setEditMood(null);
+    toast.success("Moment updated");
   };
 
   const [reportOpen, setReportOpen] = useState(false);
@@ -92,6 +130,7 @@ const Expressions = () => {
         next.add(vibeTarget.id);
         return next;
       });
+      toast.success(`Vibe sent to ${vibeTarget.name}`);
     }
     setVibeDialogOpen(false);
     setVibeTarget(null);
@@ -116,8 +155,10 @@ const Expressions = () => {
     setInviteOpen(true);
   };
 
-  const handleShareMoment = () => {
+  const handleShareMoment = async () => {
     if (!composeDraft.trim() || !composeMood) return;
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 600));
     const newMoment: MomentData = {
       id: `m-${Date.now()}`,
       name: "You",
@@ -133,6 +174,10 @@ const Expressions = () => {
     setComposeDraft("");
     setComposeMood(null);
     setShowCompose(false);
+    setSubmitting(false);
+    setJustSharedId(newMoment.id);
+    toast.success("Moment shared");
+    setTimeout(() => setJustSharedId(null), 2000);
   };
 
   return (
@@ -171,22 +216,29 @@ const Expressions = () => {
           </div>
         </motion.button>
 
-        {/* Moments Feed */}
-        {moments.map((moment, idx) => (
-          <MomentCard
-            key={moment.id}
-            moment={moment}
-            index={idx}
-            isVibed={vibed.has(moment.id)}
-            isOwn={moment.name === "You"}
-            onVibe={() => handleVibeClick(moment)}
-            onInvite={() => handleInvite(moment)}
-            onReport={() => setReportOpen(true)}
-            onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
-            onEdit={() => handleEditStart(moment)}
-            onDelete={() => handleDelete(moment.id)}
-          />
-        ))}
+        {/* Moments Feed: Loading / Empty / List */}
+        {loading ? (
+          <MomentsSkeleton />
+        ) : moments.length === 0 ? (
+          <EmptyMoments onShare={() => setShowCompose(true)} />
+        ) : (
+          moments.map((moment, idx) => (
+            <MomentCard
+              key={moment.id}
+              moment={moment}
+              index={idx}
+              isVibed={vibed.has(moment.id)}
+              isOwn={moment.name === "You"}
+              isJustShared={justSharedId === moment.id}
+              onVibe={() => handleVibeClick(moment)}
+              onInvite={() => handleInvite(moment)}
+              onReport={() => setReportOpen(true)}
+              onViewProfile={() => navigate(moment.profileIndex !== undefined ? `/discover?profile=${moment.profileIndex}` : "/discover")}
+              onEdit={() => handleEditStart(moment)}
+              onDelete={() => requestDelete(moment.id)}
+            />
+          ))
+        )}
       </div>
 
       {/* Compose Sheet */}
@@ -198,6 +250,7 @@ const Expressions = () => {
         mood={composeMood}
         onMoodChange={setComposeMood}
         onSubmit={handleShareMoment}
+        submitting={submitting}
       />
 
       {/* Edit Compose Sheet */}
@@ -209,6 +262,7 @@ const Expressions = () => {
         mood={editMood}
         onMoodChange={setEditMood}
         onSubmit={handleEditSave}
+        submitting={submitting}
         isEdit
       />
 
@@ -237,6 +291,24 @@ const Expressions = () => {
         profileName=""
       />
 
+      {/* Delete Confirmation */}
+      <AlertDialog open={!!deleteTargetId} onOpenChange={(open) => !open && setDeleteTargetId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this moment?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This moment will be permanently removed from your feed. This action can't be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-xl border-t border-border/30 z-30">
         <div className="flex items-center justify-around py-3 px-2">
@@ -251,12 +323,63 @@ const Expressions = () => {
   );
 };
 
+/* ── Moments Loading Skeleton ── */
+function MomentsSkeleton() {
+  return (
+    <div className="space-y-4" aria-label="Loading moments">
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="rounded-2xl border border-border/40 bg-card p-4 space-y-3">
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <div className="space-y-2 flex-1">
+              <Skeleton className="h-3 w-32" />
+              <Skeleton className="h-2.5 w-24" />
+            </div>
+          </div>
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-5/6" />
+          <Skeleton className="h-3 w-2/3" />
+          <Skeleton className="h-6 w-28 rounded-full" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Empty Moments State ── */
+function EmptyMoments({ onShare }: { onShare: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-2xl border border-border/40 bg-card/60 p-8 text-center"
+    >
+      <div className="mx-auto h-14 w-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: "var(--gradient-warm)" }}>
+        <Inbox className="h-6 w-6 text-primary-foreground" />
+      </div>
+      <h3 className="font-display text-base font-semibold text-foreground mb-1">No moments yet</h3>
+      <p className="text-xs text-muted-foreground font-body mb-5 leading-relaxed">
+        When you or others share something present, it'll appear here. Start by sharing a thought, photo, or mood.
+      </p>
+      <button
+        onClick={onShare}
+        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-semibold text-primary-foreground"
+        style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+      >
+        <Plus className="h-4 w-4" />
+        Share your first moment
+      </button>
+    </motion.div>
+  );
+}
+
 /* ── Moment Card ── */
 function MomentCard({
   moment,
   index,
   isVibed,
   isOwn,
+  isJustShared,
   onVibe,
   onInvite,
   onReport,
@@ -268,6 +391,7 @@ function MomentCard({
   index: number;
   isVibed: boolean;
   isOwn?: boolean;
+  isJustShared?: boolean;
   onVibe: () => void;
   onInvite: () => void;
   onReport: () => void;
@@ -280,7 +404,9 @@ function MomentCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
-      className="relative rounded-2xl border border-border/40 bg-card p-4"
+      className={`relative rounded-2xl border bg-card p-4 transition-colors ${
+        isJustShared ? "border-primary/60 ring-2 ring-primary/30" : "border-border/40"
+      }`}
       style={{ boxShadow: "var(--shadow-card)" }}
     >
       {/* User info + actions */}
@@ -394,6 +520,7 @@ function ComposeSheet({
   onMoodChange,
   onSubmit,
   isEdit,
+  submitting,
 }: {
   open: boolean;
   onClose: () => void;
@@ -403,8 +530,10 @@ function ComposeSheet({
   onMoodChange: (v: string | null) => void;
   onSubmit: () => void;
   isEdit?: boolean;
+  submitting?: boolean;
 }) {
   const [photo, setPhoto] = useState<string | null>(null);
+  const [photoUploading, setPhotoUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showAllMoods, setShowAllMoods] = useState(false);
   const visibleMoods = showAllMoods ? MOOD_TAGS : MOOD_TAGS.slice(0, 8);
@@ -471,8 +600,14 @@ function ComposeSheet({
                   />
                 </div>
 
-                {/* Photo preview */}
-                {photo && (
+                {/* Photo preview / uploading */}
+                {photoUploading && (
+                  <div className="rounded-2xl border border-border/30 bg-muted/10 h-36 flex items-center justify-center gap-2 text-muted-foreground text-xs font-body">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Uploading photo…
+                  </div>
+                )}
+                {photo && !photoUploading && (
                   <div className="relative rounded-2xl overflow-hidden">
                     <img src={photo} alt="Attached" className="w-full h-36 object-cover rounded-2xl" />
                     <button
@@ -493,8 +628,14 @@ function ComposeSheet({
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
+                        setPhotoUploading(true);
                         const reader = new FileReader();
-                        reader.onload = (ev) => setPhoto(ev.target?.result as string);
+                        reader.onload = (ev) => {
+                          setTimeout(() => {
+                            setPhoto(ev.target?.result as string);
+                            setPhotoUploading(false);
+                          }, 600);
+                        };
                         reader.readAsDataURL(file);
                       }
                       e.target.value = "";
@@ -560,16 +701,25 @@ function ComposeSheet({
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   onClick={onSubmit}
-                  disabled={!draft.trim() || !mood}
-                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-body mt-1"
+                  disabled={!draft.trim() || !mood || submitting || photoUploading}
+                  className="w-full py-3 rounded-2xl text-sm font-semibold text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-body mt-1"
                   style={{
                     background: draft.trim() && mood ? "var(--gradient-warm)" : "hsl(var(--muted))",
                     boxShadow: draft.trim() && mood ? "var(--shadow-warm)" : "none",
                     color: draft.trim() && mood ? undefined : "hsl(var(--muted-foreground))",
                   }}
                 >
-                  <Send className="h-4 w-4" />
-                  {isEdit ? "Save Changes" : "Share Moment"}
+                  {submitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      {isEdit ? "Saving…" : "Sharing…"}
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      {isEdit ? "Save Changes" : "Share Moment"}
+                    </>
+                  )}
                 </motion.button>
               </div>
             </div>
