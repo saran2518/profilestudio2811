@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, CheckCheck, Loader2, AlertCircle, RotateCw } from "lucide-react";
+import { Check, Loader2, AlertCircle, RotateCw } from "lucide-react";
 import { ChatMessage } from "@/lib/chatStore";
 
 interface MessageBubbleProps {
