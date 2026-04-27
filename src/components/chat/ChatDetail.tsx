@@ -40,10 +40,30 @@ export default function ChatDetail({
   const fresh = useChatThread(thread.id);
   const messages = fresh?.messages || thread.messages;
 
-  // Auto-scroll to bottom on new messages
+  // Auto-scroll to bottom on new messages or typing indicator
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length]);
+  }, [messages.length, fresh?.typing]);
+
+  // Simulate the full send lifecycle: sending → sent → delivered → read,
+  // with a small chance of failure so users can hit retry.
+  const simulateLifecycle = (msgId: string, willFail = false) => {
+    if (willFail) {
+      window.setTimeout(() => updateMessageStatus(thread.id, msgId, "failed"), 900);
+      return;
+    }
+    window.setTimeout(() => updateMessageStatus(thread.id, msgId, "sent"), 450);
+    window.setTimeout(() => updateMessageStatus(thread.id, msgId, "delivered"), 1100);
+    window.setTimeout(() => {
+      updateMessageStatus(thread.id, msgId, "read");
+      // Then simulate partner typing + a friendly auto-reply
+      setTyping(thread.id, true);
+      window.setTimeout(() => {
+        setTyping(thread.id, false);
+        addMessage(thread.id, "Got it! 🙂", "them");
+      }, 1800);
+    }, 2200);
+  };
 
   const handleMenuAction = (action: "disconnect" | "block" | "report") => {
     setMenuOpen(false);
