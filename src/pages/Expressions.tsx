@@ -668,23 +668,28 @@ function ComposeSheet({
                     )}
                   </div>
                   <motion.div layout className="flex flex-wrap gap-1.5">
-                    {visibleMoods.map((tag, i) => (
-                      <motion.button
-                        key={tag}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: i * 0.02 }}
-                        whileTap={{ scale: 0.92 }}
-                        onClick={() => onMoodChange(mood === tag ? null : tag)}
-                        className={`px-2.5 py-1.5 rounded-xl text-[11px] font-medium border transition-all duration-200 font-body ${
-                          mood === tag
-                            ? "border-primary/40 text-primary bg-primary/10 shadow-sm shadow-primary/10"
-                            : "border-border/30 text-muted-foreground bg-muted/10 hover:border-border/50 hover:bg-muted/30"
-                        }`}
-                      >
-                        {tag}
-                      </motion.button>
-                    ))}
+                    {visibleMoods.map((tag, i) => {
+                      const Icon = tag.icon;
+                      const isSelected = mood === tag.label;
+                      return (
+                        <motion.button
+                          key={tag.label}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: i * 0.02 }}
+                          whileTap={{ scale: 0.92 }}
+                          onClick={() => onMoodChange(isSelected ? null : tag.label)}
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-medium border transition-all duration-200 font-body ${
+                            isSelected
+                              ? "border-primary/40 text-primary bg-primary/10 shadow-sm shadow-primary/10"
+                              : "border-border/30 text-muted-foreground bg-muted/10 hover:border-border/50 hover:bg-muted/30"
+                          }`}
+                        >
+                          <Icon className="h-3.5 w-3.5" />
+                          {tag.label}
+                        </motion.button>
+                      );
+                    })}
                     {!showAllMoods && (
                       <motion.button
                         whileTap={{ scale: 0.92 }}
