@@ -8,6 +8,7 @@ import {
   Users,
   Sparkles,
   Coffee,
+  Send,
 } from "lucide-react";
 import { useChatThreads } from "@/hooks/useChatStore";
 import { ChatThread } from "@/lib/chatStore";
@@ -79,7 +80,7 @@ function ChatList({
                   {thread.source === "vibe" ? (
                     <HeartPulse className="h-2.5 w-2.5" />
                   ) : (
-                    <Coffee className="h-2.5 w-2.5" />
+                    <Send className="h-2.5 w-2.5" />
                   )}
                   {thread.source}
                 </span>
@@ -193,7 +194,7 @@ export default function Chat() {
                           {thread.source === "vibe" ? (
                             <HeartPulse className="h-2.5 w-2.5 text-primary-foreground" />
                           ) : (
-                            <Coffee className="h-2.5 w-2.5 text-primary-foreground" />
+                            <Send className="h-2.5 w-2.5 text-primary-foreground" />
                           )}
                         </div>
                       </div>

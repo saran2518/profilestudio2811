@@ -18,6 +18,7 @@ import {
   MapPin,
   Shield,
   ArrowLeft,
+  Send,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
@@ -643,7 +644,7 @@ export default function Interests() {
               value="invites"
               className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
             >
-              <Coffee className="h-3.5 w-3.5" />
+              <Send className="h-3.5 w-3.5" />
               Invites
               {inviteCount > 0 && (
                 <span
