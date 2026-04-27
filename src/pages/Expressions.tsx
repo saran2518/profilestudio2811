@@ -546,7 +546,7 @@ function ComposeSheet({
   const activeGroup = MOOD_GROUPS.find((g) => g.key === moodGroup) ?? MOOD_GROUPS[0];
 
   // Auto-switch to the group containing the externally selected mood (e.g. when editing)
-  React.useEffect(() => {
+  useEffect(() => {
     if (!mood) return;
     const found = MOOD_GROUPS.find((g) => g.tags.includes(mood));
     if (found && found.key !== moodGroup) setMoodGroup(found.key);
