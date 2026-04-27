@@ -250,6 +250,7 @@ const Expressions = () => {
         mood={composeMood}
         onMoodChange={setComposeMood}
         onSubmit={handleShareMoment}
+        submitting={submitting}
       />
 
       {/* Edit Compose Sheet */}
@@ -261,6 +262,7 @@ const Expressions = () => {
         mood={editMood}
         onMoodChange={setEditMood}
         onSubmit={handleEditSave}
+        submitting={submitting}
         isEdit
       />
 
