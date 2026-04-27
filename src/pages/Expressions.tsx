@@ -535,14 +535,22 @@ function ComposeSheet({
   const [photo, setPhoto] = useState<string | null>(null);
   const [photoUploading, setPhotoUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const TOP_MOODS = [
+    "✨ Little joys",
+    "😊 Feeling good",
+    "☕ Coffee & thoughts",
+    "🎨 Creative spark",
+    "💭 Random thoughts",
+  ];
   const MOOD_GROUPS: { key: string; label: string; icon: string; tags: string[] }[] = [
-    { key: "vibe", label: "Vibe", icon: "✨", tags: ["✨ Little joys", "🔥 Spontaneous", "💫 Late night thoughts", "🌙 Can't sleep"] },
-    { key: "feels", label: "Feels", icon: "🥰", tags: ["😊 Feeling good", "🥰 In my feels", "🙏 Grateful today", "💪 Personal win"] },
-    { key: "creative", label: "Creative", icon: "🎨", tags: ["🎨 Creative spark", "📸 Captured a moment", "🎵 Lost in music", "📚 Currently reading"] },
-    { key: "cozy", label: "Cozy", icon: "☕", tags: ["☕ Coffee & thoughts", "🌧️ Rainy day mood", "🍷 Cozy evening", "🌸 Self-care moment"] },
-    { key: "life", label: "Life", icon: "🌅", tags: ["💭 Random thoughts", "🌅 Golden hour", "✈️ On the move", "🧘 Finding calm"] },
+    { key: "vibe", label: "Vibe", icon: "✨", tags: ["🔥 Spontaneous", "💫 Late night thoughts", "🌙 Can't sleep"] },
+    { key: "feels", label: "Feels", icon: "🥰", tags: ["🥰 In my feels", "🙏 Grateful today", "💪 Personal win"] },
+    { key: "creative", label: "Creative", icon: "🎨", tags: ["📸 Captured a moment", "🎵 Lost in music", "📚 Currently reading"] },
+    { key: "cozy", label: "Cozy", icon: "☕", tags: ["🌧️ Rainy day mood", "🍷 Cozy evening", "🌸 Self-care moment"] },
+    { key: "life", label: "Life", icon: "🌅", tags: ["🌅 Golden hour", "✈️ On the move", "🧘 Finding calm"] },
   ];
   const [moodGroup, setMoodGroup] = useState<string>(MOOD_GROUPS[0].key);
+  const [moreOpen, setMoreOpen] = useState(false);
   const activeGroup = MOOD_GROUPS.find((g) => g.key === moodGroup) ?? MOOD_GROUPS[0];
 
   // Auto-switch to the group containing the externally selected mood (e.g. when editing)
