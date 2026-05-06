@@ -793,14 +793,13 @@ const MagicScreen = (p: MagicProps) => {
   );
 };
 
-// ─── ActiveFilterRow ────────────────────────────────────────────────────────
-const ActiveFilterRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
-  <div className="flex items-center gap-2">
-    <span className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground/70 w-16 shrink-0">
-      {label}
-    </span>
-    <div className="flex items-center gap-1.5 flex-wrap flex-1">{children}</div>
-  </div>
+// ─── FilterChip (compact label+value chip) ──────────────────────────────────
+const FilterChip = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
+  <span className="inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-card border border-border/60 shadow-sm">
+    <span className="text-accent">{icon}</span>
+    <span className="text-[9px] font-body font-bold tracking-[0.1em] uppercase text-muted-foreground/80">{label}</span>
+    <span className="text-[11px] font-body font-semibold text-foreground tabular-nums">{value}</span>
+  </span>
 );
 
 // ─── Pill ───────────────────────────────────────────────────────────────────
