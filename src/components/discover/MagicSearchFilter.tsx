@@ -795,6 +795,16 @@ const MagicScreen = (p: MagicProps) => {
   );
 };
 
+// ─── ActiveFilterRow ────────────────────────────────────────────────────────
+const ActiveFilterRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div className="flex items-center gap-2">
+    <span className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground/70 w-16 shrink-0">
+      {label}
+    </span>
+    <div className="flex items-center gap-1.5 flex-wrap flex-1">{children}</div>
+  </div>
+);
+
 // ─── Pill ───────────────────────────────────────────────────────────────────
 const Pill = ({ children }: { children: React.ReactNode }) => (
   <span
