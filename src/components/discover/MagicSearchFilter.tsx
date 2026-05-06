@@ -736,38 +736,36 @@ const MagicScreen = (p: MagicProps) => {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="rounded-2xl border border-border/40 bg-secondary/40 px-4 py-3.5">
-                <div className="flex items-center justify-between mb-2.5">
-                  <h4 className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/80">
-                    Active filters
-                  </h4>
+              <div className="rounded-2xl border border-border/40 bg-gradient-to-br from-secondary/60 to-secondary/20 px-3.5 py-3 backdrop-blur-md">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-1.5">
+                    <Sparkles className="h-3 w-3 text-accent" fill="currentColor" />
+                    <h4 className="text-[10px] font-body font-semibold tracking-[0.16em] uppercase text-muted-foreground/90">
+                      Active
+                    </h4>
+                    <span className="h-4 min-w-[16px] px-1 rounded-full bg-accent/15 text-accent text-[9px] font-bold flex items-center justify-center">
+                      {[p.isAgeSet, p.isDistSet, p.isGenderSet, p.isHeightSet].filter(Boolean).length}
+                    </span>
+                  </div>
                   <button
                     onClick={p.handleClearAll}
-                    className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-[10px] font-body font-semibold tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Clear all
+                    Clear
                   </button>
                 </div>
-                <div className="space-y-2">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   {p.isAgeSet && (
-                    <ActiveFilterRow label="Age">
-                      <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>
-                    </ActiveFilterRow>
+                    <FilterChip icon={<Calendar className="h-2.5 w-2.5" />} label="Age" value={`${p.ageRange[0]}–${p.ageRange[1]}`} />
                   )}
                   {p.isDistSet && (
-                    <ActiveFilterRow label="Distance">
-                      <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>
-                    </ActiveFilterRow>
+                    <FilterChip icon={<MapPin className="h-2.5 w-2.5" />} label="Dist" value={`${p.distance[0]}–${p.distance[1]}km`} />
                   )}
                   {p.isGenderSet && (
-                    <ActiveFilterRow label="Gender">
-                      {p.gender.map((g) => <Pill key={g}>{g}</Pill>)}
-                    </ActiveFilterRow>
+                    <FilterChip icon={<User className="h-2.5 w-2.5" />} label="Gender" value={p.gender.join(", ")} />
                   )}
                   {p.isHeightSet && (
-                    <ActiveFilterRow label="Height">
-                      <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>
-                    </ActiveFilterRow>
+                    <FilterChip icon={<Ruler className="h-2.5 w-2.5" />} label="Height" value={`${p.heightRange[0]}–${p.heightRange[1]}cm`} />
                   )}
                 </div>
               </div>
