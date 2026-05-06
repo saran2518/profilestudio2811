@@ -748,11 +748,27 @@ const MagicScreen = (p: MagicProps) => {
                     Clear all
                   </button>
                 </div>
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {p.isAgeSet && <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>}
-                  {p.isDistSet && <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>}
-                  {p.isGenderSet && <Pill>{p.gender.join(" · ")}</Pill>}
-                  {p.isHeightSet && <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>}
+                <div className="space-y-2">
+                  {p.isAgeSet && (
+                    <ActiveFilterRow label="Age">
+                      <Pill>{p.ageRange[0]}–{p.ageRange[1]} yrs</Pill>
+                    </ActiveFilterRow>
+                  )}
+                  {p.isDistSet && (
+                    <ActiveFilterRow label="Distance">
+                      <Pill>{p.distance[0]}–{p.distance[1]} km</Pill>
+                    </ActiveFilterRow>
+                  )}
+                  {p.isGenderSet && (
+                    <ActiveFilterRow label="Gender">
+                      {p.gender.map((g) => <Pill key={g}>{g}</Pill>)}
+                    </ActiveFilterRow>
+                  )}
+                  {p.isHeightSet && (
+                    <ActiveFilterRow label="Height">
+                      <Pill>{p.heightRange[0]}–{p.heightRange[1]} cm</Pill>
+                    </ActiveFilterRow>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -778,6 +794,16 @@ const MagicScreen = (p: MagicProps) => {
     </>
   );
 };
+
+// ─── ActiveFilterRow ────────────────────────────────────────────────────────
+const ActiveFilterRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div className="flex items-center gap-2">
+    <span className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground/70 w-16 shrink-0">
+      {label}
+    </span>
+    <div className="flex items-center gap-1.5 flex-wrap flex-1">{children}</div>
+  </div>
+);
 
 // ─── Pill ───────────────────────────────────────────────────────────────────
 const Pill = ({ children }: { children: React.ReactNode }) => (
