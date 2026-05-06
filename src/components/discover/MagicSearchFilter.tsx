@@ -793,12 +793,16 @@ const MagicScreen = (p: MagicProps) => {
   );
 };
 
-// ─── FilterChip (compact label+value chip) ──────────────────────────────────
+// ─── FilterChip (compact icon+value chip) ───────────────────────────────────
 const FilterChip = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (
-  <span className="inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-card border border-border/60 shadow-sm">
-    <span className="text-accent">{icon}</span>
-    <span className="text-[9px] font-body font-bold tracking-[0.1em] uppercase text-muted-foreground/80">{label}</span>
-    <span className="text-[11px] font-body font-semibold text-foreground tabular-nums">{value}</span>
+  <span
+    aria-label={`${label}: ${value}`}
+    className="inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-card/90 border border-border/60 backdrop-blur-sm shadow-sm"
+  >
+    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/10 text-accent">
+      {icon}
+    </span>
+    <span className="text-[11px] font-body font-semibold text-foreground tabular-nums tracking-tight">{value}</span>
   </span>
 );
 
