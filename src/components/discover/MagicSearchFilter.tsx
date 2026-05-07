@@ -569,7 +569,7 @@ const MagicScreen = (p: MagicProps) => {
     <>
       {/* Warm gradient header block */}
       <div
-        className="relative px-5 pt-4 pb-5 overflow-hidden"
+        className="relative px-5 pt-4 pb-4 overflow-hidden"
         style={{ background: "var(--gradient-gold)" }}
       >
         {/* Decorative soft glow */}
