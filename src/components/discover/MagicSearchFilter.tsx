@@ -569,7 +569,7 @@ const MagicScreen = (p: MagicProps) => {
     <>
       {/* Warm gradient header block */}
       <div
-        className="relative px-5 pt-4 pb-5 overflow-hidden"
+        className="relative px-5 pt-4 pb-4 overflow-hidden"
         style={{ background: "var(--gradient-gold)" }}
       >
         {/* Decorative soft glow */}
@@ -591,8 +591,8 @@ const MagicScreen = (p: MagicProps) => {
         </div>
       </div>
 
-      {/* Input area — elevated card lifted into the gold header */}
-      <div className="relative px-5 -mt-3 z-10">
+      {/* Input area — separated card below the header */}
+      <div className="relative px-5 pt-4 z-10">
         <div
           className="relative rounded-2xl bg-card border border-border/40 overflow-hidden"
           style={{ boxShadow: "var(--shadow-elegant)" }}
