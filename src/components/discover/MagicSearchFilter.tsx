@@ -569,7 +569,7 @@ const MagicScreen = (p: MagicProps) => {
     <>
       {/* Warm gradient header block */}
       <div
-        className="relative px-5 pt-4 pb-7 overflow-hidden"
+        className="relative px-5 pt-4 pb-5 overflow-hidden"
         style={{ background: "var(--gradient-gold)" }}
       >
         {/* Decorative soft glow */}
@@ -589,15 +589,16 @@ const MagicScreen = (p: MagicProps) => {
           </div>
           <span className="h-9 w-9" />
         </div>
+      </div>
 
-        <p className="relative mt-6 text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-white/80">
+      {/* Input area (neutral background) */}
+      <div className="px-5 pt-5 pb-1 bg-background">
+        <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-muted-foreground/80">
           Describe your kind of person
         </p>
 
-        {/* Input with soft halo */}
         <div className="relative mt-2">
-          <div className="absolute -inset-px rounded-2xl bg-white/10 blur-md" />
-          <div className="relative rounded-2xl bg-white/18 border border-white/30 px-4 pt-3.5 pb-2.5 backdrop-blur-md">
+          <div className="relative rounded-2xl bg-card border border-border/50 px-4 pt-3.5 pb-2.5" style={{ boxShadow: "var(--shadow-card)" }}>
             <textarea
               ref={inputRef}
               value={p.prompt}
@@ -605,24 +606,23 @@ const MagicScreen = (p: MagicProps) => {
               placeholder="A creative soul who loves the outdoors and morning coffee…"
               rows={2}
               maxLength={140}
-              className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-white placeholder:text-white/55 leading-relaxed"
+              className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-foreground placeholder:text-muted-foreground/60 leading-relaxed"
             />
-            {/* Blinking cursor when empty */}
             {p.prompt.length === 0 && (
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.7, repeat: Infinity, repeatType: "reverse" }}
-                className="absolute top-3.5 left-4 inline-block w-[2px] h-4 bg-white"
+                className="absolute top-3.5 left-4 inline-block w-[2px] h-4 bg-accent"
               />
             )}
             <div className="flex items-center justify-between pt-1">
-              <span className="text-[10px] font-body text-white/60 tabular-nums">
+              <span className="text-[10px] font-body text-muted-foreground/70 tabular-nums">
                 {p.prompt.length}/140
               </span>
               {p.prompt.length > 0 && (
                 <button
                   onClick={() => p.setPrompt("")}
-                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-white/80 hover:text-white transition-colors"
+                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Clear
                 </button>
@@ -637,7 +637,7 @@ const MagicScreen = (p: MagicProps) => {
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="relative mt-2 text-[11px] font-body text-destructive-foreground bg-destructive/80 px-3 py-1.5 rounded-lg"
+              className="mt-2 text-[11px] font-body text-destructive-foreground bg-destructive/80 px-3 py-1.5 rounded-lg"
             >
               That phrase is not allowed. Please rephrase respectfully.
             </motion.p>
