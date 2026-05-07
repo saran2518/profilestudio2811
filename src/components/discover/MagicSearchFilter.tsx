@@ -591,14 +591,19 @@ const MagicScreen = (p: MagicProps) => {
         </div>
       </div>
 
-      {/* Input area (neutral background) */}
-      <div className="px-5 pt-5 pb-1 bg-background">
-        <p className="text-[10px] font-body font-semibold tracking-[0.18em] uppercase text-muted-foreground/80">
-          Describe your kind of person
-        </p>
+      {/* Input area — elevated card lifted into the gold header */}
+      <div className="relative px-5 -mt-3 z-10">
+        <div
+          className="relative rounded-2xl bg-card border border-border/40 overflow-hidden"
+          style={{ boxShadow: "var(--shadow-elegant)" }}
+        >
+          <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-primary/10" />
+          <Sparkles className="absolute top-3 right-3 h-3.5 w-3.5 text-primary/50" fill="currentColor" />
 
-        <div className="relative mt-2">
-          <div className="relative rounded-2xl bg-card border border-border/50 px-4 pt-3.5 pb-2.5" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div className="relative px-4 pt-3.5 pb-2.5">
+            <p className="text-[9px] font-body font-bold tracking-[0.2em] uppercase text-accent/80 mb-1.5">
+              Describe your kind of person
+            </p>
             <textarea
               ref={inputRef}
               value={p.prompt}
@@ -606,25 +611,18 @@ const MagicScreen = (p: MagicProps) => {
               placeholder="A creative soul who loves the outdoors and morning coffee…"
               rows={2}
               maxLength={140}
-              className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-foreground placeholder:text-muted-foreground/60 leading-relaxed"
+              className="w-full bg-transparent resize-none outline-none font-display italic text-[15px] text-foreground placeholder:text-muted-foreground/50 leading-relaxed"
             />
-            {p.prompt.length === 0 && (
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.7, repeat: Infinity, repeatType: "reverse" }}
-                className="absolute top-3.5 left-4 inline-block w-[2px] h-4 bg-accent"
-              />
-            )}
-            <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center justify-between pt-1.5 mt-1 border-t border-border/40">
               <span className="text-[10px] font-body text-muted-foreground/70 tabular-nums">
-                {p.prompt.length}/140
+                {p.prompt.length}<span className="text-muted-foreground/40">/140</span>
               </span>
               {p.prompt.length > 0 && (
                 <button
                   onClick={() => p.setPrompt("")}
-                  className="text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1 text-[10px] font-body font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-accent transition-colors"
                 >
-                  Clear
+                  <X className="h-3 w-3" /> Clear
                 </button>
               )}
             </div>
@@ -637,7 +635,7 @@ const MagicScreen = (p: MagicProps) => {
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-2 text-[11px] font-body text-destructive-foreground bg-destructive/80 px-3 py-1.5 rounded-lg"
+              className="mt-2 text-[11px] font-body text-destructive-foreground bg-destructive/85 px-3 py-1.5 rounded-lg"
             >
               That phrase is not allowed. Please rephrase respectfully.
             </motion.p>
@@ -649,13 +647,19 @@ const MagicScreen = (p: MagicProps) => {
       <div className="flex-1 overflow-y-auto px-5 pt-5 pb-4 space-y-5">
         {/* Search Inspirations */}
         <div>
-          <p className="text-[12px] text-muted-foreground mb-2">Tap an inspiration or write in your own words</p>
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="font-display italic text-[16px] text-foreground">Search Inspirations</h4>
-            <div className="flex items-center gap-2">
+          <div className="flex items-end justify-between mb-3">
+            <div>
+              <p className="text-[10px] font-body font-bold tracking-[0.18em] uppercase text-muted-foreground/70">
+                Inspiration
+              </p>
+              <h4 className="font-display italic text-[18px] text-foreground leading-tight">
+                Not sure what to say?
+              </h4>
+            </div>
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => p.goToPage((p.page - 1 + PAGES.length) % PAGES.length)}
-                className="h-7 w-7 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all active:scale-90"
+                className="h-7 w-7 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-accent/40 transition-all active:scale-90"
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
               </button>
@@ -665,14 +669,14 @@ const MagicScreen = (p: MagicProps) => {
                     key={i}
                     onClick={() => p.goToPage(i)}
                     className={`h-1.5 rounded-full transition-all ${
-                      i === p.page ? "w-4 bg-accent" : "w-1.5 bg-border"
+                      i === p.page ? "w-4 bg-accent" : "w-1.5 bg-border hover:bg-muted-foreground/40"
                     }`}
                   />
                 ))}
               </div>
               <button
                 onClick={() => p.goToPage((p.page + 1) % PAGES.length)}
-                className="h-7 w-7 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground transition-all active:scale-90"
+                className="h-7 w-7 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-accent/40 transition-all active:scale-90"
               >
                 <ChevronRight className="h-3.5 w-3.5" />
               </button>
@@ -682,33 +686,48 @@ const MagicScreen = (p: MagicProps) => {
           <motion.div
             animate={{ opacity: p.pageVisible ? 1 : 0 }}
             transition={{ duration: 0.18 }}
-            className="space-y-2"
+            className="space-y-2.5"
           >
             {PAGES[p.page].map((item, i) => {
               const selected = p.prompt === item.quote;
               return (
-                <button
+                <motion.button
                   key={`${p.page}-${i}`}
+                  whileTap={{ scale: 0.985 }}
                   onClick={() => p.setPrompt(item.quote)}
-                  className={`w-full text-left rounded-2xl bg-card border px-4 py-3.5 transition-all active:scale-[0.99] flex items-start gap-3 ${
-                    selected ? "border-accent" : "border-border/50 hover:border-border"
+                  className={`relative w-full text-left rounded-2xl px-4 py-3.5 transition-all overflow-hidden ${
+                    selected
+                      ? "bg-gradient-to-br from-accent/10 via-card to-primary/5 border border-accent/40"
+                      : "bg-card border border-border/50 hover:border-primary/30"
                   }`}
-                  style={{ boxShadow: "var(--shadow-card)" }}
+                  style={{ boxShadow: selected ? "var(--shadow-warm)" : "var(--shadow-card)" }}
                 >
-                  <div className={`mt-0.5 h-5 w-5 rounded-full flex items-center justify-center shrink-0 transition-all ${
-                    selected ? "bg-accent text-accent-foreground" : "bg-secondary text-muted-foreground/60"
-                  }`}>
-                    {selected ? <Check className="h-3 w-3" strokeWidth={3} /> : <Sparkles className="h-2.5 w-2.5" />}
+                  <span
+                    className={`pointer-events-none absolute -top-2 -left-1 font-display italic text-[56px] leading-none select-none transition-colors ${
+                      selected ? "text-accent/15" : "text-muted-foreground/10"
+                    }`}
+                  >
+                    “
+                  </span>
+                  <div className="relative flex items-start gap-3 pl-4">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display italic text-[14px] text-foreground leading-snug">
+                        {item.quote}
+                      </p>
+                      <p className="mt-2 text-[9px] font-body font-bold tracking-[0.16em] uppercase text-muted-foreground/70">
+                        {item.tag}
+                      </p>
+                    </div>
+                    <div
+                      className={`mt-0.5 h-6 w-6 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                        selected ? "text-primary-foreground" : "bg-secondary text-muted-foreground/60"
+                      }`}
+                      style={selected ? { background: "var(--gradient-warm)" } : undefined}
+                    >
+                      {selected ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : <Sparkles className="h-3 w-3" />}
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="font-display italic text-[14px] text-foreground leading-snug">
-                      &ldquo;{item.quote}&rdquo;
-                    </p>
-                    <p className="mt-1.5 text-[10px] font-body font-semibold tracking-[0.14em] uppercase text-muted-foreground/70">
-                      {item.tag}
-                    </p>
-                  </div>
-                </button>
+                </motion.button>
               );
             })}
           </motion.div>
