@@ -288,8 +288,8 @@ const HubScreen = (p: HubProps) => {
             {/* Top row: eyebrow + arrow */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Sparkles className="h-3.5 w-3.5 text-white" />
-                <span className="font-body text-[10px] uppercase tracking-[0.22em] text-white/85">
+                <Sparkles className="h-4 w-4 text-white" />
+                <span className="font-display text-[18px] tracking-tight text-white">
                   Magic Search
                 </span>
               </div>
@@ -299,11 +299,9 @@ const HubScreen = (p: HubProps) => {
             </div>
 
             {/* Headline */}
-            <h3 className="mt-3 font-display text-[20px] leading-[1.2] text-white">
-              Find someone who aligns
-              <br />
-              with your <span className="italic">world.</span>
-            </h3>
+            <p className="mt-2 font-body text-[12px] leading-snug text-white/85">
+              Find someone who aligns with your <span className="italic text-white">world.</span>
+            </p>
 
             {/* Footer chip */}
             <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-2.5 py-1">
