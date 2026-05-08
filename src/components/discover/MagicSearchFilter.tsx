@@ -270,14 +270,6 @@ const HubScreen = (p: HubProps) => {
 
       {/* Scrollable body */}
       <div className="flex-1 overflow-y-auto px-5 pt-3 pb-4 space-y-4">
-        {/* Eyebrow + heading */}
-        <div className="space-y-1.5 pb-1">
-          <h3 className="font-display text-[28px] leading-tight text-foreground">
-            Find someone who aligns with your{" "}
-            <span className="italic text-accent">world.</span>
-          </h3>
-        </div>
-
         {/* Magic Search entry card */}
         <button
           onClick={p.onOpenMagic}
@@ -288,16 +280,20 @@ const HubScreen = (p: HubProps) => {
           }}
         >
           <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
               <Star className="h-4 w-4 text-white" fill="currentColor" />
             </div>
-          <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
+            <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
             <div className="h-7 w-7 rounded-full border border-white/25 flex items-center justify-center text-white/85">
               <ChevronRight className="h-3.5 w-3.5" />
             </div>
           </div>
-          <p className="mt-2.5 font-body text-[12px] text-white/75 leading-relaxed pl-12">
-            Explore. Discover. Connect
+          <p className="mt-3 font-display text-[18px] leading-tight text-white pl-12">
+            Find someone who aligns with your{" "}
+            <span className="italic text-white/95">world.</span>
+          </p>
+          <p className="mt-1.5 font-body text-[11px] uppercase tracking-[0.18em] text-white/70 pl-12">
+            Explore · Discover · Connect
           </p>
         </button>
 
