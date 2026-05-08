@@ -270,44 +270,55 @@ const HubScreen = (p: HubProps) => {
 
       {/* Scrollable body */}
       <div className="flex-1 overflow-y-auto px-5 pt-3 pb-4 space-y-4">
-        {/* Magic Search entry card */}
+        {/* Magic Search entry card — dark premium variant */}
         <motion.button
           onClick={p.onOpenMagic}
           whileTap={{ scale: 0.985 }}
-          className="relative w-full text-left rounded-[22px] overflow-hidden group"
+          className="relative w-full text-left rounded-[22px] p-[1.5px] group"
           style={{
             background: "var(--gradient-gold)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
-          {/* Decorative glow */}
-          <div className="pointer-events-none absolute -top-12 -right-10 h-36 w-36 rounded-full bg-white/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-10 -left-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+          <div className="relative rounded-[20px] overflow-hidden bg-[hsl(var(--foreground))] px-5 py-4">
+            {/* Ambient gold glows */}
+            <div className="pointer-events-none absolute -top-16 -right-12 h-40 w-40 rounded-full opacity-50 blur-3xl"
+              style={{ background: "var(--gradient-gold)" }} />
+            <div className="pointer-events-none absolute -bottom-14 -left-10 h-32 w-32 rounded-full opacity-25 blur-2xl"
+              style={{ background: "var(--gradient-gold)" }} />
 
-          <div className="relative px-5 py-4">
-            {/* Top row: eyebrow + arrow */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-white" />
-                <span className="font-display text-[18px] tracking-tight text-white">
+            <div className="relative flex items-center gap-3.5">
+              {/* Gold orb */}
+              <div
+                className="relative h-12 w-12 rounded-2xl flex items-center justify-center shrink-0"
+                style={{ background: "var(--gradient-gold)", boxShadow: "var(--shadow-warm)" }}
+              >
+                <Sparkles className="h-5 w-5 text-white" />
+                <motion.div
+                  className="absolute inset-0 rounded-2xl ring-1 ring-white/30"
+                  animate={{ opacity: [0.3, 0.7, 0.3] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+
+              {/* Text block */}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-display text-[20px] leading-none tracking-tight text-background">
                   Magic Search
-                </span>
+                </h3>
+                <p className="mt-1 font-body text-[12px] leading-snug text-background/65">
+                  Find someone who aligns with your{" "}
+                  <span className="italic text-accent">world.</span>
+                </p>
               </div>
-              <div className="h-7 w-7 rounded-full bg-white/15 border border-white/25 flex items-center justify-center text-white transition-transform group-hover:translate-x-0.5">
-                <ArrowRight className="h-3.5 w-3.5" />
+
+              {/* Arrow */}
+              <div
+                className="h-8 w-8 rounded-full flex items-center justify-center text-white shrink-0 transition-transform group-hover:translate-x-0.5"
+                style={{ background: "var(--gradient-gold)" }}
+              >
+                <ArrowRight className="h-4 w-4" />
               </div>
-            </div>
-
-            {/* Headline */}
-            <p className="mt-2 font-body text-[12px] leading-snug text-white/85">
-              Find someone who aligns with your <span className="italic text-white">world.</span>
-            </p>
-
-            {/* Footer chip */}
-            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-2.5 py-1">
-              <span className="font-body text-[10px] tracking-[0.14em] uppercase text-white/90">
-                Explore · Discover · Connect
-              </span>
             </div>
           </div>
         </motion.button>
