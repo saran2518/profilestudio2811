@@ -271,31 +271,48 @@ const HubScreen = (p: HubProps) => {
       {/* Scrollable body */}
       <div className="flex-1 overflow-y-auto px-5 pt-3 pb-4 space-y-4">
         {/* Magic Search entry card */}
-        <button
+        <motion.button
           onClick={p.onOpenMagic}
-          className="w-full text-left rounded-2xl px-4 py-4 group transition-all active:scale-[0.99]"
+          whileTap={{ scale: 0.985 }}
+          className="relative w-full text-left rounded-[22px] overflow-hidden group"
           style={{
             background: "var(--gradient-gold)",
             boxShadow: "var(--shadow-elegant)",
           }}
         >
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
-              <Star className="h-4 w-4 text-white" fill="currentColor" />
+          {/* Decorative glow */}
+          <div className="pointer-events-none absolute -top-12 -right-10 h-36 w-36 rounded-full bg-white/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-10 -left-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+
+          <div className="relative px-5 py-4">
+            {/* Top row: eyebrow + arrow */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-3.5 w-3.5 text-white" />
+                <span className="font-body text-[10px] uppercase tracking-[0.22em] text-white/85">
+                  Magic Search
+                </span>
+              </div>
+              <div className="h-7 w-7 rounded-full bg-white/15 border border-white/25 flex items-center justify-center text-white transition-transform group-hover:translate-x-0.5">
+                <ArrowRight className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <span className="font-display text-[18px] text-white flex-1">Magic Search</span>
-            <div className="h-7 w-7 rounded-full border border-white/25 flex items-center justify-center text-white/85">
-              <ChevronRight className="h-3.5 w-3.5" />
+
+            {/* Headline */}
+            <h3 className="mt-3 font-display text-[20px] leading-[1.2] text-white">
+              Find someone who aligns
+              <br />
+              with your <span className="italic">world.</span>
+            </h3>
+
+            {/* Footer chip */}
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 border border-white/20 px-2.5 py-1">
+              <span className="font-body text-[10px] tracking-[0.14em] uppercase text-white/90">
+                Explore · Discover · Connect
+              </span>
             </div>
           </div>
-          <p className="mt-3 font-display text-[18px] leading-tight text-white pl-12">
-            Find someone who aligns with your{" "}
-            <span className="italic text-white/95">world.</span>
-          </p>
-          <p className="mt-1.5 font-body text-[11px] uppercase tracking-[0.18em] text-white/70 pl-12">
-            Explore · Discover · Connect
-          </p>
-        </button>
+        </motion.button>
 
         {/* Standard Filters card */}
         <div
