@@ -617,7 +617,7 @@ export default function Interests() {
           Interests
         </h1>
         <p className="font-body text-[13px] text-muted-foreground mt-1">
-          People who connected with your profile
+          People interested in your profile
         </p>
       </header>
 
