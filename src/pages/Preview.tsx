@@ -72,7 +72,7 @@ const Preview = () => {
     />,
     <InterestsSection key="interests" interests={profile.interests} vibed={false} onVibe={noop} />,
     <NarrativesSection key="narratives" narratives={profile.narratives} vibed={false} onVibe={noop} />,
-    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={false} onVibe={noop} />,
+    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={false} onVibeItem={noop} />,
   ];
 
   const extraPhotos = template.photos.slice(1);
