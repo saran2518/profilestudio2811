@@ -132,20 +132,26 @@ const Discover = () => {
     setVibeDialogOpen(true);
   };
 
-  const handleSendVibe = () => {
+  const handleSendVibe = (selectedItem?: string) => {
     setVibedSections((prev) => new Set(prev).add(vibeDialogSection));
     setVibeDialogOpen(false);
 
     // Add vibe to store so it appears in Interests page
     if (profile) {
       const originalIndex = PROFILES.indexOf(profile);
+      const snippet =
+        vibeDialogSection === "My Story"
+          ? profile.bio?.slice(0, 80)
+          : vibeDialogSection === "Join Me For"
+            ? selectedItem
+            : undefined;
       addVibe(
         profile.name,
         profile.photos[0],
         vibeDialogSection === "Picture" ? "picture" : vibeDialogSection.toLowerCase(),
         originalIndex >= 0 ? originalIndex : currentIndex,
         vibeDialogSection === "Picture" ? profile.photos[0] : undefined,
-        vibeDialogSection === "My Story" ? profile.bio?.slice(0, 80) : undefined,
+        snippet,
       );
     }
 
@@ -404,6 +410,7 @@ const Discover = () => {
       <VibeDialog
         open={vibeDialogOpen}
         sectionName={vibeDialogSection}
+        joinMeForItems={profile?.joinMeFor}
         onSendVibe={handleSendVibe}
         onCancel={() => setVibeDialogOpen(false)}
         onSendInvite={handleVibeToInvite}
