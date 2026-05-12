@@ -194,7 +194,7 @@ const Discover = () => {
       detailsCard,
       <InterestsSection key="interests" interests={profile.interests} vibed={isVibed("Interests")} onVibe={() => openVibeDialog("Interests")} />,
       <NarrativesSection key="narratives" narratives={profile.narratives} vibed={isVibed("Narratives")} onVibe={() => openVibeDialog("Narratives")} />,
-      <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={isVibed("Join Me For")} onVibe={() => openVibeDialog("Join Me For")} />,
+      <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={isVibed("Join Me For")} onVibeItem={(item) => handleJoinMeForVibe(item)} />,
     ];
 
     const extraPhotos = profile.photos.slice(1);

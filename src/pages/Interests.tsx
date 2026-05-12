@@ -447,7 +447,7 @@ function buildFullProfileSections(profile: (typeof PROFILES)[number]) {
     />,
     <InterestsSection key="interests" interests={profile.interests} vibed={false} onVibe={() => {}} />,
     <NarrativesSection key="narratives" narratives={profile.narratives} vibed={false} onVibe={() => {}} />,
-    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={false} onVibe={() => {}} />,
+    <JoinMeForSection key="joinmefor" items={profile.joinMeFor} vibed={false} onVibeItem={() => {}} />,
   ];
 
   const extraPhotos = profile.photos.slice(1);
