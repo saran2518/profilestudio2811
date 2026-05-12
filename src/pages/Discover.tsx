@@ -164,6 +164,23 @@ const Discover = () => {
     setInviteOpen(true);
   };
 
+  const handleJoinMeForVibe = (item: string) => {
+    setVibedSections((prev) => new Set(prev).add("Join Me For"));
+    if (profile) {
+      const originalIndex = PROFILES.indexOf(profile);
+      addVibe(
+        profile.name,
+        profile.photos[0],
+        "join me for",
+        originalIndex >= 0 ? originalIndex : currentIndex,
+        undefined,
+        item,
+      );
+    }
+    showToast("vibe");
+    goNext();
+  };
+
   const [activeToast, setActiveToast] = useState<"pass" | "vibe" | "invite" | null>(null);
 
   const showToast = (type: "pass" | "vibe" | "invite") => {
