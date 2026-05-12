@@ -410,6 +410,7 @@ const Discover = () => {
       <VibeDialog
         open={vibeDialogOpen}
         sectionName={vibeDialogSection}
+        joinMeForItems={profile?.joinMeFor}
         onSendVibe={handleSendVibe}
         onCancel={() => setVibeDialogOpen(false)}
         onSendInvite={handleVibeToInvite}
