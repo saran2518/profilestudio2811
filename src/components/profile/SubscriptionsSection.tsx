@@ -217,14 +217,11 @@ function PlanCard({ plan }: { plan: PlanData }) {
   );
 }
 
-function PurchaseItem({ icon, label, price, color }: { icon: React.ReactNode; label: string; price: string; color: string }) {
-  const bgClass = color === "primary" ? "bg-primary/10" : color === "accent" ? "bg-accent/10" : "bg-muted/60";
-  const iconClass = color === "primary" ? "text-primary" : color === "accent" ? "text-accent-foreground" : "text-muted-foreground";
-
+function PurchaseItem({ icon, label, price }: { icon: React.ReactNode; label: string; price: string }) {
   return (
     <button className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ boxShadow: "var(--shadow-card)" }}>
-      <div className={`h-10 w-10 rounded-xl ${bgClass} flex items-center justify-center`}>
-        <span className={iconClass}>{icon}</span>
+      <div className="h-10 w-10 rounded-xl flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
+        <span className="text-primary-foreground">{icon}</span>
       </div>
       <span className="text-[12px] font-semibold text-foreground">{label}</span>
       <span className="text-[11px] text-muted-foreground">{price}</span>
