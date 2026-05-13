@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Crown, Star, CreditCard, Check, X, Gem, Zap, Send, Search, ChevronDown } from "lucide-react";
+import { Crown, CreditCard, Check, X, Gem, HeartPulse, Rocket, Wand2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -99,9 +99,9 @@ const SubscriptionsSection = () => {
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
         <div className="grid grid-cols-3 gap-2">
-          <PurchaseItem icon={<Zap className="h-5 w-5" />} label="Vibes" price="₹49" color="primary" />
-          <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" price="₹79" color="accent" />
-          <PurchaseItem icon={<Search className="h-5 w-5" />} label="Magic Search" price="₹29" color="secondary" />
+          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" price="₹49" />
+          <PurchaseItem icon={<Rocket className="h-5 w-5" />} label="Invites" price="₹79" />
+          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic Search" price="₹29" />
         </div>
       </div>
 
@@ -217,14 +217,11 @@ function PlanCard({ plan }: { plan: PlanData }) {
   );
 }
 
-function PurchaseItem({ icon, label, price, color }: { icon: React.ReactNode; label: string; price: string; color: string }) {
-  const bgClass = color === "primary" ? "bg-primary/10" : color === "accent" ? "bg-accent/10" : "bg-muted/60";
-  const iconClass = color === "primary" ? "text-primary" : color === "accent" ? "text-accent-foreground" : "text-muted-foreground";
-
+function PurchaseItem({ icon, label, price }: { icon: React.ReactNode; label: string; price: string }) {
   return (
     <button className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ boxShadow: "var(--shadow-card)" }}>
-      <div className={`h-10 w-10 rounded-xl ${bgClass} flex items-center justify-center`}>
-        <span className={iconClass}>{icon}</span>
+      <div className="h-10 w-10 rounded-xl flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
+        <span className="text-primary-foreground">{icon}</span>
       </div>
       <span className="text-[12px] font-semibold text-foreground">{label}</span>
       <span className="text-[11px] text-muted-foreground">{price}</span>
