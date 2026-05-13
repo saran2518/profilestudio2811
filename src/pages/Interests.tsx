@@ -495,17 +495,17 @@ function LockedCardWrapper({ children, onTap }: { children: React.ReactNode; onT
       <button
         type="button"
         onClick={onTap}
-        className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-card/20 backdrop-blur-[2px] border border-border/30"
-        aria-label="Locked — tap to unlock"
+        className="absolute inset-0 z-10 flex items-end justify-center pb-4 rounded-2xl bg-card/20 backdrop-blur-[2px] border border-border/30"
+        aria-label="Tap to view profile and respond"
       >
         <span
-          className="h-10 w-10 rounded-full flex items-center justify-center"
+          className="px-4 py-2 rounded-full text-xs font-medium text-primary-foreground"
           style={{
             background: "var(--gradient-warm)",
             boxShadow: "var(--shadow-warm)",
           }}
         >
-          <Lock className="h-4 w-4 text-primary-foreground" />
+          Tap to view profile & respond
         </span>
       </button>
     </div>
