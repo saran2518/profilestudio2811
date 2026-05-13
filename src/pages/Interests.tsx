@@ -486,19 +486,25 @@ function LockedCardWrapper({ children, onTap }: { children: React.ReactNode; onT
     <div className="relative">
       <div
         className="pointer-events-none select-none"
-        style={{ filter: "blur(8px)" }}
+        style={{ filter: "blur(6px)" }}
         aria-hidden
       >
         {children}
       </div>
-      {/* Frosted overlay + lock badge — captures tap */}
+      {/* Glassmorphism overlay — captures tap */}
       <button
         type="button"
         onClick={onTap}
-        className="absolute inset-0 z-10 flex items-end justify-center pb-4 rounded-2xl bg-card/20 backdrop-blur-[2px] border border-border/30"
+        className="absolute inset-0 z-10 flex items-end justify-center pb-4 rounded-2xl backdrop-blur-md border border-primary/25"
+        style={{
+          background:
+            "linear-gradient(135deg, hsl(var(--card) / 0.45), hsl(var(--primary) / 0.08))",
+          boxShadow:
+            "inset 0 1px 0 hsl(var(--primary-glow) / 0.25), inset 0 0 24px hsl(var(--primary) / 0.08), 0 8px 24px -12px hsl(var(--primary) / 0.25)",
+        }}
         aria-label="Tap to view profile and respond"
       >
-        <span className="text-xs font-medium text-primary">
+        <span className="text-xs font-medium text-primary drop-shadow-sm">
           Tap to view profile & respond
         </span>
       </button>
