@@ -820,15 +820,6 @@ export default function Interests() {
           <div>
             {newInvites.length > 0 && (
               <>
-                <div className="flex items-center gap-2 mb-3">
-                  <div
-                    className="h-1.5 w-1.5 rounded-full"
-                    style={{ background: "var(--gradient-warm)" }}
-                  />
-                  <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                    New
-                  </p>
-                </div>
                 <div className="space-y-3.5 mb-6">
                   {newInvites.map((invite, i) => {
                     const locked = !isSubscribed && i > 0;
