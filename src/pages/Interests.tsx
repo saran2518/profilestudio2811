@@ -19,6 +19,8 @@ import {
   Shield,
   ArrowLeft,
   Send,
+  Lock,
+  Crown,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
