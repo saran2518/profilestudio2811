@@ -361,9 +361,6 @@ function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: num
             <p className="font-display text-[15px] font-bold text-card-foreground leading-tight">
               {invite.name}
             </p>
-            <p className="font-body text-[11px] text-muted-foreground mt-0.5">
-              {invite.time}
-            </p>
           </div>
         </div>
         <div
