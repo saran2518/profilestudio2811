@@ -601,9 +601,7 @@ export default function Interests() {
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [gateSheet, setGateSheet] = useState<null | "vibes" | "invites">(null);
-  const openUpgrade = () => {
-    setGateSheet(null);
+  const goToSubscriptions = () => {
     navigate("/profile", { state: { openTab: "subscriptions" } });
   };
 
@@ -804,7 +802,7 @@ export default function Interests() {
                 const locked = !isSubscribed && i > 0;
                 if (locked) {
                   return (
-                    <LockedCardWrapper key={vibe.id} onTap={() => setGateSheet("vibes")}>
+                    <LockedCardWrapper key={vibe.id} onTap={() => goToSubscriptions()}>
                       <VibeCard vibe={vibe} index={i} onClick={() => {}} />
                     </LockedCardWrapper>
                   );
@@ -825,7 +823,7 @@ export default function Interests() {
                     const locked = !isSubscribed && i > 0;
                     if (locked) {
                       return (
-                        <LockedCardWrapper key={invite.id} onTap={() => setGateSheet("invites")}>
+                        <LockedCardWrapper key={invite.id} onTap={() => goToSubscriptions()}>
                           <InviteCard invite={invite} index={i} onClick={() => {}} />
                         </LockedCardWrapper>
                       );
@@ -859,15 +857,6 @@ export default function Interests() {
         </TabsContent>
 
       </Tabs>
-
-      <PeekGateSheet
-        open={gateSheet !== null}
-        kind={gateSheet ?? "vibes"}
-        count={gateSheet === "invites" ? inviteCount : vibeCount}
-        onClose={() => setGateSheet(null)}
-        onUpgrade={openUpgrade}
-      />
-
 
       <AnimatePresence>
         {selectedVibePreview && (() => {
