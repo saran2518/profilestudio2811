@@ -601,9 +601,7 @@ export default function Interests() {
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [gateSheet, setGateSheet] = useState<null | "vibes" | "invites">(null);
-  const openUpgrade = () => {
-    setGateSheet(null);
+  const goToSubscriptions = () => {
     navigate("/profile", { state: { openTab: "subscriptions" } });
   };
 
