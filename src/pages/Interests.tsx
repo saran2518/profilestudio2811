@@ -860,15 +860,6 @@ export default function Interests() {
 
       </Tabs>
 
-      <PeekGateSheet
-        open={gateSheet !== null}
-        kind={gateSheet ?? "vibes"}
-        count={gateSheet === "invites" ? inviteCount : vibeCount}
-        onClose={() => setGateSheet(null)}
-        onUpgrade={openUpgrade}
-      />
-
-
       <AnimatePresence>
         {selectedVibePreview && (() => {
           const profile = PROFILES[selectedVibePreview.profileIndex];
