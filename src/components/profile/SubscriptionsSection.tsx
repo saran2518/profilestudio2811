@@ -99,9 +99,9 @@ const SubscriptionsSection = () => {
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
         <div className="grid grid-cols-3 gap-2">
-          <PurchaseItem icon={<Zap className="h-5 w-5" />} label="Vibes" price="₹49" color="primary" />
-          <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" price="₹79" color="accent" />
-          <PurchaseItem icon={<Search className="h-5 w-5" />} label="Magic Search" price="₹29" color="secondary" />
+          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" price="₹49" />
+          <PurchaseItem icon={<Rocket className="h-5 w-5" />} label="Invites" price="₹79" />
+          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic Search" price="₹29" />
         </div>
       </div>
 
