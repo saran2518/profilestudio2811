@@ -255,9 +255,6 @@ function VibeCard({ vibe, index, onClick }: { vibe: VibeItem; index: number; onC
           <p className="font-display text-[15px] font-bold text-card-foreground leading-tight">
             {vibe.name}
           </p>
-          <p className="font-body text-[11px] text-muted-foreground mt-0.5">
-            {vibe.time}
-          </p>
         </div>
         <span className="text-lg">{vibe.sectionEmoji}</span>
       </div>
@@ -363,9 +360,6 @@ function InviteCard({ invite, index, onClick }: { invite: InviteItem; index: num
           <div>
             <p className="font-display text-[15px] font-bold text-card-foreground leading-tight">
               {invite.name}
-            </p>
-            <p className="font-body text-[11px] text-muted-foreground mt-0.5">
-              {invite.time}
             </p>
           </div>
         </div>
