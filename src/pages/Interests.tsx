@@ -488,6 +488,7 @@ export default function Interests() {
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const sentVibes = useSentVibes();
   const sentInvitesFromStore = useSentInvites();
