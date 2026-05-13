@@ -40,7 +40,14 @@ const stagger = {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState<SectionKey>("profile");
+  const location = useLocation();
+  const initialTab = (location.state as { openTab?: SectionKey } | null)?.openTab ?? "profile";
+  const [activeSection, setActiveSection] = useState<SectionKey>(initialTab);
+
+  useEffect(() => {
+    const next = (location.state as { openTab?: SectionKey } | null)?.openTab;
+    if (next) setActiveSection(next);
+  }, [location.state]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">
