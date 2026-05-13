@@ -434,7 +434,7 @@ function MomentCard({
               )}
             </div>
             <p className="text-xs text-muted-foreground font-body">
-              {moment.profession} • {moment.location} • {moment.timestamp}
+              {moment.profession} • {moment.location}
             </p>
           </div>
         </div>
