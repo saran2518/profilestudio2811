@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Crown, Star, CreditCard, Check, X, Gem, Zap, Send, Search, ChevronDown } from "lucide-react";
+import { Crown, CreditCard, Check, X, Gem, HeartPulse, Rocket, Wand2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
