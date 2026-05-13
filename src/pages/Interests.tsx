@@ -799,99 +799,80 @@ export default function Interests() {
 
         {/* Vibes */}
         <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key="vibes-list"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className={`space-y-3.5 ${!isSubscribed ? "pointer-events-none select-none" : ""}`}
-                style={!isSubscribed ? { filter: "blur(10px)" } : undefined}
-                aria-hidden={!isSubscribed}
-              >
-                {vibes.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-center">
-                    <HeartPulse className="h-10 w-10 text-muted-foreground/30 mb-3" />
-                    <p className="font-body text-sm text-muted-foreground">No vibes yet</p>
-                  </div>
-                ) : (
-                  vibes.map((vibe, i) => (
-                    <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
-                  ))
-                )}
-              </motion.div>
-            </AnimatePresence>
-            {!isSubscribed && (
-              <LockedOverlay
-                kind="vibes"
-                count={vibeCount}
-                onUpgrade={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
-              />
+          <div className="space-y-3.5">
+            {vibes.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <HeartPulse className="h-10 w-10 text-muted-foreground/30 mb-3" />
+                <p className="font-body text-sm text-muted-foreground">No vibes yet</p>
+              </div>
+            ) : (
+              vibes.map((vibe, i) => {
+                const locked = !isSubscribed && i > 0;
+                if (locked) {
+                  return (
+                    <LockedCardWrapper key={vibe.id} onTap={() => setGateSheet("vibes")}>
+                      <VibeCard vibe={vibe} index={i} onClick={() => {}} />
+                    </LockedCardWrapper>
+                  );
+                }
+                return <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />;
+              })
             )}
           </div>
         </TabsContent>
 
         {/* Invites */}
         <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key="invites-list"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className={!isSubscribed ? "pointer-events-none select-none" : ""}
-                style={!isSubscribed ? { filter: "blur(10px)" } : undefined}
-                aria-hidden={!isSubscribed}
-              >
-                {newInvites.length > 0 && (
-                  <>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={{ background: "var(--gradient-warm)" }}
-                      />
-                      <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                        New
-                      </p>
-                    </div>
-                    <div className="space-y-3.5 mb-6">
-                      {newInvites.map((invite, i) => (
-                        <InviteCard key={invite.id} invite={invite} index={i} onClick={(inv) => {
-                          if (inv.accepted) { navigate("/chat"); } else { setSelectedInvitePreview(inv); }
-                        }} />
-                      ))}
-                    </div>
-                  </>
-                )}
+          <div>
+            {newInvites.length > 0 && (
+              <>
+                <div className="flex items-center gap-2 mb-3">
+                  <div
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ background: "var(--gradient-warm)" }}
+                  />
+                  <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    New
+                  </p>
+                </div>
+                <div className="space-y-3.5 mb-6">
+                  {newInvites.map((invite, i) => {
+                    const locked = !isSubscribed && i > 0;
+                    if (locked) {
+                      return (
+                        <LockedCardWrapper key={invite.id} onTap={() => setGateSheet("invites")}>
+                          <InviteCard invite={invite} index={i} onClick={() => {}} />
+                        </LockedCardWrapper>
+                      );
+                    }
+                    return (
+                      <InviteCard key={invite.id} invite={invite} index={i} onClick={(inv) => {
+                        if (inv.accepted) { navigate("/chat"); } else { setSelectedInvitePreview(inv); }
+                      }} />
+                    );
+                  })}
+                </div>
+              </>
+            )}
 
-                {acceptedInvites.length > 0 && (
-                  <>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Sparkles className="h-3 w-3 text-primary/50" />
-                      <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                        Accepted
-                      </p>
-                    </div>
-                    <div className="space-y-3.5">
-                      {acceptedInvites.map((invite, i) => (
-                        <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onClick={(inv) => navigate("/chat")} />
-                      ))}
-                    </div>
-                  </>
-                )}
-              </motion.div>
-            </AnimatePresence>
-            {!isSubscribed && (
-              <LockedOverlay
-                kind="invites"
-                count={inviteCount}
-                onUpgrade={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
-              />
+            {acceptedInvites.length > 0 && (
+              <>
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="h-3 w-3 text-primary/50" />
+                  <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    Accepted
+                  </p>
+                </div>
+                <div className="space-y-3.5">
+                  {acceptedInvites.map((invite, i) => (
+                    <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onClick={() => navigate("/chat")} />
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </TabsContent>
 
-      </Tabs>
 
       {/* Profile Preview Overlay */}
       <AnimatePresence>
