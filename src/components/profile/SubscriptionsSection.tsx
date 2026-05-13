@@ -7,30 +7,6 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const plans: PlanData[] = [
   {
-    icon: <Star className="h-5 w-5" />,
-    title: "Free",
-    price: "₹0",
-    period: "",
-    ctaLabel: "Current Plan",
-    ctaDisabled: true,
-    iconBg: "bg-muted/70",
-    iconColor: "text-muted-foreground",
-    topFeatures: [
-      { included: true, label: "15 discovers/day" },
-      { included: true, label: "5 vibes/day" },
-      { included: true, label: "1 invite/week" },
-    ],
-    moreFeatures: [
-      { included: true, label: "1 magic search/wk" },
-      { included: false, label: "Extended filters" },
-      { included: false, label: "See who vibed you" },
-      { included: false, label: "See who invited you" },
-      { included: false, label: "Moments interact" },
-      { included: false, label: "Profile unlock" },
-      { included: false, label: "Enhanced visibility" },
-    ],
-  },
-  {
     icon: <Crown className="h-5 w-5" />,
     title: "Elyxer Plus",
     price: "₹199",
