@@ -479,6 +479,71 @@ function buildFullProfileSections(profile: (typeof PROFILES)[number]) {
   return result;
 }
 
+/* ─── Locked overlay (subscriber-only) ───────────── */
+
+function LockedOverlay({ kind, count, onUpgrade }: { kind: "vibes" | "invites"; count: number; onUpgrade: () => void }) {
+  const isVibes = kind === "vibes";
+  const label = isVibes ? "vibes" : "invites";
+  const Icon = isVibes ? HeartPulse : Send;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute inset-0 z-10 flex items-start justify-center pt-10 px-4 pointer-events-none"
+    >
+      <div
+        className="pointer-events-auto w-full max-w-sm rounded-[24px] border border-border/30 bg-card/85 backdrop-blur-2xl p-5 text-center"
+        style={{ boxShadow: "var(--shadow-warm)" }}
+      >
+        <div className="flex items-center justify-center mb-3">
+          <div
+            className="relative h-14 w-14 rounded-2xl flex items-center justify-center"
+            style={{ background: "var(--gradient-warm)" }}
+          >
+            <Icon className="h-6 w-6 text-primary-foreground" />
+            <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-card border-2 border-card flex items-center justify-center" style={{ boxShadow: "var(--shadow-card)" }}>
+              <Lock className="h-3 w-3 text-foreground" />
+            </div>
+          </div>
+        </div>
+
+        <h3 className="font-display text-[17px] font-bold text-foreground leading-snug">
+          {count > 0 ? (
+            <>
+              You have{" "}
+              <span
+                className="text-transparent bg-clip-text"
+                style={{ backgroundImage: "var(--gradient-warm)" }}
+              >
+                {count} new {label}
+              </span>
+            </>
+          ) : (
+            <>See who {isVibes ? "vibed" : "invited"} you</>
+          )}
+        </h3>
+        <p className="font-body text-[12.5px] text-muted-foreground mt-1.5 leading-relaxed">
+          Upgrade to <span className="font-semibold text-foreground">Elyxer Plus</span> to unlock {label} you've received and respond instantly.
+        </p>
+
+        <button
+          onClick={onUpgrade}
+          className="mt-4 w-full h-11 rounded-2xl flex items-center justify-center gap-2 text-[13px] font-semibold text-primary-foreground"
+          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+        >
+          <Crown className="h-4 w-4" />
+          Upgrade to Plus
+        </button>
+        <p className="mt-2 font-body text-[10.5px] text-muted-foreground/70">
+          From ₹199/wk · Cancel anytime
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 /* ─── Page ───────────────────────────────────────────── */
 
 export default function Interests() {
