@@ -19,6 +19,8 @@ import {
   Shield,
   ArrowLeft,
   Send,
+  Lock,
+  Crown,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PROFILES } from "@/lib/profilesData";
@@ -477,6 +479,71 @@ function buildFullProfileSections(profile: (typeof PROFILES)[number]) {
   return result;
 }
 
+/* ─── Locked overlay (subscriber-only) ───────────── */
+
+function LockedOverlay({ kind, count, onUpgrade }: { kind: "vibes" | "invites"; count: number; onUpgrade: () => void }) {
+  const isVibes = kind === "vibes";
+  const label = isVibes ? "vibes" : "invites";
+  const Icon = isVibes ? HeartPulse : Send;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute inset-0 z-10 flex items-start justify-center pt-10 px-4 pointer-events-none"
+    >
+      <div
+        className="pointer-events-auto w-full max-w-sm rounded-[24px] border border-border/30 bg-card/85 backdrop-blur-2xl p-5 text-center"
+        style={{ boxShadow: "var(--shadow-warm)" }}
+      >
+        <div className="flex items-center justify-center mb-3">
+          <div
+            className="relative h-14 w-14 rounded-2xl flex items-center justify-center"
+            style={{ background: "var(--gradient-warm)" }}
+          >
+            <Icon className="h-6 w-6 text-primary-foreground" />
+            <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-card border-2 border-card flex items-center justify-center" style={{ boxShadow: "var(--shadow-card)" }}>
+              <Lock className="h-3 w-3 text-foreground" />
+            </div>
+          </div>
+        </div>
+
+        <h3 className="font-display text-[17px] font-bold text-foreground leading-snug">
+          {count > 0 ? (
+            <>
+              You have{" "}
+              <span
+                className="text-transparent bg-clip-text"
+                style={{ backgroundImage: "var(--gradient-warm)" }}
+              >
+                {count} new {label}
+              </span>
+            </>
+          ) : (
+            <>See who {isVibes ? "vibed" : "invited"} you</>
+          )}
+        </h3>
+        <p className="font-body text-[12.5px] text-muted-foreground mt-1.5 leading-relaxed">
+          Upgrade to <span className="font-semibold text-foreground">Elyxer Plus</span> to unlock {label} you've received and respond instantly.
+        </p>
+
+        <button
+          onClick={onUpgrade}
+          className="mt-4 w-full h-11 rounded-2xl flex items-center justify-center gap-2 text-[13px] font-semibold text-primary-foreground"
+          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+        >
+          <Crown className="h-4 w-4" />
+          Upgrade to Plus
+        </button>
+        <p className="mt-2 font-body text-[10.5px] text-muted-foreground/70">
+          From ₹199/wk · Cancel anytime
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 /* ─── Page ───────────────────────────────────────────── */
 
 export default function Interests() {
@@ -486,6 +553,7 @@ export default function Interests() {
   const [acceptedInviteProfile, setAcceptedInviteProfile] = useState<InviteItem | null>(null);
   const [selectedVibePreview, setSelectedVibePreview] = useState<VibeItem | null>(null);
   const [selectedInvitePreview, setSelectedInvitePreview] = useState<InviteItem | null>(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const sentVibes = useSentVibes();
   const sentInvitesFromStore = useSentInvites();
@@ -606,13 +674,32 @@ export default function Interests() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="pt-12 pb-4 px-5">
-        <h1 className="font-display text-2xl font-bold text-foreground">
-          Interests
-        </h1>
-        <p className="font-body text-[13px] text-muted-foreground mt-1">
-          People interested in your profile
-        </p>
+      <header className="pt-12 pb-4 px-5 flex items-start justify-between gap-3">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-foreground">
+            Interests
+          </h1>
+          <p className="font-body text-[13px] text-muted-foreground mt-1">
+            People interested in your profile
+          </p>
+        </div>
+        <button
+          onClick={() => setIsSubscribed((s) => !s)}
+          className="mt-1 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/40 bg-card/70 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
+          aria-label="Toggle subscription preview"
+        >
+          {isSubscribed ? (
+            <>
+              <Crown className="h-3 w-3 text-primary" />
+              <span className="text-primary">Plus</span>
+            </>
+          ) : (
+            <>
+              <Lock className="h-3 w-3" />
+              <span>Free</span>
+            </>
+          )}
+        </button>
       </header>
 
       {/* Tabs */}
@@ -654,74 +741,98 @@ export default function Interests() {
 
         {/* Vibes */}
         <TabsContent value="vibes" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="vibes-list"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-3.5"
-            >
-              {vibes.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <HeartPulse className="h-10 w-10 text-muted-foreground/30 mb-3" />
-                  <p className="font-body text-sm text-muted-foreground">No vibes yet</p>
-                </div>
-              ) : (
-                vibes.map((vibe, i) => (
-                  <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
-                ))
-              )}
-            </motion.div>
-          </AnimatePresence>
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key="vibes-list"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className={`space-y-3.5 ${!isSubscribed ? "pointer-events-none select-none" : ""}`}
+                style={!isSubscribed ? { filter: "blur(10px)" } : undefined}
+                aria-hidden={!isSubscribed}
+              >
+                {vibes.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <HeartPulse className="h-10 w-10 text-muted-foreground/30 mb-3" />
+                    <p className="font-body text-sm text-muted-foreground">No vibes yet</p>
+                  </div>
+                ) : (
+                  vibes.map((vibe, i) => (
+                    <VibeCard key={vibe.id} vibe={vibe} index={i} onClick={handleVibeCardClick} />
+                  ))
+                )}
+              </motion.div>
+            </AnimatePresence>
+            {!isSubscribed && (
+              <LockedOverlay
+                kind="vibes"
+                count={vibeCount}
+                onUpgrade={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
+              />
+            )}
+          </div>
         </TabsContent>
 
         {/* Invites */}
         <TabsContent value="invites" className="flex-1 overflow-y-auto px-4 pb-24 mt-3">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="invites-list"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              {newInvites.length > 0 && (
-                <>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div
-                      className="h-1.5 w-1.5 rounded-full"
-                      style={{ background: "var(--gradient-warm)" }}
-                    />
-                    <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                      New
-                    </p>
-                  </div>
-                  <div className="space-y-3.5 mb-6">
-                    {newInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i} onClick={(inv) => {
-                        if (inv.accepted) { navigate("/chat"); } else { setSelectedInvitePreview(inv); }
-                      }} />
-                    ))}
-                  </div>
-                </>
-              )}
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key="invites-list"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className={!isSubscribed ? "pointer-events-none select-none" : ""}
+                style={!isSubscribed ? { filter: "blur(10px)" } : undefined}
+                aria-hidden={!isSubscribed}
+              >
+                {newInvites.length > 0 && (
+                  <>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div
+                        className="h-1.5 w-1.5 rounded-full"
+                        style={{ background: "var(--gradient-warm)" }}
+                      />
+                      <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                        New
+                      </p>
+                    </div>
+                    <div className="space-y-3.5 mb-6">
+                      {newInvites.map((invite, i) => (
+                        <InviteCard key={invite.id} invite={invite} index={i} onClick={(inv) => {
+                          if (inv.accepted) { navigate("/chat"); } else { setSelectedInvitePreview(inv); }
+                        }} />
+                      ))}
+                    </div>
+                  </>
+                )}
 
-              {acceptedInvites.length > 0 && (
-                <>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="h-3 w-3 text-primary/50" />
-                    <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                      Accepted
-                    </p>
-                  </div>
-                  <div className="space-y-3.5">
-                    {acceptedInvites.map((invite, i) => (
-                      <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onClick={(inv) => navigate("/chat")} />
-                    ))}
-                  </div>
-                </>
-              )}
-            </motion.div>
-          </AnimatePresence>
+                {acceptedInvites.length > 0 && (
+                  <>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Sparkles className="h-3 w-3 text-primary/50" />
+                      <p className="font-body text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                        Accepted
+                      </p>
+                    </div>
+                    <div className="space-y-3.5">
+                      {acceptedInvites.map((invite, i) => (
+                        <InviteCard key={invite.id} invite={invite} index={i + newInvites.length} onClick={(inv) => navigate("/chat")} />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            </AnimatePresence>
+            {!isSubscribed && (
+              <LockedOverlay
+                kind="invites"
+                count={inviteCount}
+                onUpgrade={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
+              />
+            )}
+          </div>
         </TabsContent>
+
       </Tabs>
 
       {/* Profile Preview Overlay */}
