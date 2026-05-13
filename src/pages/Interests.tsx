@@ -802,7 +802,7 @@ export default function Interests() {
                 const locked = !isSubscribed && i > 0;
                 if (locked) {
                   return (
-                    <LockedCardWrapper key={vibe.id} onTap={() => setGateSheet("vibes")}>
+                    <LockedCardWrapper key={vibe.id} onTap={() => goToSubscriptions()}>
                       <VibeCard vibe={vibe} index={i} onClick={() => {}} />
                     </LockedCardWrapper>
                   );
@@ -823,7 +823,7 @@ export default function Interests() {
                     const locked = !isSubscribed && i > 0;
                     if (locked) {
                       return (
-                        <LockedCardWrapper key={invite.id} onTap={() => setGateSheet("invites")}>
+                        <LockedCardWrapper key={invite.id} onTap={() => goToSubscriptions()}>
                           <InviteCard invite={invite} index={i} onClick={() => {}} />
                         </LockedCardWrapper>
                       );
