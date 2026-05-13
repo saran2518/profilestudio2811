@@ -479,68 +479,121 @@ function buildFullProfileSections(profile: (typeof PROFILES)[number]) {
   return result;
 }
 
-/* ─── Locked overlay (subscriber-only) ───────────── */
+/* ─── Peek & Gate: blurred card wrapper ───────────── */
 
-function LockedOverlay({ kind, count, onUpgrade }: { kind: "vibes" | "invites"; count: number; onUpgrade: () => void }) {
-  const isVibes = kind === "vibes";
-  const label = isVibes ? "vibes" : "invites";
-  const Icon = isVibes ? HeartPulse : Send;
+function LockedCardWrapper({ children, onTap }: { children: React.ReactNode; onTap: () => void }) {
+  return (
+    <div className="relative">
+      <div
+        className="pointer-events-none select-none"
+        style={{ filter: "blur(8px)" }}
+        aria-hidden
+      >
+        {children}
+      </div>
+      {/* Frosted overlay + lock badge — captures tap */}
+      <button
+        type="button"
+        onClick={onTap}
+        className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-card/20 backdrop-blur-[2px] border border-border/30"
+        aria-label="Locked — tap to unlock"
+      >
+        <span
+          className="h-10 w-10 rounded-full flex items-center justify-center"
+          style={{
+            background: "var(--gradient-warm)",
+            boxShadow: "var(--shadow-warm)",
+          }}
+        >
+          <Lock className="h-4 w-4 text-primary-foreground" />
+        </span>
+      </button>
+    </div>
+  );
+}
+
+/* ─── Peek & Gate: bottom sheet ───────────── */
+
+function PeekGateSheet({
+  open,
+  kind,
+  count,
+  onClose,
+  onUpgrade,
+}: {
+  open: boolean;
+  kind: "vibes" | "invites";
+  count: number;
+  onClose: () => void;
+  onUpgrade: () => void;
+}) {
+  const noun = kind === "vibes" ? "vibe" : "invite";
+  const ctaLabel = kind === "vibes" ? "Reveal Your Vibes" : "Reveal Your Invites";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute inset-0 z-10 flex items-start justify-center pt-10 px-4 pointer-events-none"
-    >
-      <div
-        className="pointer-events-auto w-full max-w-sm rounded-[24px] border border-border/30 bg-card/85 backdrop-blur-2xl p-5 text-center"
-        style={{ boxShadow: "var(--shadow-warm)" }}
-      >
-        <div className="flex items-center justify-center mb-3">
-          <div
-            className="relative h-14 w-14 rounded-2xl flex items-center justify-center"
-            style={{ background: "var(--gradient-warm)" }}
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-0 bottom-0 z-50 rounded-t-[28px] border-t border-border/30 bg-card overflow-hidden"
+            style={{
+              background:
+                "linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--muted) / 0.5) 100%)",
+              boxShadow: "0 -16px 60px -10px hsl(var(--primary) / 0.25)",
+            }}
           >
-            <Icon className="h-6 w-6 text-primary-foreground" />
-            <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-card border-2 border-card flex items-center justify-center" style={{ boxShadow: "var(--shadow-card)" }}>
-              <Lock className="h-3 w-3 text-foreground" />
+            <div className="h-[3px] w-full" style={{ background: "var(--gradient-warm)" }} />
+            <div className="flex justify-center pt-3">
+              <div className="h-1 w-10 rounded-full bg-border/60" />
             </div>
-          </div>
-        </div>
 
-        <h3 className="font-display text-[17px] font-bold text-foreground leading-snug">
-          {count > 0 ? (
-            <>
-              You have{" "}
-              <span
-                className="text-transparent bg-clip-text"
-                style={{ backgroundImage: "var(--gradient-warm)" }}
+            <div className="px-6 pt-5 pb-8 text-center">
+              <div className="flex justify-center mb-4">
+                <div
+                  className="relative h-14 w-14 rounded-2xl flex items-center justify-center"
+                  style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
+                >
+                  <HeartPulse className="h-6 w-6 text-primary-foreground" />
+                  <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-card border-2 border-card flex items-center justify-center">
+                    <Lock className="h-3 w-3 text-foreground" />
+                  </div>
+                </div>
+              </div>
+
+              <h3 className="font-display text-[20px] font-bold text-foreground leading-snug">
+                You're being noticed
+              </h3>
+              <p className="font-body text-[14px] text-muted-foreground mt-2">
+                {count} {count === 1 ? "person" : "people"} sent you a {noun}
+              </p>
+
+              <button
+                onClick={onUpgrade}
+                className="mt-6 w-full h-12 rounded-2xl flex items-center justify-center gap-2 text-[14px] font-bold text-primary-foreground"
+                style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
               >
-                {count} new {label}
-              </span>
-            </>
-          ) : (
-            <>See who {isVibes ? "vibed" : "invited"} you</>
-          )}
-        </h3>
-        <p className="font-body text-[12.5px] text-muted-foreground mt-1.5 leading-relaxed">
-          Upgrade to <span className="font-semibold text-foreground">Elyxer Plus</span> to unlock {label} you've received and respond instantly.
-        </p>
-
-        <button
-          onClick={onUpgrade}
-          className="mt-4 w-full h-11 rounded-2xl flex items-center justify-center gap-2 text-[13px] font-semibold text-primary-foreground"
-          style={{ background: "var(--gradient-warm)", boxShadow: "var(--shadow-warm)" }}
-        >
-          <Crown className="h-4 w-4" />
-          Upgrade to Plus
-        </button>
-        <p className="mt-2 font-body text-[10.5px] text-muted-foreground/70">
-          From ₹199/wk · Cancel anytime
-        </p>
-      </div>
-    </motion.div>
+                <Crown className="h-4 w-4" />
+                {ctaLabel}
+              </button>
+              <p className="mt-3 font-body text-[12px] text-muted-foreground">
+                Join Plus or Infinity
+              </p>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
