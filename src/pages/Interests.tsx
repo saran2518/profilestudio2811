@@ -873,8 +873,17 @@ export default function Interests() {
           </div>
         </TabsContent>
 
+      </Tabs>
 
-      {/* Profile Preview Overlay */}
+      <PeekGateSheet
+        open={gateSheet !== null}
+        kind={gateSheet ?? "vibes"}
+        count={gateSheet === "invites" ? inviteCount : vibeCount}
+        onClose={() => setGateSheet(null)}
+        onUpgrade={openUpgrade}
+      />
+
+
       <AnimatePresence>
         {selectedVibePreview && (() => {
           const profile = PROFILES[selectedVibePreview.profileIndex];
