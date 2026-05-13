@@ -609,13 +609,32 @@ export default function Interests() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="pt-12 pb-4 px-5">
-        <h1 className="font-display text-2xl font-bold text-foreground">
-          Interests
-        </h1>
-        <p className="font-body text-[13px] text-muted-foreground mt-1">
-          People interested in your profile
-        </p>
+      <header className="pt-12 pb-4 px-5 flex items-start justify-between gap-3">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-foreground">
+            Interests
+          </h1>
+          <p className="font-body text-[13px] text-muted-foreground mt-1">
+            People interested in your profile
+          </p>
+        </div>
+        <button
+          onClick={() => setIsSubscribed((s) => !s)}
+          className="mt-1 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/40 bg-card/70 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-card transition-colors"
+          aria-label="Toggle subscription preview"
+        >
+          {isSubscribed ? (
+            <>
+              <Crown className="h-3 w-3 text-primary" />
+              <span className="text-primary">Plus</span>
+            </>
+          ) : (
+            <>
+              <Lock className="h-3 w-3" />
+              <span>Free</span>
+            </>
+          )}
+        </button>
       </header>
 
       {/* Tabs */}
