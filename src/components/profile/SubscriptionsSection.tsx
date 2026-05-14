@@ -141,10 +141,10 @@ const SubscriptionsSection = () => {
       {/* Buy Extras */}
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-3 pb-3">
           <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={vibeCount} onClick={() => navigate("/buy-extras?item=vibes")} />
           <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={inviteCount} onClick={() => navigate("/buy-extras?item=invites")} />
-          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic Searches" count={searchCount} onClick={() => navigate("/buy-extras?item=search")} />
+          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic" count={searchCount} onClick={() => navigate("/buy-extras?item=search")} />
         </div>
       </div>
 
