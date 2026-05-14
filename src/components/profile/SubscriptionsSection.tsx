@@ -199,8 +199,7 @@ const SubscriptionsSection = () => {
 
 function PlanCard({ plan }: { plan: PlanData }) {
   const [expanded, setExpanded] = useState(false);
-  const [duration, setDuration] = useState<Duration>("wk");
-  const activeOption = durationOptions.find((d) => d.key === duration)!;
+  const navigate = useNavigate();
 
   return (
     <div
@@ -226,28 +225,11 @@ function PlanCard({ plan }: { plan: PlanData }) {
             <span className={plan.iconColor}>{plan.icon}</span>
           </div>
           <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
-          <div className="mt-1">
-            <span className="text-2xl font-bold text-foreground">{plan.pricing[duration]}</span>
-            <span className="text-xs text-muted-foreground">{activeOption.suffix}</span>
+          <div className="mt-1 flex items-baseline gap-1">
+            <span className="text-[10px] text-muted-foreground">from</span>
+            <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
+            <span className="text-xs text-muted-foreground">/wk</span>
           </div>
-        </div>
-
-        {/* Duration selector */}
-        <div className="grid grid-cols-4 gap-1 p-1 rounded-xl bg-muted/40 mb-3">
-          {durationOptions.map((opt) => {
-            const active = opt.key === duration;
-            return (
-              <button
-                key={opt.key}
-                onClick={() => setDuration(opt.key)}
-                className={`text-[10px] font-medium py-1.5 rounded-lg transition-all ${
-                  active ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
-                }`}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
         </div>
 
         {/* CTA */}
@@ -258,6 +240,7 @@ function PlanCard({ plan }: { plan: PlanData }) {
             </div>
           ) : (
             <Button
+              onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
               className={`w-full rounded-2xl gap-1.5 h-9 text-[13px] font-medium ${plan.ctaClass || ""}`}
               style={plan.ctaStyle}
             >
