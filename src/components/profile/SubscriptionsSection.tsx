@@ -294,15 +294,44 @@ function PlanCard({ plan }: { plan: PlanData }) {
   );
 }
 
-function PurchaseItem({ icon, label, price }: { icon: React.ReactNode; label: string; price: string }) {
+function PurchaseItem({ icon, label, price, onClick }: { icon: React.ReactNode; label: string; price: string; onClick?: () => void }) {
   return (
-    <button className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ boxShadow: "var(--shadow-card)" }}>
+    <button onClick={onClick} className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ boxShadow: "var(--shadow-card)" }}>
       <div className="h-10 w-10 rounded-xl flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
         <span className="text-primary-foreground">{icon}</span>
       </div>
       <span className="text-[12px] font-semibold text-foreground">{label}</span>
       <span className="text-[11px] text-muted-foreground">{price}</span>
     </button>
+  );
+}
+
+function ExtraTierCard({ tier, unit, onSelect }: { tier: Tier; unit: string; onSelect: () => void }) {
+  const highlighted = !!tier.badge;
+  return (
+    <div
+      className={`rounded-2xl border-2 ${highlighted ? "border-primary/40" : "border-border/30"} bg-card flex flex-col snap-center shrink-0 p-4`}
+      style={{ width: "60vw", maxWidth: 220, boxShadow: highlighted ? "var(--shadow-warm)" : "var(--shadow-card)" }}
+    >
+      <div className="flex justify-end h-5">
+        {tier.badge && (
+          <span className="text-[9px] font-bold px-2.5 py-0.5 rounded-full" style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}>
+            {tier.badge}
+          </span>
+        )}
+      </div>
+      <div className="flex flex-col items-center text-center mt-1 mb-3">
+        <span className="text-3xl font-bold text-foreground leading-none">{tier.count}</span>
+        <span className="text-xs text-muted-foreground mt-1 capitalize">{unit}</span>
+      </div>
+      <div className="text-center mb-3">
+        <span className="text-xl font-bold text-foreground">{tier.price}</span>
+      </div>
+      <Button onClick={onSelect} className="w-full rounded-2xl gap-1.5 h-9 text-[13px] font-medium" style={{ background: "var(--gradient-warm)" }}>
+        <CreditCard className="h-3.5 w-3.5" />
+        Buy
+      </Button>
+    </div>
   );
 }
 
