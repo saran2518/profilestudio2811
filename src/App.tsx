@@ -23,6 +23,7 @@ import HelpCategory from "./pages/HelpCategory";
 import HelpQuestion from "./pages/HelpQuestion";
 import ContactSupport from "./pages/ContactSupport";
 import Subscribe from "./pages/Subscribe";
+import BuyExtras from "./pages/BuyExtras";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ const App = () => (
           <Route path="/help-faq/:slug/:questionIndex" element={<HelpQuestion />} />
           <Route path="/contact-support" element={<ContactSupport />} />
           <Route path="/subscribe" element={<Subscribe />} />
+          <Route path="/buy-extras" element={<BuyExtras />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
