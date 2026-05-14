@@ -44,13 +44,20 @@ const extrasConfig: Record<ExtraKey, { title: string; unit: string; icon: React.
   },
 };
 
+type Duration = "wk" | "mo" | "3mo" | "yr";
+
+const durationOptions: { key: Duration; label: string; suffix: string }[] = [
+  { key: "wk", label: "Weekly", suffix: "/wk" },
+  { key: "mo", label: "Monthly", suffix: "/mo" },
+  { key: "3mo", label: "3 Months", suffix: "/3mo" },
+  { key: "yr", label: "Yearly", suffix: "/yr" },
+];
+
 const plans: PlanData[] = [
   {
     icon: <Crown className="h-5 w-5" />,
     title: "Elyxer Plus",
-    price: "₹199",
-    period: "/wk",
-    altPrice: "₹699/mo",
+    pricing: { wk: "₹199", mo: "₹699", "3mo": "₹1,799", yr: "₹5,999" },
     badge: "POPULAR",
     ctaLabel: "Upgrade",
     ctaStyle: { background: "var(--gradient-warm)" },
@@ -76,9 +83,7 @@ const plans: PlanData[] = [
   {
     icon: <Gem className="h-5 w-5" />,
     title: "Elyxer Infinity",
-    price: "₹299",
-    period: "/wk",
-    altPrice: "₹999/mo",
+    pricing: { wk: "₹299", mo: "₹999", "3mo": "₹2,499", yr: "₹8,999" },
     badge: "BEST VALUE",
     ctaLabel: "Go Infinity",
     ctaClass: "bg-accent text-accent-foreground hover:bg-accent/90",
@@ -114,9 +119,7 @@ interface Feature {
 interface PlanData {
   icon: React.ReactNode;
   title: string;
-  price: string;
-  altPrice?: string;
-  period: string;
+  pricing: Record<Duration, string>;
   badge?: string;
   ctaLabel: string;
   ctaDisabled?: boolean;
@@ -201,6 +204,8 @@ const SubscriptionsSection = () => {
 
 function PlanCard({ plan }: { plan: PlanData }) {
   const [expanded, setExpanded] = useState(false);
+  const [duration, setDuration] = useState<Duration>("wk");
+  const activeOption = durationOptions.find((d) => d.key === duration)!;
 
   return (
     <div
@@ -227,12 +232,27 @@ function PlanCard({ plan }: { plan: PlanData }) {
           </div>
           <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
           <div className="mt-1">
-            <span className="text-2xl font-bold text-foreground">{plan.price}</span>
-            <span className="text-xs text-muted-foreground">{plan.period}</span>
+            <span className="text-2xl font-bold text-foreground">{plan.pricing[duration]}</span>
+            <span className="text-xs text-muted-foreground">{activeOption.suffix}</span>
           </div>
-          {plan.altPrice && (
-            <span className="text-[11px] text-muted-foreground mt-0.5">or {plan.altPrice}</span>
-          )}
+        </div>
+
+        {/* Duration selector */}
+        <div className="grid grid-cols-4 gap-1 p-1 rounded-xl bg-muted/40 mb-3">
+          {durationOptions.map((opt) => {
+            const active = opt.key === duration;
+            return (
+              <button
+                key={opt.key}
+                onClick={() => setDuration(opt.key)}
+                className={`text-[10px] font-medium py-1.5 rounded-lg transition-all ${
+                  active ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+                }`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* CTA */}
