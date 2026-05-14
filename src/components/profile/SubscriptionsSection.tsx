@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Crown, CreditCard, Check, X, Gem, HeartPulse, Send, Wand2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
