@@ -4,6 +4,45 @@ import { Crown, CreditCard, Check, X, Gem, HeartPulse, Send, Wand2, ChevronDown 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { toast } from "sonner";
+
+type ExtraKey = "vibes" | "invites" | "search";
+
+type Tier = { count: number; price: string; badge?: string };
+
+const extrasConfig: Record<ExtraKey, { title: string; unit: string; icon: React.ReactNode; tiers: Tier[] }> = {
+  vibes: {
+    title: "Vibes",
+    unit: "vibes",
+    icon: <HeartPulse className="h-5 w-5" />,
+    tiers: [
+      { count: 5, price: "₹49" },
+      { count: 10, price: "₹89", badge: "POPULAR" },
+      { count: 20, price: "₹159", badge: "BEST VALUE" },
+    ],
+  },
+  invites: {
+    title: "Invites",
+    unit: "invites",
+    icon: <Send className="h-5 w-5" />,
+    tiers: [
+      { count: 2, price: "₹79" },
+      { count: 5, price: "₹179", badge: "POPULAR" },
+      { count: 10, price: "₹329", badge: "BEST VALUE" },
+    ],
+  },
+  search: {
+    title: "Magic Searches",
+    unit: "searches",
+    icon: <Wand2 className="h-5 w-5" />,
+    tiers: [
+      { count: 5, price: "₹79" },
+      { count: 10, price: "₹149", badge: "POPULAR" },
+      { count: 20, price: "₹279", badge: "BEST VALUE" },
+    ],
+  },
+};
 
 const plans: PlanData[] = [
   {
@@ -93,17 +132,55 @@ interface PlanData {
 }
 
 const SubscriptionsSection = () => {
+  const [openExtra, setOpenExtra] = useState<ExtraKey | null>(null);
+  const current = openExtra ? extrasConfig[openExtra] : null;
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       {/* Buy Extras */}
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
         <div className="grid grid-cols-3 gap-2">
-          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="5 vibes" price="₹49" />
-          <PurchaseItem icon={<Send className="h-5 w-5" />} label="2 invites" price="₹79" />
-          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="5 Magic Searches" price="₹79" />
+          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="5 vibes" price="₹49" onClick={() => setOpenExtra("vibes")} />
+          <PurchaseItem icon={<Send className="h-5 w-5" />} label="2 invites" price="₹79" onClick={() => setOpenExtra("invites")} />
+          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="5 Magic Searches" price="₹79" onClick={() => setOpenExtra("search")} />
         </div>
       </div>
+
+      <Sheet open={!!openExtra} onOpenChange={(o) => !o && setOpenExtra(null)}>
+        <SheetContent side="bottom" className="rounded-t-[20px] border-border/30 bg-card px-0 pb-6 pt-4">
+          {current && (
+            <>
+              <SheetHeader className="px-5 text-left">
+                <div className="flex items-center gap-2">
+                  <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
+                    <span className="text-primary-foreground">{current.icon}</span>
+                  </div>
+                  <div>
+                    <SheetTitle className="text-base">Buy {current.title}</SheetTitle>
+                    <SheetDescription className="text-xs">Pick a pack — swipe to see more</SheetDescription>
+                  </div>
+                </div>
+              </SheetHeader>
+              <div className="mt-4 -mx-1">
+                <div className="flex gap-3 overflow-x-auto px-5 pb-3 snap-x snap-mandatory scrollbar-hide" style={{ WebkitOverflowScrolling: "touch" }}>
+                  {current.tiers.map((tier, i) => (
+                    <ExtraTierCard
+                      key={i}
+                      tier={tier}
+                      unit={current.unit}
+                      onSelect={() => {
+                        toast.success(`Purchased ${tier.count} ${current.unit} for ${tier.price}`);
+                        setOpenExtra(null);
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
 
       <Separator className="bg-border/30" />
 
@@ -217,15 +294,44 @@ function PlanCard({ plan }: { plan: PlanData }) {
   );
 }
 
-function PurchaseItem({ icon, label, price }: { icon: React.ReactNode; label: string; price: string }) {
+function PurchaseItem({ icon, label, price, onClick }: { icon: React.ReactNode; label: string; price: string; onClick?: () => void }) {
   return (
-    <button className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ boxShadow: "var(--shadow-card)" }}>
+    <button onClick={onClick} className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ boxShadow: "var(--shadow-card)" }}>
       <div className="h-10 w-10 rounded-xl flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
         <span className="text-primary-foreground">{icon}</span>
       </div>
       <span className="text-[12px] font-semibold text-foreground">{label}</span>
       <span className="text-[11px] text-muted-foreground">{price}</span>
     </button>
+  );
+}
+
+function ExtraTierCard({ tier, unit, onSelect }: { tier: Tier; unit: string; onSelect: () => void }) {
+  const highlighted = !!tier.badge;
+  return (
+    <div
+      className={`rounded-2xl border-2 ${highlighted ? "border-primary/40" : "border-border/30"} bg-card flex flex-col snap-center shrink-0 p-4`}
+      style={{ width: "60vw", maxWidth: 220, boxShadow: highlighted ? "var(--shadow-warm)" : "var(--shadow-card)" }}
+    >
+      <div className="flex justify-end h-5">
+        {tier.badge && (
+          <span className="text-[9px] font-bold px-2.5 py-0.5 rounded-full" style={{ background: "var(--gradient-warm)", color: "hsl(var(--primary-foreground))" }}>
+            {tier.badge}
+          </span>
+        )}
+      </div>
+      <div className="flex flex-col items-center text-center mt-1 mb-3">
+        <span className="text-3xl font-bold text-foreground leading-none">{tier.count}</span>
+        <span className="text-xs text-muted-foreground mt-1 capitalize">{unit}</span>
+      </div>
+      <div className="text-center mb-3">
+        <span className="text-xl font-bold text-foreground">{tier.price}</span>
+      </div>
+      <Button onClick={onSelect} className="w-full rounded-2xl gap-1.5 h-9 text-[13px] font-medium" style={{ background: "var(--gradient-warm)" }}>
+        <CreditCard className="h-3.5 w-3.5" />
+        Buy
+      </Button>
+    </div>
   );
 }
 
