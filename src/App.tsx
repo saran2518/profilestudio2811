@@ -22,6 +22,7 @@ import HelpFAQ from "./pages/HelpFAQ";
 import HelpCategory from "./pages/HelpCategory";
 import HelpQuestion from "./pages/HelpQuestion";
 import ContactSupport from "./pages/ContactSupport";
+import Subscribe from "./pages/Subscribe";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
