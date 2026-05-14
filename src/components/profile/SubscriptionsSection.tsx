@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Crown, CreditCard, Check, X, Gem, HeartPulse, Send, Wand2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -44,20 +45,12 @@ const extrasConfig: Record<ExtraKey, { title: string; unit: string; icon: React.
   },
 };
 
-type Duration = "wk" | "mo" | "3mo" | "yr";
-
-const durationOptions: { key: Duration; label: string; suffix: string }[] = [
-  { key: "wk", label: "Weekly", suffix: "/wk" },
-  { key: "mo", label: "Monthly", suffix: "/mo" },
-  { key: "3mo", label: "3 Months", suffix: "/3mo" },
-  { key: "yr", label: "Yearly", suffix: "/yr" },
-];
-
 const plans: PlanData[] = [
   {
+    planKey: "plus",
     icon: <Crown className="h-5 w-5" />,
     title: "Elyxer Plus",
-    pricing: { wk: "₹199", mo: "₹699", "3mo": "₹1,799", yr: "₹5,999" },
+    startingPrice: "₹199",
     badge: "POPULAR",
     ctaLabel: "Upgrade",
     ctaStyle: { background: "var(--gradient-warm)" },
@@ -81,9 +74,10 @@ const plans: PlanData[] = [
     ],
   },
   {
+    planKey: "infinity",
     icon: <Gem className="h-5 w-5" />,
     title: "Elyxer Infinity",
-    pricing: { wk: "₹299", mo: "₹999", "3mo": "₹2,499", yr: "₹8,999" },
+    startingPrice: "₹299",
     badge: "BEST VALUE",
     ctaLabel: "Go Infinity",
     ctaClass: "bg-accent text-accent-foreground hover:bg-accent/90",
@@ -117,9 +111,10 @@ interface Feature {
 }
 
 interface PlanData {
+  planKey: string;
   icon: React.ReactNode;
   title: string;
-  pricing: Record<Duration, string>;
+  startingPrice: string;
   badge?: string;
   ctaLabel: string;
   ctaDisabled?: boolean;
@@ -204,8 +199,7 @@ const SubscriptionsSection = () => {
 
 function PlanCard({ plan }: { plan: PlanData }) {
   const [expanded, setExpanded] = useState(false);
-  const [duration, setDuration] = useState<Duration>("wk");
-  const activeOption = durationOptions.find((d) => d.key === duration)!;
+  const navigate = useNavigate();
 
   return (
     <div
@@ -231,28 +225,11 @@ function PlanCard({ plan }: { plan: PlanData }) {
             <span className={plan.iconColor}>{plan.icon}</span>
           </div>
           <h3 className="text-base font-bold text-foreground leading-tight">{plan.title}</h3>
-          <div className="mt-1">
-            <span className="text-2xl font-bold text-foreground">{plan.pricing[duration]}</span>
-            <span className="text-xs text-muted-foreground">{activeOption.suffix}</span>
+          <div className="mt-1 flex items-baseline gap-1">
+            <span className="text-[10px] text-muted-foreground">from</span>
+            <span className="text-2xl font-bold text-foreground">{plan.startingPrice}</span>
+            <span className="text-xs text-muted-foreground">/wk</span>
           </div>
-        </div>
-
-        {/* Duration selector */}
-        <div className="grid grid-cols-4 gap-1 p-1 rounded-xl bg-muted/40 mb-3">
-          {durationOptions.map((opt) => {
-            const active = opt.key === duration;
-            return (
-              <button
-                key={opt.key}
-                onClick={() => setDuration(opt.key)}
-                className={`text-[10px] font-medium py-1.5 rounded-lg transition-all ${
-                  active ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
-                }`}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
         </div>
 
         {/* CTA */}
@@ -263,6 +240,7 @@ function PlanCard({ plan }: { plan: PlanData }) {
             </div>
           ) : (
             <Button
+              onClick={() => navigate(`/subscribe?plan=${plan.planKey}`)}
               className={`w-full rounded-2xl gap-1.5 h-9 text-[13px] font-medium ${plan.ctaClass || ""}`}
               style={plan.ctaStyle}
             >
