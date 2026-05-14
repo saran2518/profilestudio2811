@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Crown, CreditCard, Check, X, Gem, HeartPulse, Send, Wand2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -131,6 +132,9 @@ interface PlanData {
 
 const SubscriptionsSection = () => {
   const navigate = useNavigate();
+  const [vibeCount] = useState(3);
+  const [inviteCount] = useState(1);
+  const [searchCount] = useState(2);
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
@@ -138,9 +142,9 @@ const SubscriptionsSection = () => {
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
         <div className="grid grid-cols-3 gap-2">
-          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="5 vibes" price="from ₹49" onClick={() => navigate("/buy-extras?item=vibes")} />
-          <PurchaseItem icon={<Send className="h-5 w-5" />} label="2 invites" price="from ₹79" onClick={() => navigate("/buy-extras?item=invites")} />
-          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="5 Magic Searches" price="from ₹79" onClick={() => navigate("/buy-extras?item=search")} />
+          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="Vibes" count={vibeCount} onClick={() => navigate("/buy-extras?item=vibes")} />
+          <PurchaseItem icon={<Send className="h-5 w-5" />} label="Invites" count={inviteCount} onClick={() => navigate("/buy-extras?item=invites")} />
+          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="Magic Searches" count={searchCount} onClick={() => navigate("/buy-extras?item=search")} />
         </div>
       </div>
 
@@ -256,15 +260,24 @@ function PlanCard({ plan }: { plan: PlanData }) {
   );
 }
 
-function PurchaseItem({ icon, label, price, onClick }: { icon: React.ReactNode; label: string; price: string; onClick?: () => void }) {
+function PurchaseItem({ icon, label, count, onClick }: { icon: React.ReactNode; label: string; count: number; onClick?: () => void }) {
   return (
-    <button onClick={onClick} className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ boxShadow: "var(--shadow-card)" }}>
+    <div className="rounded-2xl border border-border/30 bg-card p-3 flex flex-col items-center gap-1.5 transition-all" style={{ boxShadow: "var(--shadow-card)" }}>
       <div className="h-10 w-10 rounded-xl flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
         <span className="text-primary-foreground">{icon}</span>
       </div>
-      <span className="text-[12px] font-semibold text-foreground">{label}</span>
-      <span className="text-[11px] text-muted-foreground">{price}</span>
-    </button>
+      <div className="flex items-center gap-1.5">
+        <span className="text-xl font-bold text-foreground">{count}</span>
+        <button
+          onClick={onClick}
+          className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary/20 active:scale-90 transition-all"
+          aria-label={`Add ${label}`}
+        >
+          <Plus className="h-3.5 w-3.5 text-primary" />
+        </button>
+      </div>
+      <span className="text-[11px] text-muted-foreground">{label}</span>
+    </div>
   );
 }
 
