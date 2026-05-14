@@ -45,20 +45,12 @@ const extrasConfig: Record<ExtraKey, { title: string; unit: string; icon: React.
   },
 };
 
-type Duration = "wk" | "mo" | "3mo" | "yr";
-
-const durationOptions: { key: Duration; label: string; suffix: string }[] = [
-  { key: "wk", label: "Weekly", suffix: "/wk" },
-  { key: "mo", label: "Monthly", suffix: "/mo" },
-  { key: "3mo", label: "3 Months", suffix: "/3mo" },
-  { key: "yr", label: "Yearly", suffix: "/yr" },
-];
-
 const plans: PlanData[] = [
   {
+    planKey: "plus",
     icon: <Crown className="h-5 w-5" />,
     title: "Elyxer Plus",
-    pricing: { wk: "₹199", mo: "₹699", "3mo": "₹1,799", yr: "₹5,999" },
+    startingPrice: "₹199",
     badge: "POPULAR",
     ctaLabel: "Upgrade",
     ctaStyle: { background: "var(--gradient-warm)" },
@@ -82,9 +74,10 @@ const plans: PlanData[] = [
     ],
   },
   {
+    planKey: "infinity",
     icon: <Gem className="h-5 w-5" />,
     title: "Elyxer Infinity",
-    pricing: { wk: "₹299", mo: "₹999", "3mo": "₹2,499", yr: "₹8,999" },
+    startingPrice: "₹299",
     badge: "BEST VALUE",
     ctaLabel: "Go Infinity",
     ctaClass: "bg-accent text-accent-foreground hover:bg-accent/90",
@@ -118,9 +111,10 @@ interface Feature {
 }
 
 interface PlanData {
+  planKey: string;
   icon: React.ReactNode;
   title: string;
-  pricing: Record<Duration, string>;
+  startingPrice: string;
   badge?: string;
   ctaLabel: string;
   ctaDisabled?: boolean;
