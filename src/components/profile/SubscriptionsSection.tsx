@@ -130,8 +130,7 @@ interface PlanData {
 }
 
 const SubscriptionsSection = () => {
-  const [openExtra, setOpenExtra] = useState<ExtraKey | null>(null);
-  const current = openExtra ? extrasConfig[openExtra] : null;
+  const navigate = useNavigate();
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
@@ -139,46 +138,11 @@ const SubscriptionsSection = () => {
       <div className="space-y-2">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">Buy Extras</h3>
         <div className="grid grid-cols-3 gap-2">
-          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="5 vibes" price="₹49" onClick={() => setOpenExtra("vibes")} />
-          <PurchaseItem icon={<Send className="h-5 w-5" />} label="2 invites" price="₹79" onClick={() => setOpenExtra("invites")} />
-          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="5 Magic Searches" price="₹79" onClick={() => setOpenExtra("search")} />
+          <PurchaseItem icon={<HeartPulse className="h-5 w-5" />} label="5 vibes" price="from ₹49" onClick={() => navigate("/buy-extras?item=vibes")} />
+          <PurchaseItem icon={<Send className="h-5 w-5" />} label="2 invites" price="from ₹79" onClick={() => navigate("/buy-extras?item=invites")} />
+          <PurchaseItem icon={<Wand2 className="h-5 w-5" />} label="5 Magic Searches" price="from ₹79" onClick={() => navigate("/buy-extras?item=search")} />
         </div>
       </div>
-
-      <Sheet open={!!openExtra} onOpenChange={(o) => !o && setOpenExtra(null)}>
-        <SheetContent side="bottom" className="rounded-t-[20px] border-border/30 bg-card px-0 pb-6 pt-4">
-          {current && (
-            <>
-              <SheetHeader className="px-5 text-left">
-                <div className="flex items-center gap-2">
-                  <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: "var(--gradient-warm)" }}>
-                    <span className="text-primary-foreground">{current.icon}</span>
-                  </div>
-                  <div>
-                    <SheetTitle className="text-base">Buy {current.title}</SheetTitle>
-                    <SheetDescription className="text-xs">Pick a pack — swipe to see more</SheetDescription>
-                  </div>
-                </div>
-              </SheetHeader>
-              <div className="mt-4 -mx-1">
-                <div className="flex gap-3 overflow-x-auto px-5 pb-3 snap-x snap-mandatory scrollbar-hide" style={{ WebkitOverflowScrolling: "touch" }}>
-                  {current.tiers.map((tier, i) => (
-                    <ExtraTierCard
-                      key={i}
-                      tier={tier}
-                      unit={current.unit}
-                      onSelect={() => {
-                        toast.success(`Purchased ${tier.count} ${current.unit} for ${tier.price}`);
-                        setOpenExtra(null);
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-        </SheetContent>
-      </Sheet>
 
       <Separator className="bg-border/30" />
 
