@@ -18,8 +18,8 @@ const extrasConfig: Record<ExtraKey, { title: string; unit: string; icon: React.
     icon: <HeartPulse className="h-5 w-5" />,
     tiers: [
       { count: 5, price: "₹49" },
-      { count: 10, price: "₹89", badge: "POPULAR" },
-      { count: 20, price: "₹159", badge: "BEST VALUE" },
+      { count: 10, price: "₹99", badge: "POPULAR" },
+      { count: 20, price: "₹199", badge: "BEST VALUE" },
     ],
   },
   invites: {
