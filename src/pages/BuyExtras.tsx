@@ -95,7 +95,7 @@ const BuyExtras = () => {
       {/* Header */}
       <div className="relative px-5 pt-4 pb-6" style={{ background: "var(--gradient-soft)" }}>
         <button
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate("/profile", { state: { openTab: "subscriptions" } })}
           className="absolute left-4 top-4 h-9 w-9 rounded-full bg-card/80 backdrop-blur border border-border/30 flex items-center justify-center hover:bg-card transition-colors"
           aria-label="Close"
         >
