@@ -4,6 +4,45 @@ import { Crown, CreditCard, Check, X, Gem, HeartPulse, Send, Wand2, ChevronDown 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { toast } from "sonner";
+
+type ExtraKey = "vibes" | "invites" | "search";
+
+type Tier = { count: number; price: string; badge?: string };
+
+const extrasConfig: Record<ExtraKey, { title: string; unit: string; icon: React.ReactNode; tiers: Tier[] }> = {
+  vibes: {
+    title: "Vibes",
+    unit: "vibes",
+    icon: <HeartPulse className="h-5 w-5" />,
+    tiers: [
+      { count: 5, price: "₹49" },
+      { count: 10, price: "₹89", badge: "POPULAR" },
+      { count: 20, price: "₹159", badge: "BEST VALUE" },
+    ],
+  },
+  invites: {
+    title: "Invites",
+    unit: "invites",
+    icon: <Send className="h-5 w-5" />,
+    tiers: [
+      { count: 2, price: "₹79" },
+      { count: 5, price: "₹179", badge: "POPULAR" },
+      { count: 10, price: "₹329", badge: "BEST VALUE" },
+    ],
+  },
+  search: {
+    title: "Magic Searches",
+    unit: "searches",
+    icon: <Wand2 className="h-5 w-5" />,
+    tiers: [
+      { count: 5, price: "₹79" },
+      { count: 10, price: "₹149", badge: "POPULAR" },
+      { count: 20, price: "₹279", badge: "BEST VALUE" },
+    ],
+  },
+};
 
 const plans: PlanData[] = [
   {
