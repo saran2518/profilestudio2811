@@ -54,6 +54,7 @@ const App = () => (
           <Route path="/help-faq/:slug" element={<HelpCategory />} />
           <Route path="/help-faq/:slug/:questionIndex" element={<HelpQuestion />} />
           <Route path="/contact-support" element={<ContactSupport />} />
+          <Route path="/subscribe" element={<Subscribe />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
