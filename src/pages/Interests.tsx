@@ -808,21 +808,6 @@ export default function Interests() {
               <Send className="h-3.5 w-3.5" />
               Invites
             </TabsTrigger>
-            <TabsTrigger
-              value="invites"
-              className="flex-1 font-body text-[13px] font-semibold rounded-lg data-[state=active]:bg-card data-[state=active]:shadow-sm data-[state=active]:text-foreground text-muted-foreground transition-all duration-200 gap-1.5 h-full"
-            >
-              <Send className="h-3.5 w-3.5" />
-              Invites
-              {inviteCount > 0 && (
-                <span
-                  className="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full text-primary-foreground leading-none"
-                  style={{ background: "var(--gradient-warm)" }}
-                >
-                  {inviteCount}
-                </span>
-              )}
-            </TabsTrigger>
           </TabsList>
         </div>
 
