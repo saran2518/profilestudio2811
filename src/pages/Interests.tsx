@@ -729,9 +729,47 @@ export default function Interests() {
           <h1 className="font-display text-2xl font-bold text-foreground">
             Interests
           </h1>
-          <p className="font-body text-[13px] text-muted-foreground mt-1">
-            People interested in your profile
-          </p>
+          <div className="mt-1.5 flex items-center gap-1.5 flex-wrap">
+            {vibeCount === 0 && inviteCount === 0 ? (
+              <p className="font-body text-[13px] text-muted-foreground">
+                People interested in your profile
+              </p>
+            ) : (
+              <>
+                {vibeCount > 0 && (
+                  <button
+                    onClick={() => setActiveTab("vibes")}
+                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-foreground/80 hover:text-foreground transition-colors"
+                  >
+                    <span
+                      className="h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-primary-foreground inline-flex items-center justify-center leading-none"
+                      style={{ background: "var(--gradient-warm)" }}
+                    >
+                      {vibeCount}
+                    </span>
+                    new {vibeCount === 1 ? "vibe" : "vibes"}
+                  </button>
+                )}
+                {vibeCount > 0 && inviteCount > 0 && (
+                  <span className="text-muted-foreground/40 text-[12px]">·</span>
+                )}
+                {inviteCount > 0 && (
+                  <button
+                    onClick={() => setActiveTab("invites")}
+                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-foreground/80 hover:text-foreground transition-colors"
+                  >
+                    <span
+                      className="h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-primary-foreground inline-flex items-center justify-center leading-none"
+                      style={{ background: "var(--gradient-warm)" }}
+                    >
+                      {inviteCount}
+                    </span>
+                    new {inviteCount === 1 ? "invite" : "invites"}
+                  </button>
+                )}
+              </>
+            )}
+          </div>
         </div>
         <button
           onClick={() => setIsSubscribed((s) => !s)}
